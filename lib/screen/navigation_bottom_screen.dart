@@ -1,23 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
-import '../models/city.dart';
 import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/strings.dart';
+
+import '../models/city.dart';
 import '../provider/auth.dart';
 import '../provider/cities.dart';
 import '../provider/user_info.dart';
+import '../screen/home_screen.dart';
+import '../screen/map_screen.dart';
 import '../screen/notification_screen.dart';
 import '../screen/reserve_detail_screen.dart';
 import '../screen/user_profile/profile_view.dart';
 import '../widget/badge.dart';
 import '../widget/custom_dialog_enter.dart';
 import '../widget/favorite_view.dart';
-import '../widget/select_city_dialog.dart';
-
-import '../screen/home_screen.dart';
-import '../screen/map_screen.dart';
 import '../widget/main_drawer.dart';
+import '../widget/select_city_dialog.dart';
 
 class NavigationBottomScreen extends StatefulWidget {
   static const routeName = '/navigationScreen';
@@ -96,8 +97,12 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
+//          title: Text(
+//            'sdfsd',
+//            style: TextStyle(color: Colors.white),
+//          ),
           backgroundColor: AppTheme.appBarColor,
-          centerTitle: true,
+//          centerTitle: true,
           actions: <Widget>[
             Consumer<UserInfo>(
               builder: (_, notification, ch) => Badge(

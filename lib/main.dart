@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -67,54 +70,138 @@ class _MyAppState extends State<MyApp> {
           create: (ctx) => User(),
         ),
       ],
-      child: MaterialApp(
-        title: Strings.appTitle,
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-          accentColor: Colors.amber,
-          textTheme: ThemeData.light().textTheme.copyWith(
-                bodyText1: TextStyle(
-                  fontFamily: 'Iransans',
-                  color: Color.fromRGBO(20, 51, 51, 1),
-                ),
-                bodyText2: TextStyle(
-                  fontFamily: 'Iransans',
-                  color: Color.fromRGBO(20, 51, 51, 1),
-                ),
-                headline1: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Iransans',
-                  fontWeight: FontWeight.bold,
-                ),
+      child: Platform.isAndroid
+          ? MaterialApp(
+              title: Strings.appTitle,
+              theme: ThemeData(
+                primarySwatch: Colors.green,
+                accentColor: Colors.amber,
+                textTheme: ThemeData.light().textTheme.copyWith(
+                      bodyText1: TextStyle(
+                        fontFamily: 'Iransans',
+                        color: Color.fromRGBO(20, 51, 51, 1),
+                      ),
+                      bodyText2: TextStyle(
+                        fontFamily: 'Iransans',
+                        color: Color.fromRGBO(20, 51, 51, 1),
+                      ),
+                      headline1: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Iransans',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
               ),
-        ),
-        // home: CategoriesScreen(),
+              // home: CategoriesScreen(),
 
-        home: Directionality(
-          child: SplashScreens(),
-          textDirection: TextDirection.rtl, // setting rtl
-        ),
-        routes: {
-          HomeScreen.routeName: (ctx) => HomeScreen(),
-          FavoriteScreen.routeName: (ctx) => FavoriteScreen(),
-          FavoriteView.routeName: (ctx) => FavoriteView(),
-          ComplexDetailScreen.routeName: (ctx) => ComplexDetailScreen(),
-          SalonDetailScreen.routeName: (ctx) => SalonDetailScreen(),
-          LoginScreen.routeName: (ctx) => LoginScreen(),
-          UserDetailInfoEditScreen.routeName: (ctx) =>
-              UserDetailInfoEditScreen(),
-          ProfileScreen.routeName: (ctx) => ProfileScreen(),
-          SearchScreen.routeName: (ctx) => SearchScreen(),
-          AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
-          ContactWithUs.routeName: (ctx) => ContactWithUs(),
-          NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
-          ReserveDetailScreen.routeName: (ctx) => ReserveDetailScreen(),
-          NotificationScreen.routeName: (ctx) => NotificationScreen(),
-          CommentCreateScreen.routeName: (ctx) => CommentCreateScreen(),
-          MapScreen.routeName: (ctx) => MapScreen(),
+              home: Directionality(
+                child: SplashScreens(),
+                textDirection: TextDirection.rtl, // setting rtl
+              ),
+              routes: {
+                HomeScreen.routeName: (ctx) => HomeScreen(),
+                FavoriteScreen.routeName: (ctx) => FavoriteScreen(),
+                FavoriteView.routeName: (ctx) => FavoriteView(),
+                ComplexDetailScreen.routeName: (ctx) => ComplexDetailScreen(),
+                SalonDetailScreen.routeName: (ctx) => SalonDetailScreen(),
+                LoginScreen.routeName: (ctx) => LoginScreen(),
+                UserDetailInfoEditScreen.routeName: (ctx) =>
+                    UserDetailInfoEditScreen(),
+                ProfileScreen.routeName: (ctx) => ProfileScreen(),
+                SearchScreen.routeName: (ctx) => SearchScreen(),
+                AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
+                ContactWithUs.routeName: (ctx) => ContactWithUs(),
+                NavigationBottomScreen.routeName: (ctx) =>
+                    NavigationBottomScreen(),
+                ReserveDetailScreen.routeName: (ctx) => ReserveDetailScreen(),
+                NotificationScreen.routeName: (ctx) => NotificationScreen(),
+                CommentCreateScreen.routeName: (ctx) => CommentCreateScreen(),
+                MapScreen.routeName: (ctx) => MapScreen(),
+              },
+            )
+          : Platform.isIOS
+              ? CupertinoApp(
 
-        },
-      ),
+                  title: Strings.appTitle,
+                  home: Directionality(
+                    child: SplashScreens(),
+                    textDirection: TextDirection.rtl, // setting rtl
+                  ),
+                  routes: {
+                    HomeScreen.routeName: (ctx) => HomeScreen(),
+                    FavoriteScreen.routeName: (ctx) => FavoriteScreen(),
+                    FavoriteView.routeName: (ctx) => FavoriteView(),
+                    ComplexDetailScreen.routeName: (ctx) =>
+                        ComplexDetailScreen(),
+                    SalonDetailScreen.routeName: (ctx) => SalonDetailScreen(),
+                    LoginScreen.routeName: (ctx) => LoginScreen(),
+                    UserDetailInfoEditScreen.routeName: (ctx) =>
+                        UserDetailInfoEditScreen(),
+                    ProfileScreen.routeName: (ctx) => ProfileScreen(),
+                    SearchScreen.routeName: (ctx) => SearchScreen(),
+                    AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
+                    ContactWithUs.routeName: (ctx) => ContactWithUs(),
+                    NavigationBottomScreen.routeName: (ctx) =>
+                        NavigationBottomScreen(),
+                    ReserveDetailScreen.routeName: (ctx) =>
+                        ReserveDetailScreen(),
+                    NotificationScreen.routeName: (ctx) => NotificationScreen(),
+                    CommentCreateScreen.routeName: (ctx) =>
+                        CommentCreateScreen(),
+                    MapScreen.routeName: (ctx) => MapScreen(),
+                  },
+                )
+              : MaterialApp(
+                  title: Strings.appTitle,
+                  theme: ThemeData(
+                    primarySwatch: Colors.green,
+                    accentColor: Colors.amber,
+                    textTheme: ThemeData.light().textTheme.copyWith(
+                          bodyText1: TextStyle(
+                            fontFamily: 'Iransans',
+                            color: Color.fromRGBO(20, 51, 51, 1),
+                          ),
+                          bodyText2: TextStyle(
+                            fontFamily: 'Iransans',
+                            color: Color.fromRGBO(20, 51, 51, 1),
+                          ),
+                          headline1: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Iransans',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                  ),
+                  // home: CategoriesScreen(),
+
+                  home: Directionality(
+                    child: SplashScreens(),
+                    textDirection: TextDirection.rtl, // setting rtl
+                  ),
+                  routes: {
+                    HomeScreen.routeName: (ctx) => HomeScreen(),
+                    FavoriteScreen.routeName: (ctx) => FavoriteScreen(),
+                    FavoriteView.routeName: (ctx) => FavoriteView(),
+                    ComplexDetailScreen.routeName: (ctx) =>
+                        ComplexDetailScreen(),
+                    SalonDetailScreen.routeName: (ctx) => SalonDetailScreen(),
+                    LoginScreen.routeName: (ctx) => LoginScreen(),
+                    UserDetailInfoEditScreen.routeName: (ctx) =>
+                        UserDetailInfoEditScreen(),
+                    ProfileScreen.routeName: (ctx) => ProfileScreen(),
+                    SearchScreen.routeName: (ctx) => SearchScreen(),
+                    AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
+                    ContactWithUs.routeName: (ctx) => ContactWithUs(),
+                    NavigationBottomScreen.routeName: (ctx) =>
+                        NavigationBottomScreen(),
+                    ReserveDetailScreen.routeName: (ctx) =>
+                        ReserveDetailScreen(),
+                    NotificationScreen.routeName: (ctx) => NotificationScreen(),
+                    CommentCreateScreen.routeName: (ctx) =>
+                        CommentCreateScreen(),
+                    MapScreen.routeName: (ctx) => MapScreen(),
+                  },
+                ),
     );
   }
 }

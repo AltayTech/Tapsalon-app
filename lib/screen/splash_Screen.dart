@@ -24,12 +24,12 @@ class _SplashScreensState extends State<SplashScreens> {
 
   @override
   Widget build(BuildContext context) {
-    return new SplashScreen(
+    return  SplashScreen(
       seconds: 3,
-      navigateAfterSeconds: new NavigationBottomScreen(),
-      title: new Text(
+      navigateAfterSeconds:  NavigationBottomScreen(),
+      title:  Text(
         'تاپ سالن\n مرجع اماکن ورزشی',
-        style: new TextStyle(
+        style:  TextStyle(
           fontFamily: 'BFarnaz',
           fontSize: MediaQuery.of(context).textScaleFactor * 30,
           color: Colors.white,
@@ -38,14 +38,14 @@ class _SplashScreensState extends State<SplashScreens> {
       ),
       loadingText: Text(
         EnArConvertor().replaceArNumber('نسخه 1.2'),
-        style: new TextStyle(
+        style:  TextStyle(
           fontFamily: 'Iransans',
           fontWeight: FontWeight.w400,
           fontSize: MediaQuery.of(context).textScaleFactor * 18,
           color: Colors.white,
         ),
       ),
-      image: new Image.asset(
+      image:  Image.asset(
         'assets/images/tapsalon_icon_200.png',
         fit: BoxFit.cover,
       ),
@@ -53,7 +53,7 @@ class _SplashScreensState extends State<SplashScreens> {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [Color(0xff006DB5), Color(0xff008AB5), Color(0xff01A89E)]),
-      styleTextUnderTheLoader: new TextStyle(),
+      styleTextUnderTheLoader:  TextStyle(),
       photoSize: 70.0,
       onClick: () => print("Flutter Egypt"),
     );

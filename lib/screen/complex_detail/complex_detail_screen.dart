@@ -14,7 +14,7 @@ import 'complex_detail_info_screen.dart';
 import 'complex_detail_place_list_screen.dart';
 
 class ComplexDetailScreen extends StatefulWidget {
-  static const routeName = '/complex-detail';
+  static const routeName = '/complexDetail';
 
   @override
   _ComplexDetailScreenState createState() => _ComplexDetailScreenState();
