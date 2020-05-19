@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/user.dart';
-import 'package:tapsalon/screen/user_profile/login_screen.dart';
-import 'package:tapsalon/screen/user_profile/profile_detail_tabbar.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
+import '../../provider/app_theme.dart';
+import '../../models/user.dart';
+import '../../screen/user_profile/login_screen.dart';
+import '../../screen/user_profile/profile_detail_tabbar.dart';
+import '../../widget/en_to_ar_number_convertor.dart';
 
 import '../../provider/auth.dart';
 import '../../provider/user_info.dart';
@@ -87,8 +87,8 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           )
         : Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
               width: deviceSizeWidth,
               height: deviceSizeHeight,
               child: Align(
@@ -99,7 +99,9 @@ class _ProfileViewState extends State<ProfileView> {
                           return DecoratedBox(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: index.isEven ? AppTheme.spinerColor: AppTheme.spinerColor,
+                              color: index.isEven
+                                  ? AppTheme.spinerColor
+                                  : AppTheme.spinerColor,
                             ),
                           );
                         },
@@ -145,8 +147,8 @@ class _ProfileViewState extends State<ProfileView> {
                                         user.wallet.isNotEmpty
                                             ? EnArConvertor().replaceArNumber(
                                                 currencyFormat
-                                                    .format(
-                                                        double.parse(user.wallet))
+                                                    .format(double.parse(
+                                                        user.wallet))
                                                     .toString())
                                             : EnArConvertor()
                                                     .replaceArNumber('0') +
@@ -180,6 +182,6 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
               ),
             ),
-        );
+          );
   }
 }

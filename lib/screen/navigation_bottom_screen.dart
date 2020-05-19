@@ -1,19 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/city.dart';
-import 'package:tapsalon/models/strings.dart';
-import 'package:tapsalon/provider/auth.dart';
-import 'package:tapsalon/provider/cities.dart';
-import 'package:tapsalon/provider/user_info.dart';
-import 'package:tapsalon/screen/notification_screen.dart';
-import 'package:tapsalon/screen/reserve_detail_screen.dart';
-import 'package:tapsalon/screen/user_profile/profile_view.dart';
-import 'package:tapsalon/widget/badge.dart';
-import 'package:tapsalon/widget/custom_dialog_enter.dart';
-import 'package:tapsalon/widget/favorite_view.dart';
-import 'package:tapsalon/widget/select_city_dialog.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+import '../models/city.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/strings.dart';
+import '../provider/auth.dart';
+import '../provider/cities.dart';
+import '../provider/user_info.dart';
+import '../screen/notification_screen.dart';
+import '../screen/reserve_detail_screen.dart';
+import '../screen/user_profile/profile_view.dart';
+import '../widget/badge.dart';
+import '../widget/custom_dialog_enter.dart';
+import '../widget/favorite_view.dart';
+import '../widget/select_city_dialog.dart';
 
 import '../screen/home_screen.dart';
 import '../screen/map_screen.dart';
@@ -39,7 +39,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
       'title': Strings.naveNearby,
     },
     {
-      'page': HomeScreeen(),
+      'page': HomeScreen(),
       'title': Strings.navHome,
     },
     {
@@ -86,7 +86,6 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
       }
       init = false;
     }
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 

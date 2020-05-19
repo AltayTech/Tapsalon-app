@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/place_in_complex.dart';
-import 'package:tapsalon/screen/place_detail/salon_detail_screen.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+import '../models/place_in_complex.dart';
+import '../screen/place_detail/salon_detail_screen.dart';
 
 import 'en_to_ar_number_convertor.dart';
 
@@ -20,7 +20,7 @@ class PlaceItem extends StatelessWidget {
       builder: (context, constraint) => InkWell(
         onTap: () {
           Navigator.of(context).pushNamed(SalonDetailScreen.routeName,
-              arguments: {'placeId': place.id, 'title': place.title});
+              arguments: {'placeId': place.id, 'title': place.name});
         },
         child: Stack(
           children: <Widget>[
@@ -35,7 +35,7 @@ class PlaceItem extends StatelessWidget {
                       child: FadeInImage(
                         placeholder:
                             AssetImage('assets/images/tapsalon_icon_200.png'),
-                        image: NetworkImage(place.img_url.toString()),
+                        image: NetworkImage(place.image.url.medium.toString()),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -51,22 +51,20 @@ class PlaceItem extends StatelessWidget {
                         child: Container(
                           width: constraint.maxWidth * 0.6,
                           child: Text(
-                            place.title,
+                            place.name,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.right,
                             maxLines: 1,
                             style: TextStyle(
                               fontFamily: 'Iransans',
                               fontWeight: FontWeight.bold,
-                              fontSize: MediaQuery.of(context)
-                                      .textScaleFactor *
-                                  12.0,
+                              fontSize:
+                                  MediaQuery.of(context).textScaleFactor * 12.0,
                             ),
                           ),
                         ),
                       ),
                     ),
-
                     Container(
                       height: constraint.maxHeight * 0.2,
                       alignment: Alignment.topRight,
@@ -81,9 +79,8 @@ class PlaceItem extends StatelessWidget {
                             maxLines: 2,
                             style: TextStyle(
                               fontFamily: 'Iransans',
-                              fontSize: MediaQuery.of(context)
-                                  .textScaleFactor *
-                                  12.0,
+                              fontSize:
+                                  MediaQuery.of(context).textScaleFactor * 12.0,
                             ),
                           ),
                         ),
@@ -160,7 +157,7 @@ class PlaceItem extends StatelessWidget {
                                   .toString()
                               : EnArConvertor().replaceArNumber('0'),
                           style: TextStyle(
-                            color:Colors.white,
+                            color: Colors.white,
                             fontFamily: 'Iransans',
                             fontSize:
                                 MediaQuery.of(context).textScaleFactor * 12.0,

@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/city.dart';
-import 'package:tapsalon/models/facility.dart';
-import 'package:tapsalon/models/field.dart';
-import 'package:tapsalon/models/priceRange.dart';
-import 'package:tapsalon/models/region.dart';
-import 'package:tapsalon/provider/cities.dart';
-import 'package:tapsalon/provider/complexes.dart';
 
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+
+import '../models/city.dart';
+import '../models/facility.dart';
+import '../models/field.dart';
+import '../models/priceRange.dart';
+import '../models/region.dart';
+import '../provider/cities.dart';
+import '../provider/complexes.dart';
 import 'en_to_ar_number_convertor.dart';
 
 class FilterDrawer extends StatefulWidget {
@@ -148,8 +149,8 @@ class _FilterDrawerState extends State<FilterDrawer> {
     Provider.of<Complexes>(context, listen: false).sFacility = '';
     Provider.of<Complexes>(context, listen: false).sField = '';
     Provider.of<Complexes>(context, listen: false).sRange = '';
-    Provider.of<Complexes>(context, listen: false).spage = 1;
-    Provider.of<Complexes>(context, listen: false).sper_page = 10;
+    Provider.of<Complexes>(context, listen: false).sPage = 1;
+    Provider.of<Complexes>(context, listen: false).sPerPage = 10;
     Provider.of<Complexes>(context, listen: false).sRegion = '';
     Provider.of<Complexes>(context, listen: false).searchBuilder();
 
@@ -681,11 +682,6 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                   endPointBuilder(_selectedFacilityId);
                               var fieldsEndpoint =
                                   endPointBuilder(_selectedFieldId);
-//                          addToFilterList(_selectedColorTitle);
-//                          addToFilterList(_selectedBrandTitle);
-//                          addToFilterList(_selectedSellcaseTitle);
-//
-//                          colorsEndpoint = endPointBuilder(_selectedColorId);
                               Provider.of<Complexes>(context, listen: false)
                                   .sFacility = facilitiesEndpoint;
                               Provider.of<Complexes>(context, listen: false)
@@ -694,7 +690,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                   ? Provider.of<Complexes>(context,
                                               listen: false)
                                           .sRange =
-                                      '$_minPriceValueC,$_minPriceValueC'
+                                      '$_minPriceValueC,$_maxPriceValueC'
                                   : Provider.of<Complexes>(context,
                                           listen: false)
                                       .sRange = '';

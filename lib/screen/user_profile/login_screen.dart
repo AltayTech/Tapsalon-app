@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
+import '../../provider/app_theme.dart';
+import '../../widget/main_drawer.dart';
 
 import '../../classes/http_exception.dart';
 import '../../provider/auth.dart';
@@ -103,17 +103,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 110,
                       width: 110,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(width: 3, color: Colors.white),
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xff8A81F0),
-                              Color(0xff0BD9F4),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(width: 3, color: Colors.white),
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xff8A81F0),
+                            Color(0xff0BD9F4),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -248,7 +247,6 @@ class _AuthCardState extends State<AuthCard>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _controller.dispose();
   }
@@ -284,7 +282,7 @@ class _AuthCardState extends State<AuthCard>
       if (_authMode == AuthMode.VerificationCode) {
         print('VerificationCode');
 
-        await Provider.of<Auth>(context, listen: false).sendSms(
+        await Provider.of<Auth>(context, listen: false).sendSMS(
           _authData['phoneNumber'],
         );
 
@@ -565,7 +563,9 @@ class _AuthCardState extends State<AuthCard>
                         return DecoratedBox(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: index.isEven ? AppTheme.spinerColor : AppTheme.spinerColor,
+                            color: index.isEven
+                                ? AppTheme.spinerColor
+                                : AppTheme.spinerColor,
                           ),
                         );
                       },

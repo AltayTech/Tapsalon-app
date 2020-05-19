@@ -3,13 +3,20 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tapsalon/models/city.dart';
-import 'package:tapsalon/models/ostan.dart';
-import 'package:tapsalon/models/urls.dart';
+
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/urls.dart';
+
+import '../models/city.dart';
+import '../models/province.dart';
 
 class Cities with ChangeNotifier {
-  City _selectedCity =
-      City(id: 0, ostan_id: 0, name: '', description: '', no_users: 0);
+  City _selectedCity = City(
+    id: 0,
+    provinceId: 0,
+    name: '',
+//    description: '',
+//    noUsers: 0,
+  );
 
   City get selectedCity => _selectedCity;
 
@@ -17,16 +24,12 @@ class Cities with ChangeNotifier {
     _selectedCity = value;
   }
 
-  List<City> _citiesItems = [
-    City(id: 0, ostan_id: 0, name: 'aaaaaaa', description: '', no_users: 0)
-  ];
-  List<Ostan> _ostansItems = [
-    Ostan(id: 0, name: '', description: '', no_users: 0)
-  ];
+  List<City> _citiesItems = [];
+  List<Province> _ostansItems = [];
 
   List<City> get citiesItems => _citiesItems;
 
-  List<Ostan> get ostansItems => _ostansItems;
+  List<Province> get ostansItems => _ostansItems;
 
   Future<void> setSelectedCity(City selectedCity) async {
     print('setSelectedCity');
@@ -82,8 +85,6 @@ class Cities with ChangeNotifier {
 
       List<City> dataRaw = extractedData.map((i) => City.fromJson(i)).toList();
 
-//      print(dataRaw[0].description.toString());
-//      print(dataRaw[0].id.toString());
       _citiesItems = dataRaw;
 
       notifyListeners();
@@ -96,7 +97,7 @@ class Cities with ChangeNotifier {
   Future<void> retrieveOstanCities(int ostanId) async {
     print('retrieveOstanCities');
 
-    final url = Urls.rootUrl + Urls.ostansEndPoint + '/$ostanId/cities';
+    final url = Urls.rootUrl + Urls.provincesEndPoint + '/$ostanId/cities';
     print(url);
 
     try {
@@ -113,8 +114,6 @@ class Cities with ChangeNotifier {
 
       List<City> dataRaw = extractedData.map((i) => City.fromJson(i)).toList();
 
-//      print(dataRaw[0].description.toString());
-//      print(dataRaw[0].id.toString());
       _citiesItems = dataRaw;
 
       notifyListeners();
@@ -127,17 +126,17 @@ class Cities with ChangeNotifier {
   Future<void> retrieveOstans() async {
     print('retrieveOstans');
 
-    final url = Urls.rootUrl + Urls.ostansEndPoint;
+    final url = Urls.rootUrl + Urls.provincesEndPoint;
 
     try {
       final response = await get(url);
 
       final extractedData = json.decode(response.body) as List;
       print(extractedData);
-      List<Ostan> dataRaw =
-          extractedData.map((i) => Ostan.fromJson(i)).toList();
+      List<Province> dataRaw =
+          extractedData.map((i) => Province.fromJson(i)).toList();
 
-      print(dataRaw[0].description.toString());
+//      print(dataRaw[0].description.toString());
       _ostansItems = dataRaw;
 
       notifyListeners();

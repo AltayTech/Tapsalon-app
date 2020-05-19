@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/notification.dart' as notify;
+import '../models/notification.dart' as notify;
 
 class MainNotifications with ChangeNotifier {
   final int current_page;

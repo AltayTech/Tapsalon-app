@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
-import 'package:tapsalon/widget/splashscreen.dart';
+import '../widget/en_to_ar_number_convertor.dart';
+import '../widget/splashscreen.dart';
 
 import 'navigation_bottom_screen.dart';
-
 
 class SplashScreens extends StatefulWidget {
   @override
   _SplashScreensState createState() => _SplashScreensState();
 }
-
 
 class _SplashScreensState extends State<SplashScreens> {
   bool _isInit = true;
@@ -31,7 +28,6 @@ class _SplashScreensState extends State<SplashScreens> {
       seconds: 3,
       navigateAfterSeconds: new NavigationBottomScreen(),
       title: new Text(
-
         'تاپ سالن\n مرجع اماکن ورزشی',
         style: new TextStyle(
           fontFamily: 'BFarnaz',

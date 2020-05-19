@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/user.dart';
-import 'package:tapsalon/provider/user_info.dart';
-import 'package:tapsalon/screen/user_profile/user_detail_info_edit_screen.dart';
+import '../../models/user.dart';
+import '../../provider/user_info.dart';
+import '../../screen/user_profile/user_detail_info_edit_screen.dart';
 
 class UserDetailInfoScreen extends StatefulWidget {
   final User user;
@@ -19,7 +19,6 @@ class _UserDetailInfoScreenState extends State<UserDetailInfoScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -27,7 +26,6 @@ class _UserDetailInfoScreenState extends State<UserDetailInfoScreen> {
   void didChangeDependencies() {
     user = Provider.of<UserInfo>(context).user;
 
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 

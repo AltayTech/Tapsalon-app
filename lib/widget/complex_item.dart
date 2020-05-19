@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/complex_search.dart';
-import 'package:tapsalon/screen/complex_detail/complex_detail_screen.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+import '../models/complex_search.dart';
+import '../screen/complex_detail/complex_detail_screen.dart';
 
 class ComplexItem extends StatelessWidget {
   final ComplexSearch loadedComplex;
@@ -20,7 +20,7 @@ class ComplexItem extends StatelessWidget {
               .pushNamed(ComplexDetailScreen.routeName, arguments: {
             'complexId': loadedComplex.id,
             'title': loadedComplex.name,
-            'imageUrl': loadedComplex.img_url,
+            'imageUrl': loadedComplex.image.url.medium,
             'stars': loadedComplex.stars.toString()
           });
         },
@@ -37,11 +37,11 @@ class ComplexItem extends StatelessWidget {
                       width: double.infinity,
                       height: constraint.maxHeight * 0.5,
                       child: Hero(
-                        tag:'tagMain'+loadedComplex.id.toString(),
+                        tag: 'tagMain' + loadedComplex.id.toString(),
                         child: FadeInImage(
                           placeholder:
                               AssetImage('assets/images/tapsalon_icon_200.png'),
-                          image: NetworkImage(loadedComplex.img_url.toString()),
+                          image: NetworkImage(loadedComplex.image.url.medium.toString()),
                           fit: BoxFit.cover,
                         ),
                       ),

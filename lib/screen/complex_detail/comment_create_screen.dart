@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/user.dart';
-import 'package:tapsalon/provider/complexes.dart';
-import 'package:tapsalon/provider/user_info.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
+import '../../provider/app_theme.dart';
+import '../../models/user.dart';
+import '../../provider/complexes.dart';
+import '../../provider/user_info.dart';
+import '../../widget/main_drawer.dart';
 
 class CommentCreateScreen extends StatefulWidget {
   static const routeName = '/comment-create';

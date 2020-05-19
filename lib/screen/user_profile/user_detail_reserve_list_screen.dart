@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tapsalon/models/user.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
-
+import '../../models/user.dart';
 
 class UserDetailReserveListScreen extends StatefulWidget {
   final User user;
@@ -14,7 +11,8 @@ class UserDetailReserveListScreen extends StatefulWidget {
       _UserDetailReserveListScreenState();
 }
 
-class _UserDetailReserveListScreenState extends State<UserDetailReserveListScreen> {
+class _UserDetailReserveListScreenState
+    extends State<UserDetailReserveListScreen> {
   final double rateRadious = 40;
 
   final double rateLineWidth = 4.0;
@@ -248,7 +246,7 @@ class OrderItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(right:8.0),
+          padding: const EdgeInsets.only(right: 8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[

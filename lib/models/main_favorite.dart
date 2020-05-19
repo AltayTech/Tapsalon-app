@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/complex_favorite.dart';
-import 'package:tapsalon/models/favorite.dart';
+import '../models/favorite.dart';
 
 class MainFavorite with ChangeNotifier {
   final int current_page;

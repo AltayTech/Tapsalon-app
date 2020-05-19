@@ -7,7 +7,6 @@ class Facility with ChangeNotifier {
   final String excerpt;
   final String icon;
 
-
   Facility({this.id, this.description, this.name, this.excerpt, this.icon});
 
   factory Facility.fromJson(Map<String, dynamic> parsedJson) {

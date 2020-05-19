@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
-import 'package:tapsalon/screen/user_profile/profile_view.dart';
+import '../../provider/app_theme.dart';
+import '../../screen/user_profile/profile_view.dart';
+import '../../widget/main_drawer.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';

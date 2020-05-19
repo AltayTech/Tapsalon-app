@@ -3,14 +3,14 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/screen/about_us_screen.dart';
-import 'package:tapsalon/screen/contact_with_us_screen.dart';
-import 'package:tapsalon/screen/favorite_screen.dart';
-import 'package:tapsalon/screen/rules_screen.dart';
-import 'package:tapsalon/screen/search_screen.dart';
-import 'package:tapsalon/screen/user_profile/login_screen.dart';
-import 'package:tapsalon/screen/user_profile/profile_screen.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+import '../screen/about_us_screen.dart';
+import '../screen/contact_with_us_screen.dart';
+import '../screen/favorite_screen.dart';
+import '../screen/rules_screen.dart';
+import '../screen/search_screen.dart';
+import '../screen/user_profile/login_screen.dart';
+import '../screen/user_profile/profile_screen.dart';
 
 import '../provider/auth.dart';
 

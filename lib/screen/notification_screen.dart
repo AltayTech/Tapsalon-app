@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/notification.dart' as notification;
-import 'package:tapsalon/models/searchDetails.dart';
-import 'package:tapsalon/provider/auth.dart';
-import 'package:tapsalon/provider/user_info.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
-import 'package:tapsalon/widget/notification_item.dart';
+import '../provider/app_theme.dart';
+import '../models/notification.dart' as notification;
+import '../models/searchDetails.dart';
+import '../provider/auth.dart';
+import '../provider/user_info.dart';
+import '../widget/en_to_ar_number_convertor.dart';
+import '../widget/main_drawer.dart';
+import '../widget/notification_item.dart';
 
 import '../widget/custom_dialog_enter.dart';
 
@@ -42,10 +42,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
     setState(() {
       _isLoading = true;
     });
-    searchDetails =
-        Provider.of<UserInfo>(context).notificationSearchDetails;
+    searchDetails = Provider.of<UserInfo>(context).notificationSearchDetails;
     await Provider.of<UserInfo>(context, listen: false).getNotification();
-
 
     loadedNotifications.clear();
     loadedNotifications =

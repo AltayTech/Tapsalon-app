@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tapsalon/models/main_notifications.dart';
-import 'package:tapsalon/models/notification.dart' as notification;
-import 'package:tapsalon/models/rule_data.dart';
-import 'package:tapsalon/models/searchDetails.dart';
-import 'package:tapsalon/models/urls.dart';
-import 'package:tapsalon/models/user.dart';
+import '../models/main_notifications.dart';
+import '../models/notification.dart' as notification;
+import '../models/rule_data.dart';
+import '../models/searchDetails.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/urls.dart';
+import '../models/user.dart';
 
 class UserInfo with ChangeNotifier {
   List<RuleData> _ruleList = [RuleData(id: 0, title: '', content: '')];
@@ -141,7 +141,7 @@ class UserInfo with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
 
     _token = prefs.getString('token');
-    if (_token!=null) {
+    if (_token != null) {
       try {
         final response = await get(url, headers: {
           'Authorization': 'Bearer $_token',
@@ -152,7 +152,7 @@ class UserInfo with ChangeNotifier {
         final extractedData = json.decode(response.body);
 
         MainNotifications mainNotifications =
-        MainNotifications.fromJson(extractedData);
+            MainNotifications.fromJson(extractedData);
 
         _notificationItems = mainNotifications.data;
         _notificationSearchDetails = SearchDetails(
@@ -176,7 +176,6 @@ class UserInfo with ChangeNotifier {
       }
     }
   }
-
 
 //  Order findById(int id) {
 //    return _orders.firstWhere((prod) => prod.id == id);

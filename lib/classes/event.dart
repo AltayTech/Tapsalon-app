@@ -47,7 +47,10 @@ class Event implements EventInterface {
 
 abstract class EventInterface {
   DateTime getDate();
+
   String getTitle();
+
   Widget getIcon();
+
   Widget getDot();
 }

@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/complex_search.dart';
-import 'package:tapsalon/models/searchDetails.dart';
-import 'package:tapsalon/provider/auth.dart';
-import 'package:tapsalon/provider/cities.dart';
-import 'package:tapsalon/provider/complexes.dart';
-import 'package:tapsalon/provider/user_info.dart';
-import 'package:tapsalon/screen/notification_screen.dart';
-import 'package:tapsalon/widget/badge.dart';
-import 'package:tapsalon/widget/complex_item.dart';
-import 'package:tapsalon/widget/custom_dialog_enter.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
-import 'package:tapsalon/widget/filter_drawer.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
-import 'package:tapsalon/widget/select_city_dialog.dart';
+
+import '../models/complex_search.dart';
+import '../models/searchDetails.dart';
+import '../provider/app_theme.dart';
+import '../provider/auth.dart';
+import '../provider/cities.dart';
+import '../provider/complexes.dart';
+import '../provider/user_info.dart';
+import '../screen/notification_screen.dart';
+import '../widget/badge.dart';
+import '../widget/complex_item.dart';
+import '../widget/custom_dialog_enter.dart';
+import '../widget/en_to_ar_number_convertor.dart';
+import '../widget/filter_drawer.dart';
+import '../widget/main_drawer.dart';
+import '../widget/select_city_dialog.dart';
 
 class SearchScreen extends StatefulWidget {
   static const routeName = '/searchScreen';
@@ -50,7 +51,7 @@ class _SearchScreenState extends State<SearchScreen>
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         page = page + 1;
-        Provider.of<Complexes>(context, listen: false).spage = page;
+        Provider.of<Complexes>(context, listen: false).sPage = page;
         searchItems();
       }
     });
@@ -88,14 +89,8 @@ class _SearchScreenState extends State<SearchScreen>
   List<ComplexSearch> loadedComplexes = [];
   List<ComplexSearch> loadedComplexestolist = [];
 
-  Future<void> _submit() async {
-    loadedComplexes.clear();
-    loadedComplexes = Provider.of<Complexes>(context, listen: false).items;
-    loadedComplexestolist.addAll(loadedComplexes);
-  }
-
-  Future<void> filterItems() async {
-    loadedComplexes.clear();
+  void filterItems() async {
+    loadedComplexestolist.clear();
     await searchItems();
   }
 
@@ -103,12 +98,17 @@ class _SearchScreenState extends State<SearchScreen>
     setState(() {
       _isLoading = true;
     });
+
     Provider.of<Complexes>(context, listen: false).searchBuilder();
     await Provider.of<Complexes>(context, listen: false).searchItem();
+    loadedComplexes.clear();
+    loadedComplexes = Provider.of<Complexes>(context, listen: false).items;
+
+    loadedComplexestolist.addAll(loadedComplexes);
+
     filterList = Provider.of<Complexes>(context, listen: false).filterTitle;
     searchDetails =
         Provider.of<Complexes>(context, listen: false).complexSearchDetails;
-    _submit();
 
     setState(() {
       _isLoading = false;
@@ -135,7 +135,7 @@ class _SearchScreenState extends State<SearchScreen>
       Provider.of<Complexes>(context, listen: false).sSort = 'ASC';
     }
     page = 1;
-    Provider.of<Complexes>(context, listen: false).spage = page;
+    Provider.of<Complexes>(context, listen: false).sPage = page;
     loadedComplexestolist.clear();
     searchItems();
   }
@@ -149,21 +149,22 @@ class _SearchScreenState extends State<SearchScreen>
     'براساس نام',
     'کم بازدیدترین',
   ];
+
   void _showLogindialog() {
     showDialog(
         context: context,
         builder: (ctx) => CustomDialogEnter(
-          title: 'ورود',
-          buttonText: 'صفحه ورود ',
-          description: 'برای ادامه باید وارد شوید',
-        ));
+              title: 'ورود',
+              buttonText: 'صفحه ورود ',
+              description: 'برای ادامه باید وارد شوید',
+            ));
   }
+
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var deviceAspectRatio = MediaQuery.of(context).size.aspectRatio;
     var currencyFormat = intl.NumberFormat.decimalPattern();
     final List<Tab> myTabs = <Tab>[
       Tab(
@@ -204,7 +205,8 @@ class _SearchScreenState extends State<SearchScreen>
                         .pushNamed(NotificationScreen.routeName);
                   } else {
                     _showLogindialog();
-                  }                },
+                  }
+                },
                 color: AppTheme.appBarIconColor,
                 icon: Icon(
                   Icons.notifications_none,
@@ -281,7 +283,7 @@ class _SearchScreenState extends State<SearchScreen>
                                       .searchKey = searchTextController.text;
                                   page = 1;
                                   Provider.of<Complexes>(context, listen: false)
-                                      .spage = page;
+                                      .sPage = page;
                                   loadedComplexestolist.clear();
 
                                   searchItems();
@@ -301,7 +303,7 @@ class _SearchScreenState extends State<SearchScreen>
                                     page = 1;
                                     Provider.of<Complexes>(context,
                                             listen: false)
-                                        .spage = page;
+                                        .sPage = page;
                                     loadedComplexestolist.clear();
 
                                     searchItems();
@@ -313,7 +315,7 @@ class _SearchScreenState extends State<SearchScreen>
                                     page = 1;
                                     Provider.of<Complexes>(context,
                                             listen: false)
-                                        .spage = page;
+                                        .sPage = page;
                                     loadedComplexestolist.clear();
 
                                     searchItems();
@@ -369,7 +371,7 @@ class _SearchScreenState extends State<SearchScreen>
                                   }
                                   page = 1;
                                   Provider.of<Complexes>(context, listen: false)
-                                      .spage = page;
+                                      .sPage = page;
                                   loadedComplexestolist.clear();
 
                                   searchItems();
@@ -498,8 +500,7 @@ class _SearchScreenState extends State<SearchScreen>
                                               color: Colors.grey, width: 0.5),
                                           borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(5),
-                                              bottomRight:
-                                                  Radius.circular(5))),
+                                              bottomRight: Radius.circular(5))),
                                       child: Center(
                                         child: DropdownButton<String>(
                                           value: sortValue,
@@ -552,8 +553,7 @@ class _SearchScreenState extends State<SearchScreen>
 //                                                  Colors.grey.withOpacity(0.2),
                                             borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(5),
-                                                bottomLeft:
-                                                    Radius.circular(5)),
+                                                bottomLeft: Radius.circular(5)),
 
                                             border: Border.all(
                                                 color: Colors.grey, width: 0.5),
@@ -664,7 +664,7 @@ class _SearchScreenState extends State<SearchScreen>
           ),
           child: MainDrawer(),
         ),
-        endDrawer: FilterDrawer(searchItems),
+        endDrawer: FilterDrawer(filterItems),
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
-
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+import '../widget/main_drawer.dart';
 
 class ContactWithUs extends StatefulWidget {
   static const routeName = '/ContactWithUs';
@@ -11,8 +10,6 @@ class ContactWithUs extends StatefulWidget {
 }
 
 class _ContactWithUsState extends State<ContactWithUs> {
-
-
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -158,10 +155,10 @@ class _ContactWithUsState extends State<ContactWithUs> {
       endDrawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here
-          canvasColor: Colors.transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+          canvasColor: Colors
+              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
         ),
-        child:MainDrawer(),
-
+        child: MainDrawer(),
       ),
     );
   }

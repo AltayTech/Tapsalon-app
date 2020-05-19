@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/favorite.dart';
-import 'package:tapsalon/provider/complexes.dart';
-import 'package:tapsalon/screen/complex_detail/complex_detail_screen.dart';
+
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+
+import '../models/favorite.dart';
+import '../provider/complexes.dart';
+import '../screen/complex_detail/complex_detail_screen.dart';
 
 class FavoriteComplexItem extends StatelessWidget {
   final Favorite loadedComplex;
@@ -21,7 +23,7 @@ class FavoriteComplexItem extends StatelessWidget {
               .pushNamed(ComplexDetailScreen.routeName, arguments: {
             'complexId': loadedComplex.complex.id,
             'title': loadedComplex.complex.name,
-            'imageUrl': loadedComplex.complex.img_url,
+            'imageUrl': loadedComplex.complex.image.url.medium,
             'stars': loadedComplex.complex.stars.toString()
           });
         },
@@ -41,7 +43,7 @@ class FavoriteComplexItem extends StatelessWidget {
                         placeholder:
                             AssetImage('assets/images/tapsalon_icon_200.png'),
                         image: NetworkImage(
-                            loadedComplex.complex.img_url.toString()),
+                            loadedComplex.complex.image.url.toString()),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -191,9 +193,7 @@ class FavoriteComplexItem extends StatelessWidget {
               right: constraint.maxHeight * 0.030,
               child: InkWell(
                 onTap: () async {
-                  await Provider.of<Complexes>(
-                      context,
-                      listen: false)
+                  await Provider.of<Complexes>(context, listen: false)
                       .sendLike(loadedComplex.complex.id);
                 },
                 child: ClipRRect(

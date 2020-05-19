@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:tapsalon/models/complex.dart';
-import 'package:tapsalon/models/salon.dart';
+import '../../models/complex.dart';
 
 class SalonDetailContactScreen extends StatelessWidget {
   final Complex complex;
@@ -59,7 +58,6 @@ class SalonDetailContactScreen extends StatelessWidget {
             animation: true,
             percent: 0.7,
             animationDuration: 1200,
-
             center: new Text(
               "70.0%",
               style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),

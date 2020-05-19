@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/city.dart';
-import 'package:tapsalon/models/ostan.dart';
-import 'package:tapsalon/models/user.dart';
-import 'package:tapsalon/provider/cities.dart';
-import 'package:tapsalon/provider/user_info.dart';
-import 'package:tapsalon/screen/user_profile/profile_screen.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
+import '../../provider/app_theme.dart';
+import '../../models/city.dart';
+import '../../models/province.dart';
+import '../../models/user.dart';
+import '../../provider/cities.dart';
+import '../../provider/user_info.dart';
+import '../../screen/user_profile/profile_screen.dart';
+import '../../widget/main_drawer.dart';
 
 class UserDetailInfoEditScreen extends StatefulWidget {
   static const routeName = '/customerDetailInfoEditScreen';
@@ -39,7 +39,7 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
 
   List<String> citiesValueList = [];
 
-  List<Ostan> ostanList;
+  List<Province> ostanList;
 
   List<City> citiesList;
 
@@ -58,7 +58,6 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
     genderController.text = user.gender.toString();
     mobileController.text = user.mobile;
 
-    // TODO: implement initState
     super.initState();
   }
 
@@ -110,7 +109,6 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
       setState(() {});
       _isInit = false;
     }
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -345,7 +343,6 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                                                         newValue)]
                                                             .id;
                                                         retrieveCities(ostanId);
-
                                                       });
                                                     },
                                                     items: ostanValueList.map<

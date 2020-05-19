@@ -1,54 +1,48 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/featured.dart';
-import 'package:tapsalon/models/field_search.dart';
-import 'package:tapsalon/models/image_url.dart';
-import 'package:tapsalon/models/place_in_complex.dart';
-import 'package:tapsalon/models/region.dart';
+import 'package:tapsalon/models/image.dart';
+
+import '../models/field_search.dart';
+import '../models/region.dart';
 
 class ComplexSearch with ChangeNotifier {
   final int id;
-  final int media_id;
   final double latitude;
   final double longitude;
   final String name;
   final String excerpt;
   final String about;
   final String address;
-  final String img_url;
-  final int likes_no;
-  final int visits_no;
+  final int likesNo;
+  final int visitsNo;
   final double stars;
   final String phone;
   final String mobile;
-  final String created_at;
-  final String updated_at;
-
+  final String createdAt;
+  final String updatedAt;
+  final Image image;
   final List<FieldSearch> fields;
   final Region region;
-  final Featured featured;
-  final List<PlaceInComplex> placeList;
+
 
   ComplexSearch({
     this.id,
-    this.media_id,
     this.latitude,
     this.longitude,
     this.name,
     this.excerpt,
     this.about,
     this.address,
-    this.img_url,
-    this.likes_no,
-    this.visits_no,
+    this.image,
+    this.likesNo,
+    this.visitsNo,
     this.stars,
     this.phone,
     this.mobile,
-    this.created_at,
-    this.updated_at,
+    this.createdAt,
+    this.updatedAt,
     this.fields,
     this.region,
-    this.featured,
-    this.placeList,
+//    this.placeList,
   });
 
   factory ComplexSearch.fromJson(Map<String, dynamic> parsedJson) {
@@ -61,41 +55,30 @@ class ComplexSearch with ChangeNotifier {
     } catch (error) {
       fieldsRaw = [];
     }
-    var placeList = parsedJson['places'] as List;
-    List<PlaceInComplex> placeRaw = new List<PlaceInComplex>();
-    placeRaw = placeList.map((i) => PlaceInComplex.fromJson(i)).toList();
+//    var placeList = parsedJson['places'] as List;
+//    List<PlaceInComplex> placeRaw = new List<PlaceInComplex>();
+//    placeRaw = placeList.map((i) => PlaceInComplex.fromJson(i)).toList();
 
     return ComplexSearch(
       id: parsedJson['id'],
-      media_id: parsedJson['media_id'],
-      latitude: parsedJson['latitude'],
-      longitude: parsedJson['longitude'],
+      latitude: parsedJson['latitude'] != null ? parsedJson['latitude'] : 0.0,
+      longitude:
+          parsedJson['longitude'] != null ? parsedJson['longitude'] : 0.0,
       name: parsedJson['name'],
       excerpt: parsedJson['excerpt'],
-      about: parsedJson['about'],
+      about: parsedJson['about'] != null ? parsedJson['about'] : '',
       address: parsedJson['address'],
-      img_url: parsedJson['img_url'],
-      likes_no: parsedJson['likes_no'],
-      visits_no: parsedJson['visits_no'],
+      image: Image.fromJson(parsedJson['image']),
+      likesNo: parsedJson['likes_no'],
+      visitsNo: parsedJson['visits_no'],
       stars: double.parse(parsedJson['stars'].toString()),
-      phone: parsedJson['phone'],
-      mobile: parsedJson['mobile'],
-      created_at: parsedJson['created_at'],
-      updated_at: parsedJson['updated_at'],
+      phone: parsedJson['phone'] != null ? parsedJson['phone'] : '',
+      mobile: parsedJson['mobile'] != null ? parsedJson['mobile'] : '',
+      createdAt: parsedJson['created_at'],
+      updatedAt: parsedJson['updated_at'],
       fields: fieldsRaw,
       region: Region.fromJson(parsedJson['region']),
-      featured: parsedJson['featured'] != null
-          ? Featured.fromJson(parsedJson['featured'])
-          : Featured(
-              id: 0,
-              title: '',
-              created_at: '',
-              extension: '',
-              filename: '',
-              place_id: 0,
-              updated_at: '',
-              url: Url(large: '', medium: '', thumb: '')),
-      placeList: placeRaw,
+
     );
   }
 }

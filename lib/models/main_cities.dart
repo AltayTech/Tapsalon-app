@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/city.dart';
-
+import '../models/city.dart';
 
 class MainCities with ChangeNotifier {
   final int current_page;

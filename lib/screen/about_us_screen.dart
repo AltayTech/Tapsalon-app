@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+import '../widget/main_drawer.dart';
 
 class AboutUsScreen extends StatefulWidget {
   static const routeName = '/AboutUsScreen';

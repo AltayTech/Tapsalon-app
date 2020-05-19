@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/place.dart';
-import 'package:tapsalon/provider/salons.dart';
-import 'package:tapsalon/screen/place_detail/salon_detail_tabbar.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+import '../../models/place.dart';
+import '../../provider/salons.dart';
+import '../../screen/place_detail/salon_detail_tabbar.dart';
+import '../../widget/main_drawer.dart';
 
 class SalonDetailScreen extends StatefulWidget {
   static const routeName = '/salon-detail';
@@ -29,7 +29,6 @@ class _SalonDetailScreenState extends State<SalonDetailScreen> {
       searchItems();
     }
     _isInit = false;
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -66,6 +65,11 @@ class _SalonDetailScreenState extends State<SalonDetailScreen> {
       appBar: AppBar(
         title: Text(
           title,
+          style: TextStyle(
+            color:AppTheme.appBarIconColor,
+            fontFamily: 'Iransans',
+            fontSize: textScaleFactor * 10.0,
+          ),
         ),
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
@@ -80,7 +84,9 @@ class _SalonDetailScreenState extends State<SalonDetailScreen> {
                     return DecoratedBox(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: index.isEven ? AppTheme.spinerColor : AppTheme.spinerColor,
+                        color: index.isEven
+                            ? AppTheme.spinerColor
+                            : AppTheme.spinerColor,
                       ),
                     );
                   },

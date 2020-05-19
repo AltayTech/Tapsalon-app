@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/field.dart';
+import '../models/field.dart';
 
 class MainFields with ChangeNotifier {
   final int current_page;

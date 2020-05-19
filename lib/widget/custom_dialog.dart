@@ -89,7 +89,7 @@ class CustomDialog extends StatelessWidget {
                             color: Colors.white,
                             fontFamily: 'Iransans',
                             fontSize:
-                            MediaQuery.of(context).textScaleFactor * 16,
+                                MediaQuery.of(context).textScaleFactor * 16,
                           ),
                         ),
                       ),
@@ -100,7 +100,6 @@ class CustomDialog extends StatelessWidget {
             ],
           ),
         ),
-
       ],
     );
   }

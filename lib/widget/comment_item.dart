@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tapsalon/models/comment.dart';
-import 'package:tapsalon/screen/place_detail/salon_detail_screen.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
+import '../models/comment.dart';
+import '../screen/place_detail/salon_detail_screen.dart';
+import '../widget/en_to_ar_number_convertor.dart';
 
 class CommentItem extends StatelessWidget {
   final Comment comment;
@@ -12,17 +12,17 @@ class CommentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     print(DateTime.now().toString());
     print(DateTime.now()
-        .difference(DateTime.parse(comment.created_at))
+        .difference(DateTime.parse(comment.createdAt))
         .inDays
         .toString());
     print(DateTime.now()
-        .compareTo(DateTime.parse(comment.created_at))
+        .compareTo(DateTime.parse(comment.createdAt))
         .toString());
     print(DateTime.now().timeZoneName.toString());
     print(DateTime.now().timeZoneOffset.toString());
     print(DateTime.now().toIso8601String().toString());
     print(DateTime.now()
-        .subtract(DateTime.now().difference(DateTime.parse(comment.created_at)))
+        .subtract(DateTime.now().difference(DateTime.parse(comment.createdAt)))
         .toString());
     print(DateTime.now().toLocal().toString());
     print(DateTime.now()..toString());
@@ -66,10 +66,9 @@ class CommentItem extends StatelessWidget {
                       Spacer(),
                       Text(
                         EnArConvertor().replaceArNumber(DateTime.now()
-                            .difference(DateTime.parse(comment.created_at))
-                            .inDays
-                            .toString())
-                         +
+                                .difference(DateTime.parse(comment.createdAt))
+                                .inDays
+                                .toString()) +
                             ' روز پیش',
                         textAlign: TextAlign.right,
                         style: TextStyle(

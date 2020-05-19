@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/complex_search.dart';
-import 'package:tapsalon/models/searchDetails.dart';
-import 'package:tapsalon/provider/auth.dart';
-import 'package:tapsalon/provider/cities.dart';
-import 'package:tapsalon/provider/complexes.dart';
-import 'package:tapsalon/provider/user_info.dart';
-import 'package:tapsalon/widget/badge.dart';
-import 'package:tapsalon/widget/custom_dialog_enter.dart';
-import 'package:tapsalon/widget/favorite_view.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
-import 'package:tapsalon/widget/select_city_dialog.dart';
 
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+
+import '../provider/auth.dart';
+import '../provider/cities.dart';
+import '../provider/user_info.dart';
+import '../widget/badge.dart';
+import '../widget/custom_dialog_enter.dart';
+import '../widget/favorite_view.dart';
+import '../widget/main_drawer.dart';
+import '../widget/select_city_dialog.dart';
 import 'notification_screen.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -27,23 +25,21 @@ class _FavoriteScreenState extends State<FavoriteScreen>
     with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-
   void _showLogindialog() {
     showDialog(
         context: context,
         builder: (ctx) => CustomDialogEnter(
-          title: 'ورود',
-          buttonText: 'صفحه ورود ',
-          description: 'برای ادامه باید وارد شوید',
-        ));
+              title: 'ورود',
+              buttonText: 'صفحه ورود ',
+              description: 'برای ادامه باید وارد شوید',
+            ));
   }
+
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var deviceAspectRatio = MediaQuery.of(context).size.aspectRatio;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -95,7 +91,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                           style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Iransans',
-                              fontSize: MediaQuery.of(context).textScaleFactor *
+                              fontSize: textScaleFactor *
                                   12.0),
                         ),
                         Padding(

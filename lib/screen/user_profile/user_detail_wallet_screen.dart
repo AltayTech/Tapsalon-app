@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tapsalon/models/user.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
-
+import '../../models/user.dart';
 
 class UserDetailWalletScreen extends StatefulWidget {
   final User user;
@@ -10,8 +7,7 @@ class UserDetailWalletScreen extends StatefulWidget {
   UserDetailWalletScreen({this.user});
 
   @override
-  _UserDetailWalletScreenState createState() =>
-      _UserDetailWalletScreenState();
+  _UserDetailWalletScreenState createState() => _UserDetailWalletScreenState();
 }
 
 class _UserDetailWalletScreenState extends State<UserDetailWalletScreen> {
@@ -248,7 +244,7 @@ class OrderItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(right:8.0),
+          padding: const EdgeInsets.only(right: 8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[

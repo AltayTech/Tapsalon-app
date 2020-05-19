@@ -6,16 +6,18 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/complex_search.dart';
-import 'package:tapsalon/models/searchDetails.dart';
-import 'package:tapsalon/provider/cities.dart';
-import 'package:tapsalon/provider/complexes.dart';
-import 'package:tapsalon/screen/complex_detail/complex_detail_screen.dart';
-import 'package:tapsalon/widget/filter_drawer.dart';
+import 'package:tapsalon/models/city.dart';
+
+import '../models/complex_search.dart';
+import '../models/searchDetails.dart';
+import '../provider/app_theme.dart';
+import '../provider/cities.dart';
+import '../provider/complexes.dart';
+import '../screen/complex_detail/complex_detail_screen.dart';
+import '../widget/filter_drawer.dart';
 
 class MapScreen extends StatefulWidget {
-  static const routeName = '/map';
+  static const routeName = '/mapScreen';
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -41,13 +43,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   double speed;
 
-  String title = '';
-  String region = '';
-  double rating = 0;
-  int complexId;
-  String imageUrl = '';
+//  String title = '';
+//  String region = '';
+//  double rating = 0;
+//  int complexId;
+//  String imageUrl = '';
 
-  int selectedCityId;
   AnimationController _animationController;
   Animation<Offset> _slideAnimation;
   Animation<double> _opacityAnimation;
@@ -58,11 +59,20 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   BitmapDescriptor gymBitmapDescriptor = BitmapDescriptor.defaultMarker;
   BitmapDescriptor entBitmapDescriptor = BitmapDescriptor.defaultMarker;
 
+  City selectedCity;
+
+  ComplexSearch selectedComplex;
+
   @override
   void didChangeDependencies() {
     if (_isInit) {
       Provider.of<Complexes>(context, listen: false).searchBuilder();
       _tabController.index = 0;
+
+      try {
+        selectedCity = Provider.of<Cities>(context, listen: false).selectedCity;
+      } catch (error) {}
+      _lastMapPosition = LatLng(selectedCity.latitude, selectedCity.longitude);
       retrieveItems();
     }
     _isInit = false;
@@ -74,20 +84,14 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       _isLoading = true;
     });
 
-    try {
-      selectedCityId =
-          Provider.of<Cities>(context, listen: false).selectedCity.id;
-      print('1');
-    } catch (error) {}
-    if (selectedCityId == null) {
+    if (selectedCity.id == null) {
       await Provider.of<Cities>(context, listen: false).getSelectedCity();
-      selectedCityId =
-          Provider.of<Cities>(context, listen: false).selectedCity.id;
+      selectedCity = Provider.of<Cities>(context, listen: false).selectedCity;
       print('2');
 
       cleanFilters(context);
       Provider.of<Complexes>(context, listen: false).sCityId =
-          selectedCityId.toString();
+          selectedCity.id.toString();
       print('3');
 
       await searchItems();
@@ -98,7 +102,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       print('6');
 
       Provider.of<Complexes>(context, listen: false).sCityId =
-          selectedCityId.toString();
+          selectedCity.id.toString();
       print('6');
       await searchItems();
       print('5');
@@ -114,15 +118,16 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   Future<void> cleanFilters(BuildContext context) async {
     Provider.of<Complexes>(context, listen: false).searchKey = '';
     Provider.of<Complexes>(context, listen: false).filterTitle.clear();
-    Provider.of<Complexes>(context, listen: false).sOstanId = '';
+    Provider.of<Complexes>(context, listen: false).sProvinceId = '';
     Provider.of<Complexes>(context, listen: false).sType = '';
     Provider.of<Complexes>(context, listen: false).sField = '';
     Provider.of<Complexes>(context, listen: false).sFacility = '';
+    Provider.of<Complexes>(context, listen: false).sRange = '';
     Provider.of<Complexes>(context, listen: false).searchBuilder();
   }
 
   Future<void> searchItems() async {
-    Provider.of<Complexes>(context, listen: false).sper_page = 1000;
+    Provider.of<Complexes>(context, listen: false).sPerPage = 1000;
     Provider.of<Complexes>(context, listen: false).searchBuilder();
     await Provider.of<Complexes>(context, listen: false).searchItem();
     searchDetails =
@@ -145,11 +150,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     if (_isInfoShow) {
       await _animationController.reverse();
       setState(() {});
-      title = list[i].name;
-      region = list[i].region.name;
-      rating = list[i].stars;
-      imageUrl = list[i].img_url;
-      complexId = list[i].id;
+
+      selectedComplex=list[i];
+//      title = list[i].name;
+//      region = list[i].region.name;
+//      rating = list[i].stars;
+//      imageUrl = list[i].image.url.medium;
+//      complexId = list[i].id;
       _animationController.forward();
 
       setState(() {});
@@ -158,12 +165,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
       _isInfoShow = true;
       setState(() {});
+      selectedComplex=list[i];
 
-      title = list[i].name;
-      region = list[i].region.name;
-      rating = list[i].stars;
-      imageUrl = list[i].img_url;
-      complexId = list[i].id;
+//      title = list[i].name;
+//      region = list[i].region.name;
+//      rating = list[i].stars;
+//      imageUrl = list[i].image.url.medium;
+//      complexId = list[i].id;
       _animationController.forward();
       setState(() {});
     }
@@ -173,7 +181,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     print('putOn');
 
     await _animationController.reverse();
-    await setState(() {});
+    setState(() {});
     _isInfoShow = false;
   }
 
@@ -424,13 +432,14 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                           builder: (context, constraint) => InkWell(
                             onTap: () {
                               Navigator.of(context).pushNamed(
-                                  ComplexDetailScreen.routeName,
-                                  arguments: {
-                                    'complexId': complexId,
-                                    'title': title,
-                                    'imageUrl': imageUrl,
-                                    'stars': rating.toString(),
-                                  });
+                                ComplexDetailScreen.routeName,
+                                arguments: {
+                                  'complexId': selectedComplex.id,
+                                  'title': selectedComplex.name,
+                                  'imageUrl': selectedComplex.image.url.medium,
+                                  'stars': selectedComplex.stars.toString(),
+                                },
+                              );
                             },
                             child: Container(
                               height: deviceHeight * 0.1,
@@ -456,7 +465,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                           MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         Text(
-                                          title,
+                                          selectedComplex.name,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
@@ -468,7 +477,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                           ),
                                         ),
                                         Text(
-                                          region,
+                                          selectedComplex.region.name,
                                           style: TextStyle(
                                             fontFamily: 'Iransans',
                                             color: Colors.black,
@@ -485,7 +494,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                                 allowHalfRating: false,
                                                 onRatingChanged: (v) {},
                                                 starCount: 5,
-                                                rating: rating,
+                                                rating: selectedComplex.stars,
                                                 size:
                                                     constraint.maxWidth * 0.05,
                                                 color: Colors.green,
@@ -511,7 +520,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                           placeholder: AssetImage(
                                               'assets/images/tapsalon_icon_200.png'),
                                           image:
-                                              NetworkImage(imageUrl.toString()),
+                                              NetworkImage(selectedComplex.image.url.medium.toString()),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -554,7 +563,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                             .sComplexType = '3';
                       }
 
-                      Provider.of<Complexes>(context, listen: false).spage = 1;
+                      Provider.of<Complexes>(context, listen: false).sPage = 1;
                       loadedComplexesToList.clear();
 
                       retrieveItems();

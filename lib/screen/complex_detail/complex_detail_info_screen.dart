@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:tapsalon/models/complex.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
+import '../../models/complex.dart';
+import '../../widget/en_to_ar_number_convertor.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class ComplexDetailInfoScreen extends StatelessWidget {
@@ -33,8 +33,8 @@ class ComplexDetailInfoScreen extends StatelessWidget {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     final LatLng _center = LatLng(
-      complex.latitude!=null?complex.latitude:46,
-      complex.longitude!=null?complex.longitude:38,
+      complex.latitude != null ? complex.latitude : 46,
+      complex.longitude != null ? complex.longitude : 38,
     );
     final List<String> contactInfo = [
       '${complex.user.fname} ${complex.user.lname}',

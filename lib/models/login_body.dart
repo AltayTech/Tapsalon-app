@@ -7,9 +7,12 @@ class LoginBody with ChangeNotifier {
   final String username;
   final String password;
 
-
-  LoginBody({this.grant_type, this.client_id, this.client_secret,
-      this.username, this.password});
+  LoginBody(
+      {this.grant_type,
+      this.client_id,
+      this.client_secret,
+      this.username,
+      this.password});
 
   factory LoginBody.fromJson(Map<String, dynamic> parsedJson) {
     return LoginBody(

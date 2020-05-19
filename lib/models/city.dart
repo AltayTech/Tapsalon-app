@@ -2,20 +2,28 @@ import 'package:flutter/foundation.dart';
 
 class City with ChangeNotifier {
   final int id;
-  final int ostan_id;
+  final int provinceId;
   final String name;
-  final String description;
-  final int no_users;
+  final double latitude;
+  final double longitude;
 
-  City({this.id, this.ostan_id, this.name, this.description, this.no_users});
+
+  City({
+    this.id,
+    this.provinceId,
+    this.name,
+    this.latitude,
+    this.longitude,
+
+  });
 
   factory City.fromJson(Map<String, dynamic> parsedJson) {
     return City(
       id: parsedJson['id'],
-      ostan_id: parsedJson['ostan_id'],
-      description: parsedJson['description'],
+      provinceId: parsedJson['ostan_id'],
       name: parsedJson['name'],
-      no_users: parsedJson['no_users'],
+      latitude: parsedJson['latitude'],
+      longitude: parsedJson['longitude'],
     );
   }
 }

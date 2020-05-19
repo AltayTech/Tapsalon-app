@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/city.dart';
-import 'package:tapsalon/models/ostan.dart';
-import 'package:tapsalon/models/user.dart';
+import '../models/city.dart';
+import '../models/province.dart';
+import '../models/user.dart';
 
 class Salon with ChangeNotifier {
   final int id;
@@ -23,36 +23,35 @@ class Salon with ChangeNotifier {
   final String mobile;
   final String created_at;
   final String updated_at;
-  final Ostan ostan;
+  final Province province;
   final City city;
   final User user;
 
   Salon(
       {this.id,
-        this.user_id,
-        this.ostan_id,
-        this.city_id,
-        this.latitude,
-        this.longitude,
-        this.title,
-        this.excerpt,
-        this.about,
-        this.address,
-        this.price,
-        this.img_url,
-        this.likes,
-        this.visits,
-        this.stars,
-        this.phone,
-        this.mobile,
-        this.created_at,
-        this.updated_at,
-        this.ostan,
-        this.city,
-        this.user});
+      this.user_id,
+      this.ostan_id,
+      this.city_id,
+      this.latitude,
+      this.longitude,
+      this.title,
+      this.excerpt,
+      this.about,
+      this.address,
+      this.price,
+      this.img_url,
+      this.likes,
+      this.visits,
+      this.stars,
+      this.phone,
+      this.mobile,
+      this.created_at,
+      this.updated_at,
+      this.province,
+      this.city,
+      this.user});
 
   factory Salon.fromJson(Map<String, dynamic> parsedJson) {
-
 //    var ostanList = parsedJson['ostan'] as List;
 //    List<Ostan> ostanRaw = new List<Ostan>();
 //    ostanRaw = ostanList.map((i) => Ostan.fromJson(i)).toList();
@@ -86,7 +85,7 @@ class Salon with ChangeNotifier {
       mobile: parsedJson['mobile'],
       created_at: parsedJson['created_at'],
       updated_at: parsedJson['updated_at'],
-      ostan: Ostan.fromJson(parsedJson['ostan']),
+      province: Province.fromJson(parsedJson['ostan']),
       city: City.fromJson(parsedJson['city']),
       user: User.fromJson(parsedJson['user']),
     );

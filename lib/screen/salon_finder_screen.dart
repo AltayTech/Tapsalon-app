@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/complex_search.dart';
-import 'package:tapsalon/models/searchDetails.dart';
-import 'package:tapsalon/provider/cities.dart';
-import 'package:tapsalon/provider/complexes.dart';
-import 'package:tapsalon/provider/user_info.dart';
-import 'package:tapsalon/screen/notification_screen.dart';
-import 'package:tapsalon/widget/badge.dart';
-import 'package:tapsalon/widget/complex_item.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
-import 'package:tapsalon/widget/filter_drawer.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
-import 'package:tapsalon/widget/select_city_dialog.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+import '../models/complex_search.dart';
+import '../models/searchDetails.dart';
+import '../provider/cities.dart';
+import '../provider/complexes.dart';
+import '../provider/user_info.dart';
+import '../screen/notification_screen.dart';
+import '../widget/badge.dart';
+import '../widget/complex_item.dart';
+import '../widget/en_to_ar_number_convertor.dart';
+import '../widget/filter_drawer.dart';
+import '../widget/main_drawer.dart';
+import '../widget/select_city_dialog.dart';
 
 class SalonFinderScreen extends StatefulWidget {
   static const routeName = '/searchScreen';
@@ -48,7 +48,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         page = page + 1;
-        Provider.of<Complexes>(context, listen: false).spage = page;
+        Provider.of<Complexes>(context, listen: false).sPage = page;
         searchItems();
       }
     });
@@ -133,7 +133,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
       Provider.of<Complexes>(context, listen: false).sSort = 'ASC';
     }
     page = 1;
-    Provider.of<Complexes>(context, listen: false).spage = page;
+    Provider.of<Complexes>(context, listen: false).sPage = page;
     loadedComplexestolist.clear();
     searchItems();
   }
@@ -267,7 +267,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                                       .searchKey = searchTextController.text;
                                   page = 1;
                                   Provider.of<Complexes>(context, listen: false)
-                                      .spage = page;
+                                      .sPage = page;
                                   loadedComplexestolist.clear();
 
                                   searchItems();
@@ -287,7 +287,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                                     page = 1;
                                     Provider.of<Complexes>(context,
                                             listen: false)
-                                        .spage = page;
+                                        .sPage = page;
                                     loadedComplexestolist.clear();
 
                                     searchItems();
@@ -299,7 +299,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                                     page = 1;
                                     Provider.of<Complexes>(context,
                                             listen: false)
-                                        .spage = page;
+                                        .sPage = page;
                                     loadedComplexestolist.clear();
 
                                     searchItems();
@@ -355,7 +355,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                                   }
                                   page = 1;
                                   Provider.of<Complexes>(context, listen: false)
-                                      .spage = page;
+                                      .sPage = page;
                                   loadedComplexestolist.clear();
 
                                   searchItems();
@@ -484,8 +484,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                                               color: Colors.grey, width: 0.5),
                                           borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(5),
-                                              bottomRight:
-                                                  Radius.circular(5))),
+                                              bottomRight: Radius.circular(5))),
                                       child: Center(
                                         child: DropdownButton<String>(
                                           value: sortValue,
@@ -538,8 +537,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
 //                                                  Colors.grey.withOpacity(0.2),
                                             borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(5),
-                                                bottomLeft:
-                                                    Radius.circular(5)),
+                                                bottomLeft: Radius.circular(5)),
 
                                             border: Border.all(
                                                 color: Colors.grey, width: 0.5),

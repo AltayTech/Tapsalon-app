@@ -5,8 +5,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+import '../widget/main_drawer.dart';
 
 import '../models/rule_data.dart';
 import '../provider/user_info.dart';
@@ -48,11 +48,11 @@ class _RulesScreenState extends State<RulesScreen> {
     });
     print(_isLoading.toString());
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   @override
@@ -61,6 +61,7 @@ class _RulesScreenState extends State<RulesScreen> {
 
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -117,18 +118,17 @@ class _RulesScreenState extends State<RulesScreen> {
                       alignment: Alignment.center,
                       child: _isLoading
                           ? SpinKitFadingCircle(
-                        itemBuilder:
-                            (BuildContext context, int index) {
-                          return DecoratedBox(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: index.isEven
-                                  ? AppTheme.spinerColor
-                                  : AppTheme.spinerColor,
-                            ),
-                          );
-                        },
-                      )
+                              itemBuilder: (BuildContext context, int index) {
+                                return DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: index.isEven
+                                        ? AppTheme.spinerColor
+                                        : AppTheme.spinerColor,
+                                  ),
+                                );
+                              },
+                            )
                           : Container()),
                 ),
               ],

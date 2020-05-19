@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/complex.dart';
-import 'package:tapsalon/models/complex_search.dart';
+import '../models/complex_search.dart';
 
 class MainComplexesSearch with ChangeNotifier {
   final int current_page;
@@ -11,7 +10,7 @@ class MainComplexesSearch with ChangeNotifier {
   final String last_page_url;
   final String next_page_url;
   final String path;
-  final String per_page;
+  final int per_page;
   final String prev_page_url;
   final int to;
   final int total;

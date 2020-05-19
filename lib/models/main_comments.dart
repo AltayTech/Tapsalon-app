@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/comment.dart';
+import '../models/comment.dart';
 
 class MainComments with ChangeNotifier {
   final int current_page;

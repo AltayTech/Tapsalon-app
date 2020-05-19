@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/strings.dart';
-import 'package:tapsalon/models/user.dart';
-import 'package:tapsalon/provider/auth.dart';
-import 'package:tapsalon/provider/complexes.dart';
-import 'package:tapsalon/provider/salons.dart';
-import 'package:tapsalon/provider/user_info.dart';
-import 'package:tapsalon/screen/about_us_screen.dart';
-import 'package:tapsalon/screen/complex_detail/complex_detail_screen.dart';
-import 'package:tapsalon/screen/contact_with_us_screen.dart';
-import 'package:tapsalon/screen/navigation_bottom_screen.dart';
-import 'package:tapsalon/screen/notification_screen.dart';
-import 'package:tapsalon/screen/place_detail/salon_detail_screen.dart';
-import 'package:tapsalon/screen/reserve_detail_screen.dart';
-import 'package:tapsalon/screen/search_screen.dart';
-import 'package:tapsalon/screen/splash_Screen.dart';
-import 'package:tapsalon/screen/user_profile/login_screen.dart';
-import 'package:tapsalon/widget/favorite_view.dart';
 
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/strings.dart';
+
+import './models/user.dart';
+import './provider/auth.dart';
+import './provider/complexes.dart';
+import './provider/salons.dart';
+import './provider/user_info.dart';
+import './screen/about_us_screen.dart';
+import './screen/complex_detail/complex_detail_screen.dart';
+import './screen/contact_with_us_screen.dart';
 import './screen/favorite_screen.dart';
 import './screen/home_screen.dart';
 import './screen/map_screen.dart';
+import './screen/navigation_bottom_screen.dart';
+import './screen/notification_screen.dart';
+import './screen/place_detail/salon_detail_screen.dart';
+import './screen/reserve_detail_screen.dart';
+import './screen/search_screen.dart';
+import './screen/splash_Screen.dart';
+import './screen/user_profile/login_screen.dart';
+import './widget/favorite_view.dart';
+import 'najva.dart';
 import 'provider/cities.dart';
 import 'screen/complex_detail/comment_create_screen.dart';
 import 'screen/user_profile/profile_screen.dart';
@@ -34,6 +36,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Najva najva;
+
+  @override
+  void initState() {
+    super.initState();
+    najva = new Najva();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -63,15 +73,15 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.green,
           accentColor: Colors.amber,
           textTheme: ThemeData.light().textTheme.copyWith(
-                body1: TextStyle(
+                bodyText1: TextStyle(
                   fontFamily: 'Iransans',
                   color: Color.fromRGBO(20, 51, 51, 1),
                 ),
-                body2: TextStyle(
+                bodyText2: TextStyle(
                   fontFamily: 'Iransans',
                   color: Color.fromRGBO(20, 51, 51, 1),
                 ),
-                title: TextStyle(
+                headline1: TextStyle(
                   fontSize: 20,
                   fontFamily: 'Iransans',
                   fontWeight: FontWeight.bold,
@@ -85,27 +95,24 @@ class _MyAppState extends State<MyApp> {
           textDirection: TextDirection.rtl, // setting rtl
         ),
         routes: {
-          // '/': (ctx) => NavigationBottomScreen(),
-          HomeScreeen.routeName: (ctx) => HomeScreeen(),
+          HomeScreen.routeName: (ctx) => HomeScreen(),
           FavoriteScreen.routeName: (ctx) => FavoriteScreen(),
           FavoriteView.routeName: (ctx) => FavoriteView(),
-          MapScreen.routeName: (ctx) => MapScreen(),
           ComplexDetailScreen.routeName: (ctx) => ComplexDetailScreen(),
           SalonDetailScreen.routeName: (ctx) => SalonDetailScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
-
           UserDetailInfoEditScreen.routeName: (ctx) =>
               UserDetailInfoEditScreen(),
           ProfileScreen.routeName: (ctx) => ProfileScreen(),
-
           SearchScreen.routeName: (ctx) => SearchScreen(),
           AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
           ContactWithUs.routeName: (ctx) => ContactWithUs(),
           NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
           ReserveDetailScreen.routeName: (ctx) => ReserveDetailScreen(),
           NotificationScreen.routeName: (ctx) => NotificationScreen(),
-
           CommentCreateScreen.routeName: (ctx) => CommentCreateScreen(),
+          MapScreen.routeName: (ctx) => MapScreen(),
+
         },
       ),
     );

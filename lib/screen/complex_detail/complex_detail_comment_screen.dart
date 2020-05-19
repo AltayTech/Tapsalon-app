@@ -3,16 +3,16 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/comment.dart';
-import 'package:tapsalon/models/complex.dart';
-import 'package:tapsalon/models/searchDetails.dart';
-import 'package:tapsalon/provider/auth.dart';
-import 'package:tapsalon/provider/complexes.dart';
-import 'package:tapsalon/screen/complex_detail/comment_create_screen.dart';
-import 'package:tapsalon/widget/comment_item.dart';
-import 'package:tapsalon/widget/custom_dialog_enter.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
+import '../../provider/app_theme.dart';
+import '../../models/comment.dart';
+import '../../models/complex.dart';
+import '../../models/searchDetails.dart';
+import '../../provider/auth.dart';
+import '../../provider/complexes.dart';
+import '../../screen/complex_detail/comment_create_screen.dart';
+import '../../widget/comment_item.dart';
+import '../../widget/custom_dialog_enter.dart';
+import '../../widget/en_to_ar_number_convertor.dart';
 
 class ComplexDetailCommentScreen extends StatefulWidget {
   final Complex complex;

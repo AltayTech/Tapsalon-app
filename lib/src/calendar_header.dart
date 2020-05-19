@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'default_styles.dart' show defaultHeaderTextStyle;
 
 class CalendarHeader extends StatelessWidget {
@@ -35,17 +36,20 @@ class CalendarHeader extends StatelessWidget {
 
   Widget _leftButton() => IconButton(
         onPressed: onLeftButtonPressed,
-        icon: leftButtonIcon ?? Icon(Icons.chevron_left, color: headerIconColor),
+        icon:
+            leftButtonIcon ?? Icon(Icons.chevron_left, color: headerIconColor),
       );
 
   Widget _rightButton() => IconButton(
         onPressed: onRightButtonPressed,
-        icon: rightButtonIcon ?? Icon(Icons.chevron_right, color: headerIconColor),
+        icon: rightButtonIcon ??
+            Icon(Icons.chevron_right, color: headerIconColor),
       );
 
   Widget _headerTouchable() => FlatButton(
         onPressed: onHeaderTitlePressed,
-        child: Text(headerTitle, 
+        child: Text(
+          headerTitle,
           semanticsLabel: headerTitle,
           style: getTextStyle,
         ),

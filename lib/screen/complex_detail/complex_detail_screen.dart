@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/complex.dart';
-import 'package:tapsalon/provider/auth.dart';
-import 'package:tapsalon/provider/complexes.dart';
-import 'package:tapsalon/widget/custom_dialog_enter.dart';
-import 'package:tapsalon/widget/main_drawer.dart';
 
+import '../../models/complex.dart';
+import '../../provider/app_theme.dart';
+import '../../provider/auth.dart';
+import '../../provider/complexes.dart';
+import '../../widget/custom_dialog_enter.dart';
+import '../../widget/main_drawer.dart';
 import 'complex_detail_comment_screen.dart';
 import 'complex_detail_info_screen.dart';
 import 'complex_detail_place_list_screen.dart';
@@ -40,7 +40,6 @@ class _ComplexDetailScreenState extends State<ComplexDetailScreen>
   void initState() {
     _tabController = TabController(vsync: this, length: 3);
     _tabController.addListener(_handleTabSelection);
-    // TODO: implement initState
     super.initState();
   }
 
@@ -60,7 +59,6 @@ class _ComplexDetailScreenState extends State<ComplexDetailScreen>
       searchItems();
     }
     _isInit = false;
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -130,180 +128,193 @@ class _ComplexDetailScreenState extends State<ComplexDetailScreen>
       ),
     ];
     return Scaffold(
-      body: Directionality(
+      body:  _isLoading
+          ? SpinKitFadingCircle(
+        itemBuilder: (BuildContext context, int index) {
+          return DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: index.isEven
+                  ? AppTheme.spinerColor
+                  : AppTheme.spinerColor,
+            ),
+          );
+        },
+      )
+          :Directionality(
         textDirection: TextDirection.rtl,
         child: DefaultTabController(
-          length: myTabs.length, // This is the number of tabs.
-          child: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: SliverAppBar(
-                    backgroundColor: AppTheme.appBarColor,
-                    expandedHeight: deviceHeight * 0.4,
-                    floating: true,
-                    pinned: true,
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Stack(
-                        children: <Widget>[
-                          Positioned.fill(
-                            child: Hero(
-                              tag: 'tagMain' + loadedComplex.id.toString(),
-                              child: FadeInImage(
-                                placeholder: AssetImage(
-                                    'assets/images/tapsalon_icon_200.png'),
-                                image: NetworkImage(
-                                    image_url != null ? image_url : ''),
-                                fit: BoxFit.cover,
-                              ),
+                length: myTabs.length, // This is the number of tabs.
+                child: NestedScrollView(
+                  headerSliverBuilder:
+                      (BuildContext context, bool innerBoxIsScrolled) {
+                    return <Widget>[
+                      Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: SliverAppBar(
+                          backgroundColor: AppTheme.appBarColor,
+                          expandedHeight: deviceHeight * 0.4,
+                          floating: true,
+                          pinned: true,
+                          flexibleSpace: FlexibleSpaceBar(
+                            background: Stack(
+                              children: <Widget>[
+                                Positioned.fill(
+                                  child: FadeInImage(
+                                    placeholder: AssetImage(
+                                        'assets/images/tapsalon_icon_200.png'),
+                                    image: NetworkImage(
+                                        image_url != null ? image_url : ''),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Container(
+                                    color: AppTheme.bgColor,
+                                    child: Row(
+                                      children: <Widget>[
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.notifications,
+                                            color: Colors.white,
+                                          ),
+                                          onPressed: () {},
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                            isLike
+                                                ? Icons.favorite
+                                                : Icons.favorite_border,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () async {
+                                            if (Provider.of<Auth>(context,
+                                                    listen: false)
+                                                .isAuth) {
+                                              bool isLikeT = await Provider.of<
+                                                          Complexes>(context,
+                                                      listen: false)
+                                                  .sendLike(loadedComplex.id);
+                                              isLikeT
+                                                  ? isLike
+                                                      ? isLike = false
+                                                      : isLike = true
+                                                  : isLike = isLike;
+                                              print(isLike.toString());
+                                              setState(() {});
+                                            } else {
+                                              _showLogindialog();
+                                            }
+                                          },
+                                        ),
+                                        Text(
+                                          '$stars/5.0',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Iransans',
+                                            fontSize: MediaQuery.of(context)
+                                                    .textScaleFactor *
+                                                11.0,
+                                          ),
+                                        ),
+                                        Spacer(
+                                          flex: 1,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            width: deviceWidth * 0.45,
+                                            child: Text(
+                                              title,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'Iransans',
+                                                fontSize: MediaQuery.of(context)
+                                                        .textScaleFactor *
+                                                    14.0,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Container(
-                              color: AppTheme.bgColor,
-                              child: Row(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.notifications,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                  IconButton(
-                                    icon: Icon(
-                                      isLike
-                                          ? Icons.favorite
-                                          : Icons.favorite_border,
-                                      color: Colors.red,
-                                    ),
-                                    onPressed: () async {
-                                      if (Provider.of<Auth>(context,
-                                              listen: false)
-                                          .isAuth) {
-                                        bool isLikeT =
-                                            await Provider.of<Complexes>(
-                                                    context,
-                                                    listen: false)
-                                                .sendLike(loadedComplex.id);
-                                        isLikeT
-                                            ? isLike
-                                                ? isLike = false
-                                                : isLike = true
-                                            : isLike = isLike;
-                                        print(isLike.toString());
-                                        setState(() {});
-                                      } else {
-                                        _showLogindialog();
-                                      }
-                                    },
-                                  ),
-                                  Text(
-                                    '$stars/5.0',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Iransans',
-                                      fontSize: MediaQuery.of(context)
-                                              .textScaleFactor *
-                                          11.0,
-                                    ),
-                                  ),
-                                  Spacer(
-                                    flex: 1,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: deviceWidth * 0.45,
-                                      child: Text(
-                                        title,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Iransans',
-                                          fontSize: MediaQuery.of(context)
-                                                  .textScaleFactor *
-                                              14.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                        ),
+                      ),
+                      SliverPersistentHeader(
+                        delegate: _SliverAppBarDelegate(
+                          TabBar(
+                            indicatorColor: Colors.blue,
+                            indicatorWeight: 3,
+                            unselectedLabelColor: Colors.black54,
+                            labelColor: Colors.blue,
+                            labelStyle: TextStyle(
+                              fontFamily: 'Iransans',
+                              fontSize:
+                                  MediaQuery.of(context).textScaleFactor * 11.0,
                             ),
-                          )
-                        ],
+                            unselectedLabelStyle: TextStyle(
+                              fontFamily: 'Iransans',
+                              fontSize:
+                                  MediaQuery.of(context).textScaleFactor * 11.0,
+                            ),
+                            controller: _tabController,
+                            tabs: myTabs,
+                          ),
+                        ),
+                        pinned: true,
+                      ),
+                    ];
+                  },
+                  body: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: TabBarView(
+                        children: myTabs.map((Tab tab) {
+                          if (_isLoading) {
+                            return Align(
+                                alignment: Alignment.center,
+                                child: SpinKitFadingCircle(
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: index.isEven
+                                            ? Colors.grey
+                                            : Colors.grey,
+                                      ),
+                                    );
+                                  },
+                                ));
+                          } else if (_tabController.index == 0) {
+                            return ComplexDetailInfoScreen(
+                              complex: loadedComplex,
+                            );
+                          } else if (_tabController.index == 1) {
+                            return ComplexDetailPlaceListScreen(
+                              complex: loadedComplex,
+                            );
+                          } else {
+                            return ComplexDetailCommentScreen(
+                              complex: loadedComplex,
+                            );
+                          }
+                        }).toList(),
                       ),
                     ),
                   ),
-                ),
-                SliverPersistentHeader(
-                  delegate: _SliverAppBarDelegate(
-                    TabBar(
-                      indicatorColor: Colors.blue,
-                      indicatorWeight: 3,
-                      unselectedLabelColor: Colors.black54,
-                      labelColor: Colors.blue,
-                      labelStyle: TextStyle(
-                        fontFamily: 'Iransans',
-                        fontSize: MediaQuery.of(context).textScaleFactor * 11.0,
-                      ),
-                      unselectedLabelStyle: TextStyle(
-                        fontFamily: 'Iransans',
-                        fontSize: MediaQuery.of(context).textScaleFactor * 11.0,
-                      ),
-                      controller: _tabController,
-                      tabs: myTabs,
-                    ),
-                  ),
-                  pinned: true,
-                ),
-              ];
-            },
-            body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: TabBarView(
-                  children: myTabs.map((Tab tab) {
-                    if (_isLoading) {
-                      return Align(
-                          alignment: Alignment.center,
-                          child: SpinKitFadingCircle(
-                            itemBuilder: (BuildContext context, int index) {
-                              return DecoratedBox(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
-                                ),
-                              );
-                            },
-                          ));
-                    } else if (_tabController.index == 0) {
-                      return ComplexDetailInfoScreen(
-                        complex: loadedComplex,
-                      );
-                    } else if (_tabController.index == 1) {
-                      return ComplexDetailPlaceListScreen(
-                        complex: loadedComplex,
-                      );
-                    } else {
-                      return ComplexDetailCommentScreen(
-                        complex: loadedComplex,
-                      );
-                    }
-                  }).toList(),
                 ),
               ),
-            ),
-          ),
-        ),
       ),
       endDrawer: Theme(
         data: Theme.of(context).copyWith(

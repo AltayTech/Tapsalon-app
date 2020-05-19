@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/favorite.dart';
-import 'package:tapsalon/models/searchDetails.dart';
-import 'package:tapsalon/provider/auth.dart';
-import 'package:tapsalon/provider/complexes.dart';
-import 'package:tapsalon/screen/user_profile/login_screen.dart';
-import 'package:tapsalon/widget/favorite_complex_item.dart';
+
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+
+import '../models/favorite.dart';
+import '../models/searchDetails.dart';
+import '../provider/auth.dart';
+import '../provider/complexes.dart';
+import '../screen/user_profile/login_screen.dart';
+import '../widget/favorite_complex_item.dart';
 
 class FavoriteView extends StatefulWidget {
   static const routeName = '/favorite-view';
@@ -37,7 +39,7 @@ class _FavoriteViewState extends State<FavoriteView>
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         page = page + 1;
-        Provider.of<Complexes>(context, listen: false).spage = page;
+        Provider.of<Complexes>(context, listen: false).sPage = page;
         searchItems();
       }
     });
@@ -93,8 +95,7 @@ class _FavoriteViewState extends State<FavoriteView>
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var deviceAspectRatio = MediaQuery.of(context).size.aspectRatio;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
+
     bool isLogin = Provider.of<Auth>(context).isAuth;
 
     return !isLogin

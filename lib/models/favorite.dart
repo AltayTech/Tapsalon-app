@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/complex_favorite.dart';
+import '../models/complex_favorite.dart';
 
 class Favorite with ChangeNotifier {
   final int id;

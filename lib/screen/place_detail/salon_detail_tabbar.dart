@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tapsalon/models/place.dart';
+import '../../models/place.dart';
 
 import 'salon_detail_info_screen.dart';
 import 'salon_detail_timing_screen.dart';
@@ -63,7 +63,6 @@ class _SalonDetailTabBarState extends State<SalonDetailTabBar>
           indicatorWeight: 3,
           unselectedLabelColor: Colors.black54,
           labelColor: Colors.blue,
-
           labelStyle: TextStyle(
             fontFamily: 'Iransans',
             fontSize: MediaQuery.of(context).textScaleFactor * 11.0,

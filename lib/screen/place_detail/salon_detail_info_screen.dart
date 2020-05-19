@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tapsalon/models/facility.dart';
-import 'package:tapsalon/models/field.dart';
-import 'package:tapsalon/models/place.dart';
+import '../../models/facility.dart';
+import '../../models/field.dart';
+import '../../models/place.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class SalonDetailInfoScreen extends StatelessWidget {

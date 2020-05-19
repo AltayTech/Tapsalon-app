@@ -1,24 +1,23 @@
 import 'package:flutter/foundation.dart';
+import 'package:tapsalon/models/image.dart';
 
 class PlaceInComplex with ChangeNotifier {
   final int id;
-  final String title;
+  final String name;
   final String excerpt;
   final String about;
   final String price;
-  final String img_url;
-  final String timing;
+  final Image image;
   final String created_at;
   final String updated_at;
 
   PlaceInComplex({
     this.id,
-    this.title,
+    this.name,
     this.excerpt,
     this.about,
     this.price,
-    this.img_url,
-    this.timing,
+    this.image,
     this.created_at,
     this.updated_at,
   });
@@ -30,12 +29,11 @@ class PlaceInComplex with ChangeNotifier {
 
     return PlaceInComplex(
       id: parsedJson['id'],
-      title: parsedJson['title'],
+      name: parsedJson['name'],
       excerpt: parsedJson['excerpt'],
       about: parsedJson['about'],
       price: parsedJson['price'],
-      img_url: parsedJson['img_url'],
-      timing: parsedJson['timing'],
+      image: Image.fromJson(parsedJson['image']),
       created_at: parsedJson['created_at'],
       updated_at: parsedJson['updated_at'],
     );

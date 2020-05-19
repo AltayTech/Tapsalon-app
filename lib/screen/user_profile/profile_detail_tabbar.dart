@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/user.dart';
-import 'package:tapsalon/provider/user_info.dart';
-import 'package:tapsalon/screen/user_profile/user_detail_info_screen.dart';
-import 'package:tapsalon/screen/user_profile/user_detail_reserve_list_screen.dart';
-import 'package:tapsalon/screen/user_profile/user_detail_wallet_screen.dart';
+import '../../models/user.dart';
+import '../../provider/user_info.dart';
+import '../../screen/user_profile/user_detail_info_screen.dart';
+import '../../screen/user_profile/user_detail_reserve_list_screen.dart';
+import '../../screen/user_profile/user_detail_wallet_screen.dart';
 
 class ProfileDetailTabBar extends StatefulWidget {
   final User user;

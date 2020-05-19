@@ -36,8 +36,8 @@ class UserInComplex with ChangeNotifier {
   factory UserInComplex.fromJson(Map<String, dynamic> parsedJson) {
     return UserInComplex(
       id: parsedJson['id'],
-      fname: parsedJson['fname'],
-      lname: parsedJson['lname'],
+      fname: parsedJson['fname']!=null?parsedJson['fname']:'',
+      lname: parsedJson['lname']!=null?parsedJson['lname']:'',
       role_id: parsedJson['role_id'],
       gender: parsedJson['gender'],
       phone: parsedJson['phone'],

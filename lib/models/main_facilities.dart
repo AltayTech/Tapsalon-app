@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/facility.dart';
+import '../models/facility.dart';
 
 class MainFacilities with ChangeNotifier {
   final int current_page;

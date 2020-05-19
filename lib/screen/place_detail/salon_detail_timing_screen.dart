@@ -4,12 +4,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
-import 'package:tapsalon/classes/table_sticky_header.dart';
-import 'package:tapsalon/models/app_theme.dart';
-import 'package:tapsalon/models/place.dart';
-import 'package:tapsalon/models/timing.dart';
-import 'package:tapsalon/provider/salons.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
+import '../../classes/table_sticky_header.dart';
+import '../../provider/app_theme.dart';
+import '../../models/place.dart';
+import '../../models/timing.dart';
+import '../../provider/salons.dart';
+import '../../widget/en_to_ar_number_convertor.dart';
 
 class SalonDetailTimingScreen extends StatefulWidget {
   final Place place;

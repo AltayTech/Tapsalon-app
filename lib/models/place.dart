@@ -1,11 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/complex_in_place.dart';
-import 'package:tapsalon/models/facility.dart';
-import 'package:tapsalon/models/field.dart';
-import 'package:tapsalon/models/image.dart';
 
-import 'featured.dart';
-import 'image_url.dart';
+import '../models/complex_in_place.dart';
+import '../models/facility.dart';
+import '../models/field.dart';
+import '../models/image.dart';
 import 'palce_type.dart';
 
 class Place with ChangeNotifier {
@@ -14,14 +12,14 @@ class Place with ChangeNotifier {
   final String excerpt;
   final String about;
   final String price;
-  final String img_url;
-  final String timing;
+
+//  final String timing;
   final String created_at;
   final String updated_at;
   final ComplexInPlace complexInPlace;
   final PlaceType placeType;
-  final Featured featured;
-  final List<Image> image;
+  final Image image;
+  final List<Image> gallery;
   final List<Facility> facilities;
   final List<Field> fields;
 
@@ -31,21 +29,20 @@ class Place with ChangeNotifier {
       this.excerpt,
       this.about,
       this.price,
-      this.img_url,
-      this.timing,
+//      this.timing,
       this.created_at,
       this.updated_at,
       this.complexInPlace,
       this.placeType,
-      this.featured,
       this.image,
+      this.gallery,
       this.facilities,
       this.fields});
 
   factory Place.fromJson(Map<String, dynamic> parsedJson) {
-    var imageList = parsedJson['image'] as List;
-    List<Image> imageRaw = new List<Image>();
-    imageRaw = imageList.map((i) => Image.fromJson(i)).toList();
+    var galleryList = parsedJson['gallery'] as List;
+    List<Image> galleryRaw = new List<Image>();
+    galleryRaw = galleryList.map((i) => Image.fromJson(i)).toList();
 
     var facilitiesList = parsedJson['facilities'] as List;
     List<Facility> faciltyRaw = new List<Facility>();
@@ -61,24 +58,14 @@ class Place with ChangeNotifier {
       excerpt: parsedJson['excerpt'],
       about: parsedJson['about'],
       price: parsedJson['price'],
-      img_url: parsedJson['img_url'],
-      timing: parsedJson['timing'],
+//      timing: parsedJson['timing'],
       created_at: parsedJson['created_at'],
       updated_at: parsedJson['updated_at'],
       complexInPlace: ComplexInPlace.fromJson(parsedJson['complex']),
       placeType: PlaceType.fromJson(parsedJson['place_type']),
-      featured: parsedJson['featured'] != null
-          ? Featured.fromJson(parsedJson['featured'])
-          : Featured(
-              id: 0,
-              title: '',
-              created_at: '',
-              extension: '',
-              filename: '',
-              place_id: 0,
-              updated_at: '',
-              url: Url(large: '', medium: '', thumb: '')),
-      image: imageRaw,
+      image: Image.fromJson(parsedJson['image']),
+
+      gallery: galleryRaw,
       facilities: faciltyRaw,
       fields: fieldRaw,
     );

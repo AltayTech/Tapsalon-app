@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shamsi_date/shamsi_date.dart';
-import 'package:tapsalon/models/place.dart';
-import 'package:tapsalon/models/timing.dart';
-import 'package:tapsalon/models/urls.dart';
+import '../models/place.dart';
+import '../models/timing.dart';
+
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/urls.dart';
 
 import '../models/salon.dart';
 
@@ -22,7 +23,7 @@ class Salons with ChangeNotifier {
   Place get itemPlace => _itemPlace;
 
   List<Salon> get items {
-    return [..._items];
+    return _items;
   }
 
   List<double> get hours => _hours;
@@ -120,7 +121,7 @@ class Salons with ChangeNotifier {
   }
 
   Salon findById(String id) {
-    return _items.firstWhere((prod) => prod.id == id);
+    return _items.firstWhere((prod) => prod.id == int.parse(id));
   }
 
   void addSalon() {

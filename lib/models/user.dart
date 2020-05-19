@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/city.dart';
+import '../models/city.dart';
 
-import 'ostan.dart';
+import 'province.dart';
 import 'role.dart';
 
 class User with ChangeNotifier {
@@ -17,7 +17,7 @@ class User with ChangeNotifier {
   final String wallet;
   final String created_at;
   final String updated_at;
-  final Ostan ostan;
+  final Province ostan;
   final City city;
   final Role role;
 
@@ -52,7 +52,7 @@ class User with ChangeNotifier {
       wallet: parsedJson['wallet'],
       created_at: parsedJson['created_at'],
       updated_at: parsedJson['updated_at'],
-      ostan: Ostan.fromJson(parsedJson['ostan']),
+      ostan: Province.fromJson(parsedJson['ostan']),
       city: City.fromJson(parsedJson['city']),
       role: Role.fromJson(parsedJson['role']),
     );

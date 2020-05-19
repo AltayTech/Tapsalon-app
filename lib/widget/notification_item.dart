@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:tapsalon/models/notification.dart' as notif;
+import '../models/notification.dart' as notif;
 
 class NotificationItem extends StatefulWidget {
   notif.Notification notification;

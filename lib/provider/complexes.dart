@@ -3,72 +3,32 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tapsalon/models/comment.dart';
-import 'package:tapsalon/models/complex.dart';
-import 'package:tapsalon/models/complex_favorite.dart';
-import 'package:tapsalon/models/complex_search.dart';
-import 'package:tapsalon/models/facility.dart';
-import 'package:tapsalon/models/favorite.dart';
-import 'package:tapsalon/models/field.dart';
-import 'package:tapsalon/models/main_comments.dart';
-import 'package:tapsalon/models/main_complexes_search.dart';
-import 'package:tapsalon/models/main_facilities.dart';
-import 'package:tapsalon/models/main_favorite.dart';
-import 'package:tapsalon/models/main_fields.dart';
-import 'package:tapsalon/models/main_regions.dart';
-import 'package:tapsalon/models/priceRange.dart';
-import 'package:tapsalon/models/region.dart';
-import 'package:tapsalon/models/searchDetails.dart';
-import 'package:tapsalon/models/urls.dart';
+
+import '../models/comment.dart';
+import '../models/complex.dart';
+import '../models/complex_search.dart';
+import '../models/facility.dart';
+import '../models/favorite.dart';
+import '../models/field.dart';
+import '../models/main_comments.dart';
+import '../models/main_complexes_search.dart';
+import '../models/main_facilities.dart';
+import '../models/main_favorite.dart';
+import '../models/main_fields.dart';
+import '../models/priceRange.dart';
+import '../models/region.dart';
+import '../models/searchDetails.dart';
+import '../provider/urls.dart';
 
 class Complexes with ChangeNotifier {
 //parameter definition
-  List<ComplexSearch> _items = [
-    ComplexSearch(
-      id: 1,
-      latitude: 1.0,
-      longitude: 1.0,
-      name: '',
-      excerpt: '',
-      about: '',
-      address: '',
-      img_url: '',
-      stars: 5.0,
-      phone: '',
-      mobile: '',
-      created_at: '',
-      updated_at: '',
-    )
-  ];
-  List<Favorite> favoriteItems = [
+  List<ComplexSearch> _items = [];
+  List<ComplexSearch> _itemsCityComplex = [];
 
-  ];
-  List<Region> _itemsRegions = [
-    Region(
-      id: 1,
-      city_id: 1,
-      name: '',
-      no_users: 1,
-    )
-  ];
-  List<Facility> _itemsFacilities = [
-    Facility(
-      id: 1,
-      name: '',
-      excerpt: '',
-      description: '',
-      icon: '',
-    )
-  ];
-  List<Field> _itemsFields = [
-    Field(
-      id: 1,
-      name: '',
-      excerpt: '',
-      description: '',
-      icon: '',
-    )
-  ];
+  List<Favorite> favoriteItems = [];
+  List<Region> _itemsRegions = [];
+  List<Facility> _itemsFacilities = [];
+  List<Field> _itemsFields = [];
   PriceRange _itemPriceRange = PriceRange(
     min: '0',
     max: '200000',
@@ -77,11 +37,11 @@ class Complexes with ChangeNotifier {
 
   String searchKey = '';
   String searchEndPoint = '';
-  var _spage = 1;
-  var _sper_page = 10;
+  var _sPage = 1;
+  var _sPerPage = 10;
   var _sComplexType = '';
 
-  var _sOstanId = '';
+  var _sProvinceId = '';
   var _sCityId = '';
   var _sField = '';
   var _sFacility = '';
@@ -92,7 +52,7 @@ class Complexes with ChangeNotifier {
   var _sRegion = '';
 
   List<String> filterTitle = [];
-  static SearchDetails _searchDetails_zero = SearchDetails(
+  static SearchDetails _searchDetailsZero = SearchDetails(
     current_page: 1,
     from: 1,
     last_page: 0,
@@ -104,10 +64,10 @@ class Complexes with ChangeNotifier {
     to: 10,
     total: 10,
   );
-  SearchDetails _complexSearchDetails = _searchDetails_zero;
-  SearchDetails _favoriteComplexSearchDetails = _searchDetails_zero;
-  SearchDetails _facilitiesSearchDetails = _searchDetails_zero;
-  SearchDetails _fieldsSearchDetails = _searchDetails_zero;
+  SearchDetails _complexSearchDetails = _searchDetailsZero;
+  SearchDetails _favoriteComplexSearchDetails = _searchDetailsZero;
+  SearchDetails _facilitiesSearchDetails = _searchDetailsZero;
+  SearchDetails _fieldsSearchDetails = _searchDetailsZero;
 
   Complex _itemComplex;
 
@@ -123,11 +83,11 @@ class Complexes with ChangeNotifier {
       searchEndPoint = '';
 
       searchEndPoint = searchEndPoint + '?name=$searchKey';
-      searchEndPoint = searchEndPoint + '&page=$_spage&per_page=$_sper_page';
+      searchEndPoint = searchEndPoint + '&page=$_sPage&per_page=$_sPerPage';
     } else {
       searchEndPoint = '';
 
-      searchEndPoint = searchEndPoint + '?page=$_spage&per_page=$_sper_page';
+      searchEndPoint = searchEndPoint + '?page=$_sPage&per_page=$_sPerPage';
     }
     if (!(_sSort == '')) {
       searchEndPoint = searchEndPoint + '&sort=$_sSort';
@@ -145,8 +105,8 @@ class Complexes with ChangeNotifier {
     if (!(_sComplexType == '' || _sComplexType == null)) {
       searchEndPoint = searchEndPoint + '&type=$_sComplexType';
     }
-    if (!(_sOstanId == '' || _sOstanId == null)) {
-      searchEndPoint = searchEndPoint + '&ostan=$_sOstanId';
+    if (!(_sProvinceId == '' || _sProvinceId == null)) {
+      searchEndPoint = searchEndPoint + '&ostan=$_sProvinceId';
     }
     if (!(_sCityId == '' || _sCityId == null)) {
       searchEndPoint = searchEndPoint + '&city=$_sCityId';
@@ -157,25 +117,24 @@ class Complexes with ChangeNotifier {
     if (!(_sFacility == '' || _sFacility == null)) {
       searchEndPoint = searchEndPoint + '&facility=$_sFacility';
     }
+    if (!(_sRegion == '' || _sRegion == null)) {
+      searchEndPoint = searchEndPoint + '&region=$_sRegion';
+    }
     print(searchEndPoint);
   }
 
 //getters and setters
 
-  List<ComplexSearch> get items {
-    return [..._items];
+  get sPage => _sPage;
+
+  set sPage(value) {
+    _sPage = value;
   }
 
-  get spage => _spage;
+  get sPerPage => _sPerPage;
 
-  set spage(value) {
-    _spage = value;
-  }
-
-  get sper_page => _sper_page;
-
-  set sper_page(value) {
-    _sper_page = value;
+  set sPerPage(value) {
+    _sPerPage = value;
   }
 
   get sComplexType => _sComplexType;
@@ -184,10 +143,10 @@ class Complexes with ChangeNotifier {
     _sComplexType = value;
   }
 
-  get sOstanId => _sOstanId;
+  get sProvinceId => _sProvinceId;
 
-  set sOstanId(value) {
-    _sOstanId = value;
+  set sProvinceId(value) {
+    _sProvinceId = value;
   }
 
   get sCityId => _sCityId;
@@ -232,44 +191,25 @@ class Complexes with ChangeNotifier {
     _sRange = value;
   }
 
-  List<Region> get itemsRegions => _itemsRegions;
 
-  set itemsRegions(List<Region> value) {
-    _itemsRegions = value;
-  }
+  List<ComplexSearch> get items => _items;
+
+  List<ComplexSearch> get itemsCityComplex => _itemsCityComplex;
+
+  List<Region> get itemsRegions => _itemsRegions;
 
   SearchDetails get complexSearchDetails =>
       _complexSearchDetails; //data transportation
 
   List<Facility> get itemsFacilities => _itemsFacilities;
 
-  set itemsFacilities(List<Facility> value) {
-    _itemsFacilities = value;
-  }
-
   List<Field> get itemsFields => _itemsFields;
-
-  set itemsFields(List<Field> value) {
-    _itemsFields = value;
-  }
 
   SearchDetails get facilitiesSearchDetails => _facilitiesSearchDetails;
 
-  set facilitiesSearchDetails(SearchDetails value) {
-    _facilitiesSearchDetails = value;
-  }
-
   SearchDetails get fieldsSearchDetails => _fieldsSearchDetails;
 
-  set fieldsSearchDetails(SearchDetails value) {
-    _fieldsSearchDetails = value;
-  }
-
   PriceRange get itemPriceRange => _itemPriceRange;
-
-  set itemPriceRange(PriceRange value) {
-    _itemPriceRange = value;
-  }
 
   get sRegion => _sRegion;
 
@@ -278,10 +218,6 @@ class Complexes with ChangeNotifier {
   }
 
   SearchDetails get commentsSearchDetails => _commentsSearchDetails;
-
-  set commentsSearchDetails(SearchDetails value) {
-    _commentsSearchDetails = value;
-  }
 
   List<Comment> get itemsComments => _itemsComments;
 
@@ -311,7 +247,8 @@ class Complexes with ChangeNotifier {
             MainComplexesSearch.fromJson(extractedData);
         print(response.headers.toString());
         _items.clear();
-        _items.addAll(mainComplexesSearch.data);
+        _items=mainComplexesSearch.data;
+        print('searchItem' + _items.length.toString());
 
         _complexSearchDetails = SearchDetails(
           current_page: mainComplexesSearch.current_page,
@@ -321,24 +258,27 @@ class Complexes with ChangeNotifier {
           last_page_url: mainComplexesSearch.last_page_url,
           next_page_url: mainComplexesSearch.next_page_url,
           path: mainComplexesSearch.path,
-          per_page: int.parse(mainComplexesSearch.per_page),
+          per_page: mainComplexesSearch.per_page,
           prev_page_url: mainComplexesSearch.prev_page_url,
           to: mainComplexesSearch.to,
           total: mainComplexesSearch.total,
         );
         print(_complexSearchDetails.total.toString());
+        print('searchItem' + _items.length.toString());
       } else {
         _items = [];
+        print('_items errrorrr' + _items.length.toString());
       }
       notifyListeners();
     } catch (error) {
       print(error.toString());
       throw (error);
     }
+    print('searchItem ffff' + _items.length.toString());
   }
 
   Future<void> retrieveCityComplexes(int cityId) async {
-    print('retrieveRegions');
+    print('retrieveCityComplexes');
 
     final url = Urls.rootUrl + '/api/cities/$cityId/complexes';
     print(url);
@@ -349,27 +289,15 @@ class Complexes with ChangeNotifier {
         final extractedData = json.decode(response.body);
         print(extractedData.toString());
 
-        MainRegions mainRegions = MainRegions.fromJson(extractedData);
+        MainComplexesSearch mainComplexesSearch =
+            MainComplexesSearch.fromJson(extractedData);
         print(response.headers.toString());
-        _itemsRegions.clear();
-        _itemsRegions.addAll(mainRegions.data);
+        _itemsCityComplex.clear();
+        _itemsCityComplex.addAll(mainComplexesSearch.data);
 
-//        _regionSearchDetails = SearchDetails(
-//          current_page: mainRegions.current_page,
-//          first_page_url: mainRegions.first_page_url,
-//          from: mainRegions.from,
-//          last_page: mainRegions.last_page,
-//          last_page_url: mainRegions.last_page_url,
-//          next_page_url: mainRegions.next_page_url,
-//          path: mainRegions.path,
-//          per_page: mainRegions.per_page,
-//          prev_page_url: mainRegions.prev_page_url,
-//          to: mainRegions.to,
-//          total: mainRegions.total,
-//        );
         print(_complexSearchDetails.total.toString());
       } else {
-        _itemsRegions = [];
+        _itemsCityComplex = [];
       }
       notifyListeners();
     } catch (error) {
@@ -424,7 +352,6 @@ class Complexes with ChangeNotifier {
         print(response.headers.toString());
         _itemsComments.clear();
         _itemsComments.addAll(mainComments.data);
-//        print(_itemsComments[0].rate.toString());
 
         _commentsSearchDetails = SearchDetails(
           current_page: mainComments.current_page,
@@ -729,8 +656,7 @@ class Complexes with ChangeNotifier {
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final extractedData = json.decode(response.body);
 
-        MainFavorite mainComplexesSearch =
-            MainFavorite.fromJson(extractedData);
+        MainFavorite mainComplexesSearch = MainFavorite.fromJson(extractedData);
         print(response.headers.toString());
         favoriteItems.clear();
         favoriteItems.addAll(mainComplexesSearch.data);

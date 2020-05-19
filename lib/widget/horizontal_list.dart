@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/complex_search.dart';
-import 'package:tapsalon/provider/complexes.dart';
-import 'package:tapsalon/screen/search_screen.dart';
-import 'package:tapsalon/widget/salon_item.dart';
+import '../models/complex_search.dart';
+import '../provider/complexes.dart';
+import '../screen/search_screen.dart';
+import '../widget/salon_item.dart';
 
 class HorizontalList extends StatelessWidget {
   const HorizontalList({
@@ -13,15 +13,17 @@ class HorizontalList extends StatelessWidget {
 
   final String listTitle;
   final List<ComplexSearch> list;
+
   Future<void> cleanFilters(BuildContext context) async {
     Provider.of<Complexes>(context, listen: false).searchKey = '';
     Provider.of<Complexes>(context, listen: false).filterTitle.clear();
-    Provider.of<Complexes>(context, listen: false).sOstanId = '';
+    Provider.of<Complexes>(context, listen: false).sProvinceId = '';
     Provider.of<Complexes>(context, listen: false).sType = '';
     Provider.of<Complexes>(context, listen: false).sField = '';
     Provider.of<Complexes>(context, listen: false).sFacility = '';
     Provider.of<Complexes>(context, listen: false).searchBuilder();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,14 +38,13 @@ class HorizontalList extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   cleanFilters(context);
 //                  Provider.of<Complexes>(context, listen: false)
 //                      .sType = '3';
 
-                  Navigator.of(context).pushNamed(
-                      SearchScreen.routeName,
-                      arguments: 0);
+                  Navigator.of(context)
+                      .pushNamed(SearchScreen.routeName, arguments: 0);
                 },
                 child: Wrap(
                   direction: Axis.horizontal,

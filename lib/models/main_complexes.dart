@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/complex.dart';
+import '../models/complex.dart';
 
 class MainComplexes with ChangeNotifier {
   final int current_page;

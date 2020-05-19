@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/user.dart';
-
-import 'region.dart';
+import '../models/user.dart';
 
 class MainUsers with ChangeNotifier {
   final int current_page;

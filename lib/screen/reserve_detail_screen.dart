@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
-import 'package:tapsalon/classes/event.dart';
+import '../classes/event.dart';
 
-import '../flutter_calendar_carousel.dart';
+import '../classes/flutter_calendar_carousel.dart';
 
 class ReserveDetailScreen extends StatefulWidget {
   static const routeName = '/reserveDetail';

@@ -65,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
           fit: StackFit.expand,
           children: <Widget>[
             new Container(
-              height:MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height,
               decoration: new BoxDecoration(
                 image: widget.imageBackground == null
                     ? null
@@ -80,8 +80,8 @@ class _SplashScreenState extends State<SplashScreen> {
             new Stack(
               alignment: Alignment.center,
               children: <Widget>[
-                 Positioned(
-                   top:MediaQuery.of(context).size.height*0.3,
+                Positioned(
+                  top: MediaQuery.of(context).size.height * 0.3,
                   child: new Container(
                       child: new Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -89,8 +89,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       new CircleAvatar(
                         backgroundColor: Colors.transparent,
                         child: new Container(
-                            height:MediaQuery.of(context).size.height*0.25,
-
+                            height: MediaQuery.of(context).size.height * 0.25,
                             child: widget.image),
                         radius: widget.photoSize,
                       ),
@@ -102,7 +101,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   )),
                 ),
                 Positioned(
-                  bottom:MediaQuery.of(context).size.height*0.04,
+                  bottom: MediaQuery.of(context).size.height * 0.04,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[

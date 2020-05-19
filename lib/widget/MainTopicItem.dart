@@ -19,7 +19,8 @@ class MainTopicItem extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width * 0.3,
       height: MediaQuery.of(context).size.width * 0.3,
-      child: LayoutBuilder(builder: (_,constraint)=> Card(
+      child: LayoutBuilder(
+        builder: (_, constraint) => Card(
           color: bgColor,
           child: Container(
             child: Stack(
@@ -27,14 +28,13 @@ class MainTopicItem extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Container(
-                    height: constraint.maxHeight*0.4,
-                    width: constraint.maxWidth*0.4,
+                    height: constraint.maxHeight * 0.4,
+                    width: constraint.maxWidth * 0.4,
                     child: FittedBox(
                       child: Image.asset(
                         icon,
                         fit: BoxFit.cover,
-                        color:
-                        Colors.white,
+                        color: Colors.white,
                       ),
                     ),
                   ),
