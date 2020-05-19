@@ -6,7 +6,7 @@ import 'package:shamsi_date/shamsi_date.dart';
 import '../models/place.dart';
 import '../models/timing.dart';
 
-import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/urls.dart';
+import '../provider/urls.dart';
 
 import '../models/salon.dart';
 

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+import '../provider/app_theme.dart';
 import '../screen/about_us_screen.dart';
 import '../screen/contact_with_us_screen.dart';
 import '../screen/favorite_screen.dart';

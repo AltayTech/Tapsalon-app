@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/app_theme.dart';
+import '../provider/app_theme.dart';
 import '../widget/main_drawer.dart';
 
 class ContactWithUs extends StatefulWidget {

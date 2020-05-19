@@ -7,7 +7,7 @@ import '../models/main_notifications.dart';
 import '../models/notification.dart' as notification;
 import '../models/rule_data.dart';
 import '../models/searchDetails.dart';
-import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/provider/urls.dart';
+import '../provider/urls.dart';
 import '../models/user.dart';
 
 class UserInfo with ChangeNotifier {
