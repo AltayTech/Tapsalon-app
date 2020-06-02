@@ -36,14 +36,11 @@ class ComplexItem extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: constraint.maxHeight * 0.5,
-                      child: Hero(
-                        tag: 'tagMain' + loadedComplex.id.toString(),
-                        child: FadeInImage(
-                          placeholder:
-                              AssetImage('assets/images/tapsalon_icon_200.png'),
-                          image: NetworkImage(loadedComplex.image.url.medium.toString()),
-                          fit: BoxFit.cover,
-                        ),
+                      child: FadeInImage(
+                        placeholder:
+                            AssetImage('assets/images/tapsalon_icon_200.png'),
+                        image: NetworkImage(loadedComplex.image.url.medium.toString()),
+                        fit: BoxFit.cover,
                       ),
                     ),
                     SizedBox(
@@ -79,7 +76,7 @@ class ComplexItem extends StatelessWidget {
                                 textDirection: TextDirection.ltr,
                                 child: SmoothStarRating(
                                     allowHalfRating: false,
-                                    onRatingChanged: (v) {},
+                                    onRated: (v) {},
                                     starCount: 5,
                                     rating: loadedComplex.stars,
                                     size: constraint.maxWidth * 0.05,

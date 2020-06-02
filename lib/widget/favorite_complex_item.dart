@@ -82,7 +82,8 @@ class FavoriteComplexItem extends StatelessWidget {
                                 textDirection: TextDirection.ltr,
                                 child: SmoothStarRating(
                                     allowHalfRating: false,
-                                    onRatingChanged: (v) {},
+
+                                    onRated: (v) {},
                                     starCount: 5,
                                     rating: loadedComplex.complex.stars,
                                     size: constraint.maxWidth * 0.05,

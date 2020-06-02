@@ -103,7 +103,7 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
                                   textDirection: TextDirection.ltr,
                                   child: SmoothStarRating(
                                       allowHalfRating: false,
-                                      onRatingChanged: (v) {
+                                      onRated: (v) {
                                         rating = v;
                                         setState(() {});
                                       },

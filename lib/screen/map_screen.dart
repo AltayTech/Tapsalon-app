@@ -151,7 +151,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       await _animationController.reverse();
       setState(() {});
 
-      selectedComplex=list[i];
+      selectedComplex = list[i];
 //      title = list[i].name;
 //      region = list[i].region.name;
 //      rating = list[i].stars;
@@ -165,7 +165,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
       _isInfoShow = true;
       setState(() {});
-      selectedComplex=list[i];
+      selectedComplex = list[i];
 
 //      title = list[i].name;
 //      region = list[i].region.name;
@@ -429,7 +429,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                       child: SlideTransition(
                         position: _slideAnimation,
                         child: LayoutBuilder(
-                          builder: (context, constraint) => InkWell(
+                          builder: (cxt, constraint) => InkWell(
                             onTap: () {
                               Navigator.of(context).pushNamed(
                                 ComplexDetailScreen.routeName,
@@ -492,7 +492,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                             textDirection: TextDirection.ltr,
                                             child: SmoothStarRating(
                                                 allowHalfRating: false,
-                                                onRatingChanged: (v) {},
+                                                onRated: (v) {},
                                                 starCount: 5,
                                                 rating: selectedComplex.stars,
                                                 size:
@@ -519,8 +519,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                         child: FadeInImage(
                                           placeholder: AssetImage(
                                               'assets/images/tapsalon_icon_200.png'),
-                                          image:
-                                              NetworkImage(selectedComplex.image.url.medium.toString()),
+                                          image: NetworkImage(selectedComplex
+                                              .image.url.medium
+                                              .toString()),
                                           fit: BoxFit.cover,
                                         ),
                                       ),

@@ -3,12 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shamsi_date/shamsi_date.dart';
+
 import '../models/place.dart';
-import '../models/timing.dart';
-
-import '../provider/urls.dart';
-
 import '../models/salon.dart';
+import '../models/timing.dart';
+import '../provider/urls.dart';
 
 class Salons with ChangeNotifier {
   List<Salon> _items = [];
@@ -55,24 +54,27 @@ class Salons with ChangeNotifier {
   }
 
   Future<void> retrievePlaceTiming(
-      int placeId, DateTime start, DateTime end) async {
+    int placeId,
+  ) async {
     print('retrievePlaceTiming');
 
     final url = Urls.rootUrl + Urls.placesEndPoint + '/10' + '/timings';
     print(url);
 
     try {
-      final response = await post(url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: json.encode(
-            {
-              'start': start.toString(),
-              'end': end.toString(),
-            },
-          ));
+      final response = await post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+//          body: json.encode(
+//            {
+//              'start': start.toString(),
+//              'end': end.toString(),
+//            },
+//          )
+      );
 
       var extractedData = json.decode(response.body) as List<dynamic>;
       print(extractedData);
