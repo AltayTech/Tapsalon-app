@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 class Timing with ChangeNotifier {
   final int id;
   final int place_id;
-  final int gender;
+  final String gender;
   final String date_start;
   final String date_end;
   final int discount;
@@ -27,8 +27,8 @@ class Timing with ChangeNotifier {
       id: parsedJson['id'],
       place_id: parsedJson['place_id'],
       gender: parsedJson['gender'],
-      date_start: parsedJson['date_start'],
-      date_end: parsedJson['date_end'],
+      date_start: parsedJson['start'],
+      date_end: parsedJson['end'],
       discount: parsedJson['discount'],
       reservable: parsedJson['reservable'],
       created_at: parsedJson['created_at'],

@@ -282,11 +282,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 1);
 
     checkPermission();
-    //    updateLocation();
 
-    StreamSubscription positionStream = _geolocator
-        .getPositionStream(locationOptions)
-        .listen((Position position) {
+    _geolocator.getPositionStream(locationOptions).listen((Position position) {
       _position = position;
     });
   }

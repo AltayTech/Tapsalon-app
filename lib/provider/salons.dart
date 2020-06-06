@@ -58,22 +58,17 @@ class Salons with ChangeNotifier {
   ) async {
     print('retrievePlaceTiming');
 
-    final url = Urls.rootUrl + Urls.placesEndPoint + '/10' + '/timings';
+    final url = Urls.rootUrl + Urls.placesEndPoint + '/$placeId' + '/timings';
     print(url);
 
     try {
-      final response = await post(
+      final response = await get(
         url,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-//          body: json.encode(
-//            {
-//              'start': start.toString(),
-//              'end': end.toString(),
-//            },
-//          )
+
       );
 
       var extractedData = json.decode(response.body) as List<dynamic>;
@@ -84,20 +79,17 @@ class Salons with ChangeNotifier {
 
       _itemTiming = timings;
 
-      _itemDayTiming = [];
-      for (int j = 0; j < 30; j++) {
-        _itemDayTiming.add({j.toString(): []});
-      }
 
-      for (int i = 0; i < _itemTiming.length; i++) {
-        Timing time = _itemTiming[i];
-        int jalaliDay =
-            Jalali.fromDateTime(DateTime.parse(time.date_start)).day;
-        _itemDayTiming[jalaliDay][jalaliDay.toString()].add(time);
-        print(jalaliDay.toString());
-        print('main' +
-            Jalali.fromDateTime(DateTime.parse(time.date_start)).toString());
-      }
+
+//      for (int i = 0; i < _itemTiming.length; i++) {
+//        Timing time = _itemTiming[i];
+//        int jalaliDay =
+//            Jalali.fromDateTime(DateTime.parse(time.date_start)).day;
+//        _itemDayTiming[jalaliDay][jalaliDay.toString()].add(time);
+//        print(jalaliDay.toString());
+//        print('main' +
+//            Jalali.fromDateTime(DateTime.parse(time.date_start)).toString());
+//      }
 
       print(_itemTiming.length);
       notifyListeners();

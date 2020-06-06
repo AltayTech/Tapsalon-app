@@ -59,6 +59,7 @@ class _SalonDetailTabBarState extends State<SalonDetailTabBar>
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: TabBar(
+          isScrollable: false,
           indicatorColor: Colors.blue,
           indicatorWeight: 3,
           unselectedLabelColor: Colors.black54,

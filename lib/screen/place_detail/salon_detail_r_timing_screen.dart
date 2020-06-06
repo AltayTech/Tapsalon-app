@@ -111,8 +111,8 @@ class _SalonDetailRTimingScreenState extends State<SalonDetailRTimingScreen> {
 
     await Provider.of<Salons>(context, listen: false).produceTable();
     hours = Provider.of<Salons>(context, listen: false).hours;
-    await Provider.of<Salons>(context, listen: false).retrievePlaceTiming(
-        widget.place.id, DateTime.parse(startDate), DateTime.parse(endDate));
+//    await Provider.of<Salons>(context, listen: false).retrievePlaceTiming(
+//        widget.place.id, DateTime.parse(startDate), DateTime.parse(endDate));
     loadedTiming = Provider.of<Salons>(context, listen: false).itemTiming;
 
     dayTiming = Provider.of<Salons>(context, listen: false).itemDayTiming;
