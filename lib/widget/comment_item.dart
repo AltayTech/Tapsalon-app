@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/comment.dart';
-import '../screen/place_detail/salon_detail_screen.dart';
 import '../widget/en_to_ar_number_convertor.dart';
 
 class CommentItem extends StatelessWidget {
@@ -10,30 +9,14 @@ class CommentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(DateTime.now().toString());
-    print(DateTime.now()
-        .difference(DateTime.parse(comment.createdAt))
-        .inDays
-        .toString());
-    print(DateTime.now()
-        .compareTo(DateTime.parse(comment.createdAt))
-        .toString());
-    print(DateTime.now().timeZoneName.toString());
-    print(DateTime.now().timeZoneOffset.toString());
-    print(DateTime.now().toIso8601String().toString());
-    print(DateTime.now()
-        .subtract(DateTime.now().difference(DateTime.parse(comment.createdAt)))
-        .toString());
-    print(DateTime.now().toLocal().toString());
-    print(DateTime.now()..toString());
 
     return LayoutBuilder(
       builder: (context, constraint) => InkWell(
         onTap: () {
-          Navigator.of(context)
-              .pushNamed(SalonDetailScreen.routeName, arguments: {
-            'commentId': comment.id,
-          });
+//          Navigator.of(context)
+//              .pushNamed(SalonDetailScreen.routeName, arguments: {
+//            'commentId': comment.id,
+//          });
         },
         child: Card(
           child: Padding(

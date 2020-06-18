@@ -3,7 +3,6 @@ class Urls {
   static const citiesEndPoint = '/api/cities';
   static const provincesEndPoint = '/api/ostans';
   static const placesEndPoint = '/api/places';
-  static const complexesEndPoint = '/api/complexes';
   static const usersEndPoint = '/api/users';
   static const facilitiesEndPoint = '/api/facilities';
   static const fieldsEndPoint = '/api/fields';

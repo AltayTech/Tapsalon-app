@@ -3,14 +3,15 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:tapsalon/models/place.dart';
 import '../../models/complex.dart';
 import '../../widget/en_to_ar_number_convertor.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
-class ComplexDetailInfoScreen extends StatelessWidget {
-  final Complex complex;
+class PlaceDetailInfoScreen extends StatelessWidget {
+  final Place place;
 
-  ComplexDetailInfoScreen({this.complex});
+  PlaceDetailInfoScreen({this.place});
 
   Completer<GoogleMapController> _controller = Completer();
 
@@ -33,14 +34,14 @@ class ComplexDetailInfoScreen extends StatelessWidget {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     final LatLng _center = LatLng(
-      complex.latitude != null ? complex.latitude : 46,
-      complex.longitude != null ? complex.longitude : 38,
+      place.latitude != null ? place.latitude : 46,
+      place.longitude != null ? place.longitude : 38,
     );
     final List<String> contactInfo = [
-      '${complex.user.fname} ${complex.user.lname}',
-      complex.phone,
-      complex.mobile,
-      complex.region.name
+      '${place.user.fname} ${place.user.lname}',
+      place.phone,
+      place.mobile,
+      place.region.name
     ];
     final List<IconData> iconDatas = <IconData>[
       Icons.supervisor_account,
@@ -51,11 +52,11 @@ class ComplexDetailInfoScreen extends StatelessWidget {
     ];
     _markers.add(
       Marker(
-        markerId: MarkerId(complex.id.toString()),
+        markerId: MarkerId(place.id.toString()),
         position: _center,
         infoWindow: InfoWindow(
-          title: complex.name,
-          snippet: complex.stars.toString(),
+          title: place.name,
+          snippet: place.stars.toString(),
         ),
         icon: BitmapDescriptor.defaultMarker,
       ),
@@ -79,7 +80,7 @@ class ComplexDetailInfoScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                complex.about,
+                place.about,
                 style: TextStyle(
                   fontFamily: 'Iransans',
                   fontSize: MediaQuery.of(context).textScaleFactor * 11.0,
@@ -98,7 +99,7 @@ class ComplexDetailInfoScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: RaisedButton(
                   color: Colors.green,
-                  onPressed: () => UrlLauncher.launch('tel:${complex.phone}'),
+                  onPressed: () => UrlLauncher.launch('tel:${place.phone}'),
                   child: Text(
                     'تماس بگیرید',
                     style: TextStyle(

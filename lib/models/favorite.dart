@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
-import '../models/complex_favorite.dart';
+
+import '../models/place_favorite.dart';
 
 class Favorite with ChangeNotifier {
   final int id;
   final int user_id;
   final int complex_id;
-  final ComplexFavorite complex;
+  final PlaceFavorite complex;
   final String created_at;
   final String updated_at;
 
@@ -22,7 +23,7 @@ class Favorite with ChangeNotifier {
       id: parsedJson['id'],
       complex_id: parsedJson['complex_id'],
       user_id: parsedJson['user_id'],
-      complex: ComplexFavorite.fromJson(parsedJson['complex']),
+      complex: PlaceFavorite.fromJson(parsedJson['complex']),
       created_at: parsedJson['created_at'],
       updated_at: parsedJson['updated_at'],
     );

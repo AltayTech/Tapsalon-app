@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../provider/urls.dart';
+import 'package:tapsalon/models/main_cities.dart';
+import 'package:tapsalon/models/main_ostans.dart';
 
 import '../models/city.dart';
 import '../models/province.dart';
+import '../provider/urls.dart';
 
 class Cities with ChangeNotifier {
   City _selectedCity = City(
@@ -58,9 +59,6 @@ class Cities with ChangeNotifier {
         print(extractedData);
 
         City dataRaw = City.fromJson(extractedData);
-
-//      print(dataRaw[0].description.toString());
-//      print(dataRaw[0].id.toString());
         _selectedCity = dataRaw;
 
         notifyListeners();
@@ -79,7 +77,6 @@ class Cities with ChangeNotifier {
     try {
       final response = await get(url);
 
-//      final extractedData = json.decode(response.body);
       Iterable extractedData = json.decode(response.body) as List;
       print(extractedData);
 
@@ -109,12 +106,11 @@ class Cities with ChangeNotifier {
         },
       );
 
-      Iterable extractedData = json.decode(response.body) as List;
+      final extractedData = json.decode(response.body);
       print(extractedData);
+      MainCities dataRaw = MainCities.fromJson(extractedData);
 
-      List<City> dataRaw = extractedData.map((i) => City.fromJson(i)).toList();
-
-      _citiesItems = dataRaw;
+      _citiesItems = dataRaw.data;
 
       notifyListeners();
     } catch (error) {
@@ -127,17 +123,16 @@ class Cities with ChangeNotifier {
     print('retrieveOstans');
 
     final url = Urls.rootUrl + Urls.provincesEndPoint;
+    print(url);
 
     try {
       final response = await get(url);
 
-      final extractedData = json.decode(response.body) as List;
+      final extractedData = json.decode(response.body);
       print(extractedData);
-      List<Province> dataRaw =
-          extractedData.map((i) => Province.fromJson(i)).toList();
+      MainOstans dataRaw = MainOstans.fromJson(extractedData);
 
-//      print(dataRaw[0].description.toString());
-      _ostansItems = dataRaw;
+      _ostansItems = dataRaw.data;
 
       notifyListeners();
     } catch (error) {

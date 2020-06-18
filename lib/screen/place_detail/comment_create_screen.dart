@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import '../../provider/app_theme.dart';
 import '../../models/user.dart';
-import '../../provider/complexes.dart';
+import '../../provider/places.dart';
 import '../../provider/user_info.dart';
 import '../../widget/main_drawer.dart';
 
@@ -24,7 +24,7 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
 
   double rating = 0;
 
-  int complexId;
+  int placeId;
 
   @override
   void initState() {
@@ -32,7 +32,6 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
 
     reviewTextController.text = '';
 
-    // TODO: implement initState
     super.initState();
   }
 
@@ -43,13 +42,13 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
     super.dispose();
   }
 
-  Future<void> createComment(int complexId, String content, double rate) async {
+  Future<void> createComment(int placeId, String content, double rate) async {
     setState(() {
       _isLoading = true;
     });
 
-    await Provider.of<Complexes>(context, listen: false)
-        .sendComment(complexId, content, rate);
+    await Provider.of<Places>(context, listen: false)
+        .sendComment(placeId, content, rate);
 
     setState(() {
       _isLoading = false;
@@ -63,7 +62,7 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    complexId = ModalRoute.of(context).settings.arguments as int;
+    placeId = ModalRoute.of(context).settings.arguments as int;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -176,10 +175,8 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
                     left: 18,
                     child: FloatingActionButton(
                       onPressed: () {
-//                        setState(() {});
-
                         createComment(
-                                complexId, reviewTextController.text, rating)
+                                placeId, reviewTextController.text, rating)
                             .then((_) {
                           Navigator.of(context).pop();
                         });

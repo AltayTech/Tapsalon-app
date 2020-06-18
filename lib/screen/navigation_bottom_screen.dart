@@ -21,7 +21,7 @@ import '../widget/main_drawer.dart';
 import '../widget/select_city_dialog.dart';
 
 class NavigationBottomScreen extends StatefulWidget {
-  static const routeName = '/navigationScreen';
+  static const routeName = '/NavigationBottomScreen';
 
   @override
   _NavigationBottomScreenState createState() => _NavigationBottomScreenState();
@@ -63,7 +63,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
     );
   }
 
-  void _showLogindialog() {
+  void _showLoginDialog() {
     showDialog(
         context: context,
         builder: (ctx) => CustomDialogEnter(
@@ -118,7 +118,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                     Navigator.of(context)
                         .pushNamed(NotificationScreen.routeName);
                   } else {
-                    _showLogindialog();
+                    _showLoginDialog();
                   }
                 },
                 color: AppTheme.appBarIconColor,
@@ -219,10 +219,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
               icon: Icon(Icons.account_circle),
               title: Text(
                 Strings.navProfile,
-//              style: TextStyle(
-//                fontFamily: 'Iransans',
-//                fontSize: MediaQuery.of(context).textScaleFactor * 10.0,
-//              ),
+
               ),
             ),
           ],

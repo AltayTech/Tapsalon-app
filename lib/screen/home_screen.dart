@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/city.dart';
+import 'package:tapsalon/models/place_in_search.dart';
 
-import '../models/complex_search.dart';
 import '../provider/cities.dart';
-import '../provider/complexes.dart';
+import '../provider/places.dart';
 import '../provider/strings.dart';
 import '../provider/user_info.dart';
 import '../screen/search_screen.dart';
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var _isLoading;
   var _searchTextController = TextEditingController();
 
-  List<ComplexSearch> loadedSalon = [];
+  List<PlaceInSearch> loadedPlace = [];
 
   City selectedCity;
 
@@ -43,13 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> cleanFilters(BuildContext context) async {
-    Provider.of<Complexes>(context, listen: false).searchKey = '';
-    Provider.of<Complexes>(context, listen: false).filterTitle.clear();
-    Provider.of<Complexes>(context, listen: false).sProvinceId = '';
-    Provider.of<Complexes>(context, listen: false).sType = '';
-    Provider.of<Complexes>(context, listen: false).sField = '';
-    Provider.of<Complexes>(context, listen: false).sFacility = '';
-    Provider.of<Complexes>(context, listen: false).searchBuilder();
+    Provider.of<Places>(context, listen: false).searchKey = '';
+    Provider.of<Places>(context, listen: false).filterTitle.clear();
+    Provider.of<Places>(context, listen: false).sProvinceId = '';
+    Provider.of<Places>(context, listen: false).sType = '';
+    Provider.of<Places>(context, listen: false).sField = '';
+    Provider.of<Places>(context, listen: false).sFacility = '';
+    Provider.of<Places>(context, listen: false).searchBuilder();
   }
 
   Future<void> getMainItems() async {
@@ -63,16 +63,10 @@ class _HomeScreenState extends State<HomeScreen> {
     } catch (_) {}
 
     try {
-//      Provider.of<Complexes>(context, listen: false).searchBuilder();
-//      Provider.of<Auth>(context, listen: false).getCredentialToken();
-
-      await Provider.of<Complexes>(context, listen: false)
+      await Provider.of<Places>(context, listen: false)
           .retrieveCityComplexes(selectedCity.id);
-      loadedSalon =
-          Provider.of<Complexes>(context, listen: false).itemsCityComplex;
-
+      loadedPlace = Provider.of<Places>(context, listen: false).itemsCityPlace;
     } catch (_) {}
-//    loadedSalon = Provider.of<Complexes>(context, listen: false).item;
 
     try {
       await Provider.of<UserInfo>(context, listen: false).getNotification();
@@ -80,9 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
 
   @override
@@ -135,9 +127,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () {
                                 cleanFilters(context);
 
-                                Provider.of<Complexes>(context, listen: false)
+                                Provider.of<Places>(context, listen: false)
                                     .searchKey = _searchTextController.text;
-                                Provider.of<Complexes>(context, listen: false)
+                                Provider.of<Places>(context, listen: false)
                                     .searchBuilder();
                                 return Navigator.of(context).pushNamed(
                                     SearchScreen.routeName,
@@ -184,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           InkWell(
                             onTap: () {
                               cleanFilters(context);
-                              Provider.of<Complexes>(context, listen: false)
+                              Provider.of<Places>(context, listen: false)
                                   .sType = '1';
 
                               Navigator.of(context).pushNamed(
@@ -201,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           InkWell(
                             onTap: () {
                               cleanFilters(context);
-                              Provider.of<Complexes>(context, listen: false)
+                              Provider.of<Places>(context, listen: false)
                                   .sType = '2';
 
                               Navigator.of(context).pushNamed(
@@ -218,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           InkWell(
                             onTap: () {
                               cleanFilters(context);
-                              Provider.of<Complexes>(context, listen: false)
+                              Provider.of<Places>(context, listen: false)
                                   .sType = '3';
 
                               Navigator.of(context).pushNamed(
@@ -241,15 +233,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           new HorizontalList(
-            list: loadedSalon,
+            list: loadedPlace,
             listTitle: 'سالن های محبوب',
           ),
           new HorizontalList(
-            list: loadedSalon,
+            list: loadedPlace,
             listTitle: 'سالن های جدید',
           ),
           new HorizontalList(
-            list: loadedSalon,
+            list: loadedPlace,
             listTitle: 'سالن های پربازدید',
           ),
         ],

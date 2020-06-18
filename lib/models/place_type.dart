@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 
 class PlaceType with ChangeNotifier {
   final int id;
-
   final String name;
 
   PlaceType({

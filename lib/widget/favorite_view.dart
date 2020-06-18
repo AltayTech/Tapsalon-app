@@ -8,7 +8,7 @@ import '../provider/app_theme.dart';
 import '../models/favorite.dart';
 import '../models/searchDetails.dart';
 import '../provider/auth.dart';
-import '../provider/complexes.dart';
+import '../provider/places.dart';
 import '../screen/user_profile/login_screen.dart';
 import '../widget/favorite_complex_item.dart';
 
@@ -39,7 +39,7 @@ class _FavoriteViewState extends State<FavoriteView>
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         page = page + 1;
-        Provider.of<Complexes>(context, listen: false).sPage = page;
+        Provider.of<Places>(context, listen: false).sPage = page;
         searchItems();
       }
     });
@@ -69,7 +69,7 @@ class _FavoriteViewState extends State<FavoriteView>
   Future<void> _submit() async {
     loadedComplexes.clear();
     loadedComplexes =
-        Provider.of<Complexes>(context, listen: false).favoriteItems;
+        Provider.of<Places>(context, listen: false).favoriteItems;
     loadedComplexestolist.addAll(loadedComplexes);
   }
 
@@ -77,9 +77,9 @@ class _FavoriteViewState extends State<FavoriteView>
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Complexes>(context, listen: false)
+    await Provider.of<Places>(context, listen: false)
         .retrieveFavoriteComplex();
-    searchDetails = Provider.of<Complexes>(context, listen: false)
+    searchDetails = Provider.of<Places>(context, listen: false)
         .favoriteComplexSearchDetails;
     _submit();
 

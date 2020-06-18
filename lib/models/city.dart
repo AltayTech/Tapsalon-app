@@ -7,14 +7,12 @@ class City with ChangeNotifier {
   final double latitude;
   final double longitude;
 
-
   City({
     this.id,
     this.provinceId,
     this.name,
     this.latitude,
     this.longitude,
-
   });
 
   factory City.fromJson(Map<String, dynamic> parsedJson) {

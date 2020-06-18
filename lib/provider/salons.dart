@@ -2,32 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
 import '../models/place.dart';
-import '../models/salon.dart';
 import '../models/timing.dart';
 import '../provider/urls.dart';
 
 class Salons with ChangeNotifier {
-  List<Salon> _items = [];
   List<Timing> _itemTiming = [];
   Place _itemPlace;
-  List<double> _hours = [];
-
-  List<Map<String, List<Timing>>> _itemDayTiming = [];
 
   List<Timing> get itemTiming => _itemTiming;
 
   Place get itemPlace => _itemPlace;
-
-  List<Salon> get items {
-    return _items;
-  }
-
-  List<double> get hours => _hours;
-
-  List<Map<String, List<Timing>>> get itemDayTiming => _itemDayTiming;
 
   Future<void> retrievePlace(int placeId) async {
     print('retrievePlace');
@@ -68,7 +54,6 @@ class Salons with ChangeNotifier {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-
       );
 
       var extractedData = json.decode(response.body) as List<dynamic>;
@@ -79,47 +64,11 @@ class Salons with ChangeNotifier {
 
       _itemTiming = timings;
 
-
-
-//      for (int i = 0; i < _itemTiming.length; i++) {
-//        Timing time = _itemTiming[i];
-//        int jalaliDay =
-//            Jalali.fromDateTime(DateTime.parse(time.date_start)).day;
-//        _itemDayTiming[jalaliDay][jalaliDay.toString()].add(time);
-//        print(jalaliDay.toString());
-//        print('main' +
-//            Jalali.fromDateTime(DateTime.parse(time.date_start)).toString());
-//      }
-
       print(_itemTiming.length);
       notifyListeners();
     } catch (error) {
       print(error.toString());
       throw (error);
     }
-  }
-
-  Future<void> produceTable() async {
-    print('produceTable');
-    _hours.clear();
-    for (int i = 0; i < 96; i++) {
-      _hours.add((0 + 0.25 * i));
-    }
-
-    try {
-      notifyListeners();
-    } catch (error) {
-      print(error.toString());
-      throw (error);
-    }
-  }
-
-  Salon findById(String id) {
-    return _items.firstWhere((prod) => prod.id == int.parse(id));
-  }
-
-  void addSalon() {
-    // _items.add(value);
-    notifyListeners();
   }
 }

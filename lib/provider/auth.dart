@@ -1,18 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../provider/urls.dart';
-
 import '../models/login_body.dart';
 import '../models/login_response.dart';
+import '../provider/urls.dart';
 
 class Auth with ChangeNotifier {
   String _token;
-  String _credentialAccessToken='';
+  String _credentialAccessToken = '';
 
   bool _isLoggedIn;
 
@@ -20,7 +17,6 @@ class Auth with ChangeNotifier {
     getToken();
     return _token != null && _token != '';
   }
-
   set isLoggedIn(bool value) {
     _isLoggedIn = value;
   }
@@ -76,7 +72,6 @@ class Auth with ChangeNotifier {
         print('noooo _credential_access_token');
         prefs.setString('isLogin', 'true');
         return false;
-
       }
     } catch (error) {
       print(error.toString());
@@ -151,7 +146,6 @@ class Auth with ChangeNotifier {
       if (_credentialAccessToken.isEmpty) {
         await getCredentialToken();
         print(_credentialAccessToken);
-
       }
       print(_credentialAccessToken);
 

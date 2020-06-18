@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../provider/app_theme.dart';
+import '../provider/auth.dart';
 import '../screen/about_us_screen.dart';
 import '../screen/contact_with_us_screen.dart';
 import '../screen/favorite_screen.dart';
@@ -11,8 +13,6 @@ import '../screen/rules_screen.dart';
 import '../screen/search_screen.dart';
 import '../screen/user_profile/login_screen.dart';
 import '../screen/user_profile/profile_screen.dart';
-
-import '../provider/auth.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, Function tapHandler) {

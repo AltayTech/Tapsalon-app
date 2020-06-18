@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:tapsalon/screen/home_screen.dart';
 import 'package:tapsalon/screen/navigation_bottom_screen.dart';
 
 import '../models/city.dart';
@@ -287,7 +286,8 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                                 .setSelectedCity(selectedCity);
                             return selectedCity == null
                                 ? null
-                                : Navigator.of(context).popAndPushNamed(NavigationBottomScreen.routeName);
+                                : Navigator.of(context).popAndPushNamed(
+                                    NavigationBottomScreen.routeName);
                           },
                           child: Container(
                             height: constraint.maxHeight * 0.06,

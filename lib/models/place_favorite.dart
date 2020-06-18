@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:tapsalon/models/image.dart';
+
 import '../models/field_search.dart';
 
-class ComplexFavorite with ChangeNotifier {
+class PlaceFavorite with ChangeNotifier {
   final int id;
-
   final double latitude;
   final double longitude;
   final String name;
@@ -12,7 +12,6 @@ class ComplexFavorite with ChangeNotifier {
   final String about;
   final String address;
   final Image image;
-
   final int likesNo;
   final int visitsNo;
   final double stars;
@@ -23,7 +22,7 @@ class ComplexFavorite with ChangeNotifier {
 
   final List<FieldSearch> fields;
 
-  ComplexFavorite({
+  PlaceFavorite({
     this.id,
     this.latitude,
     this.longitude,
@@ -42,7 +41,7 @@ class ComplexFavorite with ChangeNotifier {
     this.fields,
   });
 
-  factory ComplexFavorite.fromJson(Map<String, dynamic> parsedJson) {
+  factory PlaceFavorite.fromJson(Map<String, dynamic> parsedJson) {
     List<FieldSearch> fieldsRaw = new List<FieldSearch>();
 
     try {
@@ -53,7 +52,7 @@ class ComplexFavorite with ChangeNotifier {
       fieldsRaw = [];
     }
 
-    return ComplexFavorite(
+    return PlaceFavorite(
       id: parsedJson['id'],
       latitude: parsedJson['latitude'],
       longitude: parsedJson['longitude'],

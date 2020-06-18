@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:tapsalon/screen/place_detail/place_detail_screen.dart';
 
 import '../provider/app_theme.dart';
 
 import '../models/favorite.dart';
-import '../provider/complexes.dart';
-import '../screen/complex_detail/complex_detail_screen.dart';
+import '../provider/places.dart';
 
 class FavoriteComplexItem extends StatelessWidget {
   final Favorite loadedComplex;
@@ -20,7 +20,7 @@ class FavoriteComplexItem extends StatelessWidget {
       builder: (context, constraint) => InkWell(
         onTap: () {
           Navigator.of(context)
-              .pushNamed(ComplexDetailScreen.routeName, arguments: {
+              .pushNamed(PlaceDetailScreen.routeName, arguments: {
             'complexId': loadedComplex.complex.id,
             'title': loadedComplex.complex.name,
             'imageUrl': loadedComplex.complex.image.url.medium,
@@ -194,7 +194,7 @@ class FavoriteComplexItem extends StatelessWidget {
               right: constraint.maxHeight * 0.030,
               child: InkWell(
                 onTap: () async {
-                  await Provider.of<Complexes>(context, listen: false)
+                  await Provider.of<Places>(context, listen: false)
                       .sendLike(loadedComplex.complex.id);
                 },
                 child: ClipRRect(

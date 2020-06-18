@@ -2,31 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
+import 'package:tapsalon/models/place.dart';
 
-import '../../models/complex.dart';
 import '../../provider/app_theme.dart';
 import '../../provider/auth.dart';
-import '../../provider/complexes.dart';
+import '../../provider/places.dart';
 import '../../widget/custom_dialog_enter.dart';
 import '../../widget/main_drawer.dart';
-import 'complex_detail_comment_screen.dart';
-import 'complex_detail_info_screen.dart';
-import 'complex_detail_place_list_screen.dart';
+import 'place_detail_comment_screen.dart';
+import 'place_detail_info_screen.dart';
+import 'place_detail_timing_screen.dart';
 
-class ComplexDetailScreen extends StatefulWidget {
-  static const routeName = '/complexDetail';
+class PlaceDetailScreen extends StatefulWidget {
+  static const routeName = '/PlaceDetailScreen';
 
   @override
-  _ComplexDetailScreenState createState() => _ComplexDetailScreenState();
+  _PlaceDetailScreenState createState() => _PlaceDetailScreenState();
 }
 
-class _ComplexDetailScreenState extends State<ComplexDetailScreen>
+class _PlaceDetailScreenState extends State<PlaceDetailScreen>
     with SingleTickerProviderStateMixin {
   var _isLoading;
   bool _isInit = true;
   TabController _tabController;
 
-  Complex loadedComplex;
+  Place loadedPlace;
 
   var title;
 
@@ -67,24 +67,21 @@ class _ComplexDetailScreenState extends State<ComplexDetailScreen>
       _isLoading = true;
     });
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
-    final complexId = arguments != null ? arguments['complexId'] : 0;
-    title = arguments != null ? arguments['title'] : '';
+    final placeId = arguments != null ? arguments['placeId'] : 0;
+    title = arguments != null ? arguments['name'] : '';
     image_url = arguments != null ? arguments['imageUrl'] : '';
     stars = arguments != null ? arguments['stars'] : '';
 
-    print(complexId);
-    await Provider.of<Complexes>(context, listen: false)
-        .retrieveComplex(complexId);
-    loadedComplex = Provider.of<Complexes>(context, listen: false).itemComplex;
-    print(complexId);
+    print(placeId);
+    await Provider.of<Places>(context, listen: false).retrievePlace(placeId);
+    loadedPlace = Provider.of<Places>(context, listen: false).itemPlace;
+    print(placeId);
 
     print(_isLoading.toString());
 
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
 
   void _showLogindialog() {
@@ -112,9 +109,9 @@ class _ComplexDetailScreenState extends State<ComplexDetailScreen>
         ),
       ),
       Tab(
-        text: 'سالن ها',
+        text: 'زمان بندی',
         icon: Icon(
-          Icons.account_balance,
+          Icons.access_time,
           color: _tabController.index == 1 ? Colors.blue : Colors.grey,
         ),
       ),
@@ -128,22 +125,22 @@ class _ComplexDetailScreenState extends State<ComplexDetailScreen>
       ),
     ];
     return Scaffold(
-      body:  _isLoading
+      body: _isLoading
           ? SpinKitFadingCircle(
-        itemBuilder: (BuildContext context, int index) {
-          return DecoratedBox(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: index.isEven
-                  ? AppTheme.spinerColor
-                  : AppTheme.spinerColor,
-            ),
-          );
-        },
-      )
-          :Directionality(
-        textDirection: TextDirection.rtl,
-        child: DefaultTabController(
+              itemBuilder: (BuildContext context, int index) {
+                return DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: index.isEven
+                        ? AppTheme.spinerColor
+                        : AppTheme.spinerColor,
+                  ),
+                );
+              },
+            )
+          : Directionality(
+              textDirection: TextDirection.rtl,
+              child: DefaultTabController(
                 length: myTabs.length, // This is the number of tabs.
                 child: NestedScrollView(
                   headerSliverBuilder:
@@ -194,10 +191,11 @@ class _ComplexDetailScreenState extends State<ComplexDetailScreen>
                                             if (Provider.of<Auth>(context,
                                                     listen: false)
                                                 .isAuth) {
-                                              bool isLikeT = await Provider.of<
-                                                          Complexes>(context,
-                                                      listen: false)
-                                                  .sendLike(loadedComplex.id);
+                                              bool isLikeT =
+                                                  await Provider.of<Places>(
+                                                          context,
+                                                          listen: false)
+                                                      .sendLike(loadedPlace.id);
                                               isLikeT
                                                   ? isLike
                                                       ? isLike = false
@@ -297,16 +295,16 @@ class _ComplexDetailScreenState extends State<ComplexDetailScreen>
                                   },
                                 ));
                           } else if (_tabController.index == 0) {
-                            return ComplexDetailInfoScreen(
-                              complex: loadedComplex,
+                            return PlaceDetailInfoScreen(
+                              place: loadedPlace,
                             );
                           } else if (_tabController.index == 1) {
-                            return ComplexDetailPlaceListScreen(
-                              complex: loadedComplex,
+                            return PlaceDetailTimingScreen(
+                              place: loadedPlace,
                             );
                           } else {
-                            return ComplexDetailCommentScreen(
-                              complex: loadedComplex,
+                            return PlaceDetailCommentScreen(
+                              place: loadedPlace,
                             );
                           }
                         }).toList(),
@@ -315,7 +313,7 @@ class _ComplexDetailScreenState extends State<ComplexDetailScreen>
                   ),
                 ),
               ),
-      ),
+            ),
       endDrawer: Theme(
         data: Theme.of(context).copyWith(
           // Set the transparency here

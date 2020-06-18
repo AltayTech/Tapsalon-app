@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
-import '../models/salon.dart';
+import 'package:tapsalon/models/place_in_search.dart';
+
+import 'place.dart';
 
 class MainPlaces with ChangeNotifier {
   final int current_page;
-  final List<Salon> data;
+  final List<PlaceInSearch> data;
   final String first_page_url;
   final int from;
   final int last_page;
@@ -31,8 +33,8 @@ class MainPlaces with ChangeNotifier {
 
   factory MainPlaces.fromJson(Map<String, dynamic> parsedJson) {
     var dataList = parsedJson['data'] as List;
-    List<Salon> dataRaw = new List<Salon>();
-    dataRaw = dataList.map((i) => Salon.fromJson(i)).toList();
+    List<PlaceInSearch> dataRaw = new List<PlaceInSearch>();
+    dataRaw = dataList.map((i) => PlaceInSearch.fromJson(i)).toList();
 
     return MainPlaces(
       current_page: parsedJson['current_page'],

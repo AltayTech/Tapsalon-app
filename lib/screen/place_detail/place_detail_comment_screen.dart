@@ -3,29 +3,30 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:tapsalon/models/place.dart';
 import '../../provider/app_theme.dart';
 import '../../models/comment.dart';
 import '../../models/complex.dart';
 import '../../models/searchDetails.dart';
 import '../../provider/auth.dart';
-import '../../provider/complexes.dart';
-import '../../screen/complex_detail/comment_create_screen.dart';
+import '../../provider/places.dart';
 import '../../widget/comment_item.dart';
 import '../../widget/custom_dialog_enter.dart';
 import '../../widget/en_to_ar_number_convertor.dart';
+import 'comment_create_screen.dart';
 
-class ComplexDetailCommentScreen extends StatefulWidget {
-  final Complex complex;
+class PlaceDetailCommentScreen extends StatefulWidget {
+  final Place place;
 
-  ComplexDetailCommentScreen({this.complex});
+  PlaceDetailCommentScreen({this.place});
 
   @override
-  _ComplexDetailCommentScreenState createState() =>
-      _ComplexDetailCommentScreenState();
+  _PlaceDetailCommentScreenState createState() =>
+      _PlaceDetailCommentScreenState();
 }
 
-class _ComplexDetailCommentScreenState
-    extends State<ComplexDetailCommentScreen> {
+class _PlaceDetailCommentScreenState
+    extends State<PlaceDetailCommentScreen> {
   final double rateRadious = 40;
 
   final double rateLineWidth = 4.0;
@@ -53,13 +54,13 @@ class _ComplexDetailCommentScreenState
       _isLoading = true;
     });
 
-    print(widget.complex.id);
-    await Provider.of<Complexes>(context, listen: false)
-        .retrieveComment(widget.complex.id);
+    print(widget.place.id);
+    await Provider.of<Places>(context, listen: false)
+        .retrieveComment(widget.place.id);
     loadedComment =
-        Provider.of<Complexes>(context, listen: false).itemsComments;
+        Provider.of<Places>(context, listen: false).itemsComments;
     loadedCommentsDetail =
-        Provider.of<Complexes>(context, listen: false).commentsSearchDetails;
+        Provider.of<Places>(context, listen: false).commentsSearchDetails;
 
     print(_isLoading.toString());
 
@@ -146,7 +147,7 @@ class _ComplexDetailCommentScreenState
                                   child: SmoothStarRating(
                                       allowHalfRating: false,
                                       starCount: 5,
-                                      rating: widget.complex.stars,
+                                      rating: widget.place.stars,
                                       size: 20.0,
                                       color: Colors.green,
                                       borderColor: Colors.green,
@@ -161,7 +162,7 @@ class _ComplexDetailCommentScreenState
                               CircularPercentIndicator(
                                 radius: rateRadious,
                                 lineWidth: rateLineWidth,
-                                percent: widget.complex.stars / 5,
+                                percent: widget.place.stars / 5,
                                 animation: true,
                                 animationDuration: rateAnimDuration,
                                 circularStrokeCap: CircularStrokeCap.round,
@@ -174,7 +175,7 @@ class _ComplexDetailCommentScreenState
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
                                     EnArConvertor().replaceArNumber(
-                                        widget.complex.stars.toString()),
+                                        widget.place.stars.toString()),
                                     style: rateStyle,
                                   ),
                                 )),
@@ -184,7 +185,7 @@ class _ComplexDetailCommentScreenState
                               CircularPercentIndicator(
                                 radius: rateRadious,
                                 lineWidth: rateLineWidth,
-                                percent: widget.complex.stars / 5,
+                                percent: widget.place.stars / 5,
                                 animation: true,
                                 animationDuration: rateAnimDuration,
                                 circularStrokeCap: CircularStrokeCap.round,
@@ -197,7 +198,7 @@ class _ComplexDetailCommentScreenState
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
                                     EnArConvertor().replaceArNumber(
-                                        widget.complex.stars.toString()),
+                                        widget.place.stars.toString()),
                                     style: rateStyle,
                                   ),
                                 )),
@@ -207,7 +208,7 @@ class _ComplexDetailCommentScreenState
                               CircularPercentIndicator(
                                 radius: rateRadious,
                                 lineWidth: rateLineWidth,
-                                percent: widget.complex.stars / 5,
+                                percent: widget.place.stars / 5,
                                 animation: true,
                                 animationDuration: rateAnimDuration,
                                 circularStrokeCap: CircularStrokeCap.round,
@@ -220,7 +221,7 @@ class _ComplexDetailCommentScreenState
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
                                     EnArConvertor().replaceArNumber(
-                                        widget.complex.stars.toString()),
+                                        widget.place.stars.toString()),
                                     style: rateStyle,
                                   ),
                                 )),
@@ -230,7 +231,7 @@ class _ComplexDetailCommentScreenState
                               CircularPercentIndicator(
                                 radius: rateRadious,
                                 lineWidth: rateLineWidth,
-                                percent: widget.complex.stars / 5,
+                                percent: widget.place.stars / 5,
                                 animation: true,
                                 animationDuration: rateAnimDuration,
                                 circularStrokeCap: CircularStrokeCap.round,
@@ -243,7 +244,7 @@ class _ComplexDetailCommentScreenState
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
                                     EnArConvertor().replaceArNumber(
-                                        widget.complex.stars.toString()),
+                                        widget.place.stars.toString()),
                                     style: rateStyle,
                                   ),
                                 )),
@@ -253,7 +254,7 @@ class _ComplexDetailCommentScreenState
                               CircularPercentIndicator(
                                 radius: rateRadious,
                                 lineWidth: rateLineWidth,
-                                percent: widget.complex.stars / 5,
+                                percent: widget.place.stars / 5,
                                 animation: true,
                                 animationDuration: rateAnimDuration,
                                 circularStrokeCap: CircularStrokeCap.round,
@@ -266,7 +267,7 @@ class _ComplexDetailCommentScreenState
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
                                     EnArConvertor().replaceArNumber(
-                                        widget.complex.stars.toString()),
+                                        widget.place.stars.toString()),
                                     style: rateStyle,
                                   ),
                                 )),
@@ -303,7 +304,7 @@ class _ComplexDetailCommentScreenState
             onPressed: () {
               if (Provider.of<Auth>(context, listen: false).isAuth) {
                 Navigator.of(context).pushNamed(CommentCreateScreen.routeName,
-                    arguments: widget.complex.id);
+                    arguments: widget.place.id);
               } else {
                 _showLogindialog();
               }

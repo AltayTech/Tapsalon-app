@@ -12,7 +12,7 @@ import '../models/field.dart';
 import '../models/priceRange.dart';
 import '../models/region.dart';
 import '../provider/cities.dart';
-import '../provider/complexes.dart';
+import '../provider/places.dart';
 import 'en_to_ar_number_convertor.dart';
 
 class FilterDrawer extends StatefulWidget {
@@ -108,18 +108,18 @@ class _FilterDrawerState extends State<FilterDrawer> {
       _isLoading = true;
     });
 
-    Provider.of<Complexes>(context, listen: false).searchBuilder();
-    await Provider.of<Complexes>(context, listen: false)
+    Provider.of<Places>(context, listen: false).searchBuilder();
+    await Provider.of<Places>(context, listen: false)
         .retrieveRegions(selectedCity.id);
-    regionList = Provider.of<Complexes>(context, listen: false).itemsRegions;
+    regionList = Provider.of<Places>(context, listen: false).itemsRegions;
 
-    await Provider.of<Complexes>(context, listen: false).retrievefacilities();
+    await Provider.of<Places>(context, listen: false).retrievefacilities();
     facilitiesList =
-        Provider.of<Complexes>(context, listen: false).itemsFacilities;
-    await Provider.of<Complexes>(context, listen: false).retrieveFields();
-    fieldsList = Provider.of<Complexes>(context, listen: false).itemsFields;
-    await Provider.of<Complexes>(context, listen: false).retrievePriceRange();
-    priceRange = Provider.of<Complexes>(context, listen: false).itemPriceRange;
+        Provider.of<Places>(context, listen: false).itemsFacilities;
+    await Provider.of<Places>(context, listen: false).retrieveFields();
+    fieldsList = Provider.of<Places>(context, listen: false).itemsFields;
+    await Provider.of<Places>(context, listen: false).retrievePriceRange();
+    priceRange = Provider.of<Places>(context, listen: false).itemPriceRange;
     _minPriceValueC = double.parse(priceRange.min);
     _maxPriceValueC = double.parse(priceRange.max);
     startValue = _minPriceValueC;
@@ -143,16 +143,16 @@ class _FilterDrawerState extends State<FilterDrawer> {
       _isLoading = true;
     });
 
-    Provider.of<Complexes>(context, listen: false).searchKey = '';
-    Provider.of<Complexes>(context, listen: false).filterTitle.clear();
+    Provider.of<Places>(context, listen: false).searchKey = '';
+    Provider.of<Places>(context, listen: false).filterTitle.clear();
 
-    Provider.of<Complexes>(context, listen: false).sFacility = '';
-    Provider.of<Complexes>(context, listen: false).sField = '';
-    Provider.of<Complexes>(context, listen: false).sRange = '';
-    Provider.of<Complexes>(context, listen: false).sPage = 1;
-    Provider.of<Complexes>(context, listen: false).sPerPage = 10;
-    Provider.of<Complexes>(context, listen: false).sRegion = '';
-    Provider.of<Complexes>(context, listen: false).searchBuilder();
+    Provider.of<Places>(context, listen: false).sFacility = '';
+    Provider.of<Places>(context, listen: false).sField = '';
+    Provider.of<Places>(context, listen: false).sRange = '';
+    Provider.of<Places>(context, listen: false).sPage = 1;
+    Provider.of<Places>(context, listen: false).sPerPage = 10;
+    Provider.of<Places>(context, listen: false).sRegion = '';
+    Provider.of<Places>(context, listen: false).searchBuilder();
 
     setState(() {
       _isLoading = false;
@@ -682,22 +682,22 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                   endPointBuilder(_selectedFacilityId);
                               var fieldsEndpoint =
                                   endPointBuilder(_selectedFieldId);
-                              Provider.of<Complexes>(context, listen: false)
+                              Provider.of<Places>(context, listen: false)
                                   .sFacility = facilitiesEndpoint;
-                              Provider.of<Complexes>(context, listen: false)
+                              Provider.of<Places>(context, listen: false)
                                   .sField = fieldsEndpoint;
                               _isPrice
-                                  ? Provider.of<Complexes>(context,
+                                  ? Provider.of<Places>(context,
                                               listen: false)
                                           .sRange =
                                       '$_minPriceValueC,$_maxPriceValueC'
-                                  : Provider.of<Complexes>(context,
+                                  : Provider.of<Places>(context,
                                           listen: false)
                                       .sRange = '';
 
-                              Provider.of<Complexes>(context, listen: false)
+                              Provider.of<Places>(context, listen: false)
                                   .sRegion = regionEndpoint;
-                              Provider.of<Complexes>(context, listen: false)
+                              Provider.of<Places>(context, listen: false)
                                   .searchBuilder();
 
                               widget.callback();

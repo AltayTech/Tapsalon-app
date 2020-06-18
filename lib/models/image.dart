@@ -13,7 +13,7 @@ class Image with ChangeNotifier {
 
   factory Image.fromJson(Map<String, dynamic> parsedJson) {
     return Image(
-      id: parsedJson['id'],
+      id: parsedJson['id']!=null?parsedJson['id']:0,
       filename: parsedJson['filename'],
       extension: parsedJson['extension'],
       url: Url.fromJson(parsedJson['url']),

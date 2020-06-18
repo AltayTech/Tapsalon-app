@@ -2,14 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:tapsalon/models/place_in_search.dart';
+import 'package:tapsalon/screen/place_detail/place_detail_screen.dart';
+
 import '../provider/app_theme.dart';
-import '../models/complex_search.dart';
-import '../screen/complex_detail/complex_detail_screen.dart';
 
-class ComplexItem extends StatelessWidget {
-  final ComplexSearch loadedComplex;
+class MainPagePlaceItem extends StatelessWidget {
+  final PlaceInSearch loadedPlace;
 
-  ComplexItem({this.loadedComplex});
+  MainPagePlaceItem({this.loadedPlace});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +18,11 @@ class ComplexItem extends StatelessWidget {
       builder: (context, constraint) => InkWell(
         onTap: () {
           Navigator.of(context)
-              .pushNamed(ComplexDetailScreen.routeName, arguments: {
-            'complexId': loadedComplex.id,
-            'title': loadedComplex.name,
-            'imageUrl': loadedComplex.image.url.medium,
-            'stars': loadedComplex.stars.toString()
+              .pushNamed(PlaceDetailScreen.routeName, arguments: {
+            'placeId': loadedPlace.id,
+            'name': loadedPlace.name,
+            'imageUrl': loadedPlace.image.url.medium,
+            'stars': loadedPlace.stars.toString()
           });
         },
         child: Stack(
@@ -30,21 +31,19 @@ class ComplexItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: Card(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      width: double.infinity,
-                      height: constraint.maxHeight * 0.5,
+                      height: constraint.maxHeight * 0.6,
                       child: FadeInImage(
                         placeholder:
                             AssetImage('assets/images/tapsalon_icon_200.png'),
-                        image: NetworkImage(loadedComplex.image.url.medium.toString()),
+                        image: NetworkImage(
+                            loadedPlace.image.url.medium.toString()),
                         fit: BoxFit.cover,
                       ),
                     ),
                     SizedBox(
-                      width: double.infinity,
                       height: constraint.maxHeight * 0.05,
                     ),
                     Padding(
@@ -56,9 +55,9 @@ class ComplexItem extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Container(
-                              width: constraint.maxWidth * 0.6,
+                              width: constraint.maxWidth * 0.5,
                               child: Text(
-                                loadedComplex.name,
+                                loadedPlace.name,
                                 textAlign: TextAlign.right,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -78,7 +77,7 @@ class ComplexItem extends StatelessWidget {
                                     allowHalfRating: false,
                                     onRated: (v) {},
                                     starCount: 5,
-                                    rating: loadedComplex.stars,
+                                    rating: loadedPlace.stars,
                                     size: constraint.maxWidth * 0.05,
                                     color: Colors.green,
                                     borderColor: Colors.green,
@@ -89,77 +88,64 @@ class ComplexItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Container(
-                        width: constraint.maxWidth * 0.5,
-                        height: constraint.maxHeight * 0.1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 3.0, top: 4, bottom: 5),
-                              child: Icon(
-                                Icons.location_on,
-                                color: Colors.blue,
-                                size: 20,
-                              ),
+                    Container(
+                      width: constraint.maxWidth * 0.5,
+                      height: constraint.maxHeight * 0.1,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 3.0, top: 4, bottom: 5),
+                            child: Icon(
+                              Icons.location_on,
+                              color: Colors.blue,
+                              size: 20,
                             ),
-                            Text(
-                              loadedComplex.region.name,
-                              textAlign: TextAlign.right,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontFamily: 'Iransans',
-                                fontSize:
-                                    MediaQuery.of(context).textScaleFactor *
-                                        12.0,
-                              ),
+                          ),
+                          Text(
+                            loadedPlace.region.name,
+                            textAlign: TextAlign.right,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: TextStyle(
+                              fontFamily: 'Iransans',
+                              fontSize:
+                                  MediaQuery.of(context).textScaleFactor * 12.0,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Container(
-                        width: constraint.minWidth,
-                        height: constraint.maxHeight * 0.1,
+                    Container(
+                      width: constraint.minWidth,
+                      height: constraint.maxHeight * 0.1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
                         child: ListView.builder(
 //                        shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: loadedComplex.fields.length,
+                          itemCount: loadedPlace.fields.length,
                           itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-                              value: loadedComplex.fields[i],
-                              child: Chip(
-                                padding: const EdgeInsets.all(0),
-                                label: Center(
-                                  child: Text(
-                                    i < (loadedComplex.fields.length - 1)
-                                        ? (loadedComplex.fields[i].name + ',')
-                                        : loadedComplex.fields[i].name,
-                                    style: TextStyle(
-                                      fontFamily: 'Iransans',
-                                      color: Colors.black54,
-                                      fontSize: MediaQuery.of(context)
-                                              .textScaleFactor *
+                            value: loadedPlace.fields[i],
+                            child: Container(
+                                child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Text(
+                                i < (loadedPlace.fields.length - 1)
+                                    ? (loadedPlace.fields[i].name + ',')
+                                    : loadedPlace.fields[i].name,
+                                style: TextStyle(
+                                  fontFamily: 'Iransans',
+                                  color: Colors.black54,
+                                  fontSize:
+                                      MediaQuery.of(context).textScaleFactor *
                                           10.0,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
                                 ),
-                              )
-
-//                            Container(
-//                              child: Padding(
-//                                padding: const EdgeInsets.all(3.0),
-//                                child:
-//                              ),
-//                            ),
                               ),
+                            )),
+                          ),
                         ),
                       ),
                     ),

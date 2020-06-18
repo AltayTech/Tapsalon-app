@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import '../provider/app_theme.dart';
-import '../models/complex_search.dart';
+import 'package:tapsalon/models/place_in_search.dart';
+
 import '../models/searchDetails.dart';
+import '../provider/app_theme.dart';
 import '../provider/cities.dart';
-import '../provider/complexes.dart';
+import '../provider/places.dart';
 import '../provider/user_info.dart';
 import '../screen/notification_screen.dart';
 import '../widget/badge.dart';
-import '../widget/complex_item.dart';
 import '../widget/en_to_ar_number_convertor.dart';
 import '../widget/filter_drawer.dart';
 import '../widget/main_drawer.dart';
@@ -48,7 +48,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         page = page + 1;
-        Provider.of<Complexes>(context, listen: false).sPage = page;
+        Provider.of<Places>(context, listen: false).sPage = page;
         searchItems();
       }
     });
@@ -75,7 +75,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
       int tabIndex = ModalRoute.of(context).settings.arguments as int;
       _tabController.index = tabIndex;
 
-      Provider.of<Complexes>(context, listen: false).searchBuilder();
+      Provider.of<Places>(context, listen: false).searchBuilder();
 
       searchItems();
     }
@@ -83,12 +83,12 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
     super.didChangeDependencies();
   }
 
-  List<ComplexSearch> loadedComplexes = [];
-  List<ComplexSearch> loadedComplexestolist = [];
+  List<PlaceInSearch> loadedComplexes = [];
+  List<PlaceInSearch> loadedComplexestolist = [];
 
   Future<void> _submit() async {
     loadedComplexes.clear();
-    loadedComplexes = Provider.of<Complexes>(context, listen: false).items;
+    loadedComplexes = Provider.of<Places>(context, listen: false).items;
     loadedComplexestolist.addAll(loadedComplexes);
   }
 
@@ -101,11 +101,11 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
     setState(() {
       _isLoading = true;
     });
-    Provider.of<Complexes>(context, listen: false).searchBuilder();
-    await Provider.of<Complexes>(context, listen: false).searchItem();
-    filterList = Provider.of<Complexes>(context, listen: false).filterTitle;
+    Provider.of<Places>(context, listen: false).searchBuilder();
+    await Provider.of<Places>(context, listen: false).searchItem();
+    filterList = Provider.of<Places>(context, listen: false).filterTitle;
     searchDetails =
-        Provider.of<Complexes>(context, listen: false).complexSearchDetails;
+        Provider.of<Places>(context, listen: false).complexSearchDetails;
     _submit();
 
     setState(() {
@@ -117,23 +117,23 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
 
   Future<void> setSort(String sortValue) async {
     if (sortValue == 'محبوبترین') {
-      Provider.of<Complexes>(context, listen: false).sOrderBy = 'stars';
-      Provider.of<Complexes>(context, listen: false).sSort = 'DESC';
+      Provider.of<Places>(context, listen: false).sOrderBy = 'stars';
+      Provider.of<Places>(context, listen: false).sSort = 'DESC';
     } else if (sortValue == 'پربازدیدترین') {
-      Provider.of<Complexes>(context, listen: false).sOrderBy = 'visits_no';
-      Provider.of<Complexes>(context, listen: false).sSort = 'DESC';
+      Provider.of<Places>(context, listen: false).sOrderBy = 'visits_no';
+      Provider.of<Places>(context, listen: false).sSort = 'DESC';
     } else if (sortValue == 'پرطرفدارترین') {
-      Provider.of<Complexes>(context, listen: false).sOrderBy = 'likes_no';
-      Provider.of<Complexes>(context, listen: false).sSort = 'DESC';
+      Provider.of<Places>(context, listen: false).sOrderBy = 'likes_no';
+      Provider.of<Places>(context, listen: false).sSort = 'DESC';
     } else if (sortValue == 'کم بازدیدترین') {
-      Provider.of<Complexes>(context, listen: false).sOrderBy = 'visits_no';
-      Provider.of<Complexes>(context, listen: false).sSort = 'ASC';
+      Provider.of<Places>(context, listen: false).sOrderBy = 'visits_no';
+      Provider.of<Places>(context, listen: false).sSort = 'ASC';
     } else {
-      Provider.of<Complexes>(context, listen: false).sOrderBy = 'name';
-      Provider.of<Complexes>(context, listen: false).sSort = 'ASC';
+      Provider.of<Places>(context, listen: false).sOrderBy = 'name';
+      Provider.of<Places>(context, listen: false).sSort = 'ASC';
     }
     page = 1;
-    Provider.of<Complexes>(context, listen: false).sPage = page;
+    Provider.of<Places>(context, listen: false).sPage = page;
     loadedComplexestolist.clear();
     searchItems();
   }
@@ -263,10 +263,10 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                                   color: Colors.blue,
                                 ),
                                 onPressed: () {
-                                  Provider.of<Complexes>(context, listen: false)
+                                  Provider.of<Places>(context, listen: false)
                                       .searchKey = searchTextController.text;
                                   page = 1;
-                                  Provider.of<Complexes>(context, listen: false)
+                                  Provider.of<Places>(context, listen: false)
                                       .sPage = page;
                                   loadedComplexestolist.clear();
 
@@ -281,24 +281,20 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                                   controller: searchTextController,
                                   textInputAction: TextInputAction.search,
                                   onFieldSubmitted: (_) {
-                                    Provider.of<Complexes>(context,
-                                            listen: false)
+                                    Provider.of<Places>(context, listen: false)
                                         .searchKey = searchTextController.text;
                                     page = 1;
-                                    Provider.of<Complexes>(context,
-                                            listen: false)
+                                    Provider.of<Places>(context, listen: false)
                                         .sPage = page;
                                     loadedComplexestolist.clear();
 
                                     searchItems();
                                   },
                                   onChanged: (_) {
-                                    Provider.of<Complexes>(context,
-                                            listen: false)
+                                    Provider.of<Places>(context, listen: false)
                                         .searchKey = searchTextController.text;
                                     page = 1;
-                                    Provider.of<Complexes>(context,
-                                            listen: false)
+                                    Provider.of<Places>(context, listen: false)
                                         .sPage = page;
                                     loadedComplexestolist.clear();
 
@@ -337,24 +333,20 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                             child: TabBar(
                                 onTap: (i) {
                                   if (i == 0) {
-                                    Provider.of<Complexes>(context,
-                                            listen: false)
+                                    Provider.of<Places>(context, listen: false)
                                         .sComplexType = '';
                                   } else if (i == 1) {
-                                    Provider.of<Complexes>(context,
-                                            listen: false)
+                                    Provider.of<Places>(context, listen: false)
                                         .sComplexType = '1';
                                   } else if (i == 2) {
-                                    Provider.of<Complexes>(context,
-                                            listen: false)
+                                    Provider.of<Places>(context, listen: false)
                                         .sComplexType = '2';
                                   } else if (i == 3) {
-                                    Provider.of<Complexes>(context,
-                                            listen: false)
+                                    Provider.of<Places>(context, listen: false)
                                         .sComplexType = '3';
                                   }
                                   page = 1;
-                                  Provider.of<Complexes>(context, listen: false)
+                                  Provider.of<Places>(context, listen: false)
                                       .sPage = page;
                                   loadedComplexestolist.clear();
 
@@ -380,7 +372,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                                 tabs: myTabs),
                           ),
                         ),
-                        Consumer<Complexes>(builder: (_, products, ch) {
+                        Consumer<Places>(builder: (_, products, ch) {
                           return Container(
                             width: double.infinity,
                             child: Wrap(
@@ -582,25 +574,25 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                             ),
                           ),
                         ),
-                        Container(
-                          width: double.infinity,
-                          height: deviceHeight * 0.6,
-                          child: ListView.builder(
-                            controller: _scrollController,
-                            scrollDirection: Axis.vertical,
-                            itemCount: loadedComplexestolist.length,
-                            itemBuilder: (ctx, i) =>
-                                ChangeNotifierProvider.value(
-                              value: loadedComplexestolist[i],
-                              child: Container(
-                                height: deviceHeight * 0.3,
-                                child: ComplexItem(
-                                  loadedComplex: loadedComplexestolist[i],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+//                        Container(
+//                          width: double.infinity,
+//                          height: deviceHeight * 0.6,
+//                          child: ListView.builder(
+//                            controller: _scrollController,
+//                            scrollDirection: Axis.vertical,
+//                            itemCount: loadedComplexestolist.length,
+//                            itemBuilder: (ctx, i) =>
+//                                ChangeNotifierProvider.value(
+//                              value: loadedComplexestolist[i],
+//                              child: Container(
+//                                height: deviceHeight * 0.3,
+//                                child: ComplexItem(
+//                                  loadedComplex: loadedComplexestolist[i],
+//                                ),
+//                              ),
+//                            ),
+//                          ),
+//                        ),
                       ],
                     )
                   ],

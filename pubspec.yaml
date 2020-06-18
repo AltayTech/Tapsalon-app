@@ -56,12 +56,10 @@ flutter:
 
   assets:
     - assets/images/tapsalon_icon_200.png
-    - assets/images/userImage.png
     - assets/images/volleyball_player.png
     - assets/images/gym.png
     - assets/images/salon.png
     - assets/images/swimming.png
-    - assets/images/marker1.png
 
   fonts:
 

@@ -3,15 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tapsalon/models/main_places.dart';
+import 'package:tapsalon/models/place.dart';
+import 'package:tapsalon/models/place_in_search.dart';
 
 import '../models/comment.dart';
-import '../models/complex.dart';
-import '../models/complex_search.dart';
 import '../models/facility.dart';
 import '../models/favorite.dart';
 import '../models/field.dart';
 import '../models/main_comments.dart';
-import '../models/main_complexes_search.dart';
 import '../models/main_facilities.dart';
 import '../models/main_favorite.dart';
 import '../models/main_fields.dart';
@@ -20,10 +20,10 @@ import '../models/region.dart';
 import '../models/searchDetails.dart';
 import '../provider/urls.dart';
 
-class Complexes with ChangeNotifier {
+class Places with ChangeNotifier {
 //parameter definition
-  List<ComplexSearch> _items = [];
-  List<ComplexSearch> _itemsCityComplex = [];
+  List<PlaceInSearch> _items = [];
+  List<PlaceInSearch> _itemsCityPlaces = [];
 
   List<Favorite> favoriteItems = [];
   List<Region> _itemsRegions = [];
@@ -64,16 +64,16 @@ class Complexes with ChangeNotifier {
     to: 10,
     total: 10,
   );
-  SearchDetails _complexSearchDetails = _searchDetailsZero;
+  SearchDetails _placeSearchDetails = _searchDetailsZero;
   SearchDetails _favoriteComplexSearchDetails = _searchDetailsZero;
   SearchDetails _facilitiesSearchDetails = _searchDetailsZero;
   SearchDetails _fieldsSearchDetails = _searchDetailsZero;
 
-  Complex _itemComplex;
+  Place _itemPlace;
 
   SearchDetails _commentsSearchDetails;
 
-  Complex get itemComplex => _itemComplex;
+  Place get itemPlace => _itemPlace;
 
   SearchDetails get favoriteComplexSearchDetails =>
       _favoriteComplexSearchDetails; //Methods
@@ -103,13 +103,13 @@ class Complexes with ChangeNotifier {
       searchEndPoint = searchEndPoint + '&range=$_sRange';
     }
     if (!(_sComplexType == '' || _sComplexType == null)) {
-      searchEndPoint = searchEndPoint + '&type=$_sComplexType';
+      searchEndPoint = searchEndPoint + '&place_type_id=$_sComplexType';
     }
     if (!(_sProvinceId == '' || _sProvinceId == null)) {
-      searchEndPoint = searchEndPoint + '&ostan=$_sProvinceId';
+      searchEndPoint = searchEndPoint + '&ostan_id=$_sProvinceId';
     }
     if (!(_sCityId == '' || _sCityId == null)) {
-      searchEndPoint = searchEndPoint + '&city=$_sCityId';
+      searchEndPoint = searchEndPoint + '&city_id=$_sCityId';
     }
     if (!(_sField == '' || _sField == null)) {
       searchEndPoint = searchEndPoint + '&field=$_sField';
@@ -118,7 +118,7 @@ class Complexes with ChangeNotifier {
       searchEndPoint = searchEndPoint + '&facility=$_sFacility';
     }
     if (!(_sRegion == '' || _sRegion == null)) {
-      searchEndPoint = searchEndPoint + '&region=$_sRegion';
+      searchEndPoint = searchEndPoint + '&region_id=$_sRegion';
     }
     print(searchEndPoint);
   }
@@ -191,15 +191,14 @@ class Complexes with ChangeNotifier {
     _sRange = value;
   }
 
+  List<PlaceInSearch> get items => _items;
 
-  List<ComplexSearch> get items => _items;
-
-  List<ComplexSearch> get itemsCityComplex => _itemsCityComplex;
+  List<PlaceInSearch> get itemsCityPlace => _itemsCityPlaces;
 
   List<Region> get itemsRegions => _itemsRegions;
 
   SearchDetails get complexSearchDetails =>
-      _complexSearchDetails; //data transportation
+      _placeSearchDetails; //data transportation
 
   List<Facility> get itemsFacilities => _itemsFacilities;
 
@@ -224,8 +223,7 @@ class Complexes with ChangeNotifier {
   Future<void> searchItem() async {
     print('searchItem');
 
-    final url =
-        Urls.rootUrl + Urls.complexesEndPoint + '/search' + '$searchEndPoint';
+    final url = Urls.rootUrl + Urls.placesEndPoint + '$searchEndPoint';
     print(url);
 
     print(searchEndPoint.toString());
@@ -243,27 +241,26 @@ class Complexes with ChangeNotifier {
         final extractedData = json.decode(response.body);
         print(extractedData.toString());
 
-        MainComplexesSearch mainComplexesSearch =
-            MainComplexesSearch.fromJson(extractedData);
+        MainPlaces mainPlaces = MainPlaces.fromJson(extractedData);
         print(response.headers.toString());
         _items.clear();
-        _items=mainComplexesSearch.data;
+        _items = mainPlaces.data;
         print('searchItem' + _items.length.toString());
 
-        _complexSearchDetails = SearchDetails(
-          current_page: mainComplexesSearch.current_page,
-          first_page_url: mainComplexesSearch.first_page_url,
-          from: mainComplexesSearch.from,
-          last_page: mainComplexesSearch.last_page,
-          last_page_url: mainComplexesSearch.last_page_url,
-          next_page_url: mainComplexesSearch.next_page_url,
-          path: mainComplexesSearch.path,
-          per_page: mainComplexesSearch.per_page,
-          prev_page_url: mainComplexesSearch.prev_page_url,
-          to: mainComplexesSearch.to,
-          total: mainComplexesSearch.total,
+        _placeSearchDetails = SearchDetails(
+          current_page: mainPlaces.current_page,
+          first_page_url: mainPlaces.first_page_url,
+          from: mainPlaces.from,
+          last_page: mainPlaces.last_page,
+          last_page_url: mainPlaces.last_page_url,
+          next_page_url: mainPlaces.next_page_url,
+          path: mainPlaces.path,
+          per_page: mainPlaces.per_page,
+          prev_page_url: mainPlaces.prev_page_url,
+          to: mainPlaces.to,
+          total: mainPlaces.total,
         );
-        print(_complexSearchDetails.total.toString());
+        print(_placeSearchDetails.total.toString());
         print('searchItem' + _items.length.toString());
       } else {
         _items = [];
@@ -280,7 +277,7 @@ class Complexes with ChangeNotifier {
   Future<void> retrieveCityComplexes(int cityId) async {
     print('retrieveCityComplexes');
 
-    final url = Urls.rootUrl + '/api/cities/$cityId/complexes';
+    final url = Urls.rootUrl + Urls.placesEndPoint + '?city_id=$cityId';
     print(url);
 
     try {
@@ -289,15 +286,14 @@ class Complexes with ChangeNotifier {
         final extractedData = json.decode(response.body);
         print(extractedData.toString());
 
-        MainComplexesSearch mainComplexesSearch =
-            MainComplexesSearch.fromJson(extractedData);
+        MainPlaces mainPlaces = MainPlaces.fromJson(extractedData);
         print(response.headers.toString());
-        _itemsCityComplex.clear();
-        _itemsCityComplex.addAll(mainComplexesSearch.data);
+        _itemsCityPlaces.clear();
+        _itemsCityPlaces.addAll(mainPlaces.data);
 
-        print(_complexSearchDetails.total.toString());
+        print(_placeSearchDetails.total.toString());
       } else {
-        _itemsCityComplex = [];
+        _itemsCityPlaces = [];
       }
       notifyListeners();
     } catch (error) {
@@ -325,7 +321,7 @@ class Complexes with ChangeNotifier {
         _itemsRegions.clear();
         _itemsRegions.addAll(dataRaw);
 
-        print(_complexSearchDetails.total.toString());
+        print(_placeSearchDetails.total.toString());
       } else {
         _itemsRegions = [];
       }
@@ -366,7 +362,7 @@ class Complexes with ChangeNotifier {
           to: mainComments.to,
           total: mainComments.total,
         );
-        print(_complexSearchDetails.total.toString());
+        print(_placeSearchDetails.total.toString());
       } else {
         _itemsRegions = [];
       }
@@ -377,10 +373,10 @@ class Complexes with ChangeNotifier {
     }
   }
 
-  Future<void> sendComment(int complexId, String content, double rate) async {
+  Future<void> sendComment(int placeId, String content, double rate) async {
     print('sendComment');
 
-    final url = Urls.rootUrl + Urls.commentEndPoint;
+    final url = Urls.rootUrl + Urls.placesEndPoint;
     print(url);
 
     final prefs = await SharedPreferences.getInstance();
@@ -398,7 +394,7 @@ class Complexes with ChangeNotifier {
         },
         body: json.encode(
           {
-            'complex_id': complexId,
+            'place_id': placeId,
             'content': content,
             'rate': rate,
           },
@@ -433,7 +429,6 @@ class Complexes with ChangeNotifier {
         print(response.headers.toString());
         _itemsComments.clear();
         _itemsComments.addAll(mainComments.data);
-//        print(_itemsComments[0].rate.toString());
 
         _commentsSearchDetails = SearchDetails(
           current_page: mainComments.current_page,
@@ -448,7 +443,7 @@ class Complexes with ChangeNotifier {
           to: mainComments.to,
           total: mainComments.total,
         );
-        print(_complexSearchDetails.total.toString());
+        print(_placeSearchDetails.total.toString());
       } else {
         _itemsRegions = [];
       }
@@ -530,7 +525,7 @@ class Complexes with ChangeNotifier {
           to: mainFacilities.to,
           total: mainFacilities.total,
         );
-        print(_complexSearchDetails.total.toString());
+        print(_placeSearchDetails.total.toString());
       } else {
         _itemsRegions = [];
       }
@@ -572,7 +567,7 @@ class Complexes with ChangeNotifier {
           to: mainFields.to,
           total: mainFields.total,
         );
-        print(_complexSearchDetails.total.toString());
+        print(_placeSearchDetails.total.toString());
       } else {
         _itemsRegions = [];
       }
@@ -584,7 +579,7 @@ class Complexes with ChangeNotifier {
   }
 
   Future<void> retrievePriceRange() async {
-    print('retrieveFields');
+    print('retrievePriceRange');
 
     final url = Urls.rootUrl + Urls.getPriceRangeEndPoint;
     print(url);
@@ -606,10 +601,10 @@ class Complexes with ChangeNotifier {
     }
   }
 
-  Future<void> retrieveComplex(int complexId) async {
-    print('retrieveComplex');
+  Future<void> retrievePlace(int placeId) async {
+    print('retrievePlace');
 
-    final url = Urls.rootUrl + Urls.complexesEndPoint + '/$complexId';
+    final url = Urls.rootUrl + Urls.placesEndPoint + '/$placeId';
     print(url);
 
     try {
@@ -619,10 +614,10 @@ class Complexes with ChangeNotifier {
 
       print(extractedData);
 
-      Complex complex = Complex.fromJson(extractedData);
-      print(complex.name);
+      Place place = Place.fromJson(extractedData);
+      print(place.name);
 
-      _itemComplex = complex;
+      _itemPlace = place;
 
       notifyListeners();
     } catch (error) {

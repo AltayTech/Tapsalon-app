@@ -9,17 +9,17 @@ import '../../models/place.dart';
 import '../../models/timing.dart';
 import '../../provider/salons.dart';
 
-class SalonDetailTimingScreen extends StatefulWidget {
+class PlaceDetailTimingScreen extends StatefulWidget {
   final Place place;
 
-  SalonDetailTimingScreen({this.place});
+  PlaceDetailTimingScreen({this.place});
 
   @override
-  _SalonDetailTimingScreenState createState() =>
-      _SalonDetailTimingScreenState();
+  _PlaceDetailTimingScreenState createState() =>
+      _PlaceDetailTimingScreenState();
 }
 
-class _SalonDetailTimingScreenState extends State<SalonDetailTimingScreen> {
+class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen> {
   var _isLoadingTable;
   bool _isInit = true;
 

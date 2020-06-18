@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/complex_search.dart';
-import '../provider/complexes.dart';
+import 'package:tapsalon/models/place_in_search.dart';
+import 'package:tapsalon/widget/main_page_place_item.dart';
+
+import '../provider/places.dart';
 import '../screen/search_screen.dart';
-import '../widget/salon_item.dart';
+//import '../widget/main_page_place_item.dart';
 
 class HorizontalList extends StatelessWidget {
   const HorizontalList({
@@ -12,16 +14,16 @@ class HorizontalList extends StatelessWidget {
   });
 
   final String listTitle;
-  final List<ComplexSearch> list;
+  final List<PlaceInSearch> list;
 
   Future<void> cleanFilters(BuildContext context) async {
-    Provider.of<Complexes>(context, listen: false).searchKey = '';
-    Provider.of<Complexes>(context, listen: false).filterTitle.clear();
-    Provider.of<Complexes>(context, listen: false).sProvinceId = '';
-    Provider.of<Complexes>(context, listen: false).sType = '';
-    Provider.of<Complexes>(context, listen: false).sField = '';
-    Provider.of<Complexes>(context, listen: false).sFacility = '';
-    Provider.of<Complexes>(context, listen: false).searchBuilder();
+    Provider.of<Places>(context, listen: false).searchKey = '';
+    Provider.of<Places>(context, listen: false).filterTitle.clear();
+    Provider.of<Places>(context, listen: false).sProvinceId = '';
+    Provider.of<Places>(context, listen: false).sType = '';
+    Provider.of<Places>(context, listen: false).sField = '';
+    Provider.of<Places>(context, listen: false).sFacility = '';
+    Provider.of<Places>(context, listen: false).searchBuilder();
   }
 
   @override
@@ -81,8 +83,8 @@ class HorizontalList extends StatelessWidget {
               return Container(
                   width: MediaQuery.of(context).size.width * 0.47,
                   height: MediaQuery.of(context).size.height * 0.35,
-                  child: SalonItem(
-                    loadedComplex: list[i],
+                  child: MainPagePlaceItem(
+                    loadedPlace: list[i],
                   ));
             },
           ),

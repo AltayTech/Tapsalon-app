@@ -7,14 +7,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:tapsalon/models/city.dart';
+import 'package:tapsalon/models/place_in_search.dart';
 
-import '../models/complex_search.dart';
 import '../models/searchDetails.dart';
 import '../provider/app_theme.dart';
 import '../provider/cities.dart';
-import '../provider/complexes.dart';
-import '../screen/complex_detail/complex_detail_screen.dart';
+import '../provider/places.dart';
 import '../widget/filter_drawer.dart';
+import 'place_detail/place_detail_screen.dart';
 
 class MapScreen extends StatefulWidget {
   static const routeName = '/mapScreen';
@@ -27,8 +27,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   bool _isInit = true;
   bool _isInfoShow = false;
   var _isLoading;
-  List<ComplexSearch> loadedComplexes = [];
-  List<ComplexSearch> loadedComplexesToList = [];
+  List<PlaceInSearch> loadedPlaces = [];
+  List<PlaceInSearch> loadedPlacesToList = [];
   SearchDetails searchDetails;
 
   Completer<GoogleMapController> _controller = Completer();
@@ -61,12 +61,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   City selectedCity;
 
-  ComplexSearch selectedComplex;
+  PlaceInSearch selectedPlace;
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      Provider.of<Complexes>(context, listen: false).searchBuilder();
+      Provider.of<Places>(context, listen: false).searchBuilder();
       _tabController.index = 0;
 
       try {
@@ -90,7 +90,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       print('2');
 
       cleanFilters(context);
-      Provider.of<Complexes>(context, listen: false).sCityId =
+      Provider.of<Places>(context, listen: false).sCityId =
           selectedCity.id.toString();
       print('3');
 
@@ -101,7 +101,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       cleanFilters(context);
       print('6');
 
-      Provider.of<Complexes>(context, listen: false).sCityId =
+      Provider.of<Places>(context, listen: false).sCityId =
           selectedCity.id.toString();
       print('6');
       await searchItems();
@@ -116,26 +116,26 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   }
 
   Future<void> cleanFilters(BuildContext context) async {
-    Provider.of<Complexes>(context, listen: false).searchKey = '';
-    Provider.of<Complexes>(context, listen: false).filterTitle.clear();
-    Provider.of<Complexes>(context, listen: false).sProvinceId = '';
-    Provider.of<Complexes>(context, listen: false).sType = '';
-    Provider.of<Complexes>(context, listen: false).sField = '';
-    Provider.of<Complexes>(context, listen: false).sFacility = '';
-    Provider.of<Complexes>(context, listen: false).sRange = '';
-    Provider.of<Complexes>(context, listen: false).searchBuilder();
+    Provider.of<Places>(context, listen: false).searchKey = '';
+    Provider.of<Places>(context, listen: false).filterTitle.clear();
+    Provider.of<Places>(context, listen: false).sProvinceId = '';
+    Provider.of<Places>(context, listen: false).sType = '';
+    Provider.of<Places>(context, listen: false).sField = '';
+    Provider.of<Places>(context, listen: false).sFacility = '';
+    Provider.of<Places>(context, listen: false).sRange = '';
+    Provider.of<Places>(context, listen: false).searchBuilder();
   }
 
   Future<void> searchItems() async {
-    Provider.of<Complexes>(context, listen: false).sPerPage = 1000;
-    Provider.of<Complexes>(context, listen: false).searchBuilder();
-    await Provider.of<Complexes>(context, listen: false).searchItem();
+    Provider.of<Places>(context, listen: false).sPerPage = 1000;
+    Provider.of<Places>(context, listen: false).searchBuilder();
+    await Provider.of<Places>(context, listen: false).searchItem();
     searchDetails =
-        Provider.of<Complexes>(context, listen: false).complexSearchDetails;
-    loadedComplexes.clear();
-    loadedComplexes = Provider.of<Complexes>(context, listen: false).items;
-    loadedComplexesToList.addAll(loadedComplexes);
-    _onAddMarker(loadedComplexesToList);
+        Provider.of<Places>(context, listen: false).complexSearchDetails;
+    loadedPlaces.clear();
+    loadedPlaces = Provider.of<Places>(context, listen: false).items;
+    loadedPlacesToList.addAll(loadedPlaces);
+    _onAddMarker(loadedPlacesToList);
   }
 
   void _onMapTypeButtonPressed() {
@@ -146,12 +146,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     });
   }
 
-  Future<void> changePick(List<ComplexSearch> list, int i) async {
+  Future<void> changePick(List<PlaceInSearch> list, int i) async {
     if (_isInfoShow) {
       await _animationController.reverse();
       setState(() {});
 
-      selectedComplex = list[i];
+      selectedPlace = list[i];
 //      title = list[i].name;
 //      region = list[i].region.name;
 //      rating = list[i].stars;
@@ -165,7 +165,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
       _isInfoShow = true;
       setState(() {});
-      selectedComplex = list[i];
+      selectedPlace = list[i];
 
 //      title = list[i].name;
 //      region = list[i].region.name;
@@ -185,7 +185,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     _isInfoShow = false;
   }
 
-  void _onAddMarker(List<ComplexSearch> list) async {
+  void _onAddMarker(List<PlaceInSearch> list) async {
     _markers.clear();
     for (int i = 0; i < list.length; i++) {
       print(list[i].latitude);
@@ -429,12 +429,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                           builder: (cxt, constraint) => InkWell(
                             onTap: () {
                               Navigator.of(context).pushNamed(
-                                ComplexDetailScreen.routeName,
+                                PlaceDetailScreen.routeName,
                                 arguments: {
-                                  'complexId': selectedComplex.id,
-                                  'title': selectedComplex.name,
-                                  'imageUrl': selectedComplex.image.url.medium,
-                                  'stars': selectedComplex.stars.toString(),
+                                  'complexId': selectedPlace.id,
+                                  'title': selectedPlace.name,
+                                  'imageUrl': selectedPlace.image.url.medium,
+                                  'stars': selectedPlace.stars.toString(),
                                 },
                               );
                             },
@@ -462,7 +462,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                           MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         Text(
-                                          selectedComplex.name,
+                                          selectedPlace.name,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
@@ -474,7 +474,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                           ),
                                         ),
                                         Text(
-                                          selectedComplex.region.name,
+                                          selectedPlace.region.name,
                                           style: TextStyle(
                                             fontFamily: 'Iransans',
                                             color: Colors.black,
@@ -491,7 +491,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                                 allowHalfRating: false,
                                                 onRated: (v) {},
                                                 starCount: 5,
-                                                rating: selectedComplex.stars,
+                                                rating: selectedPlace.stars,
                                                 size:
                                                     constraint.maxWidth * 0.05,
                                                 color: Colors.green,
@@ -516,7 +516,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                         child: FadeInImage(
                                           placeholder: AssetImage(
                                               'assets/images/tapsalon_icon_200.png'),
-                                          image: NetworkImage(selectedComplex
+                                          image: NetworkImage(selectedPlace
                                               .image.url.medium
                                               .toString()),
                                           fit: BoxFit.cover,
@@ -548,21 +548,21 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 child: TabBar(
                     onTap: (i) {
                       if (i == 0) {
-                        Provider.of<Complexes>(context, listen: false)
+                        Provider.of<Places>(context, listen: false)
                             .sComplexType = '';
                       } else if (i == 1) {
-                        Provider.of<Complexes>(context, listen: false)
+                        Provider.of<Places>(context, listen: false)
                             .sComplexType = '1';
                       } else if (i == 2) {
-                        Provider.of<Complexes>(context, listen: false)
+                        Provider.of<Places>(context, listen: false)
                             .sComplexType = '2';
                       } else if (i == 3) {
-                        Provider.of<Complexes>(context, listen: false)
+                        Provider.of<Places>(context, listen: false)
                             .sComplexType = '3';
                       }
 
-                      Provider.of<Complexes>(context, listen: false).sPage = 1;
-                      loadedComplexesToList.clear();
+                      Provider.of<Places>(context, listen: false).sPage = 1;
+                      loadedPlacesToList.clear();
 
                       retrieveItems();
                     },
