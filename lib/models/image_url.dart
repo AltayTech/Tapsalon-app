@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart';
 
-class Url with ChangeNotifier {
+class ImageUrl with ChangeNotifier {
   final String thumb;
   final String medium;
   final String large;
 
-  Url({this.thumb, this.medium, this.large});
+  ImageUrl({this.thumb, this.medium, this.large});
 
-  factory Url.fromJson(Map<String, dynamic> parsedJson) {
-    return Url(
+  factory ImageUrl.fromJson(Map<String, dynamic> parsedJson) {
+    return ImageUrl(
       thumb: parsedJson['thumb'],
       medium: parsedJson['medium'],
       large: parsedJson['large'],

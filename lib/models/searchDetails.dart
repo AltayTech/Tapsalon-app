@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../models/complex.dart';
+import 'places_models/complex.dart';
 
 class SearchDetails with ChangeNotifier {
   final int current_page;

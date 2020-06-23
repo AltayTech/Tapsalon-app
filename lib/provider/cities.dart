@@ -26,11 +26,11 @@ class Cities with ChangeNotifier {
   }
 
   List<City> _citiesItems = [];
-  List<Province> _ostansItems = [];
+  List<Province> _provincesItems = [];
 
   List<City> get citiesItems => _citiesItems;
 
-  List<Province> get ostansItems => _ostansItems;
+  List<Province> get provincesItems => _provincesItems;
 
   Future<void> setSelectedCity(City selectedCity) async {
     print('setSelectedCity');
@@ -119,8 +119,8 @@ class Cities with ChangeNotifier {
     }
   }
 
-  Future<void> retrieveOstans() async {
-    print('retrieveOstans');
+  Future<void> retrieveProvince() async {
+    print('retrieveProvince');
 
     final url = Urls.rootUrl + Urls.provincesEndPoint;
     print(url);
@@ -132,7 +132,7 @@ class Cities with ChangeNotifier {
       print(extractedData);
       MainOstans dataRaw = MainOstans.fromJson(extractedData);
 
-      _ostansItems = dataRaw.data;
+      _provincesItems = dataRaw.data;
 
       notifyListeners();
     } catch (error) {

@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:tapsalon/models/city.dart';
-import 'package:tapsalon/models/place_in_search.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/place_in_search.dart';
 
 import '../models/searchDetails.dart';
 import '../provider/app_theme.dart';
@@ -17,7 +17,7 @@ import '../widget/filter_drawer.dart';
 import 'place_detail/place_detail_screen.dart';
 
 class MapScreen extends StatefulWidget {
-  static const routeName = '/mapScreen';
+  static const routeName = '/MapScreen';
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -43,17 +43,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   double speed;
 
-//  String title = '';
-//  String region = '';
-//  double rating = 0;
-//  int complexId;
-//  String imageUrl = '';
-
   AnimationController _animationController;
   Animation<Offset> _slideAnimation;
   Animation<double> _opacityAnimation;
 
-  bool _infoMode = false;
 
   BitmapDescriptor salonBitmapDescriptor = BitmapDescriptor.defaultMarker;
   BitmapDescriptor gymBitmapDescriptor = BitmapDescriptor.defaultMarker;
@@ -87,32 +80,23 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     if (selectedCity.id == null) {
       await Provider.of<Cities>(context, listen: false).getSelectedCity();
       selectedCity = Provider.of<Cities>(context, listen: false).selectedCity;
-      print('2');
 
       cleanFilters(context);
       Provider.of<Places>(context, listen: false).sCityId =
           selectedCity.id.toString();
-      print('3');
 
       await searchItems();
     } else {
-      print('4');
-
       cleanFilters(context);
-      print('6');
 
       Provider.of<Places>(context, listen: false).sCityId =
           selectedCity.id.toString();
-      print('6');
       await searchItems();
-      print('5');
     }
 
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
 
   Future<void> cleanFilters(BuildContext context) async {
@@ -152,26 +136,15 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       setState(() {});
 
       selectedPlace = list[i];
-//      title = list[i].name;
-//      region = list[i].region.name;
-//      rating = list[i].stars;
-//      imageUrl = list[i].image.url.medium;
-//      complexId = list[i].id;
+
       _animationController.forward();
 
       setState(() {});
     } else {
-      print(_isInfoShow);
-
       _isInfoShow = true;
       setState(() {});
       selectedPlace = list[i];
 
-//      title = list[i].name;
-//      region = list[i].region.name;
-//      rating = list[i].stars;
-//      imageUrl = list[i].image.url.medium;
-//      complexId = list[i].id;
       _animationController.forward();
       setState(() {});
     }
@@ -361,6 +334,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   child: Column(
                     children: <Widget>[
                       FloatingActionButton(
+                        heroTag: "btn1",
+
                         onPressed: _onMapTypeButtonPressed,
                         materialTapTargetSize: MaterialTapTargetSize.padded,
                         backgroundColor: Colors.green,
@@ -372,6 +347,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                       ),
                       SizedBox(height: 5.0),
                       FloatingActionButton(
+                        heroTag: "btn2",
+
                         onPressed: () {
                           myController.animateCamera(
                             CameraUpdate.newCameraPosition(
@@ -394,6 +371,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                       Builder(
                         builder: (context) {
                           return FloatingActionButton(
+                            heroTag: "btn3",
+
                             onPressed: () {
                               Scaffold.of(context).openEndDrawer();
                             },
@@ -431,8 +410,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                               Navigator.of(context).pushNamed(
                                 PlaceDetailScreen.routeName,
                                 arguments: {
-                                  'complexId': selectedPlace.id,
-                                  'title': selectedPlace.name,
+                                  'placeId': selectedPlace.id,
+                                  'name': selectedPlace.name,
                                   'imageUrl': selectedPlace.image.url.medium,
                                   'stars': selectedPlace.stars.toString(),
                                 },

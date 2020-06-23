@@ -26,7 +26,6 @@ class _NotificationItemState extends State<NotificationItem> {
       _isLoading = false;
     }
     _isInit = false;
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 

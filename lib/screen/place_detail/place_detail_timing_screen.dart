@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tapsalon/classes/timing_table.dart';
 import 'package:tapsalon/provider/app_theme.dart';
 
-import '../../models/place.dart';
+import '../../models/places_models/place.dart';
 import '../../models/timing.dart';
 import '../../provider/salons.dart';
 
@@ -59,7 +59,6 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen> {
     return SingleChildScrollView(
       child: _isLoadingTable
           ? Container(
-        height: deviceHeight*0.7,
             child: SpinKitFadingCircle(
                 itemBuilder: (BuildContext context, int index) {
                   return DecoratedBox(
@@ -81,6 +80,7 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen> {
                   timingList: itemTiming.itemTiming,
                   rowHeight: 50,
                   titleWidth: 70,
+
                 ),
               ),
             ),

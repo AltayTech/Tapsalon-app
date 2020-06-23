@@ -2,15 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/city.dart';
-import 'package:tapsalon/models/place_in_search.dart';
+import 'package:tapsalon/provider/app_theme.dart';
+
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/place_in_search.dart';
 
 import '../provider/cities.dart';
 import '../provider/places.dart';
 import '../provider/strings.dart';
 import '../provider/user_info.dart';
 import '../screen/search_screen.dart';
-import '../widget/MainTopicItem.dart';
 import '../widget/horizontal_list.dart';
+import '../widget/main_topic_item.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -91,140 +93,142 @@ class _HomeScreenState extends State<HomeScreen> {
             height: deviceHeight * 0.32,
             child: Stack(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(
-                    bottom: 30,
-                  ),
-                  child: Container(
-                    padding: EdgeInsets.all(5.0),
-                    alignment: Alignment.bottomCenter,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: <Color>[
-                          Color.fromRGBO(133, 183, 216, 1.0),
-                          Color.fromRGBO(71, 147, 197, 1.0),
-                          Color.fromRGBO(133, 183, 216, 1.0),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
                 Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.all(deviceHeight * 0.05),
+                      padding: EdgeInsets.all(deviceHeight * 0.02),
                       child: Container(
                         height: deviceHeight * 0.06,
-                        decoration: new BoxDecoration(
+                        decoration: BoxDecoration(
                             color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppTheme.primary.withOpacity(1),
+                                blurRadius: 10.10,
+                                spreadRadius: 5.510,
+                                offset: Offset(
+                                  0,
+                                  0,
+                                ),
+                              )
+                            ],
                             borderRadius:
-                                new BorderRadius.all(Radius.circular(10))),
+                                new BorderRadius.all(Radius.circular(25))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right:8.0),
+                                  child: TextFormField(
+                                    controller: _searchTextController,
+                                    textInputAction: TextInputAction.search,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 12.0,
+                                      ),
+                                      hintText: 'جستجو',
+                                      labelStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 10.0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  cleanFilters(context);
+
+                                  Provider.of<Places>(context, listen: false)
+                                      .searchKey = _searchTextController.text;
+                                  Provider.of<Places>(context, listen: false)
+                                      .searchBuilder();
+                                  return Navigator.of(context).pushNamed(
+                                      SearchScreen.routeName,
+                                      arguments: 0);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Icon(
+                                    Icons.search,
+                                    color: Colors.grey.withOpacity(0.5),
+                                    size: 30,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top:16,left:8,right:8.0),
+                      child: Container(
+                        height: deviceHeight * 0.15,
+                        width: double.infinity,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             InkWell(
                               onTap: () {
                                 cleanFilters(context);
+                                Provider.of<Places>(context, listen: false)
+                                    .sType = '1';
 
-                                Provider.of<Places>(context, listen: false)
-                                    .searchKey = _searchTextController.text;
-                                Provider.of<Places>(context, listen: false)
-                                    .searchBuilder();
-                                return Navigator.of(context).pushNamed(
+                                Navigator.of(context).pushNamed(
                                     SearchScreen.routeName,
-                                    arguments: 0);
+                                    arguments: 1);
                               },
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.search,
-                                  color: Colors.blue,
-                                ),
+                              child: MainTopicItem(
+                                number: 1,
+                                title: Strings.titleSalons,
+                                icon: 'assets/images/salon.png',
+                                bgColor: Color(0xffFB8C00),
                               ),
                             ),
-                            Expanded(
-                              child: TextFormField(
-                                controller: _searchTextController,
-                                textInputAction: TextInputAction.search,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    color: Colors.blue,
-                                    fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 12.0,
-                                  ),
-                                  hintText: 'جستجوی مجموعه ...',
-                                  labelStyle: TextStyle(
-                                    color: Colors.blue,
-                                    fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 10.0,
-                                  ),
-                                ),
+                            InkWell(
+                              onTap: () {
+                                cleanFilters(context);
+                                Provider.of<Places>(context, listen: false)
+                                    .sType = '2';
+
+                                Navigator.of(context).pushNamed(
+                                    SearchScreen.routeName,
+                                    arguments: 2);
+                              },
+                              child: MainTopicItem(
+                                number: 1,
+                                title: Strings.titlClubs,
+                                icon: 'assets/images/gym.png',
+                                bgColor: Color(0xffFFB300),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                cleanFilters(context);
+                                Provider.of<Places>(context, listen: false)
+                                    .sType = '3';
+
+                                Navigator.of(context).pushNamed(
+                                    SearchScreen.routeName,
+                                    arguments: 3);
+                              },
+                              child: MainTopicItem(
+                                number: 1,
+                                title: Strings.titleEntertainment,
+                                icon: 'assets/images/swimming.png',
+                                bgColor: Color(0xffFE5E2B),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    Container(
-                      height: deviceHeight * 0.15,
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          InkWell(
-                            onTap: () {
-                              cleanFilters(context);
-                              Provider.of<Places>(context, listen: false)
-                                  .sType = '1';
-
-                              Navigator.of(context).pushNamed(
-                                  SearchScreen.routeName,
-                                  arguments: 1);
-                            },
-                            child: MainTopicItem(
-                              number: 1,
-                              title: Strings.titleSalons,
-                              icon: 'assets/images/salon.png',
-                              bgColor: Color(0xffFB8C00),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              cleanFilters(context);
-                              Provider.of<Places>(context, listen: false)
-                                  .sType = '2';
-
-                              Navigator.of(context).pushNamed(
-                                  SearchScreen.routeName,
-                                  arguments: 2);
-                            },
-                            child: MainTopicItem(
-                              number: 1,
-                              title: Strings.titlClubs,
-                              icon: 'assets/images/gym.png',
-                              bgColor: Color(0xffFFB300),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              cleanFilters(context);
-                              Provider.of<Places>(context, listen: false)
-                                  .sType = '3';
-
-                              Navigator.of(context).pushNamed(
-                                  SearchScreen.routeName,
-                                  arguments: 3);
-                            },
-                            child: MainTopicItem(
-                              number: 1,
-                              title: Strings.titleEntertainment,
-                              icon: 'assets/images/swimming.png',
-                              bgColor: Color(0xffFE5E2B),
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                   ],

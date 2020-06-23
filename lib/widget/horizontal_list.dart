@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/place_in_search.dart';
+import 'package:tapsalon/provider/app_theme.dart';
 import 'package:tapsalon/widget/main_page_place_item.dart';
+
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/place_in_search.dart';
 
 import '../provider/places.dart';
 import '../screen/search_screen.dart';
@@ -35,38 +37,35 @@ class HorizontalList extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 19.0),
-              child: Text(listTitle),
+              child: Text(listTitle,
+                style: TextStyle(
+                  fontFamily: 'Iransans',
+                  color: AppTheme.black,
+                  fontSize:
+                  MediaQuery.of(context).textScaleFactor * 16.0,
+                ),),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left:16.0),
               child: InkWell(
                 onTap: () {
                   cleanFilters(context);
-//                  Provider.of<Complexes>(context, listen: false)
-//                      .sType = '3';
+
 
                   Navigator.of(context)
                       .pushNamed(SearchScreen.routeName, arguments: 0);
                 },
-                child: Wrap(
-                  direction: Axis.horizontal,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 2.0),
-                      child: Text(
-                        'همه',
-                        style: TextStyle(
-                          fontFamily: 'Iransans',
-                          fontSize:
-                              MediaQuery.of(context).textScaleFactor * 12.0,
-                        ),
-                      ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 2.0),
+                  child: Text(
+                    'همه',
+                    style: TextStyle(
+                      fontFamily: 'Iransans',
+                      color: AppTheme.grey,
+                      fontSize:
+                          MediaQuery.of(context).textScaleFactor * 14.0,
                     ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -74,7 +73,7 @@ class HorizontalList extends StatelessWidget {
         ),
         Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.35,
+          height: MediaQuery.of(context).size.height * 0.30,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.all(10.0),
@@ -82,7 +81,7 @@ class HorizontalList extends StatelessWidget {
             itemBuilder: (ctx, i) {
               return Container(
                   width: MediaQuery.of(context).size.width * 0.47,
-                  height: MediaQuery.of(context).size.height * 0.35,
+                  height: MediaQuery.of(context).size.height * 0.25,
                   child: MainPagePlaceItem(
                     loadedPlace: list[i],
                   ));

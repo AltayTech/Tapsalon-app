@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/complex_in_place.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/complex_in_place.dart';
 import 'package:tapsalon/models/timing.dart';
 
-import '../models/facility.dart';
-import '../models/field.dart';
-import '../models/image.dart';
-import 'city.dart';
-import 'place_type.dart';
-import 'province.dart';
-import 'region.dart';
-import 'user_in_complex.dart';
+import '../../models/facility.dart';
+import '../../models/field.dart';
+import '../../models/image.dart';
+import '../city.dart';
+import '../places_models/place_type.dart';
+import '../province.dart';
+import '../region.dart';
+import '../user_models/user_in_complex.dart';
 
 class Place with ChangeNotifier {
   final int id;
@@ -17,7 +17,7 @@ class Place with ChangeNotifier {
   final String name;
   final String excerpt;
   final String about;
-  final String price;
+  final int price;
   final String phone;
   final String mobile;
   final String address;
@@ -90,7 +90,7 @@ class Place with ChangeNotifier {
       name: parsedJson['name'],
       excerpt: parsedJson['excerpt'] != null ? parsedJson['excerpt'] : '',
       about: parsedJson['about'] != null ? parsedJson['about'] : '',
-      price: parsedJson['price'] != null ? parsedJson['price'] : '0',
+      price: parsedJson['price'] != null ? parsedJson['price'] : 0,
       phone: parsedJson['phone'] != null ? parsedJson['phone'] : '',
       mobile: parsedJson['mobile'] != null ? parsedJson['mobile'] : '',
       address: parsedJson['address'] != null ? parsedJson['address'] : '',

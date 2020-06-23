@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:tapsalon/models/place.dart';
-import '../../models/complex.dart';
-import '../../widget/en_to_ar_number_convertor.dart';
+import 'package:tapsalon/models/places_models/place.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+
+import '../../widget/en_to_ar_number_convertor.dart';
 
 class PlaceDetailInfoScreen extends StatelessWidget {
   final Place place;

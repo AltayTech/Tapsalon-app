@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../classes/event.dart';
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 
-import '../classes/flutter_calendar_carousel.dart';
+import '../models/event.dart';
 
 class ReserveDetailScreen extends StatefulWidget {
   static const routeName = '/reserveDetail';
@@ -20,7 +20,7 @@ class _ReserveDetailScreenState extends State<ReserveDetailScreen> {
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 16.0),
-        child: CalendarCarousel<Event>(
+        child: CalendarCarousel(
           onDayPressed: (DateTime date, List<Event> events) {
             this.setState(() => _currentDate = date);
           },
@@ -28,10 +28,7 @@ class _ReserveDetailScreenState extends State<ReserveDetailScreen> {
             color: Colors.red,
           ),
           thisMonthDayBorderColor: Colors.grey,
-//      weekDays: null, /// for pass null when you do not want to render weekDays
-//      headerText: Container( /// Example for rendering custom header
-//        child: Text('Custom Header'),
-//      ),
+
           customDayBuilder: (
             /// you can provide your own build function to make custom day containers
             bool isSelectable,

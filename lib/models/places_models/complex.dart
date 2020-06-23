@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:tapsalon/models/field.dart';
 import 'package:tapsalon/models/image.dart';
 
-import '../models/place_in_complex.dart';
-import '../models/region.dart';
-import '../models/user_in_complex.dart';
-import 'city.dart';
-import 'province.dart';
+import 'place_in_complex.dart';
+import '../region.dart';
+import '../user_models/user_in_complex.dart';
+import '../city.dart';
+import '../province.dart';
 
 class Complex with ChangeNotifier {
   final int id;

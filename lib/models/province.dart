@@ -14,9 +14,9 @@ class Province with ChangeNotifier {
 
   factory Province.fromJson(Map<String, dynamic> parsedJson) {
     return Province(
-      id: parsedJson['id'],
-      name: parsedJson['name'],
-      no_users: parsedJson['no_users'],
+      id: parsedJson['id'] != null ? parsedJson['id'] : 0,
+      name: parsedJson['name'] != null ? parsedJson['name'] : '',
+      no_users: parsedJson['no_users'] != null ? parsedJson['no_users'] : 0,
     );
   }
 }

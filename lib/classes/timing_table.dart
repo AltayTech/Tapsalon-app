@@ -61,18 +61,14 @@ class _TimingTableState extends State<TimingTable> {
               width: getDuration(e.date_start, e.date_end, widget.rowHeight),
               child: Row(
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(right: 4.0),
-                    child: FittedBox(
-                      child: Text(
-                        EnArConvertor().replaceArNumber(
-                            '${DateTime.parse(e.date_start).hour}:${DateTime.parse(e.date_start).minute}'),
-                        style: TextStyle(
-                          fontFamily: 'Iransans',
-                          color: AppTheme.white,
-                          fontSize:
-                              MediaQuery.of(context).textScaleFactor * 16.0,
-                        ),
+                  FittedBox(
+                    child: Text(
+                      EnArConvertor().replaceArNumber(
+                          '${DateTime.parse(e.date_start).hour}:${DateTime.parse(e.date_start).minute}'),
+                      style: TextStyle(
+                        fontFamily: 'Iransans',
+                        color: AppTheme.white,
+                        fontSize: MediaQuery.of(context).textScaleFactor * 16.0,
                       ),
                     ),
                   ),
@@ -116,6 +112,7 @@ class _TimingTableState extends State<TimingTable> {
           height: 7 * widget.rowHeight,
           child: VerticalDivider(
             color: AppTheme.grey,
+            width: 0.5,
             indent: 0,
             endIndent: 0,
           )),
@@ -187,6 +184,7 @@ class _TimingTableState extends State<TimingTable> {
             child: ListView.builder(
               primary: false,
               scrollDirection: Axis.vertical,
+              physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.all(8),
               itemCount: weekDay.length,
               itemBuilder: (BuildContext context, int index) {
@@ -203,7 +201,7 @@ class _TimingTableState extends State<TimingTable> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Iransans',
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w400,
                                 color: AppTheme.black,
                                 fontSize: textScaleFactor * 12.0,
                               ),
@@ -221,7 +219,7 @@ class _TimingTableState extends State<TimingTable> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: 'Iransans',
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               color: AppTheme.black,
                               fontSize: textScaleFactor * 14.0,
                             ),
@@ -245,7 +243,6 @@ class _TimingTableState extends State<TimingTable> {
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.all(8),
                         itemCount: headerTime.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
@@ -256,7 +253,7 @@ class _TimingTableState extends State<TimingTable> {
                                 Center(
                                   child: VerticalDivider(
                                     width: 1,
-                                    thickness: 1,
+                                    thickness: 0.5,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -267,7 +264,7 @@ class _TimingTableState extends State<TimingTable> {
                                         .replaceArNumber(headerTime[index]),
                                     style: TextStyle(
                                       fontFamily: 'Iransans',
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w400,
                                       color: AppTheme.black,
                                       fontSize: textScaleFactor * 17.0,
                                     ),

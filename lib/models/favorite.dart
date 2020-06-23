@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../models/place_favorite.dart';
+import 'places_models/place_favorite.dart';
 
 class Favorite with ChangeNotifier {
   final int id;

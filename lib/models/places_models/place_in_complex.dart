@@ -6,7 +6,7 @@ class PlaceInComplex with ChangeNotifier {
   final String name;
   final String excerpt;
   final String about;
-  final String price;
+  final int price;
   final Image image;
   final String created_at;
   final String updated_at;

@@ -3,11 +3,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:tapsalon/models/place.dart';
-import '../../provider/app_theme.dart';
+import 'package:tapsalon/models/places_models/place.dart';
+
 import '../../models/comment.dart';
-import '../../models/complex.dart';
 import '../../models/searchDetails.dart';
+import '../../provider/app_theme.dart';
 import '../../provider/auth.dart';
 import '../../provider/places.dart';
 import '../../widget/comment_item.dart';
@@ -25,8 +25,7 @@ class PlaceDetailCommentScreen extends StatefulWidget {
       _PlaceDetailCommentScreenState();
 }
 
-class _PlaceDetailCommentScreenState
-    extends State<PlaceDetailCommentScreen> {
+class _PlaceDetailCommentScreenState extends State<PlaceDetailCommentScreen> {
   final double rateRadious = 40;
 
   final double rateLineWidth = 4.0;
@@ -45,7 +44,6 @@ class _PlaceDetailCommentScreenState
       commentItems();
     }
     _isInit = false;
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -57,8 +55,7 @@ class _PlaceDetailCommentScreenState
     print(widget.place.id);
     await Provider.of<Places>(context, listen: false)
         .retrieveComment(widget.place.id);
-    loadedComment =
-        Provider.of<Places>(context, listen: false).itemsComments;
+    loadedComment = Provider.of<Places>(context, listen: false).itemsComments;
     loadedCommentsDetail =
         Provider.of<Places>(context, listen: false).commentsSearchDetails;
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/complex.dart';
+import '../../models/places_models/complex.dart';
 
 class ComplexDetailPlaceListScreen extends StatelessWidget {
   final Complex complex;

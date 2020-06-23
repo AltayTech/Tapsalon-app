@@ -3,16 +3,14 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/login_body.dart';
-import '../models/login_response.dart';
+import '../models/user_models/login_body.dart';
+import '../models/user_models/login_response.dart';
 import '../provider/urls.dart';
 
 class Auth with ChangeNotifier {
   String _token;
   String _credentialAccessToken = '';
-
   bool _isLoggedIn;
-
   bool get isAuth {
     getToken();
     return _token != null && _token != '';
@@ -24,10 +22,6 @@ class Auth with ChangeNotifier {
   LoginBody loginBody;
 
   String get token => _token;
-
-  set token(String value) {
-    _token = value;
-  }
 
   String get credentialAccessToken => _credentialAccessToken;
   Map<String, String> headers = {};

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+
+import '../../models/user_models/user.dart';
 import '../../provider/app_theme.dart';
-import '../../models/user.dart';
 import '../../provider/places.dart';
 import '../../provider/user_info.dart';
 import '../../widget/main_drawer.dart';
@@ -176,8 +177,11 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
                     child: FloatingActionButton(
                       onPressed: () {
                         createComment(
-                                placeId, reviewTextController.text, rating)
-                            .then((_) {
+                          placeId,
+
+                          reviewTextController.text,
+                          rating,
+                        ).then((_) {
                           Navigator.of(context).pop();
                         });
                       },

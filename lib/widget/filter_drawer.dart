@@ -4,13 +4,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
-import '../provider/app_theme.dart';
-
 import '../models/city.dart';
 import '../models/facility.dart';
 import '../models/field.dart';
 import '../models/priceRange.dart';
 import '../models/region.dart';
+import '../provider/app_theme.dart';
 import '../provider/cities.dart';
 import '../provider/places.dart';
 import 'en_to_ar_number_convertor.dart';
@@ -25,7 +24,6 @@ class FilterDrawer extends StatefulWidget {
 }
 
 class _FilterDrawerState extends State<FilterDrawer> {
-  var _value = 10;
 
   bool _isInit = true;
   var _isLoading;
@@ -35,9 +33,8 @@ class _FilterDrawerState extends State<FilterDrawer> {
   double endValue = 30000000;
 
   var _isPrice = false;
-  bool isQesti = false;
   bool isDiscounted = false;
-  bool isSpSell = false;
+  bool isReservable = false;
 
   City selectedCity;
 
@@ -113,7 +110,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
         .retrieveRegions(selectedCity.id);
     regionList = Provider.of<Places>(context, listen: false).itemsRegions;
 
-    await Provider.of<Places>(context, listen: false).retrievefacilities();
+    await Provider.of<Places>(context, listen: false).retrieveFacilities();
     facilitiesList =
         Provider.of<Places>(context, listen: false).itemsFacilities;
     await Provider.of<Places>(context, listen: false).retrieveFields();
@@ -462,7 +459,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Switch(
-                        value: isQesti,
+                        value: isDiscounted,
                         onChanged: (value) {
 //                      if (value) {
 //                        _selectedSellCaseId.add(72);
@@ -474,7 +471,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
 //                        _selectedSellcaseTitle.remove('قسطی');
 //                      }
                           setState(() {
-                            isQesti = value;
+                            isDiscounted = value;
                           });
                         },
                         activeTrackColor: Colors.lightGreenAccent,
@@ -498,7 +495,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Switch(
-                        value: isDiscounted,
+                        value: isReservable,
                         onChanged: (value) {
 //                      if (value) {
 //                        _selectedSellCaseId.add(73);
@@ -511,7 +508,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
 //                      }
 
                           setState(() {
-                            isDiscounted = value;
+                            isReservable = value;
                           });
                         },
                         activeTrackColor: Colors.lightGreenAccent,
@@ -687,12 +684,10 @@ class _FilterDrawerState extends State<FilterDrawer> {
                               Provider.of<Places>(context, listen: false)
                                   .sField = fieldsEndpoint;
                               _isPrice
-                                  ? Provider.of<Places>(context,
-                                              listen: false)
+                                  ? Provider.of<Places>(context, listen: false)
                                           .sRange =
                                       '$_minPriceValueC,$_maxPriceValueC'
-                                  : Provider.of<Places>(context,
-                                          listen: false)
+                                  : Provider.of<Places>(context, listen: false)
                                       .sRange = '';
 
                               Provider.of<Places>(context, listen: false)

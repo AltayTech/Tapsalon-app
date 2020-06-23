@@ -39,6 +39,7 @@ class MainDrawer extends StatelessWidget {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     Color textColor = Colors.white;
     Color iconColor = Colors.white38;
+
     return Drawer(
       child: Directionality(
         textDirection: TextDirection.ltr,
@@ -54,15 +55,10 @@ class MainDrawer extends StatelessWidget {
                   child: Container(color: Colors.black.withOpacity(0.3)),
                 ),
               ),
-
               Wrap(
                 children: <Widget>[
                   Stack(
                     children: <Widget>[
-//                      Image.asset(
-////                        'assets/images/drawer_header.jpg',
-////                        fit: BoxFit.fill,
-////                      ),
                       Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(20),
@@ -271,13 +267,6 @@ class MainDrawer extends StatelessWidget {
                               color: Colors.red,
                             ),
                             onTap: () async {
-//                              Provider.of<CustomerInfo>(context).customer =
-//                                  Provider.of<CustomerInfo>(context)
-//                                      .customer_zero;
-//
-                              Provider.of<Auth>(context, listen: false).token =
-                                  '';
-
                               await Provider.of<Auth>(context, listen: false)
                                   .removeToken();
                               Navigator.of(context).pushNamed('/');
@@ -289,7 +278,6 @@ class MainDrawer extends StatelessWidget {
                   ),
                 ],
               ),
-//        ),
               Positioned(
                 left: 0,
                 right: 0,

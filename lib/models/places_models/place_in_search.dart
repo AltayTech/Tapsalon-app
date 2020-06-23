@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/image_url.dart';
+import 'package:tapsalon/models/image_url.dart' as url;
 import 'package:tapsalon/models/region.dart';
 
-import '../models/facility.dart';
-import '../models/field.dart';
-import '../models/image.dart';
-import 'city.dart';
+import '../facility.dart';
+import '../field.dart';
+import '../image.dart';
+import '../city.dart';
 import 'place_type.dart';
-import 'province.dart';
+import '../province.dart';
 
 class PlaceInSearch with ChangeNotifier {
   final int id;
@@ -15,7 +15,7 @@ class PlaceInSearch with ChangeNotifier {
   final String name;
   final String excerpt;
   final String about;
-  final String price;
+  final int price;
   final String phone;
   final String mobile;
   final double latitude;
@@ -70,7 +70,7 @@ class PlaceInSearch with ChangeNotifier {
       name: parsedJson['name'],
       excerpt: parsedJson['excerpt'] != null ? parsedJson['excerpt'] : '',
       about: parsedJson['about'] != null ? parsedJson['about'] : '',
-      price: parsedJson['price'] != null ? parsedJson['price'] : '0',
+      price: parsedJson['price'] != null ? parsedJson['price'] : 0,
       phone: parsedJson['phone'] != null ? parsedJson['phone'] : '',
       mobile: parsedJson['mobile'] != null ? parsedJson['mobile'] : '',
       latitude: parsedJson['latitude'] != null
@@ -88,7 +88,7 @@ class PlaceInSearch with ChangeNotifier {
       facilities: facilityRaw,
       image: parsedJson['image'] != null
           ? Image.fromJson(parsedJson['image'])
-          : Image(id: 0, url: Url(medium: '')),
+          : Image(id: 0, filename: ''),
       province: Province.fromJson(parsedJson['ostan']),
       city: City.fromJson(parsedJson['city']),
       region: parsedJson['region'] != null

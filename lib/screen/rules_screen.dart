@@ -5,14 +5,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import '../provider/app_theme.dart';
-import '../widget/main_drawer.dart';
 
 import '../models/rule_data.dart';
+import '../provider/app_theme.dart';
 import '../provider/user_info.dart';
+import '../widget/main_drawer.dart';
 
 class RulesScreen extends StatefulWidget {
-  static const routeName = '/rule_detail';
+  static const routeName = '/RulesScreen';
 
   @override
   _RulesScreenState createState() => _RulesScreenState();
@@ -30,7 +30,6 @@ class _RulesScreenState extends State<RulesScreen> {
       getRulesList();
     }
     _isInit = false;
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -38,7 +37,6 @@ class _RulesScreenState extends State<RulesScreen> {
     setState(() {
       _isLoading = true;
     });
-//    await Provider.of<CustomerInfo>(context, listen: false).getRules();
     print(_isLoading.toString());
     print(_isLoading.toString());
 
@@ -47,19 +45,6 @@ class _RulesScreenState extends State<RulesScreen> {
       print(_isLoading.toString());
     });
     print(_isLoading.toString());
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-
-    super.dispose();
   }
 
   @override

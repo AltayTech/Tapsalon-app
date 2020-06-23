@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/user.dart';
+import '../../models/user_models/user.dart';
 
 class UserDetailReserveListScreen extends StatefulWidget {
   final User user;

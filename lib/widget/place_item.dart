@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:tapsalon/models/place_in_search.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/place_in_search.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_screen.dart';
 
 import '../provider/app_theme.dart';
@@ -220,7 +220,8 @@ class PlaceItem extends StatelessWidget {
                         place.price != null
                             ? EnArConvertor()
                                 .replaceArNumber(currencyFormat
-                                    .format(double.parse(place.price))
+                                    .format(
+                                        double.parse(place.price.toString()))
                                     .toString())
                                 .toString()
                             : EnArConvertor().replaceArNumber('0'),

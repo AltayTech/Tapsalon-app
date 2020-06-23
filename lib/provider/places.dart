@@ -3,18 +3,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tapsalon/models/main_places.dart';
-import 'package:tapsalon/models/place.dart';
-import 'package:tapsalon/models/place_in_search.dart';
+import 'package:tapsalon/models/main_regions.dart';
+import 'package:tapsalon/models/places_models/place.dart';
+
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/main_places.dart';
+import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/place_in_search.dart';
 
 import '../models/comment.dart';
 import '../models/facility.dart';
 import '../models/favorite.dart';
 import '../models/field.dart';
 import '../models/main_comments.dart';
-import '../models/main_facilities.dart';
 import '../models/main_favorite.dart';
-import '../models/main_fields.dart';
 import '../models/priceRange.dart';
 import '../models/region.dart';
 import '../models/searchDetails.dart';
@@ -112,10 +112,10 @@ class Places with ChangeNotifier {
       searchEndPoint = searchEndPoint + '&city_id=$_sCityId';
     }
     if (!(_sField == '' || _sField == null)) {
-      searchEndPoint = searchEndPoint + '&field=$_sField';
+      searchEndPoint = searchEndPoint + '&fields=$_sField';
     }
     if (!(_sFacility == '' || _sFacility == null)) {
-      searchEndPoint = searchEndPoint + '&facility=$_sFacility';
+      searchEndPoint = searchEndPoint + '&facilities=$_sFacility';
     }
     if (!(_sRegion == '' || _sRegion == null)) {
       searchEndPoint = searchEndPoint + '&region_id=$_sRegion';
@@ -311,15 +311,13 @@ class Places with ChangeNotifier {
     try {
       final response = await get(url);
       if (response.statusCode == 200) {
-        Iterable extractedData = json.decode(response.body) as List;
+        final extractedData = json.decode(response.body);
         print(extractedData);
 
-        List<Region> dataRaw =
-            extractedData.map((i) => Region.fromJson(i)).toList();
-        print(extractedData.toString());
+        MainRegions mainRegions = MainRegions.fromJson(extractedData);
 
         _itemsRegions.clear();
-        _itemsRegions.addAll(dataRaw);
+        _itemsRegions.addAll(mainRegions.data);
 
         print(_placeSearchDetails.total.toString());
       } else {
@@ -332,12 +330,10 @@ class Places with ChangeNotifier {
     }
   }
 
-  Future<void> retrieveComment(int complexId) async {
-    print('retrieveRegions');
-
-    final url = Urls.rootUrl + '/api/complexes/$complexId/comments';
+  Future<void> retrieveComment(int placeId) async {
+    print('retrieveComment');
+    final url = Urls.rootUrl +Urls.placesEndPoint+'/$placeId/comments';
     print(url);
-
     try {
       final response = await get(url);
       if (response.statusCode == 200) {
@@ -376,7 +372,7 @@ class Places with ChangeNotifier {
   Future<void> sendComment(int placeId, String content, double rate) async {
     print('sendComment');
 
-    final url = Urls.rootUrl + Urls.placesEndPoint;
+    final url = Urls.rootUrl + Urls.commentEndPoint;
     print(url);
 
     final prefs = await SharedPreferences.getInstance();
@@ -414,7 +410,7 @@ class Places with ChangeNotifier {
   }
 
   Future<void> retrieveLikes(int complexId) async {
-    print('retrieveRegions');
+    print('retrieveLikes');
 
     final url = Urls.rootUrl + '/api/complexes/$complexId/comments';
     print(url);
@@ -454,7 +450,7 @@ class Places with ChangeNotifier {
     }
   }
 
-  Future<bool> sendLike(int complexId) async {
+  Future<bool> sendLike(int placeId) async {
     print('sendLike');
 
     final url = Urls.rootUrl + Urls.userLikesEndPoint;
@@ -473,7 +469,7 @@ class Places with ChangeNotifier {
             'Accept': 'application/json',
           },
           body: json.encode({
-            'complex_id': complexId,
+            'place_id': placeId,
           }));
       print(response.body);
 
@@ -494,8 +490,8 @@ class Places with ChangeNotifier {
     }
   }
 
-  Future<void> retrievefacilities() async {
-    print('retrievefacilities');
+  Future<void> retrieveFacilities() async {
+    print('retrieveFacilities');
 
     final url = Urls.rootUrl + Urls.facilitiesEndPoint;
     print(url);
@@ -503,29 +499,15 @@ class Places with ChangeNotifier {
     try {
       final response = await get(url);
       if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body);
+        final extractedData = json.decode(response.body) as List;
         print(extractedData.toString());
 
-        MainFacilities mainFacilities = MainFacilities.fromJson(extractedData);
-        print(response.headers.toString());
-        _itemsFacilities.clear();
-        _itemsFacilities.addAll(mainFacilities.data);
-        print(_itemsFacilities[0].name.toString());
+        List<Facility> dataRaw = new List<Facility>();
+        dataRaw = extractedData.map((i) => Facility.fromJson(i)).toList();
 
-        _facilitiesSearchDetails = SearchDetails(
-          current_page: mainFacilities.current_page,
-          first_page_url: mainFacilities.first_page_url,
-          from: mainFacilities.from,
-          last_page: mainFacilities.last_page,
-          last_page_url: mainFacilities.last_page_url,
-          next_page_url: mainFacilities.next_page_url,
-          path: mainFacilities.path,
-          per_page: mainFacilities.per_page,
-          prev_page_url: mainFacilities.prev_page_url,
-          to: mainFacilities.to,
-          total: mainFacilities.total,
-        );
-        print(_placeSearchDetails.total.toString());
+        _itemsFacilities.clear();
+        _itemsFacilities.addAll(dataRaw);
+        print(_itemsFacilities[0].name.toString());
       } else {
         _itemsRegions = [];
       }
@@ -545,29 +527,14 @@ class Places with ChangeNotifier {
     try {
       final response = await get(url);
       if (response.statusCode == 200) {
-        final extractedData = json.decode(response.body);
+        final extractedData = json.decode(response.body) as List;
         print(extractedData.toString());
 
-        MainFields mainFields = MainFields.fromJson(extractedData);
-        print(response.headers.toString());
-        _itemsFields.clear();
-        _itemsFields.addAll(mainFields.data);
-        print(_itemsFields[0].name.toString());
+        List<Field> dataRaw = new List<Field>();
+        dataRaw = extractedData.map((i) => Field.fromJson(i)).toList();
 
-        _fieldsSearchDetails = SearchDetails(
-          current_page: mainFields.current_page,
-          first_page_url: mainFields.first_page_url,
-          from: mainFields.from,
-          last_page: mainFields.last_page,
-          last_page_url: mainFields.last_page_url,
-          next_page_url: mainFields.next_page_url,
-          path: mainFields.path,
-          per_page: mainFields.per_page,
-          prev_page_url: mainFields.prev_page_url,
-          to: mainFields.to,
-          total: mainFields.total,
-        );
-        print(_placeSearchDetails.total.toString());
+        _itemsFields.clear();
+        _itemsFields.addAll(dataRaw);
       } else {
         _itemsRegions = [];
       }

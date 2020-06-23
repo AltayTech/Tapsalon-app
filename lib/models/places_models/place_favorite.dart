@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:tapsalon/models/image.dart';
 
-import '../models/field_search.dart';
+import '../field_search.dart';
 
 class PlaceFavorite with ChangeNotifier {
   final int id;

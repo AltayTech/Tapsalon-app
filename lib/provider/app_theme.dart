@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 class AppTheme {
 
 
-  static const Color primary = Color(0xffFF8E00);
-  static const Color secondary = Color(0xffCD8D7B);
+  static const Color primary = Color(0xffF1F9FF);
+  static const Color secondary = Color(0xffF6F6F6);
   static const Color bg = Color(0xffF6F6F6);
   static const Color h1 = Color(0xff687466);
   static Color accent = Color(0xffFBC490);
-  static Color white = Colors.white;
+  static const Color white = Colors.white;
   static Color black = Colors.black;
   static Color grey = Colors.grey;
+  static const Color iconColor = Color(0xffFFA41B);
 
   // dependent colors
-  static const Color appBarColor = primary;
+  static const Color appBarColor = white;
   static const Color spinerColor = Colors.purple;
 
-  static const Color appBarIconColor = Color(0xFFEDF0F2);
+  static const Color appBarIconColor = Color(0xff545454);
   static const Color BNbgColor = Colors.white70;
   static const Color darkText = Color(0xFF253840);
   static const Color darkerText = Color(0xFF17262A);

@@ -8,7 +8,7 @@ import '../models/main_notifications.dart';
 import '../models/notification.dart' as notification;
 import '../models/rule_data.dart';
 import '../models/searchDetails.dart';
-import '../models/user.dart';
+import '../models/user_models/user.dart';
 import '../provider/urls.dart';
 
 class UserInfo with ChangeNotifier {
@@ -45,6 +45,7 @@ class UserInfo with ChangeNotifier {
     print('getUser');
 
     final url = Urls.rootUrl + Urls.userEndPoint;
+    print(url);
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -56,6 +57,7 @@ class UserInfo with ChangeNotifier {
       });
 
       final extractedData = json.decode(response.body);
+      print(extractedData);
 
       User user = User.fromJson(extractedData);
 

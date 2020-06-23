@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../provider/app_theme.dart';
 import '../../models/city.dart';
 import '../../models/province.dart';
-import '../../models/user.dart';
+import '../../models/user_models/user.dart';
 import '../../provider/cities.dart';
 import '../../provider/user_info.dart';
 import '../../screen/user_profile/profile_screen.dart';
@@ -32,20 +32,20 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
   bool _isLoading;
 
   bool _isInit = true;
-  var ostanValue;
+  var provinceValue;
 
-  List<String> ostanValueList = [];
+  List<String> provinceValueList = [];
   var citiesValue;
 
   List<String> citiesValueList = [];
 
-  List<Province> ostanList;
+  List<Province> provinceList;
 
   List<City> citiesList;
 
   int cityId;
 
-  int ostanId;
+  int provinceId;
 
   User user;
 
@@ -61,47 +61,41 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
     super.initState();
   }
 
-  Future<void> retrieveOstans() async {
+  Future<void> retrieveProvince() async {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Cities>(context, listen: false).retrieveOstans();
-    ostanList = Provider.of<Cities>(context, listen: false).ostansItems;
+    await Provider.of<Cities>(context, listen: false).retrieveProvince();
+    provinceList = Provider.of<Cities>(context, listen: false).provincesItems;
 
-    for (int i = 0; i < ostanList.length; i++) {
-      print(i.toString());
-      ostanValueList.add(ostanList[i].name);
+    for (int i = 0; i < provinceList.length; i++) {
+      provinceValueList.add(provinceList[i].name);
     }
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
 
-  Future<void> retrieveCities(int ostanId) async {
+  Future<void> retrieveCities(int provinceId) async {
     setState(() {
       _isLoading = true;
     });
     await Provider.of<Cities>(context, listen: false)
-        .retrieveOstanCities(ostanId);
+        .retrieveOstanCities(provinceId);
     citiesList = Provider.of<Cities>(context, listen: false).citiesItems;
 
     for (int i = 0; i < citiesList.length; i++) {
-      print(i.toString());
       citiesValueList.add(citiesList[i].name);
     }
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
 
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      await retrieveOstans();
+      await retrieveProvince();
 
       user.gender == 1
           ? _character = GenderSelection.male
@@ -322,7 +316,7 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                                       border: Border.all(
                                                           color: Colors.grey)),
                                                   child: DropdownButton<String>(
-                                                    value: ostanValue,
+                                                    value: provinceValue,
                                                     icon: Icon(
                                                       Icons.arrow_drop_down,
                                                       color: Colors.orange,
@@ -336,16 +330,16 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                                     ),
                                                     onChanged: (newValue) {
                                                       setState(() {
-                                                        ostanValue = newValue;
-                                                        ostanId = ostanList[
-                                                                ostanValueList
+                                                        provinceValue = newValue;
+                                                        provinceId = provinceList[
+                                                                provinceValueList
                                                                     .indexOf(
                                                                         newValue)]
                                                             .id;
-                                                        retrieveCities(ostanId);
+                                                        retrieveCities(provinceId);
                                                       });
                                                     },
-                                                    items: ostanValueList.map<
+                                                    items: provinceValueList.map<
                                                             DropdownMenuItem<
                                                                 String>>(
                                                         (String value) {
@@ -542,7 +536,7 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                             _character == GenderSelection.male ? 1 : 2;
 
                         Provider.of<UserInfo>(context, listen: false).ostanId =
-                            ostanId;
+                            provinceId;
                         Provider.of<UserInfo>(context, listen: false).cityId =
                             cityId;
                         Provider.of<UserInfo>(context, listen: false).mobile =

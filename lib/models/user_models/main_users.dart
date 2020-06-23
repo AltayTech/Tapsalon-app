@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../models/user.dart';
+import 'user.dart';
 
 class MainUsers with ChangeNotifier {
   final int current_page;

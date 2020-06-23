@@ -3,6 +3,7 @@ class Urls {
   static const citiesEndPoint = '/api/cities';
   static const provincesEndPoint = '/api/ostans';
   static const placesEndPoint = '/api/places';
+//  static const placesEndPoint = '/api/places';
   static const usersEndPoint = '/api/users';
   static const facilitiesEndPoint = '/api/facilities';
   static const fieldsEndPoint = '/api/fields';
@@ -13,6 +14,5 @@ class Urls {
   static const userEndPoint = '/api/user';
   static const commentEndPoint = '/api/comments';
 
-//  static const likesEndPoint = '/api/likes';
   static const userLikesEndPoint = '/api/user/likes';
 }

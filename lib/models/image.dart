@@ -7,7 +7,7 @@ class Image with ChangeNotifier {
   final String filename;
   final String extension;
 
-  final Url url;
+  final ImageUrl url;
 
   Image({this.id, this.filename, this.extension, this.url});
 
@@ -16,7 +16,7 @@ class Image with ChangeNotifier {
       id: parsedJson['id']!=null?parsedJson['id']:0,
       filename: parsedJson['filename'],
       extension: parsedJson['extension'],
-      url: Url.fromJson(parsedJson['url']),
+      url: ImageUrl.fromJson(parsedJson['url']),
     );
   }
 }

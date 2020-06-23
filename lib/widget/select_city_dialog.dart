@@ -42,8 +42,8 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Cities>(context, listen: false).retrieveOstans();
-    provinceList = Provider.of<Cities>(context, listen: false).ostansItems;
+    await Provider.of<Cities>(context, listen: false).retrieveProvince();
+    provinceList = Provider.of<Cities>(context, listen: false).provincesItems;
 
     for (int i = 0; i < provinceList.length; i++) {
       print(i.toString());

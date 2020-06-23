@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-import '../models/place.dart';
+import '../models/places_models/place.dart';
 import '../models/timing.dart';
 import '../provider/urls.dart';
 

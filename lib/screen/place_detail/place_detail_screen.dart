@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-import 'package:tapsalon/models/place.dart';
+import 'package:tapsalon/models/places_models/place.dart';
 
 import '../../provider/app_theme.dart';
 import '../../provider/auth.dart';
@@ -30,7 +30,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
 
   var title;
 
-  var image_url;
+  var imageUrl;
 
   String stars;
 
@@ -38,7 +38,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, length: 3);
+    _tabController = TabController(vsync: this, length: 3, initialIndex: 0);
     _tabController.addListener(_handleTabSelection);
     super.initState();
   }
@@ -69,7 +69,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     final placeId = arguments != null ? arguments['placeId'] : 0;
     title = arguments != null ? arguments['name'] : '';
-    image_url = arguments != null ? arguments['imageUrl'] : '';
+    imageUrl = arguments != null ? arguments['imageUrl'] : '';
     stars = arguments != null ? arguments['stars'] : '';
 
     print(placeId);
@@ -84,7 +84,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
     });
   }
 
-  void _showLogindialog() {
+  void _showLoginDialog() {
     showDialog(
         context: context,
         builder: (ctx) => CustomDialogEnter(
@@ -141,7 +141,8 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
           : Directionality(
               textDirection: TextDirection.rtl,
               child: DefaultTabController(
-                length: myTabs.length, // This is the number of tabs.
+                length: myTabs.length, //
+                // This is the number of tabs.
                 child: NestedScrollView(
                   headerSliverBuilder:
                       (BuildContext context, bool innerBoxIsScrolled) {
@@ -161,7 +162,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                     placeholder: AssetImage(
                                         'assets/images/tapsalon_icon_200.png'),
                                     image: NetworkImage(
-                                        image_url != null ? image_url : ''),
+                                        imageUrl != null ? imageUrl : ''),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -204,7 +205,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                               print(isLike.toString());
                                               setState(() {});
                                             } else {
-                                              _showLogindialog();
+                                              _showLoginDialog();
                                             }
                                           },
                                         ),
@@ -213,9 +214,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'Iransans',
-                                            fontSize: MediaQuery.of(context)
-                                                    .textScaleFactor *
-                                                11.0,
+                                            fontSize: textScaleFactor * 11.0,
                                           ),
                                         ),
                                         Spacer(
@@ -228,13 +227,13 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                             child: Text(
                                               title,
                                               overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.right,
                                               maxLines: 1,
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontFamily: 'Iransans',
-                                                fontSize: MediaQuery.of(context)
-                                                        .textScaleFactor *
-                                                    14.0,
+                                                fontSize:
+                                                    textScaleFactor * 14.0,
                                               ),
                                             ),
                                           ),
@@ -257,13 +256,11 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                             labelColor: Colors.blue,
                             labelStyle: TextStyle(
                               fontFamily: 'Iransans',
-                              fontSize:
-                                  MediaQuery.of(context).textScaleFactor * 11.0,
+                              fontSize: textScaleFactor * 11.0,
                             ),
                             unselectedLabelStyle: TextStyle(
                               fontFamily: 'Iransans',
-                              fontSize:
-                                  MediaQuery.of(context).textScaleFactor * 11.0,
+                              fontSize: textScaleFactor * 11.0,
                             ),
                             controller: _tabController,
                             tabs: myTabs,
@@ -275,40 +272,31 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                   },
                   body: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: TabBarView(
-                        children: myTabs.map((Tab tab) {
-                          if (_isLoading) {
-                            return Align(
-                                alignment: Alignment.center,
-                                child: SpinKitFadingCircle(
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: index.isEven
-                                            ? Colors.grey
-                                            : Colors.grey,
-                                      ),
-                                    );
-                                  },
-                                ));
-                          } else if (_tabController.index == 0) {
-                            return PlaceDetailInfoScreen(
-                              place: loadedPlace,
-                            );
-                          } else if (_tabController.index == 1) {
-                            return PlaceDetailTimingScreen(
-                              place: loadedPlace,
-                            );
-                          } else {
-                            return PlaceDetailCommentScreen(
-                              place: loadedPlace,
-                            );
-                          }
-                        }).toList(),
-                      ),
+                    child: TabBarView(
+                      children: myTabs.map((Tab tab) {
+                        if (_isLoading) {
+                          return Align(
+                              alignment: Alignment.center,
+                              child: SpinKitFadingCircle(
+                                itemBuilder: (BuildContext context, int index) {
+                                  return DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: index.isEven
+                                          ? Colors.grey
+                                          : Colors.grey,
+                                    ),
+                                  );
+                                },
+                              ));
+                        } else if (_tabController.index == 0) {
+                          return PlaceDetailInfoScreen(place: loadedPlace);
+                        } else if (_tabController.index == 1) {
+                          return PlaceDetailTimingScreen(place: loadedPlace);
+                        } else {
+                          return PlaceDetailCommentScreen(place: loadedPlace);
+                        }
+                      }).toList(),
                     ),
                   ),
                 ),
@@ -316,10 +304,8 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
             ),
       endDrawer: Theme(
         data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-        ),
+            // Set the transparency here
+            canvasColor: Colors.transparent),
         child: MainDrawer(),
       ),
     );

@@ -17,11 +17,11 @@ class City with ChangeNotifier {
 
   factory City.fromJson(Map<String, dynamic> parsedJson) {
     return City(
-      id: parsedJson['id'],
-      provinceId: parsedJson['ostan_id'],
-      name: parsedJson['name'],
-      latitude: parsedJson['latitude'],
-      longitude: parsedJson['longitude'],
+      id: parsedJson['id']!= null ? parsedJson['id'] :0,
+      provinceId: parsedJson['ostan_id']!= null ? parsedJson['ostan_id'] :0,
+      name: parsedJson['name']!= null ? parsedJson['name'] :'',
+      latitude: parsedJson['latitude']!= null ? parsedJson['latitude'] :0.0,
+      longitude: parsedJson['longitude']!= null ? parsedJson['longitude'] :0.0,
     );
   }
 }
