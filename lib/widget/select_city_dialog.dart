@@ -62,10 +62,12 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
       _isLoading = true;
     });
     try {
+
       await Provider.of<Cities>(context, listen: false)
           .retrieveOstanCities(provinceId);
-      citiesList = Provider.of<Cities>(context, listen: false).citiesItems;
 
+      citiesList = Provider.of<Cities>(context, listen: false).citiesItems;
+      citiesValueList.clear();
       for (int i = 0; i < provinceList.length; i++) {
         print(i.toString());
         citiesValueList.add(citiesList[i].name);

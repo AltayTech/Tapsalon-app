@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tapsalon/models/places_models/place_in_search.dart';
 import 'package:tapsalon/provider/app_theme.dart';
 import 'package:tapsalon/widget/main_page_place_item.dart';
 
-import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/place_in_search.dart';
-
 import '../provider/places.dart';
 import '../screen/search_screen.dart';
-//import '../widget/main_page_place_item.dart';
 
 class HorizontalList extends StatelessWidget {
   const HorizontalList({
@@ -80,8 +78,8 @@ class HorizontalList extends StatelessWidget {
             itemCount: list.length,
             itemBuilder: (ctx, i) {
               return Container(
-                  width: MediaQuery.of(context).size.width * 0.47,
-                  height: MediaQuery.of(context).size.height * 0.25,
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: MediaQuery.of(context).size.width * 0.4,
                   child: MainPagePlaceItem(
                     loadedPlace: list[i],
                   ));

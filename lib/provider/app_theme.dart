@@ -12,6 +12,9 @@ class AppTheme {
   static Color black = Colors.black;
   static Color grey = Colors.grey;
   static const Color iconColor = Color(0xffFFA41B);
+  static const Color maleColor = Color(0xff00A8CC);
+  static const Color femaleColor = Color(0xffFFA41B);
+  static const Color buttonColor = Color(0xff3F9B12);
 
   // dependent colors
   static const Color appBarColor = white;

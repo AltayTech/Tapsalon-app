@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/place_in_search.dart';
+
+import 'place_in_search.dart';
 
 class MainPlaces with ChangeNotifier {
   final int current_page;

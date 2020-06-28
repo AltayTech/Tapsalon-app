@@ -24,7 +24,6 @@ class FilterDrawer extends StatefulWidget {
 }
 
 class _FilterDrawerState extends State<FilterDrawer> {
-
   bool _isInit = true;
   var _isLoading;
 
@@ -123,11 +122,6 @@ class _FilterDrawerState extends State<FilterDrawer> {
 
     endValue = _maxPriceValueC;
 
-//    filterList = Provider.of<Complexes>(context, listen: false).filterTitle;
-//    searchDetails =
-//        Provider.of<Complexes>(context, listen: false).complexSearchDetails;
-//    _submit();
-
     setState(() {
       _isLoading = false;
       print(_isLoading.toString());
@@ -207,9 +201,6 @@ class _FilterDrawerState extends State<FilterDrawer> {
                     itemCount: regionList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
-                        highlightColor: Colors.deepOrange,
-                        focusColor: Colors.deepOrange,
-                        splashColor: Colors.purpleAccent,
                         onTap: () {
                           if (_selectedRegionIndexs.contains(index)) {
                             _selectedRegionIndexs.remove(index);
@@ -228,34 +219,29 @@ class _FilterDrawerState extends State<FilterDrawer> {
                           child: Container(
                             decoration: _selectedRegionIndexs.contains(index)
                                 ? BoxDecoration(
-                                    color: Colors.green,
-                                    border: Border(
-                                      left: BorderSide(
-                                          color: Colors.grey, width: 0.5),
-                                      right: BorderSide(
-                                          color: Colors.grey, width: 0.5),
-                                      bottom: BorderSide(
-                                          color: Colors.grey, width: 0.5),
-                                      top: BorderSide(
-                                          color: Colors.black87, width: 3),
-                                    ),
+                                    color: AppTheme.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.green.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 10),
+                                    ],
                                   )
                                 : BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: Colors.grey)),
+                                    color: AppTheme.white,
+                                  ),
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                regionList[index].name,
-                                style: TextStyle(
-                                  color: _selectedRegionIndexs.contains(index)
-                                      ? Colors.white
-                                      : Colors.blue,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 12.0,
+                              child: Center(
+                                child: Text(
+                                  regionList[index].name,
+                                  style: TextStyle(
+                                    color: AppTheme.black,
+                                    fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 12.0,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -296,9 +282,6 @@ class _FilterDrawerState extends State<FilterDrawer> {
                     itemCount: facilitiesList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
-                        highlightColor: Colors.deepOrange,
-                        focusColor: Colors.deepOrange,
-                        splashColor: Colors.purpleAccent,
                         onTap: () {
                           if (_selectedFacilityIndexs.contains(index)) {
                             _selectedFacilityIndexs.remove(index);
@@ -320,34 +303,29 @@ class _FilterDrawerState extends State<FilterDrawer> {
                           child: Container(
                             decoration: _selectedFacilityIndexs.contains(index)
                                 ? BoxDecoration(
-                                    color: Colors.green,
-                                    border: Border(
-                                      left: BorderSide(
-                                          color: Colors.grey, width: 0.5),
-                                      right: BorderSide(
-                                          color: Colors.grey, width: 0.5),
-                                      bottom: BorderSide(
-                                          color: Colors.grey, width: 0.5),
-                                      top: BorderSide(
-                                          color: Colors.black87, width: 3),
-                                    ),
+                                    color: AppTheme.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.green.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 10),
+                                    ],
                                   )
                                 : BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: Colors.grey)),
+                                    color: AppTheme.white,
+                                  ),
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                facilitiesList[index].name,
-                                style: TextStyle(
-                                  color: _selectedFacilityIndexs.contains(index)
-                                      ? Colors.white
-                                      : Colors.blue,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 14.0,
+                              child: Center(
+                                child: Text(
+                                  facilitiesList[index].name,
+                                  style: TextStyle(
+                                    color: AppTheme.black,
+                                    fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 14.0,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -388,9 +366,6 @@ class _FilterDrawerState extends State<FilterDrawer> {
                     itemCount: fieldsList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
-                        highlightColor: Colors.deepOrange,
-                        focusColor: Colors.deepOrange,
-                        splashColor: Colors.purpleAccent,
                         onTap: () {
                           if (_selectedFieldIndexs.contains(index)) {
                             _selectedFieldIndexs.remove(index);
@@ -409,34 +384,29 @@ class _FilterDrawerState extends State<FilterDrawer> {
                           child: Container(
                             decoration: _selectedFieldIndexs.contains(index)
                                 ? BoxDecoration(
-                                    color: Colors.green,
-                                    border: Border(
-                                      left: BorderSide(
-                                          color: Colors.grey, width: 0.5),
-                                      right: BorderSide(
-                                          color: Colors.grey, width: 0.5),
-                                      bottom: BorderSide(
-                                          color: Colors.grey, width: 0.5),
-                                      top: BorderSide(
-                                          color: Colors.black87, width: 3),
-                                    ),
+                                    color: AppTheme.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.green.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 10),
+                                    ],
                                   )
                                 : BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: Colors.grey)),
+                                    color: AppTheme.white,
+                                  ),
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                fieldsList[index].name,
-                                style: TextStyle(
-                                  color: _selectedFieldIndexs.contains(index)
-                                      ? Colors.white
-                                      : Colors.blue,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 14.0,
+                              child: Center(
+                                child: Text(
+                                  fieldsList[index].name,
+                                  style: TextStyle(
+                                    color: AppTheme.black,
+                                    fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 14.0,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),

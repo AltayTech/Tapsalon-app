@@ -48,57 +48,67 @@ class _TimingTableState extends State<TimingTable> {
             right: double.parse((DateTime.parse(e.date_start).hour * 60 +
                     DateTime.parse(e.date_start).minute)
                 .toString()),
-            width: getDuration(e.date_start, e.date_end, widget.rowHeight),
             child: Container(
-              decoration: BoxDecoration(
-                color: e.gender == 'male' ? Colors.blue : Colors.redAccent,
-                border: Border.all(
-                  color: AppTheme.grey,
-                ),
-                borderRadius: BorderRadius.circular(5),
-              ),
               height: widget.rowHeight,
               width: getDuration(e.date_start, e.date_end, widget.rowHeight),
-              child: Row(
-                children: <Widget>[
-                  FittedBox(
-                    child: Text(
-                      EnArConvertor().replaceArNumber(
-                          '${DateTime.parse(e.date_start).hour}:${DateTime.parse(e.date_start).minute}'),
-                      style: TextStyle(
-                        fontFamily: 'Iransans',
-                        color: AppTheme.white,
-                        fontSize: MediaQuery.of(context).textScaleFactor * 16.0,
-                      ),
-                    ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 3.0, bottom: 3),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: e.gender == 'male'
+                        ? AppTheme.maleColor
+                        : AppTheme.femaleColor,
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  Spacer(),
-                  Text(
-                    EnArConvertor().replaceArNumber('${e.discount}%'),
-                    style: TextStyle(
-                      fontFamily: 'Iransans',
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.white,
-                      fontSize: MediaQuery.of(context).textScaleFactor * 17.0,
-                    ),
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0),
-                    child: FittedBox(
-                      child: Text(
-                        EnArConvertor().replaceArNumber(
-                            '${DateTime.parse(e.date_end).hour}:${DateTime.parse(e.date_end).minute}'),
-                        style: TextStyle(
-                          fontFamily: 'Iransans',
-                          color: AppTheme.white,
-                          fontSize:
-                              MediaQuery.of(context).textScaleFactor * 16.0,
+                  width:
+                      getDuration(e.date_start, e.date_end, widget.rowHeight),
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: FittedBox(
+                          child: Text(
+                            EnArConvertor().replaceArNumber(
+                                '${DateTime.parse(e.date_start).hour}:${DateTime.parse(e.date_start).minute}'),
+                            style: TextStyle(
+                              fontFamily: 'Iransans',
+                              color: AppTheme.white,
+                              fontSize:
+                                  MediaQuery.of(context).textScaleFactor * 16.0,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Spacer(),
+                      Text(
+                        EnArConvertor().replaceArNumber('${e.discount}%'),
+                        style: TextStyle(
+                          fontFamily: 'Iransans',
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.white,
+                          fontSize:
+                              MediaQuery.of(context).textScaleFactor * 17.0,
+                        ),
+                      ),
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: FittedBox(
+                          child: Text(
+                            EnArConvertor().replaceArNumber(
+                                '${DateTime.parse(e.date_end).hour}:${DateTime.parse(e.date_end).minute}'),
+                            style: TextStyle(
+                              fontFamily: 'Iransans',
+                              color: AppTheme.white,
+                              fontSize:
+                                  MediaQuery.of(context).textScaleFactor * 16.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -106,30 +116,36 @@ class _TimingTableState extends State<TimingTable> {
         .toList();
     var timeNumber = 60 * 24 / widget.timeStep;
     print('timeNumber  $timeNumber');
-    widgetList.add(Positioned(
-      right: (0 * widget.timeStep),
-      child: Container(
+    widgetList.add(
+      Positioned(
+        right: (0 * widget.timeStep),
+        child: Container(
           height: 7 * widget.rowHeight,
           child: VerticalDivider(
             color: AppTheme.grey,
             width: 0.5,
             indent: 0,
             endIndent: 0,
-          )),
-    ));
+          ),
+        ),
+      ),
+    );
     for (int i = 1; i < timeNumber; i++) {
       headerTime.add(durationToString((i * widget.timeStep).round()));
-      widgetList.add(Positioned(
-        right: ((i) * widget.timeStep),
-        child: Container(
+      widgetList.add(
+        Positioned(
+          right: ((i) * widget.timeStep),
+          child: Container(
             height: 7 * widget.rowHeight,
             child: VerticalDivider(
-              width: 1,
+              width: 0.5,
               color: AppTheme.grey,
               indent: 5,
               endIndent: 5,
-            )),
-      ));
+            ),
+          ),
+        ),
+      );
     }
 
     setState(() {});
@@ -188,44 +204,22 @@ class _TimingTableState extends State<TimingTable> {
               padding: const EdgeInsets.all(8),
               itemCount: weekDay.length,
               itemBuilder: (BuildContext context, int index) {
-                return index == 0
-                    ? Container(
-                        height: widget.headerHeight,
-                        width: widget.titleWidth,
-                        child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: FittedBox(
-                            child: Text(
-                              weekDay[index],
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Iransans',
-                                fontWeight: FontWeight.w400,
-                                color: AppTheme.black,
-                                fontSize: textScaleFactor * 12.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(
-                        height: widget.headerHeight,
-                        width: widget.titleWidth,
-                        child: Center(
-                          child: Text(
-                            weekDay[index],
-                            maxLines: 1,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Iransans',
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.black,
-                              fontSize: textScaleFactor * 14.0,
-                            ),
-                          ),
-                        ),
-                      );
+                return Container(
+                  height: widget.rowHeight,
+                  width: widget.titleWidth,
+                  child: Center(
+                    child: Text(
+                      weekDay[index],
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Iransans',
+                        color: AppTheme.black.withOpacity(0.5),
+                        fontSize: textScaleFactor * 14.0,
+                      ),
+                    ),
+                  ),
+                );
               },
             ),
           ),

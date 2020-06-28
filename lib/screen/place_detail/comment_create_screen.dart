@@ -11,7 +11,7 @@ import '../../provider/user_info.dart';
 import '../../widget/main_drawer.dart';
 
 class CommentCreateScreen extends StatefulWidget {
-  static const routeName = '/comment-create';
+  static const routeName = '/comment-CommentCreateScreen';
 
   @override
   _CommentCreateScreenState createState() => _CommentCreateScreenState();
@@ -49,7 +49,11 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
     });
 
     await Provider.of<Places>(context, listen: false)
-        .sendComment(placeId, content, rate);
+        .sendComment(placeId, content, rate)
+        .then((value) async {
+      await Provider.of<Places>(context, listen: false)
+          .retrieveComment(placeId);
+    });
 
     setState(() {
       _isLoading = false;
@@ -79,7 +83,8 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
                 .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
           ),
           child: MainDrawer(),
-        ), // resizeToAvoidBottomInset: false,
+        ),
+        // resizeToAvoidBottomInset: false,
         body: Builder(
           builder: (context) => Directionality(
             textDirection: TextDirection.rtl,
@@ -131,6 +136,7 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(5),
                                           ),
+                                          alignLabelWithHint: true,
                                           labelStyle: TextStyle(
                                             color: Colors.grey,
                                             fontFamily: 'Iransans',
@@ -171,30 +177,26 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
                               )
                             : Container()),
                   ),
-                  Positioned(
-                    bottom: 18,
-                    left: 18,
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        createComment(
-                          placeId,
-
-                          reviewTextController.text,
-                          rating,
-                        ).then((_) {
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      backgroundColor: Color(0xff3F9B12),
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            createComment(
+              placeId,
+              reviewTextController.text,
+              rating,
+            ).then((_) {
+              Navigator.of(context).pop();
+            });
+          },
+          backgroundColor: AppTheme.buttonColor,
+          child: Icon(
+            Icons.check,
+            color: AppTheme.white,
           ),
         ),
       ),

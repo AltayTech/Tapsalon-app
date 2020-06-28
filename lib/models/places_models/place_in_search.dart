@@ -1,13 +1,12 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/image_url.dart' as url;
 import 'package:tapsalon/models/region.dart';
 
+import '../city.dart';
 import '../facility.dart';
 import '../field.dart';
 import '../image.dart';
-import '../city.dart';
-import 'place_type.dart';
 import '../province.dart';
+import 'place_type.dart';
 
 class PlaceInSearch with ChangeNotifier {
   final int id;
@@ -15,36 +14,42 @@ class PlaceInSearch with ChangeNotifier {
   final String name;
   final String excerpt;
   final String about;
+  final String timings_excerpt;
   final int price;
   final String phone;
   final String mobile;
+  final String address;
   final double latitude;
   final double longitude;
   final String createdAt;
   final String updatedAt;
+  final bool liked;
   final PlaceType placeType;
   final List<Field> fields;
   final List<Facility> facilities;
   final Image image;
   final Province province;
   final City city;
-  final int likesNo;
+  final int likes_count;
 
   final Region region;
-  final double stars;
+  final double rate;
 
   PlaceInSearch({
     this.id,
     this.name,
     this.excerpt,
     this.about,
+    this.timings_excerpt,
     this.price,
     this.phone,
     this.mobile,
+    this.address,
     this.latitude,
     this.longitude,
     this.createdAt,
     this.updatedAt,
+    this.liked,
     this.placeType,
     this.fields,
     this.facilities,
@@ -52,8 +57,8 @@ class PlaceInSearch with ChangeNotifier {
     this.province,
     this.city,
     this.region,
-    this.stars,
-    this.likesNo,
+    this.rate,
+    this.likes_count,
   });
 
   factory PlaceInSearch.fromJson(Map<String, dynamic> parsedJson) {
@@ -70,9 +75,13 @@ class PlaceInSearch with ChangeNotifier {
       name: parsedJson['name'],
       excerpt: parsedJson['excerpt'] != null ? parsedJson['excerpt'] : '',
       about: parsedJson['about'] != null ? parsedJson['about'] : '',
+      timings_excerpt: parsedJson['timings_excerpt'] != null
+          ? parsedJson['timings_excerpt']
+          : '',
       price: parsedJson['price'] != null ? parsedJson['price'] : 0,
       phone: parsedJson['phone'] != null ? parsedJson['phone'] : '',
       mobile: parsedJson['mobile'] != null ? parsedJson['mobile'] : '',
+      address: parsedJson['address'] != null ? parsedJson['address'] : '',
       latitude: parsedJson['latitude'] != null
           ? double.parse(parsedJson['latitude'].toString())
           : 0.0,
@@ -83,6 +92,7 @@ class PlaceInSearch with ChangeNotifier {
           parsedJson['created_at'] != null ? parsedJson['created_at'] : '',
       updatedAt:
           parsedJson['updated_at'] != null ? parsedJson['updated_at'] : '',
+      liked: parsedJson['liked'] != null ? parsedJson['liked'] : false,
       placeType: PlaceType.fromJson(parsedJson['place_type']),
       fields: fieldRaw,
       facilities: facilityRaw,
@@ -94,11 +104,11 @@ class PlaceInSearch with ChangeNotifier {
       region: parsedJson['region'] != null
           ? Region.fromJson(parsedJson['region'])
           : Region(id: 0, name: ''),
-      stars: parsedJson['stars'] != null
-          ? double.parse(parsedJson['stars'].toString())
+      rate: parsedJson['rate'] != null
+          ? double.parse(parsedJson['rate'].toString())
           : 0.0,
-      likesNo: parsedJson['likes'] != null
-          ? int.parse(parsedJson['likes'].toString())
+      likes_count: parsedJson['likes_count'] != null
+          ? int.parse(parsedJson['likes_count'].toString())
           : 0,
     );
   }

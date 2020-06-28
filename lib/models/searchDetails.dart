@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import 'places_models/complex.dart';
 
 class SearchDetails with ChangeNotifier {
@@ -33,16 +34,23 @@ class SearchDetails with ChangeNotifier {
     dataRaw = dataList.map((i) => Complex.fromJson(i)).toList();
 
     return SearchDetails(
-      current_page: parsedJson['current_page'],
-      from: parsedJson['from'],
-      last_page: parsedJson['last_page'],
-      last_page_url: parsedJson['last_page_url'],
-      next_page_url: parsedJson['next_page_url'],
-      path: parsedJson['path'],
-      per_page: parsedJson['per_page'],
-      prev_page_url: parsedJson['prev_page_url'],
-      to: parsedJson['to'],
-      total: parsedJson['total'],
+      current_page:
+          parsedJson['current_page'] != null ? parsedJson['current_page'] : 1,
+      from: parsedJson['from'] != null ? parsedJson['from'] : 0,
+      last_page: parsedJson['last_page'] != null ? parsedJson['last_page'] : 0,
+      last_page_url: parsedJson['last_page_url'] != null
+          ? parsedJson['last_page_url']
+          : '',
+      next_page_url: parsedJson['next_page_url'] != null
+          ? parsedJson['next_page_url']
+          : '',
+      path: parsedJson['path'] != null ? parsedJson['path'] : '',
+      per_page: parsedJson['per_page'] != null ? parsedJson['per_page'] : 0,
+      prev_page_url: parsedJson['prev_page_url'] != null
+          ? parsedJson['prev_page_url']
+          : '',
+      to: parsedJson['to'] != null ? parsedJson['to'] : 0,
+      total: parsedJson['total'] != null ? parsedJson['total'] : 0,
     );
   }
 }

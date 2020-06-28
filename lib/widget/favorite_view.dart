@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
-
-import '../provider/app_theme.dart';
 
 import '../models/favorite.dart';
 import '../models/searchDetails.dart';
+import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../provider/places.dart';
 import '../screen/user_profile/login_screen.dart';
@@ -68,8 +66,7 @@ class _FavoriteViewState extends State<FavoriteView>
 
   Future<void> _submit() async {
     loadedComplexes.clear();
-    loadedComplexes =
-        Provider.of<Places>(context, listen: false).favoriteItems;
+    loadedComplexes = Provider.of<Places>(context, listen: false).favoriteItems;
     loadedComplexestolist.addAll(loadedComplexes);
   }
 
@@ -77,8 +74,7 @@ class _FavoriteViewState extends State<FavoriteView>
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Places>(context, listen: false)
-        .retrieveFavoriteComplex();
+    await Provider.of<Places>(context, listen: false).retrieveFavoriteComplex();
     searchDetails = Provider.of<Places>(context, listen: false)
         .favoriteComplexSearchDetails;
     _submit();
@@ -159,37 +155,40 @@ class _FavoriteViewState extends State<FavoriteView>
                       ),
                     ),
                     Positioned(
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Align(
-                            alignment: Alignment.center,
-                            child: _isLoading
-                                ? SpinKitFadingCircle(
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: index.isEven
-                                              ? AppTheme.spinerColor
-                                              : AppTheme.spinerColor,
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: _isLoading
+                            ? SpinKitFadingCircle(
+                                itemBuilder: (BuildContext context, int index) {
+                                  return DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: index.isEven
+                                          ? AppTheme.spinerColor
+                                          : AppTheme.spinerColor,
+                                    ),
+                                  );
+                                },
+                              )
+                            : Container(
+                                child: loadedComplexestolist.isEmpty
+                                    ? Center(
+                                        child: Text(
+                                          'سالنی وجود ندارد',
+                                          style: TextStyle(
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 15.0,
+                                          ),
                                         ),
-                                      );
-                                    },
-                                  )
-                                : Container(
-                                    child: loadedComplexestolist.isEmpty
-                                        ? Center(
-                                            child: Text(
-                                            'سالنی وجود ندارد',
-                                            style: TextStyle(
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 15.0,
-                                            ),
-                                          ))
-                                        : Container())))
+                                      )
+                                    : Container(),
+                              ),
+                      ),
+                    ),
                   ],
                 ),
               ),

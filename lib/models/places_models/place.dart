@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/complex_in_place.dart';
 import 'package:tapsalon/models/timing.dart';
 
 import '../../models/facility.dart';
@@ -10,13 +9,14 @@ import '../places_models/place_type.dart';
 import '../province.dart';
 import '../region.dart';
 import '../user_models/user_in_complex.dart';
+import 'complex_in_place.dart';
 
 class Place with ChangeNotifier {
   final int id;
-
   final String name;
   final String excerpt;
   final String about;
+  final String timings_excerpt;
   final int price;
   final String phone;
   final String mobile;
@@ -25,6 +25,7 @@ class Place with ChangeNotifier {
   final double longitude;
   final String createdAt;
   final String updatedAt;
+  final bool liked;
   final ComplexInPlace complex;
   final PlaceType placeType;
   final List<Field> fields;
@@ -36,15 +37,17 @@ class Place with ChangeNotifier {
   final City city;
   final Region region;
   final UserInComplex user;
-  final int likes;
+  final int likes_count;
+  final int comments_count;
   final int visitsNo;
-  final double stars;
+  final double rate;
 
   Place(
       {this.id,
       this.name,
       this.excerpt,
       this.about,
+      this.timings_excerpt,
       this.price,
       this.phone,
       this.mobile,
@@ -53,6 +56,7 @@ class Place with ChangeNotifier {
       this.longitude,
       this.createdAt,
       this.updatedAt,
+      this.liked,
       this.complex,
       this.placeType,
       this.fields,
@@ -64,9 +68,10 @@ class Place with ChangeNotifier {
       this.city,
       this.region,
       this.user,
-      this.likes,
+      this.likes_count,
+      this.comments_count,
       this.visitsNo,
-      this.stars});
+      this.rate});
 
   factory Place.fromJson(Map<String, dynamic> parsedJson) {
     var galleryList = parsedJson['gallery'] as List;
@@ -90,6 +95,9 @@ class Place with ChangeNotifier {
       name: parsedJson['name'],
       excerpt: parsedJson['excerpt'] != null ? parsedJson['excerpt'] : '',
       about: parsedJson['about'] != null ? parsedJson['about'] : '',
+      timings_excerpt: parsedJson['timings_excerpt'] != null
+          ? parsedJson['timings_excerpt']
+          : '',
       price: parsedJson['price'] != null ? parsedJson['price'] : 0,
       phone: parsedJson['phone'] != null ? parsedJson['phone'] : '',
       mobile: parsedJson['mobile'] != null ? parsedJson['mobile'] : '',
@@ -104,6 +112,7 @@ class Place with ChangeNotifier {
           parsedJson['created_at'] != null ? parsedJson['created_at'] : '',
       updatedAt:
           parsedJson['updated_at'] != null ? parsedJson['updated_at'] : '',
+      liked: parsedJson['liked'] != null ? parsedJson['liked'] : false,
       complex: ComplexInPlace.fromJson(parsedJson['complex']),
       placeType: PlaceType.fromJson(parsedJson['place_type']),
       fields: fieldRaw,
@@ -115,14 +124,17 @@ class Place with ChangeNotifier {
       city: City.fromJson(parsedJson['city']),
       region: Region.fromJson(parsedJson['region']),
       user: UserInComplex.fromJson(parsedJson['user']),
-      likes: parsedJson['likes'] != null
-          ? int.parse(parsedJson['likes'].toString())
+      likes_count: parsedJson['likes_count'] != null
+          ? int.parse(parsedJson['likes_count'].toString())
+          : 0,
+      comments_count: parsedJson['comments_count'] != null
+          ? int.parse(parsedJson['comments_count'].toString())
           : 0,
       visitsNo: parsedJson['visitsNo'] != null
           ? int.parse(parsedJson['visitsNo'].toString())
           : 0,
-      stars: parsedJson['stars'] != null
-          ? double.parse(parsedJson['stars'].toString())
+      rate: parsedJson['rate'] != null
+          ? double.parse(parsedJson['rate'].toString())
           : 0.0,
     );
   }

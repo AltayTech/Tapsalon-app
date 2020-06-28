@@ -31,6 +31,7 @@ dependencies:
   shamsi_date: ^0.8.1
   carousel_slider: ^2.1.0
   google_map_location_picker: ^3.3.2
+  floating_action_bubble: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -47,7 +48,11 @@ flutter:
     - assets/images/gym.png
     - assets/images/salon.png
     - assets/images/swimming.png
-
+    - assets/images/login_bg.png
+    - assets/images/circle.gif
+    - assets/images/circle2.gif
+    - assets/images/instagram.png
+    - assets/images/telegram.png
   fonts:
 
     - family: Iransans

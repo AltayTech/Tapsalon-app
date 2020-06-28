@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:tapsalon/widget/main_drawer.dart';
+
 import '../provider/app_theme.dart';
-import '../widget/main_drawer.dart';
 
 class AboutUsScreen extends StatefulWidget {
   static const routeName = '/AboutUsScreen';
@@ -17,11 +19,13 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
+      backgroundColor: AppTheme.white,
       appBar: AppBar(
+        elevation: 0,
         title: Text(
           'درباره ما',
           style: TextStyle(
-            color: Colors.blue,
+            color: AppTheme.bg,
             fontFamily: 'Iransans',
             fontSize: textScaleFactor * 18.0,
           ),
@@ -38,130 +42,87 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           child: Container(
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    'درباره ما:',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontFamily: 'Iransans',
-                      fontSize: textScaleFactor * 18.0,
+                  Container(
+                      width: deviceWidth * 0.3,
+                      height: deviceWidth * 0.3,
+                      color: AppTheme.white,
+                      child: FadeInImage(
+                        placeholder: AssetImage('assets/images/circle.gif'),
+                        image:
+                            AssetImage('assets/images/tapsalon_icon_200.png'),
+                        fit: BoxFit.contain,
+                        height: deviceWidth * 0.5,
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: Text(
+                      'تاپ سالن',
+                      style: TextStyle(
+                        color: AppTheme.h1,
+                        fontFamily: 'BFarnaz',
+                        fontSize: textScaleFactor * 24.0,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  Text(
-                    'موبایل سعید با بیش از 15 سال سابقه در فروش موبایل، تبلت و تجهیزات جانبی افتخار خدمت رسانی به مردم عزیزمان را دارد. محصولات با کیفیت، انواع برند و پشتیبانی عالی و اولویت در پاسخ گویی به مشتریان از نقاط قوتی است که باعث شده هر روز بهتر از دیروز باشیم. موبایل سعید تجربه لذت بخشی از خرید را برای شما آرزومند است',
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontFamily: 'Iransans',
-                      fontSize: textScaleFactor * 14.0,
+                  Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: Text(
+                      ' رزرو سالن های ورزشی، تفریحی و باشگاه ها',
+                      style: TextStyle(
+                        color: AppTheme.grey,
+                        fontFamily: 'Iransans',
+                        fontSize: textScaleFactor * 15.0,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.justify,
                   ),
-                  Divider(),
-                  Card(
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              width: deviceWidth,
-                              child: Text(
-                                'اهداف ما:',
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 18,
-                                ),
-                              ),
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.arrow_right,
-                                  color: Colors.indigoAccent,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    'ارائه انواع برندهای موبایل، تبلت و تجهیزات جانبی',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 14,
-                                    ),
-                                    overflow: TextOverflow.clip,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.arrow_right,
-                                  color: Colors.indigoAccent,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    'سهولت در خرید محصولات با ارائه انواع روش های خرید',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 14,
-                                    ),
-                                    overflow: TextOverflow.clip,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.arrow_right,
-                                  color: Colors.indigoAccent,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    'مشتری مداری و ارائه پشتیبانی قوی',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 14,
-                                    ),
-                                    textAlign: TextAlign.justify,
-                                    overflow: TextOverflow.clip,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.arrow_right,
-                                  color: Colors.indigoAccent,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    'خدمات پس از فروش',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 14,
-                                    ),
-                                    textAlign: TextAlign.right,
-                                    overflow: TextOverflow.clip,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        'تاسالن یک پلتفرم اطلاع رسانی و رزرو سالن های ورزشی، تفریحی، باشگاه ها می باشد.  تاپسالن درصدد است با تحت پوشش قرار دادن تمامی اماکن ورزشی و تفریحی سراسر کشور بتواند خدمات جامعی در زمینه اطلاعات اماکن ورزشی بدست بیاورید',
+                        style: TextStyle(
+                          color: AppTheme.black,
+                          fontFamily: 'Iransans',
+                          fontSize: textScaleFactor * 15.0,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
+//                  Container(
+//                    height: deviceHeight * 0.7,
+//                    width: deviceWidth,
+//                    child: ListView.builder(
+//                      shrinkWrap: true,
+//                      primary: false,
+//                      itemCount: shopData.features_list.length,
+//                      itemBuilder: (BuildContext context, int index) {
+//                        return Padding(
+//                          padding: const EdgeInsets.all(8.0),
+//                          child: Row(
+//                            children: <Widget>[
+//                              Icon(Icons.arrow_right,color: AppTheme.secondary,),
+//                              Text(
+//                                shopData.features_list[index].feature,
+//                                style: TextStyle(
+//                                  color: AppTheme.h1,
+//                                  fontFamily: 'Iransans',
+//                                  fontStyle: FontStyle.italic,
+//                                  fontSize: textScaleFactor * 15.0,
+//                                ),
+//                                textAlign: TextAlign.center,
+//                              ),
+//                            ],
+//                          ),
+//                        );
+//                      },
+//                    ),
+//                  ),
                 ],
               ),
             ),

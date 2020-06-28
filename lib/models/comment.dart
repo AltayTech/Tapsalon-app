@@ -22,12 +22,16 @@ class Comment with ChangeNotifier {
 
   factory Comment.fromJson(Map<String, dynamic> parsedJson) {
     return Comment(
-        id: parsedJson['id']!= null ? parsedJson['id'] : 0,
-        place_id:parsedJson['place_id']!= null ? parsedJson['place_id'] : 0 ,
-        rate: parsedJson['rate']!= null ? parsedJson['rate'] : 0,
-        content: parsedJson['content']!= null ? parsedJson['content'] : '',
-        createdAt: parsedJson['created_at']!= null ? parsedJson['created_at'] : '',
-        updatedAt: parsedJson['updated_at']!= null ? parsedJson['updated_at'] : '',
-        user: UserInComment.fromJson(parsedJson['user']));
+        id: parsedJson['id'] != null ? parsedJson['id'] : 0,
+        place_id: parsedJson['place_id'] != null ? parsedJson['place_id'] : 0,
+        rate: parsedJson['rate'] != null ? parsedJson['rate'] : 0,
+        content: parsedJson['content'] != null ? parsedJson['content'] : '',
+        createdAt:
+            parsedJson['created_at'] != null ? parsedJson['created_at'] : '',
+        updatedAt:
+            parsedJson['updated_at'] != null ? parsedJson['updated_at'] : '',
+        user: parsedJson['user'] != null
+            ? UserInComment.fromJson(parsedJson['user'])
+            : UserInComment(id: 0));
   }
 }

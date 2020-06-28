@@ -3,11 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import '../../provider/app_theme.dart';
-import '../../widget/main_drawer.dart';
 
 import '../../classes/http_exception.dart';
+import '../../provider/app_theme.dart';
 import '../../provider/auth.dart';
+import '../../widget/main_drawer.dart';
 
 enum AuthMode { VerificationCode, Login }
 
@@ -26,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
@@ -45,132 +46,35 @@ class _LoginScreenState extends State<LoginScreen> {
           height: deviceSize.height - 80,
           child: Stack(
             children: <Widget>[
+              Positioned.fill(
+                  top: -deviceSize.height * 0.1,
+                  child: Image.asset(
+                    'assets/images/login_bg.png',
+                    fit: BoxFit.cover,
+                  )),
               Positioned(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: double.infinity,
-                      child: Image.asset(
-                        'assets/images/login_header1.png',
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Spacer(),
-                    Container(
-                      width: double.infinity,
-                      child: Image.asset(
-                        'assets/images/login_footer1.png',
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                top: deviceSize.height * 0.06,
-                width: MediaQuery.of(context).size.width,
+                top: deviceSize.height * 0.1,
+                left: 0,
+                right: 0,
                 child: Text(
-                  'موبایل سعید',
+                  'تاپ سالن',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Iransans',
-                    fontSize: textScaleFactor * 27.0,
+                    color: Colors.blue,
+                    fontFamily: 'BFarnaz',
+                    fontStyle: FontStyle.normal,
+                    fontSize: textScaleFactor * 35.0,
                   ),
                 ),
               ),
               Positioned(
-                top: deviceSize.height * 0.12,
-                width: deviceSize.width,
-                child: Text(
-                  'فروشگاه موبایل، تبلت و وسایل جانبی',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Iransans',
-                    fontSize: textScaleFactor * 12.0,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: deviceSize.height * 0.18,
-                width: deviceSize.width,
-                child: Center(
-                  child: Card(
-                    elevation: 10,
-                    child: Container(
-                      height: 110,
-                      width: 110,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(width: 3, color: Colors.white),
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0xff8A81F0),
-                            Color(0xff0BD9F4),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                            child: Image.asset(
-                          'assets/images/tapsalon_icon_200.png',
-                          fit: BoxFit.fill,
-                        )),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: deviceSize.height * 0,
+                top: deviceSize.height * 0.4,
                 child: Container(
                   height: deviceSize.height * 0.99,
                   width: deviceSize.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Flexible(
-                          child: Container(
-                        height: 40,
-                        child: Stack(
-                          children: <Widget>[
-                            Center(
-                              child: Divider(
-                                indent: 40,
-                                endIndent: 40,
-                                color: Colors.black54,
-                              ),
-                            ),
-                            Center(
-                                child: Container(
-                              color: Color(0xffF9F9F9),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 18.0),
-                                child: Text(
-                                  'ورود',
-                                  style: TextStyle(
-                                    fontFamily: 'Iransans',
-                                    color: Colors.blue,
-                                    fontSize: textScaleFactor * 16.0,
-                                  ),
-                                ),
-                              ),
-                            ))
-                          ],
-                        ),
-                      )),
-                      Flexible(
-                        flex: deviceSize.width > 600 ? 2 : 1,
-                        child: AuthCard(),
-                      ),
-                    ],
+                  child: Flexible(
+                    flex: deviceSize.width > 600 ? 2 : 1,
+                    child: AuthCard(),
                   ),
                 ),
               ),
@@ -451,6 +355,7 @@ class _AuthCardState extends State<AuthCard>
                                           textAlign: TextAlign.center,
                                           enabled: true,
                                           decoration: InputDecoration(
+                                            fillColor: Colors.white10,
                                             border: InputBorder.none,
                                             suffix: Text(''),
                                             labelStyle: TextStyle(
@@ -474,8 +379,8 @@ class _AuthCardState extends State<AuthCard>
                                           top: 5,
                                           bottom: 12,
                                           child: Icon(
-                                            Icons.mobile_screen_share,
-                                            color: Colors.blue,
+                                            Icons.phone_android,
+                                            color: AppTheme.black,
                                           )),
                                     ],
                                   ),
@@ -516,6 +421,8 @@ class _AuthCardState extends State<AuthCard>
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           suffix: Text(''),
+                                          fillColor: Colors.white,
+                                          focusColor: Colors.white,
                                           counterStyle: TextStyle(
                                             decorationStyle:
                                                 TextDecorationStyle.dashed,
@@ -539,8 +446,8 @@ class _AuthCardState extends State<AuthCard>
                                           top: 7,
                                           bottom: 12,
                                           child: Icon(
-                                            Icons.mobile_screen_share,
-                                            color: Colors.blue,
+                                            Icons.phone_android,
+                                            color: AppTheme.black,
                                           )),
                                     ],
                                   ),
@@ -593,7 +500,7 @@ class _AuthCardState extends State<AuthCard>
                         ),
                         padding: EdgeInsets.symmetric(
                             horizontal: 30.0, vertical: 8.0),
-                        color: Color(0xffFF6D6B),
+                        color: Colors.blue,
                         textColor:
                             Theme.of(context).primaryTextTheme.button.color,
                       ),

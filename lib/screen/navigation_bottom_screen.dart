@@ -146,8 +146,8 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
           key: _scaffoldKey,
           appBar: AppBar(
             backgroundColor: AppTheme.appBarColor,
-            elevation:0 ,
-            iconTheme:IconThemeData(color: AppTheme.appBarIconColor) ,
+            elevation: 0,
+            iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
             actions: <Widget>[
               Consumer<Cities>(
                 builder: (_, cities, ch) => Padding(
@@ -177,7 +177,6 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                             child: Icon(
                               Icons.arrow_drop_down,
                               color: AppTheme.appBarIconColor,
-
                               size: 25,
                             ),
                           )
@@ -189,7 +188,6 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
               ),
             ],
           ),
-
           drawer: Theme(
             data: Theme.of(context).copyWith(
               // Set the transparency here

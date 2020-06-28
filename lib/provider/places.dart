@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tapsalon/models/main_regions.dart';
+import 'package:tapsalon/models/places_models/main_places.dart';
 import 'package:tapsalon/models/places_models/place.dart';
-
-import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/main_places.dart';
-import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/place_in_search.dart';
+import 'package:tapsalon/models/places_models/place_in_search.dart';
 
 import '../models/comment.dart';
 import '../models/facility.dart';
@@ -72,6 +71,8 @@ class Places with ChangeNotifier {
   Place _itemPlace;
 
   SearchDetails _commentsSearchDetails;
+
+  bool isLiked;
 
   Place get itemPlace => _itemPlace;
 
@@ -332,7 +333,7 @@ class Places with ChangeNotifier {
 
   Future<void> retrieveComment(int placeId) async {
     print('retrieveComment');
-    final url = Urls.rootUrl +Urls.placesEndPoint+'/$placeId/comments';
+    final url = Urls.rootUrl + Urls.placesEndPoint + '/$placeId/comments';
     print(url);
     try {
       final response = await get(url);
@@ -409,39 +410,31 @@ class Places with ChangeNotifier {
     }
   }
 
-  Future<void> retrieveLikes(int complexId) async {
+  Future<void> retrieveLikes(int placeId) async {
     print('retrieveLikes');
 
-    final url = Urls.rootUrl + '/api/complexes/$complexId/comments';
+    final url = Urls.rootUrl + '/api/places/$placeId/liked';
     print(url);
 
     try {
-      final response = await get(url);
+      final prefs = await SharedPreferences.getInstance();
+
+      var _token = prefs.getString('token');
+      final response = await get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $_token',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         print(extractedData.toString());
 
-        MainComments mainComments = MainComments.fromJson(extractedData);
-        print(response.headers.toString());
-        _itemsComments.clear();
-        _itemsComments.addAll(mainComments.data);
-
-        _commentsSearchDetails = SearchDetails(
-          current_page: mainComments.current_page,
-          first_page_url: mainComments.first_page_url,
-          from: mainComments.from,
-          last_page: mainComments.last_page,
-          last_page_url: mainComments.last_page_url,
-          next_page_url: mainComments.next_page_url,
-          path: mainComments.path,
-          per_page: mainComments.per_page,
-          prev_page_url: mainComments.prev_page_url,
-          to: mainComments.to,
-          total: mainComments.total,
-        );
-        print(_placeSearchDetails.total.toString());
+        isLiked = extractedData['liked'];
       } else {
-        _itemsRegions = [];
+        isLiked = false;
       }
       notifyListeners();
     } catch (error) {

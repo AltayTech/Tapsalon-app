@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tapsalon/models/places_models/place_in_search.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_screen.dart';
-
-import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter/tapsalon/lib/models/places_models/place_in_search.dart';
 
 import '../provider/app_theme.dart';
 import 'en_to_ar_number_convertor.dart';
@@ -24,7 +23,7 @@ class MainPagePlaceItem extends StatelessWidget {
               'placeId': loadedPlace.id,
               'name': loadedPlace.name,
               'imageUrl': loadedPlace.image.url.medium,
-              'stars': loadedPlace.stars.toString()
+              'stars': loadedPlace.rate.toString()
             });
           },
           child: Stack(
@@ -117,16 +116,19 @@ class MainPagePlaceItem extends StatelessWidget {
                               size: 20,
                             ),
                           ),
-                          Text(
-                            loadedPlace.region.name,
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontFamily: 'Iransans',
-                              color: AppTheme.grey,
-                              fontSize:
-                                  MediaQuery.of(context).textScaleFactor * 12.0,
+                          Container(
+                            width: constraint.maxWidth*0.4,
+                            child: Text(
+                              loadedPlace.region.name,
+                              textAlign: TextAlign.right,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontFamily: 'Iransans',
+                                color: AppTheme.grey,
+                                fontSize:
+                                    MediaQuery.of(context).textScaleFactor * 12.0,
+                              ),
                             ),
                           ),
                           Spacer(),
@@ -144,12 +146,13 @@ class MainPagePlaceItem extends StatelessWidget {
                                 right: 5, left:10, top: 1, bottom: 4),
                             child: Text(
                               EnArConvertor().replaceArNumber(
-                                loadedPlace.stars.toString(),
+                                loadedPlace.rate.toString(),
                               ),
                               textAlign: TextAlign.right,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: TextStyle(
+
                                 fontFamily: 'Iransans',
                                 color: AppTheme.grey,
 

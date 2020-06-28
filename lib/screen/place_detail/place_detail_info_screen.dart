@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import '../../widget/en_to_ar_number_convertor.dart';
 
 class PlaceDetailInfoScreen extends StatelessWidget {
+
   final Place place;
 
   PlaceDetailInfoScreen({this.place});
@@ -56,7 +57,7 @@ class PlaceDetailInfoScreen extends StatelessWidget {
         position: _center,
         infoWindow: InfoWindow(
           title: place.name,
-          snippet: place.stars.toString(),
+          snippet: place.rate.toString(),
         ),
         icon: BitmapDescriptor.defaultMarker,
       ),
