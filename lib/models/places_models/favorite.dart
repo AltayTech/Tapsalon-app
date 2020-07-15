@@ -1,29 +1,30 @@
 import 'package:flutter/foundation.dart';
+import 'package:tapsalon/models/places_models/place.dart';
 
-import 'places_models/place_favorite.dart';
+import 'place_favorite.dart';
 
 class Favorite with ChangeNotifier {
   final int id;
   final int user_id;
-  final int complex_id;
-  final PlaceFavorite complex;
+  final int place_id;
+  final PlaceFavorite place;
   final String created_at;
   final String updated_at;
 
   Favorite(
       {this.id,
       this.user_id,
-      this.complex_id,
-      this.complex,
+      this.place_id,
+      this.place,
       this.created_at,
       this.updated_at});
 
   factory Favorite.fromJson(Map<String, dynamic> parsedJson) {
     return Favorite(
       id: parsedJson['id'],
-      complex_id: parsedJson['complex_id'],
+      place_id: parsedJson['place_id'],
       user_id: parsedJson['user_id'],
-      complex: PlaceFavorite.fromJson(parsedJson['complex']),
+      place: PlaceFavorite.fromJson(parsedJson['place']),
       created_at: parsedJson['created_at'],
       updated_at: parsedJson['updated_at'],
     );

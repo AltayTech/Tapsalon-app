@@ -8,6 +8,7 @@ class FancyFab extends StatefulWidget {
   final Function() onPressed1;
   final Function() onPressed2;
   final Function() onPressed3;
+  final Function() onPressed4;
   final String tooltip;
   final IconData icon;
 
@@ -16,6 +17,7 @@ class FancyFab extends StatefulWidget {
       this.onPressed1,
       this.onPressed2,
       this.onPressed3,
+      this.onPressed4,
       this.tooltip,
       this.icon});
 
@@ -31,7 +33,7 @@ class _FancyFabState extends State<FancyFab>
   Animation<double> _animateIcon;
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
-  double _fabHeight = 10;
+  double _fabHeight = 2;
 
   @override
   initState() {
@@ -60,7 +62,7 @@ class _FancyFabState extends State<FancyFab>
       parent: _animationController,
       curve: Interval(
         0.0,
-        0.75,
+        0.99,
         curve: _curve,
       ),
     ));
@@ -105,20 +107,19 @@ class _FancyFabState extends State<FancyFab>
     );
   }
 
-  Widget sport() {
+  Widget salon() {
     return Container(
       child: FloatingActionButton(
         heroTag: 'onPressed1',
-
         elevation: isOpened ? 3 : 0,
         backgroundColor: AppTheme.white,
         onPressed: () {
           widget.onPressed1();
           animate();
         },
-        tooltip: 'ورزشی',
+        tooltip: 'سالن',
         child: Text(
-          'ورزشی',
+          'سالن',
           style: TextStyle(
             fontFamily: 'Iransans',
             color: Colors.black,
@@ -134,7 +135,6 @@ class _FancyFabState extends State<FancyFab>
     return Container(
       child: FloatingActionButton(
         heroTag: 'onPressed2',
-
         elevation: isOpened ? 3 : 0,
         backgroundColor: AppTheme.white,
         onPressed: () {
@@ -154,15 +154,36 @@ class _FancyFabState extends State<FancyFab>
     );
   }
 
-  Widget entertainment() {
+  Widget sport() {
     return Container(
       child: FloatingActionButton(
         heroTag: 'onPressed3',
-
         elevation: isOpened ? 3 : 0,
         backgroundColor: AppTheme.white,
         onPressed: () {
           widget.onPressed3();
+          animate();
+        },
+        tooltip: 'ورزشی',
+        child: Text(
+          'ورزشی',
+          style: TextStyle(
+            fontFamily: 'Iransans',
+            color: Colors.black,
+            fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
+          ),
+        ),
+      ),
+    );
+  }
+  Widget entertainment() {
+    return Container(
+      child: FloatingActionButton(
+        heroTag: 'onPressed4',
+        elevation: isOpened ? 3 : 0,
+        backgroundColor: AppTheme.white,
+        onPressed: () {
+          widget.onPressed4();
           animate();
         },
         tooltip: 'تفریحی',
@@ -181,12 +202,14 @@ class _FancyFabState extends State<FancyFab>
   String buttonTitle() {
     String title = 'همه';
     String placeTytpe =
-        Provider.of<Places>(context, listen: false).sComplexType;
+        Provider.of<Places>(context, listen: false).sPlaceType;
     if (placeTytpe == '1') {
-      title = 'ورزشی';
+      title = 'سالن';
     } else if (placeTytpe == '2') {
       title = 'باشگاه';
-    } else if (placeTytpe == '3') {
+    }else if (placeTytpe == '3') {
+      title = 'ورزشی';
+    } else if (placeTytpe == '4') {
       title = 'تفریحی';
     } else {
       title = 'همه';
@@ -224,35 +247,28 @@ class _FancyFabState extends State<FancyFab>
       verticalDirection: VerticalDirection.up,
       children: <Widget>[
         Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            _translateButton.value * 4.0,
-            0.0,
-          ),
+          transform:
+              Matrix4.translationValues(0.0, _translateButton.value * 5.0, 0.0),
           child: entertainment(),
         ),
         Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            _translateButton.value * 3.0,
-            0.0,
-          ),
-          child: club(),
-        ),
-        Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            _translateButton.value * 2.0,
-            0.0,
-          ),
+          transform:
+          Matrix4.translationValues(0.0, _translateButton.value * 4.0, 0.0),
           child: sport(),
         ),
         Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            _translateButton.value,
-            0.0,
-          ),
+          transform:
+              Matrix4.translationValues(0.0, _translateButton.value * 3.0, 0.0),
+          child: club(),
+        ),
+        Transform(
+          transform:
+              Matrix4.translationValues(0.0, _translateButton.value * 2.0, 0.0),
+          child: salon(),
+        ),
+        Transform(
+          transform:
+              Matrix4.translationValues(0.0, _translateButton.value, 0.0),
           child: all(),
         ),
         toggle(),

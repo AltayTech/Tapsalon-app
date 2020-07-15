@@ -118,12 +118,18 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
       Provider.of<Places>(context, listen: false).sCityId =
           selectedCity.id.toString();
+      loadedPlacesToList.clear();
       await searchItems();
     }
 
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<void> filterItems() async {
+    loadedPlacesToList.clear();
+    await retrieveItems();
   }
 
   Future<void> cleanFilters(BuildContext context) async {
@@ -142,7 +148,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     Provider.of<Places>(context, listen: false).searchBuilder();
     await Provider.of<Places>(context, listen: false).searchItem();
     searchDetails =
-        Provider.of<Places>(context, listen: false).complexSearchDetails;
+        Provider.of<Places>(context, listen: false).placeSearchDetails;
     loadedPlaces.clear();
     loadedPlaces = Provider.of<Places>(context, listen: false).items;
     loadedPlacesToList.addAll(loadedPlaces);
@@ -191,15 +197,38 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       print(list[i].latitude);
       print(list[i].longitude);
       var latLng = LatLng(list[i].latitude, list[i].longitude);
+      var pinLocationIcon;
+      if (list[i].placeType.id == 1) {
+        pinLocationIcon = pinLocationIconSalon;
+      } else if (list[i].placeType.id == 2) {
+        pinLocationIcon = pinLocationIconEnt;
+      } else if (list[i].placeType.id == 3) {
+        pinLocationIcon = pinLocationIconGym;
+      } else {
+        pinLocationIcon = pinLocationIconSalon;
+      }
 
       _markers.add(Marker(
         markerId: MarkerId(list[i].id.toString()),
         onTap: () {
           changePick(list, i);
         },
-        infoWindow: InfoWindow(title: list[i].name),
+        infoWindow: InfoWindow(
+          title: list[i].name,
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              PlaceDetailScreen.routeName,
+              arguments: {
+                'placeId': selectedPlace.id,
+                'name': selectedPlace.name,
+                'imageUrl': selectedPlace.image.url.medium,
+                'stars': selectedPlace.rate.toString(),
+              },
+            );
+          },
+        ),
         position: latLng,
-        icon: BitmapDescriptor.defaultMarkerWithHue(240),
+        icon: pinLocationIcon,
       ));
     }
   }
@@ -249,6 +278,30 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   }
 
   TabController _tabController;
+  BitmapDescriptor pinLocationIconSalon;
+  BitmapDescriptor pinLocationIconEnt;
+  BitmapDescriptor pinLocationIconGym;
+
+  void setCustomMapPin() async {
+    pinLocationIconSalon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(
+          devicePixelRatio: 2.5,
+        ),
+        'assets/images/marker_ic_1_v1.png',
+        mipmaps: true);
+    pinLocationIconEnt = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(
+          devicePixelRatio: 2.5,
+        ),
+        'assets/images/marker_ic_2_v1.png',
+        mipmaps: true);
+    pinLocationIconGym = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(
+          devicePixelRatio: 2.5,
+        ),
+        'assets/images/marker_ic_3_v1.png',
+        mipmaps: true);
+  }
 
   @override
   void initState() {
@@ -295,6 +348,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     _geolocator.getPositionStream(locationOptions).listen((Position position) {
       _position = position;
     });
+    setCustomMapPin();
   }
 
   void _handleTabSelection() {
@@ -315,21 +369,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       print('Error: ${e.toString()}');
     }
   }
-
-  final List<Tab> myTabs = <Tab>[
-    Tab(
-      text: 'همه',
-    ),
-    Tab(
-      text: 'ورزشی',
-    ),
-    Tab(
-      text: 'باشگاه ها',
-    ),
-    Tab(
-      text: 'تفریحی',
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -361,77 +400,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             zoomGesturesEnabled: true,
             onLongPress: (latlng) => _onAddMarkerButtonPressed(latlng),
           ),
-//          Positioned(
-//            top: deviceHeight * 0.055 + 5,
-//            child: Padding(
-//              padding: const EdgeInsets.all(16.0),
-//              child: Align(
-//                alignment: Alignment.topLeft,
-//                child: Container(
-//                  width: deviceWidth * 0.12,
-//                  child: Column(
-//                    children: <Widget>[
-//                      FloatingActionButton(
-//                        heroTag: "btn1",
-//                        onPressed: _onMapTypeButtonPressed,
-//                        materialTapTargetSize: MaterialTapTargetSize.padded,
-//                        backgroundColor: Colors.green,
-//                        child: const Icon(
-//                          Icons.map,
-//                          size: 25.0,
-//                          color: Colors.white,
-//                        ),
-//                      ),
-//                      SizedBox(height: 5.0),
-//                      FloatingActionButton(
-//                        heroTag: "btn2",
-//                        onPressed: () {
-//                          myController.animateCamera(
-//                            CameraUpdate.newCameraPosition(
-//                              CameraPosition(
-//                                  target: LatLng(
-//                                      _position.latitude, _position.longitude),
-//                                  zoom: 20.0),
-//                            ),
-//                          );
-//                        },
-//                        materialTapTargetSize: MaterialTapTargetSize.padded,
-//                        backgroundColor: Colors.green,
-//                        child: const Icon(
-//                          Icons.my_location,
-//                          size: 25.0,
-//                          color: Colors.white,
-//                        ),
-//                      ),
-//                      SizedBox(height: 5.0),
-//                      Builder(
-//                        builder: (context) {
-//                          return FloatingActionButton(
-//                            heroTag: "btn3",
-//                            onPressed: () {
-//                              Scaffold.of(context).openEndDrawer();
-//                            },
-//                            materialTapTargetSize: MaterialTapTargetSize.padded,
-//                            backgroundColor: Colors.green,
-//                            child: const Icon(
-//                              Icons.filter_list,
-//                              size: 25.0,
-//                              color: Colors.white,
-//                            ),
-//                          );
-//                        },
-//                      ),
-//                    ],
-//                  ),
-//                ),
-//              ),
-//            ),
-//          ),
           _isInfoShow
               ? Positioned(
-                  bottom: deviceHeight * 0.0,
-                  left: deviceWidth * 0.0,
-                  right: deviceWidth * 0.0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
                   child: AnimatedContainer(
                     duration: _animationController.duration,
                     curve: Curves.easeIn,
@@ -461,180 +434,173 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                   )),
                               height: deviceHeight * 0.2,
                               width: deviceWidth * 0.9,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    width: constraint.maxWidth,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 16, right: 18, left: 16),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Expanded(
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: <Widget>[
-                                          Text(
-                                            selectedPlace.name,
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.right,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              fontFamily: 'Iransans',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: textScaleFactor * 16.0,
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 1,
-                                                left: 3.0,
-                                                top: 1,
-                                                bottom: 4),
-                                            child: Icon(
-                                              Icons.star,
-                                              color: AppTheme.iconColor,
-                                              size: 25,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 5,
-                                                left: 0,
-                                                top: 1,
-                                                bottom: 4),
-                                            child: Text(
-                                              EnArConvertor().replaceArNumber(
-                                                selectedPlace.rate.toString(),
-                                              ),
-                                              textAlign: TextAlign.right,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                fontFamily: 'Iransans',
-                                                color: AppTheme.grey,
-                                                fontSize:
-                                                    textScaleFactor * 16.0,
+                                          Expanded(
+                                            flex: 8,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 5.0),
+                                              child: Text(
+                                                selectedPlace.name,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.right,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  fontFamily: 'Iransans',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize:
+                                                      textScaleFactor * 16.0,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8, right: 18, left: 16),
-                                    child: Container(
-                                      width: constraint.maxWidth,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 0,
-                                                left: 16,
-                                                top: 10,
-                                                bottom: 4),
-                                            child: Container(
-                                                width:
-                                                    constraint.minWidth * 0.6,
-                                                child: Wrap(
-                                                  children: selectedPlace.fields
-                                                      .map((e) =>
-                                                          ChangeNotifierProvider
-                                                              .value(
-                                                            value: e,
-                                                            child: Text(
-                                                              selectedPlace
-                                                                          .fields
-                                                                          .indexOf(
-                                                                              e) <
-                                                                      (selectedPlace
-                                                                              .fields
-                                                                              .length -
-                                                                          1)
-                                                                  ? (e.name +
-                                                                      ' ،')
-                                                                  : e.name,
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Iransans',
-                                                                color: AppTheme
-                                                                    .grey,
-                                                                fontSize:
-                                                                    textScaleFactor *
-                                                                        15.0,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            ),
-                                                          ))
-                                                      .toList(),
-                                                )),
-                                          ),
-                                          Spacer(),
-                                          Wrap(
-                                            direction: Axis.horizontal,
-                                            crossAxisAlignment:
-                                                WrapCrossAlignment.center,
-                                            children: <Widget>[
-                                              Container(
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 10),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.star,
+                                                  color: AppTheme.iconColor,
+                                                  size: 25,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    right: 5,
+                                                    top: 5,
+                                                  ),
                                                   child: Text(
-                                                    selectedPlace.price != null
-                                                        ? EnArConvertor()
-                                                            .replaceArNumber(currencyFormat
-                                                                .format(double.parse(
-                                                                    selectedPlace
-                                                                        .price
-                                                                        .toString()))
-                                                                .toString())
-                                                            .toString()
-                                                        : EnArConvertor()
-                                                            .replaceArNumber(
-                                                                '0'),
+                                                    EnArConvertor()
+                                                        .replaceArNumber(
+                                                      selectedPlace.rate
+                                                          .toString(),
+                                                    ),
+                                                    textAlign: TextAlign.right,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 1,
                                                     style: TextStyle(
-                                                      color: AppTheme.black,
                                                       fontFamily: 'Iransans',
+                                                      color: AppTheme.grey,
                                                       fontSize:
                                                           textScaleFactor *
-                                                              18.0,
+                                                              16.0,
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              Text(
-                                                'هزار \n تومان',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontFamily: 'Iransans',
-                                                  color: AppTheme.grey,
-                                                  fontSize:
-                                                      textScaleFactor * 10.0,
-                                                ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8, right: 14, left: 16),
-                                    child: Container(
-                                      width: constraint.maxWidth,
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 8,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 5.0),
+                                              child: Container(
+                                                width:
+                                                    constraint.minWidth * 0.7,
+                                                child: Wrap(
+                                                  children: selectedPlace.fields
+                                                      .map(
+                                                        (e) =>
+                                                            ChangeNotifierProvider
+                                                                .value(
+                                                          value: e,
+                                                          child: Text(
+                                                            selectedPlace.fields
+                                                                        .indexOf(
+                                                                            e) <
+                                                                    (selectedPlace
+                                                                            .fields
+                                                                            .length -
+                                                                        1)
+                                                                ? (e.name +
+                                                                    ' ،')
+                                                                : e.name,
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Iransans',
+                                                              color:
+                                                                  AppTheme.grey,
+                                                              fontSize:
+                                                                  textScaleFactor *
+                                                                      15.0,
+                                                            ),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          ),
+                                                        ),
+                                                      )
+                                                      .toList(),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 3,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: <Widget>[
+                                                Text(
+                                                  selectedPlace.price != null
+                                                      ? EnArConvertor()
+                                                          .replaceArNumber(currencyFormat
+                                                              .format(double.parse(
+                                                                  selectedPlace
+                                                                      .price
+                                                                      .toString()))
+                                                              .toString())
+                                                          .toString()
+                                                      : EnArConvertor()
+                                                          .replaceArNumber('0'),
+                                                  style: TextStyle(
+                                                    color: AppTheme.black,
+                                                    fontFamily: 'Iransans',
+                                                    fontSize:
+                                                        textScaleFactor * 18.0,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'هزار \n تومان',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontFamily: 'Iransans',
+                                                    color: AppTheme.grey,
+                                                    fontSize:
+                                                        textScaleFactor * 10.0,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -650,119 +616,29 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                               size: 25,
                                             ),
                                           ),
-                                          Container(
-                                            padding: const EdgeInsets.only(
-                                                left: 3.0, top: 4, bottom: 1),
-                                            child: Text(
-                                              selectedPlace.address,
-                                              textAlign: TextAlign.right,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                fontFamily: 'Iransans',
-                                                color: AppTheme.grey,
-                                                fontSize:
-                                                    textScaleFactor * 15.0,
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 3.0, top: 4, bottom: 1),
+                                              child: Text(
+                                                selectedPlace.address,
+                                                textAlign: TextAlign.right,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  fontFamily: 'Iransans',
+                                                  color: AppTheme.grey,
+                                                  fontSize:
+                                                      textScaleFactor * 15.0,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                          Spacer(),
                                         ],
                                       ),
                                     ),
-                                  ),
-//                                  Container(
-//                                    height: deviceHeight * 0.15,
-//                                    decoration: BoxDecoration(
-//                                        borderRadius: BorderRadius.circular(50),
-//                                        color: Colors.white),
-//                                    child: Row(
-//                                      mainAxisAlignment:
-//                                          MainAxisAlignment.spaceBetween,
-//                                      children: <Widget>[
-//                                        Container(
-//                                          width: constraint.maxWidth * 0.2,
-//                                          child: Icon(
-//                                            Icons.location_on,
-//                                            color: Colors.blue,
-//                                            size: deviceHeight * 0.07,
-//                                          ),
-//                                        ),
-//                                        Container(
-//                                          width: constraint.maxWidth * 0.6,
-//                                          child: Column(
-//                                            mainAxisAlignment:
-//                                                MainAxisAlignment.spaceEvenly,
-//                                            children: <Widget>[
-//                                              Text(
-//                                                selectedPlace.name,
-//                                                maxLines: 1,
-//                                                overflow: TextOverflow.ellipsis,
-//                                                style: TextStyle(
-//                                                  fontFamily: 'Iransans',
-//                                                  color: Colors.black,
-//                                                  fontSize: MediaQuery.of(context)
-//                                                          .textScaleFactor *
-//                                                      11.0,
-//                                                ),
-//                                              ),
-//                                              Text(
-//                                                selectedPlace.region.name,
-//                                                style: TextStyle(
-//                                                  fontFamily: 'Iransans',
-//                                                  color: Colors.black,
-//                                                  fontSize: MediaQuery.of(context)
-//                                                          .textScaleFactor *
-//                                                      11.0,
-//                                                ),
-//                                              ),
-//                                              Container(
-//                                                width: constraint.maxWidth * 0.3,
-//                                                child: Directionality(
-//                                                  textDirection:
-//                                                      TextDirection.ltr,
-//                                                  child: SmoothStarRating(
-//                                                      allowHalfRating: false,
-//                                                      onRated: (v) {},
-//                                                      starCount: 5,
-//                                                      rating: selectedPlace.stars,
-//                                                      size: constraint.maxWidth *
-//                                                          0.05,
-//                                                      color: Colors.green,
-//                                                      borderColor: Colors.green,
-//                                                      spacing: 0.0),
-//                                                ),
-//                                              )
-//                                            ],
-//                                          ),
-//                                        ),
-//                                        Container(
-//                                          width: constraint.maxWidth * 0.2,
-//                                          height: constraint.maxHeight,
-//                                          decoration: BoxDecoration(
-//                                              shape: BoxShape.circle,
-////                                  borderRadius: BorderRadius.circular(50),
-//                                              color: Colors.white),
-//                                          child: Padding(
-//                                            padding: const EdgeInsets.all(8.0),
-//                                            child: ClipRRect(
-//                                              borderRadius:
-//                                                  BorderRadius.circular(50),
-//                                              child: FadeInImage(
-//                                                placeholder: AssetImage(
-//                                                    'assets/images/tapsalon_icon_200.png'),
-//                                                image: NetworkImage(selectedPlace
-//                                                    .image.url.medium
-//                                                    .toString()),
-//                                                fit: BoxFit.cover,
-//                                              ),
-//                                            ),
-//                                          ),
-//                                        )
-//                                      ],
-//                                    ),
-//                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -772,54 +648,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   ),
                 )
               : Container(),
-//          Positioned(
-//            left: 5,
-//            right: 5,
-//            top: 5,
-//            child: Container(
-//              height: deviceHeight * 0.055,
-//
-//              child: TabBar(
-//                  onTap: (i) {
-//                    if (i == 0) {
-//                      Provider.of<Places>(context, listen: false)
-//                          .sComplexType = '';
-//                    } else if (i == 1) {
-//                      Provider.of<Places>(context, listen: false)
-//                          .sComplexType = '1';
-//                    } else if (i == 2) {
-//                      Provider.of<Places>(context, listen: false)
-//                          .sComplexType = '2';
-//                    } else if (i == 3) {
-//                      Provider.of<Places>(context, listen: false)
-//                          .sComplexType = '3';
-//                    }
-//
-//                    Provider.of<Places>(context, listen: false).sPage = 1;
-//                    loadedPlacesToList.clear();
-//
-//                    retrieveItems();
-//                  },
-//                  indicator: BoxDecoration(
-//                    color: Colors.red,
-//                  ),
-//                  indicatorColor: Colors.red,
-//                  indicatorWeight: 0,
-//                  unselectedLabelColor: Colors.red,
-//                  labelColor: Colors.white,
-//                  labelPadding: EdgeInsets.only(top: 2, left: 4),
-//                  labelStyle: TextStyle(
-//                    fontFamily: 'Iransans',
-//                    fontSize: textScaleFactor * 13.0,
-//                  ),
-//                  unselectedLabelStyle: TextStyle(
-//                    fontFamily: 'Iransans',
-//                    fontSize: textScaleFactor * 13.0,
-//                  ),
-//                  controller: _tabController,
-//                  tabs: myTabs),
-//            ),
-//          ),
           Positioned(
             top: 10,
             left: 0,
@@ -851,8 +679,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                         style: TextStyle(
                           fontFamily: 'Iransans',
                           color: Colors.black,
-                          fontSize:
-                              MediaQuery.of(context).textScaleFactor * 14.0,
+                          fontSize: textScaleFactor * 14.0,
                         ),
                       ),
                     ),
@@ -863,34 +690,38 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           ),
           Positioned(
               top: deviceHeight * 0.07,
-              right: 10,
+              left: 15,
               child: FancyFab(
                 onPressed0: () {
-                  Provider.of<Places>(context, listen: false).sComplexType = '';
+                  Provider.of<Places>(context, listen: false).sPlaceType = '';
                   Provider.of<Places>(context, listen: false).sPage = 1;
                   loadedPlacesToList.clear();
 
                   retrieveItems();
                 },
                 onPressed1: () {
-                  Provider.of<Places>(context, listen: false).sComplexType =
-                      '1';
+                  Provider.of<Places>(context, listen: false).sPlaceType = '1';
                   Provider.of<Places>(context, listen: false).sPage = 1;
                   loadedPlacesToList.clear();
 
                   retrieveItems();
                 },
                 onPressed2: () {
-                  Provider.of<Places>(context, listen: false).sComplexType =
-                      '2';
+                  Provider.of<Places>(context, listen: false).sPlaceType = '2';
                   Provider.of<Places>(context, listen: false).sPage = 1;
                   loadedPlacesToList.clear();
 
                   retrieveItems();
                 },
                 onPressed3: () {
-                  Provider.of<Places>(context, listen: false).sComplexType =
-                      '3';
+                  Provider.of<Places>(context, listen: false).sPlaceType = '3';
+                  Provider.of<Places>(context, listen: false).sPage = 1;
+                  loadedPlacesToList.clear();
+
+                  retrieveItems();
+                },
+                onPressed4: () {
+                  Provider.of<Places>(context, listen: false).sPlaceType = '4';
                   Provider.of<Places>(context, listen: false).sPage = 1;
                   loadedPlacesToList.clear();
 
@@ -922,7 +753,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           ),
         ],
       ),
-      endDrawer: FilterDrawer(retrieveItems),
+      endDrawer: FilterDrawer(filterItems),
     );
   }
 }

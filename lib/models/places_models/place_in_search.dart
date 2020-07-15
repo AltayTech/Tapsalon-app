@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:tapsalon/models/places_models/place_type.dart';
 import 'package:tapsalon/models/region.dart';
 
 import '../city.dart';
@@ -6,7 +7,6 @@ import '../facility.dart';
 import '../field.dart';
 import '../image.dart';
 import '../province.dart';
-import 'place_type.dart';
 
 class PlaceInSearch with ChangeNotifier {
   final int id;
@@ -27,7 +27,7 @@ class PlaceInSearch with ChangeNotifier {
   final PlaceType placeType;
   final List<Field> fields;
   final List<Facility> facilities;
-  final Image image;
+  final ImageObj image;
   final Province province;
   final City city;
   final int likes_count;
@@ -97,8 +97,8 @@ class PlaceInSearch with ChangeNotifier {
       fields: fieldRaw,
       facilities: facilityRaw,
       image: parsedJson['image'] != null
-          ? Image.fromJson(parsedJson['image'])
-          : Image(id: 0, filename: ''),
+          ? ImageObj.fromJson(parsedJson['image'])
+          : ImageObj(id: 0, filename: ''),
       province: Province.fromJson(parsedJson['ostan']),
       city: City.fromJson(parsedJson['city']),
       region: parsedJson['region'] != null

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../models/favorite.dart';
+import '../models/places_models/favorite.dart';
 import '../models/searchDetails.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../provider/places.dart';
 import '../screen/user_profile/login_screen.dart';
-import '../widget/favorite_complex_item.dart';
+import 'items/favorite_place_item.dart';
 
 class FavoriteView extends StatefulWidget {
   static const routeName = '/favorite-view';
@@ -61,13 +61,13 @@ class _FavoriteViewState extends State<FavoriteView>
     super.didChangeDependencies();
   }
 
-  List<Favorite> loadedComplexes = [];
-  List<Favorite> loadedComplexestolist = [];
+  List<Favorite> loadedPlaces = [];
+  List<Favorite> loadedPlaceTolist = [];
 
   Future<void> _submit() async {
-    loadedComplexes.clear();
-    loadedComplexes = Provider.of<Places>(context, listen: false).favoriteItems;
-    loadedComplexestolist.addAll(loadedComplexes);
+    loadedPlaces.clear();
+    loadedPlaces = Provider.of<Places>(context, listen: false).favoriteItems;
+    loadedPlaceTolist.addAll(loadedPlaces);
   }
 
   Future<void> searchItems() async {
@@ -142,13 +142,13 @@ class _FavoriteViewState extends State<FavoriteView>
                       child: ListView.builder(
                         controller: _scrollController,
                         scrollDirection: Axis.vertical,
-                        itemCount: loadedComplexestolist.length,
+                        itemCount: loadedPlaceTolist.length,
                         itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-                          value: loadedComplexestolist[i],
+                          value: loadedPlaceTolist[i],
                           child: Container(
-                            height: deviceHeight * 0.3,
+                            height: deviceHeight * 0.35,
                             child: FavoriteComplexItem(
-                              loadedComplex: loadedComplexestolist[i],
+                              favoritePlace: loadedPlaceTolist[i],
                             ),
                           ),
                         ),
@@ -175,7 +175,7 @@ class _FavoriteViewState extends State<FavoriteView>
                                 },
                               )
                             : Container(
-                                child: loadedComplexestolist.isEmpty
+                                child: loadedPlaceTolist.isEmpty
                                     ? Center(
                                         child: Text(
                                           'سالنی وجود ندارد',

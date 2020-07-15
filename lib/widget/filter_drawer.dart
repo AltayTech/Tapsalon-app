@@ -168,269 +168,264 @@ class _FilterDrawerState extends State<FilterDrawer> {
 
     return Drawer(
       child: SingleChildScrollView(
-        child: Stack(
-          children: <Widget>[
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: ListTile(
-                    title: Text(
-                      'منطقه ها: ' +
-                          EnArConvertor().replaceArNumber(currencyFormat
-                              .format(regionList.length)
-                              .toString()),
-                      style: TextStyle(
-                        fontFamily: "Iransans",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        color: Colors.black54,
+        child: Container(
+          color: AppTheme.white,
+          child: Stack(
+            children: <Widget>[
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: ListTile(
+                      title: Text(
+                        'منطقه ها: ' +
+                            EnArConvertor().replaceArNumber(currencyFormat
+                                .format(regionList.length)
+                                .toString()),
+                        style: TextStyle(
+                          fontFamily: "Iransans",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          color: Colors.black54,
+                        ),
+                        textAlign: TextAlign.right,
                       ),
-                      textAlign: TextAlign.right,
                     ),
-                    onTap: () {
-                      Navigator.of(context).pushReplacementNamed('/');
-                    },
                   ),
-                ),
-                Container(
-                  height: deviceHeight * 0.08,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: regionList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () {
-                          if (_selectedRegionIndexs.contains(index)) {
-                            _selectedRegionIndexs.remove(index);
-                            _selectedRegionId.remove(regionList[index].id);
-                            _selectedRegionTitle.remove(regionList[index].name);
-                          } else {
-                            _selectedRegionIndexs.add(index);
-                            _selectedRegionId.add(regionList[index].id);
-                            _selectedRegionTitle.add(regionList[index].name);
-                          }
+                  Container(
+                    height: deviceHeight * 0.08,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: regionList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            if (_selectedRegionIndexs.contains(index)) {
+                              _selectedRegionIndexs.remove(index);
+                              _selectedRegionId.remove(regionList[index].id);
+                              _selectedRegionTitle
+                                  .remove(regionList[index].name);
+                            } else {
+                              _selectedRegionIndexs.add(index);
+                              _selectedRegionId.add(regionList[index].id);
+                              _selectedRegionTitle.add(regionList[index].name);
+                            }
 
-                          setState(() {});
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: _selectedRegionIndexs.contains(index)
-                                ? BoxDecoration(
-                                    color: AppTheme.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.green.withOpacity(0.2),
-                                          spreadRadius: 2,
-                                          blurRadius: 10),
-                                    ],
-                                  )
-                                : BoxDecoration(
-                                    color: AppTheme.white,
+                            setState(() {});
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: _selectedRegionIndexs.contains(index)
+                                  ? BoxDecoration(
+                                      color: AppTheme.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Colors.green.withOpacity(0.4),
+                                            spreadRadius: 2,
+                                            blurRadius: 10),
+                                      ],
+                                    )
+                                  : BoxDecoration(
+                                      color: AppTheme.white,
+                                    ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Center(
+                                  child: Text(
+                                    regionList[index].name,
+                                    style: TextStyle(
+                                      color: AppTheme.black,
+                                      fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 12.0,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Center(
-                                child: Text(
-                                  regionList[index].name,
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 12.0,
-                                  ),
-                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Divider(
-                  height: 1,
-                  color: AppTheme.grey.withOpacity(0.6),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: ListTile(
-                    title: Text(
-                      'امکانات: ' +
-                          EnArConvertor().replaceArNumber(currencyFormat
-                              .format(facilitiesList.length)
-                              .toString()),
-                      style: TextStyle(
-                        fontFamily: "Iransans",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        color: Colors.black54,
-                      ),
-                      textAlign: TextAlign.right,
+                        );
+                      },
                     ),
-                    onTap: () {
-                      Navigator.of(context).pushReplacementNamed('/');
-                    },
                   ),
-                ),
-                Container(
-                  height: deviceHeight * 0.08,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: facilitiesList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () {
-                          if (_selectedFacilityIndexs.contains(index)) {
-                            _selectedFacilityIndexs.remove(index);
-                            _selectedFacilityId
-                                .remove(facilitiesList[index].id);
-                            _selectedFacilityTitle
-                                .remove(facilitiesList[index].name);
-                          } else {
-                            _selectedFacilityIndexs.add(index);
-                            _selectedFacilityId.add(facilitiesList[index].id);
-                            _selectedFacilityTitle
-                                .add(facilitiesList[index].name);
-                          }
+                  Divider(
+                    height: 1,
+                    color: AppTheme.grey.withOpacity(0.6),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: ListTile(
+                      title: Text(
+                        'امکانات: ' +
+                            EnArConvertor().replaceArNumber(currencyFormat
+                                .format(facilitiesList.length)
+                                .toString()),
+                        style: TextStyle(
+                          fontFamily: "Iransans",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          color: Colors.black54,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: deviceHeight * 0.08,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: facilitiesList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            if (_selectedFacilityIndexs.contains(index)) {
+                              _selectedFacilityIndexs.remove(index);
+                              _selectedFacilityId
+                                  .remove(facilitiesList[index].id);
+                              _selectedFacilityTitle
+                                  .remove(facilitiesList[index].name);
+                            } else {
+                              _selectedFacilityIndexs.add(index);
+                              _selectedFacilityId.add(facilitiesList[index].id);
+                              _selectedFacilityTitle
+                                  .add(facilitiesList[index].name);
+                            }
 
-                          setState(() {});
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: _selectedFacilityIndexs.contains(index)
-                                ? BoxDecoration(
-                                    color: AppTheme.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.green.withOpacity(0.2),
-                                          spreadRadius: 2,
-                                          blurRadius: 10),
-                                    ],
-                                  )
-                                : BoxDecoration(
-                                    color: AppTheme.white,
+                            setState(() {});
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: _selectedFacilityIndexs
+                                      .contains(index)
+                                  ? BoxDecoration(
+                                      color: AppTheme.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Colors.green.withOpacity(0.4),
+                                            spreadRadius: 2,
+                                            blurRadius: 10),
+                                      ],
+                                    )
+                                  : BoxDecoration(
+                                      color: AppTheme.white,
+                                    ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Center(
+                                  child: Text(
+                                    facilitiesList[index].name,
+                                    style: TextStyle(
+                                      color: AppTheme.black,
+                                      fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 14.0,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Center(
-                                child: Text(
-                                  facilitiesList[index].name,
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 14.0,
-                                  ),
-                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                Divider(
-                  height: 1,
-                  color: AppTheme.grey.withOpacity(0.6),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: ListTile(
-                    title: Text(
-                      'رشته ها: ' +
-                          EnArConvertor().replaceArNumber(currencyFormat
-                              .format(fieldsList.length)
-                              .toString()),
-                      style: TextStyle(
-                        fontFamily: "Iransans",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        color: Colors.black54,
-                      ),
-                      textAlign: TextAlign.right,
+                        );
+                      },
                     ),
-                    onTap: () {
-                      Navigator.of(context).pushReplacementNamed('/');
-                    },
                   ),
-                ),
-                Container(
-                  height: deviceHeight * 0.08,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: fieldsList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () {
-                          if (_selectedFieldIndexs.contains(index)) {
-                            _selectedFieldIndexs.remove(index);
-                            _selectedFieldId.remove(fieldsList[index].id);
-                            _selectedFieldTitle.remove(fieldsList[index].name);
-                          } else {
-                            _selectedFieldIndexs.add(index);
-                            _selectedFieldId.add(fieldsList[index].id);
-                            _selectedFieldTitle.add(fieldsList[index].name);
-                          }
+                  Divider(
+                    height: 1,
+                    color: AppTheme.grey.withOpacity(0.6),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: ListTile(
+                      title: Text(
+                        'رشته ها: ' +
+                            EnArConvertor().replaceArNumber(currencyFormat
+                                .format(fieldsList.length)
+                                .toString()),
+                        style: TextStyle(
+                          fontFamily: "Iransans",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          color: Colors.black54,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: deviceHeight * 0.08,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: fieldsList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            if (_selectedFieldIndexs.contains(index)) {
+                              _selectedFieldIndexs.remove(index);
+                              _selectedFieldId.remove(fieldsList[index].id);
+                              _selectedFieldTitle
+                                  .remove(fieldsList[index].name);
+                            } else {
+                              _selectedFieldIndexs.add(index);
+                              _selectedFieldId.add(fieldsList[index].id);
+                              _selectedFieldTitle.add(fieldsList[index].name);
+                            }
 
-                          setState(() {});
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: _selectedFieldIndexs.contains(index)
-                                ? BoxDecoration(
-                                    color: AppTheme.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.green.withOpacity(0.2),
-                                          spreadRadius: 2,
-                                          blurRadius: 10),
-                                    ],
-                                  )
-                                : BoxDecoration(
-                                    color: AppTheme.white,
+                            setState(() {});
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: _selectedFieldIndexs.contains(index)
+                                  ? BoxDecoration(
+                                      color: AppTheme.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Colors.green.withOpacity(0.4),
+                                            spreadRadius: 2,
+                                            blurRadius: 10),
+                                      ],
+                                    )
+                                  : BoxDecoration(
+                                      color: AppTheme.white,
+                                    ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Center(
+                                  child: Text(
+                                    fieldsList[index].name,
+                                    style: TextStyle(
+                                      color: AppTheme.black,
+                                      fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 14.0,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Center(
-                                child: Text(
-                                  fieldsList[index].name,
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 14.0,
-                                  ),
-                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                Divider(
-                  height: 1,
-                  color: AppTheme.grey.withOpacity(0.6),
-                ),
-                Divider(
-                  height: 1,
-                  color: AppTheme.grey.withOpacity(0.6),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Switch(
-                        value: isDiscounted,
-                        onChanged: (value) {
+                  Divider(
+                    height: 1,
+                    color: AppTheme.grey.withOpacity(0.6),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Switch(
+                          value: isDiscounted,
+                          onChanged: (value) {
 //                      if (value) {
 //                        _selectedSellCaseId.add(72);
 //                        _selectedSellcaseTitle.remove('قسطی');
@@ -440,33 +435,33 @@ class _FilterDrawerState extends State<FilterDrawer> {
 //                        _selectedSellCaseId.remove(72);
 //                        _selectedSellcaseTitle.remove('قسطی');
 //                      }
-                          setState(() {
-                            isDiscounted = value;
-                          });
-                        },
-                        activeTrackColor: Colors.lightGreenAccent,
-                        activeColor: Colors.green,
-                      ),
-                      Text(
-                        'تخفیف دار',
-                        style: TextStyle(
-                          fontFamily: "Iransans",
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15,
-                          color: Colors.black54,
+                            setState(() {
+                              isDiscounted = value;
+                            });
+                          },
+                          activeTrackColor: Colors.lightGreenAccent,
+                          activeColor: Colors.green,
                         ),
-                      ),
-                    ],
+                        Text(
+                          'تخفیف دار',
+                          style: TextStyle(
+                            fontFamily: "Iransans",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Switch(
-                        value: isReservable,
-                        onChanged: (value) {
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Switch(
+                          value: isReservable,
+                          onChanged: (value) {
 //                      if (value) {
 //                        _selectedSellCaseId.add(73);
 //                        _selectedSellcaseTitle.remove('تخفیف دار');
@@ -477,284 +472,288 @@ class _FilterDrawerState extends State<FilterDrawer> {
 //                        _selectedSellcaseTitle.remove('تخفیف دار');
 //                      }
 
-                          setState(() {
-                            isReservable = value;
-                          });
-                        },
-                        activeTrackColor: Colors.lightGreenAccent,
-                        activeColor: Colors.green,
-                      ),
-                      Text(
-                        'قابل رزرو آنلاین',
-                        style: TextStyle(
-                          fontFamily: "Iransans",
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15,
-                          color: Colors.black54,
+                            setState(() {
+                              isReservable = value;
+                            });
+                          },
+                          activeTrackColor: Colors.lightGreenAccent,
+                          activeColor: Colors.green,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 1,
-                  color: AppTheme.grey.withOpacity(0.6),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Wrap(
-                    direction: Axis.horizontal,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'محدوده قیمت',
-                        style: TextStyle(
-                          fontFamily: "Iransans",
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15,
-                          color: Colors.black54,
+                        Text(
+                          'قابل رزرو آنلاین',
+                          style: TextStyle(
+                            fontFamily: "Iransans",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                            color: Colors.black54,
+                          ),
                         ),
-                        textAlign: TextAlign.right,
-                      ),
-                      Checkbox(
-                        onChanged: (value) {
-                          _isPrice ? _isPrice = false : _isPrice = true;
-                          setState(() {});
-                        },
-                        value: _isPrice,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Container(
-                              child: Text(
-                                EnArConvertor().replaceArNumber(currencyFormat
-                                    .format((_minPriceValueC))
-                                    .toString()),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: _isPrice ? Colors.blue : Colors.grey,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 15.0,
-                                ),
-                              ),
-                            ),
+                  Divider(
+                    height: 1,
+                    color: AppTheme.grey.withOpacity(0.6),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Wrap(
+                      direction: Axis.horizontal,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'محدوده قیمت',
+                          style: TextStyle(
+                            fontFamily: "Iransans",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                            color: Colors.black54,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Container(
-                              child: Text(
-                                'تومان',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 12.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                          textAlign: TextAlign.right,
+                        ),
+                        Checkbox(
+                          onChanged: (value) {
+                            _isPrice ? _isPrice = false : _isPrice = true;
+                            setState(() {});
+                          },
+                          value: _isPrice,
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Container(
-                              child: Text(
-                                EnArConvertor().replaceArNumber(currencyFormat
-                                    .format((_maxPriceValueC))
-                                    .toString()),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: _isPrice ? Colors.blue : Colors.grey,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 15.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Container(
-                              child: Text(
-                                'تومان',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 12.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                RangeSlider(
-                  labels: RangeLabels(
-                      EnArConvertor().replaceArNumber(
-                          currencyFormat.format((startValue)).toString()),
-                      EnArConvertor().replaceArNumber(
-                          currencyFormat.format((endValue)).toString())),
-                  onChanged: (value) {
-                    startValue = value.start;
-                    endValue = value.end;
-                    _minPriceValueC = value.start;
-                    _maxPriceValueC = value.end;
-
-                    setState(() {});
-                  },
-                  divisions: int.parse(((double.parse(priceRange.max) -
-                              double.parse(priceRange.min)) /
-                          1000)
-                      .toStringAsFixed(0)),
-                  values: RangeValues(startValue, endValue),
-                  min: double.parse(priceRange.min),
-                  max: double.parse(priceRange.max),
-                  activeColor: _isPrice ? Colors.blue : Colors.grey,
-                  inactiveColor: Colors.grey,
-                ),
-                Divider(
-                  height: 1,
-                  color: AppTheme.grey.withOpacity(0.6),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Row(
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () {
-                              cleanFilter();
-
-                              var regionEndpoint =
-                                  endPointBuilder(_selectedRegionId);
-                              var facilitiesEndpoint =
-                                  endPointBuilder(_selectedFacilityId);
-                              var fieldsEndpoint =
-                                  endPointBuilder(_selectedFieldId);
-                              Provider.of<Places>(context, listen: false)
-                                  .sFacility = facilitiesEndpoint;
-                              Provider.of<Places>(context, listen: false)
-                                  .sField = fieldsEndpoint;
-                              _isPrice
-                                  ? Provider.of<Places>(context, listen: false)
-                                          .sRange =
-                                      '$_minPriceValueC,$_maxPriceValueC'
-                                  : Provider.of<Places>(context, listen: false)
-                                      .sRange = '';
-
-                              Provider.of<Places>(context, listen: false)
-                                  .sRegion = regionEndpoint;
-                              Provider.of<Places>(context, listen: false)
-                                  .searchBuilder();
-
-                              widget.callback();
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              height: deviceHeight * 0.06,
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15.0, right: 15, top: 4),
-                                  child: Text(
-                                    'اعمال فیلتر',
-                                    style: TextStyle(
-                                      fontFamily: "Iransans",
-                                      fontSize: textScaleFactor * 16,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                child: Text(
+                                  EnArConvertor().replaceArNumber(currencyFormat
+                                      .format((_minPriceValueC))
+                                      .toString()),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: _isPrice ? Colors.blue : Colors.grey,
+                                    fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 15.0,
                                   ),
                                 ),
                               ),
                             ),
-                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Container(
+                                child: Text(
+                                  'تومان',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 12.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () {
-                              cleanFilter();
-                              widget.callback();
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              height: deviceHeight * 0.06,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15.0, right: 15, top: 4),
-                                  child: Text(
-                                    'حذف فیلتر',
-                                    style: TextStyle(
-                                      fontFamily: "Iransans",
-                                      fontSize: textScaleFactor * 16,
-                                      color: Colors.blue,
-                                    ),
-                                    textAlign: TextAlign.center,
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                child: Text(
+                                  EnArConvertor().replaceArNumber(currencyFormat
+                                      .format((_maxPriceValueC))
+                                      .toString()),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: _isPrice ? Colors.blue : Colors.grey,
+                                    fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 15.0,
                                   ),
                                 ),
                               ),
                             ),
-                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Container(
+                                child: Text(
+                                  'تومان',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontFamily: 'Iransans',
+                                    fontSize: textScaleFactor * 12.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            Positioned(
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Align(
-                    alignment: Alignment.center,
-                    child: _isLoading
-                        ? SpinKitFadingCircle(
-                            itemBuilder: (BuildContext context, int index) {
-                              return DecoratedBox(
+                  RangeSlider(
+                    labels: RangeLabels(
+                        EnArConvertor().replaceArNumber(
+                            currencyFormat.format((startValue)).toString()),
+                        EnArConvertor().replaceArNumber(
+                            currencyFormat.format((endValue)).toString())),
+                    onChanged: (value) {
+                      startValue = value.start;
+                      endValue = value.end;
+                      _minPriceValueC = value.start;
+                      _maxPriceValueC = value.end;
+
+                      setState(() {});
+                    },
+                    divisions: int.parse(((double.parse(priceRange.max) -
+                                double.parse(priceRange.min)) /
+                            1000)
+                        .toStringAsFixed(0)),
+                    values: RangeValues(startValue, endValue),
+                    min: double.parse(priceRange.min),
+                    max: double.parse(priceRange.max),
+                    activeColor: _isPrice ? Colors.blue : Colors.grey,
+                    inactiveColor: Colors.grey,
+                  ),
+                  Divider(
+                    height: 1,
+                    color: AppTheme.grey.withOpacity(0.6),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InkWell(
+                              onTap: () {
+                                cleanFilter();
+
+                                var regionEndpoint =
+                                    endPointBuilder(_selectedRegionId);
+                                var facilitiesEndpoint =
+                                    endPointBuilder(_selectedFacilityId);
+                                var fieldsEndpoint =
+                                    endPointBuilder(_selectedFieldId);
+                                Provider.of<Places>(context, listen: false)
+                                    .sFacility = facilitiesEndpoint;
+                                Provider.of<Places>(context, listen: false)
+                                    .sField = fieldsEndpoint;
+                                _isPrice
+                                    ? Provider.of<Places>(context,
+                                                listen: false)
+                                            .sRange =
+                                        '$_minPriceValueC,$_maxPriceValueC'
+                                    : Provider.of<Places>(context,
+                                            listen: false)
+                                        .sRange = '';
+
+                                Provider.of<Places>(context, listen: false)
+                                    .sRegion = regionEndpoint;
+                                Provider.of<Places>(context, listen: false)
+                                    .searchBuilder();
+
+                                widget.callback();
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                height: deviceHeight * 0.06,
                                 decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:
-                                      index.isEven ? Colors.grey : Colors.grey,
+                                  color: Colors.blue,
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                              );
-                            },
-                          )
-                        : Container()))
-          ],
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15.0, right: 15, top: 4),
+                                    child: Text(
+                                      'اعمال فیلتر',
+                                      style: TextStyle(
+                                        fontFamily: "Iransans",
+                                        fontSize: textScaleFactor * 16,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InkWell(
+                              onTap: () {
+                                cleanFilter();
+                                widget.callback();
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                height: deviceHeight * 0.06,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15.0, right: 15, top: 4),
+                                    child: Text(
+                                      'حذف فیلتر',
+                                      style: TextStyle(
+                                        fontFamily: "Iransans",
+                                        fontSize: textScaleFactor * 16,
+                                        color: Colors.blue,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: _isLoading
+                          ? SpinKitFadingCircle(
+                              itemBuilder: (BuildContext context, int index) {
+                                return DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: index.isEven
+                                        ? Colors.grey
+                                        : Colors.grey,
+                                  ),
+                                );
+                              },
+                            )
+                          : Container()))
+            ],
+          ),
         ),
       ),
     );

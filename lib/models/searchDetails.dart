@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-import 'places_models/complex.dart';
-
 class SearchDetails with ChangeNotifier {
   final int current_page;
   final String first_page_url;
@@ -29,10 +27,6 @@ class SearchDetails with ChangeNotifier {
       this.total});
 
   factory SearchDetails.fromJson(Map<String, dynamic> parsedJson) {
-    var dataList = parsedJson['data'] as List;
-    List<Complex> dataRaw = new List<Complex>();
-    dataRaw = dataList.map((i) => Complex.fromJson(i)).toList();
-
     return SearchDetails(
       current_page:
           parsedJson['current_page'] != null ? parsedJson['current_page'] : 1,

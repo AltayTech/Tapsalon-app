@@ -5,7 +5,7 @@ import '../provider/app_theme.dart';
 import '../provider/cities.dart';
 import '../widget/favorite_view.dart';
 import '../widget/main_drawer.dart';
-import '../widget/select_city_dialog.dart';
+import '../widget/dialogs/select_city_dialog.dart';
 
 class FavoriteScreen extends StatefulWidget {
   static const routeName = '/favorite';
@@ -37,8 +37,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
             style: TextStyle(
                 color: AppTheme.black,
                 fontFamily: 'Iransans',
-              fontSize: textScaleFactor*18
-                ),
+                fontSize: textScaleFactor * 18),
           ),
           backgroundColor: AppTheme.appBarColor,
           iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
@@ -85,7 +84,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
           data: Theme.of(context).copyWith(
             // Set the transparency here
             canvasColor: Colors
-                .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+                .white, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
           ),
           child: MainDrawer(),
         ),

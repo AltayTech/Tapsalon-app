@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import '../../models/user_models/user.dart';
 
-class UserDetailReserveListScreen extends StatefulWidget {
+class UserDetailReserveView extends StatefulWidget {
+
   final User user;
 
-  UserDetailReserveListScreen({this.user});
+  UserDetailReserveView({this.user});
 
   @override
-  _UserDetailReserveListScreenState createState() =>
-      _UserDetailReserveListScreenState();
+  _UserDetailReserveViewState createState() =>
+      _UserDetailReserveViewState();
 }
 
-class _UserDetailReserveListScreenState
-    extends State<UserDetailReserveListScreen> {
+class _UserDetailReserveViewState
+    extends State<UserDetailReserveView> {
   final double rateRadious = 40;
 
   final double rateLineWidth = 4.0;
@@ -38,7 +39,7 @@ class _UserDetailReserveListScreenState
             crossAxisAlignment: WrapCrossAlignment.start,
             children: <Widget>[
               Text(
-                'سفارشات',
+                'رزروها',
                 style: TextStyle(
                   color: Colors.blueGrey,
                   fontFamily: 'Iransans',
@@ -101,50 +102,58 @@ class _UserDetailReserveListScreenState
                           children: <Widget>[
                             Expanded(
                               flex: 4,
-                              child: Text(
-                                'وضعیت',
-                                style: TextStyle(
-                                  fontFamily: 'Iransans',
-                                  color: Colors.grey,
-                                  fontSize: textScaleFactor * 10.0,
+                              child: Center(
+                                child: Text(
+                                  'وضعیت',
+                                  style: TextStyle(
+                                    fontFamily: 'Iransans',
+                                    color: Colors.grey,
+                                    fontSize: textScaleFactor * 10.0,
+                                  ),
+                                  textAlign: TextAlign.right,
                                 ),
-                                textAlign: TextAlign.right,
                               ),
                             ),
                             Expanded(
                               flex: 2,
-                              child: Text(
-                                'نوع خرید',
-                                style: TextStyle(
-                                  fontFamily: 'Iransans',
-                                  color: Colors.grey,
-                                  fontSize: textScaleFactor * 10.0,
+                              child: Center(
+                                child: Text(
+                                  'نوع رزرو',
+                                  style: TextStyle(
+                                    fontFamily: 'Iransans',
+                                    color: Colors.grey,
+                                    fontSize: textScaleFactor * 10.0,
+                                  ),
+                                  textAlign: TextAlign.right,
                                 ),
-                                textAlign: TextAlign.right,
                               ),
                             ),
                             Expanded(
                               flex: 3,
-                              child: Text(
-                                'تاریخ',
-                                style: TextStyle(
-                                  fontFamily: 'Iransans',
-                                  color: Colors.grey,
-                                  fontSize: textScaleFactor * 10.0,
+                              child: Center(
+                                child: Text(
+                                  'تاریخ',
+                                  style: TextStyle(
+                                    fontFamily: 'Iransans',
+                                    color: Colors.grey,
+                                    fontSize: textScaleFactor * 10.0,
+                                  ),
+                                  textAlign: TextAlign.right,
                                 ),
-                                textAlign: TextAlign.right,
                               ),
                             ),
                             Expanded(
                               flex: 5,
-                              child: Text(
-                                'شماره',
-                                style: TextStyle(
-                                  fontFamily: 'Iransans',
-                                  color: Colors.grey,
-                                  fontSize: textScaleFactor * 10.0,
+                              child: Center(
+                                child: Text(
+                                  'شماره',
+                                  style: TextStyle(
+                                    fontFamily: 'Iransans',
+                                    color: Colors.grey,
+                                    fontSize: textScaleFactor * 10.0,
+                                  ),
+                                  textAlign: TextAlign.right,
                                 ),
-                                textAlign: TextAlign.right,
                               ),
                             ),
                           ],

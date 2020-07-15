@@ -2,13 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:tapsalon/provider/app_theme.dart';
 
-import '../models/comment.dart';
-import '../widget/en_to_ar_number_convertor.dart';
+import '../../models/comment.dart';
+import '../en_to_ar_number_convertor.dart';
 
 class CommentItem extends StatelessWidget {
   final Comment comment;
 
   CommentItem({this.comment});
+
+  String getDuration(String time) {
+    String duration = EnArConvertor().replaceArNumber(
+            DateTime.now().difference(DateTime.parse(time)).inDays.toString()) +
+        ' روز پیش';
+    Duration timeDuration = DateTime.now().difference(DateTime.parse(time));
+    if (timeDuration.inDays > 0) {
+      duration = EnArConvertor().replaceArNumber(DateTime.now()
+              .difference(DateTime.parse(time))
+              .inDays
+              .toString()) +
+          ' روز پیش';
+    } else {
+      if (timeDuration.inHours > 0) {
+        duration = EnArConvertor().replaceArNumber(DateTime.now()
+                .difference(DateTime.parse(time))
+                .inHours
+                .toString()) +
+            ' ساعت پیش';
+      } else {
+        if (timeDuration.inMinutes > 0) {
+          duration = EnArConvertor().replaceArNumber(DateTime.now()
+                  .difference(DateTime.parse(time))
+                  .inMinutes
+                  .toString()) +
+              ' دقیقه پیش';
+        } else {
+          duration = EnArConvertor().replaceArNumber(DateTime.now()
+                  .difference(DateTime.parse(time))
+                  .inSeconds
+                  .toString()) +
+              ' ثانیه پیش';
+        }
+      }
+    }
+    return duration;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +56,13 @@ class CommentItem extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraint) => Padding(
-        padding: const EdgeInsets.only(top: 16.0),
+        padding: const EdgeInsets.only(top: 8.0),
         child: Container(
-          width: constraint.maxWidth * 0.9,
           decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: 2, color: AppTheme.primary, spreadRadius: 2),
+              ],
               color: AppTheme.white,
 //                          border: Border.all(width: 5, color: AppTheme.bg),
               borderRadius: BorderRadius.circular(10)),
@@ -54,11 +94,7 @@ class CommentItem extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        EnArConvertor().replaceArNumber(DateTime.now()
-                                .difference(DateTime.parse(comment.createdAt))
-                                .inDays
-                                .toString()) +
-                            ' روز پیش',
+                        getDuration(comment.createdAt),
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontFamily: 'Iransans',

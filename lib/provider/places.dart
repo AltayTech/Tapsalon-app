@@ -10,10 +10,10 @@ import 'package:tapsalon/models/places_models/place_in_search.dart';
 
 import '../models/comment.dart';
 import '../models/facility.dart';
-import '../models/favorite.dart';
 import '../models/field.dart';
 import '../models/main_comments.dart';
-import '../models/main_favorite.dart';
+import '../models/places_models/favorite.dart';
+import '../models/places_models/main_favorite.dart';
 import '../models/priceRange.dart';
 import '../models/region.dart';
 import '../models/searchDetails.dart';
@@ -38,7 +38,7 @@ class Places with ChangeNotifier {
   String searchEndPoint = '';
   var _sPage = 1;
   var _sPerPage = 10;
-  var _sComplexType = '';
+  var _sPlaceType = '';
 
   var _sProvinceId = '';
   var _sCityId = '';
@@ -103,13 +103,13 @@ class Places with ChangeNotifier {
     if (!(_sRange == '' || _sRange == null)) {
       searchEndPoint = searchEndPoint + '&range=$_sRange';
     }
-    if (!(_sComplexType == '' || _sComplexType == null)) {
-      searchEndPoint = searchEndPoint + '&place_type_id=$_sComplexType';
+    if (!(_sPlaceType == '' || _sPlaceType == null)) {
+      searchEndPoint = searchEndPoint + '&place_type_id=$_sPlaceType';
     }
     if (!(_sProvinceId == '' || _sProvinceId == null)) {
       searchEndPoint = searchEndPoint + '&ostan_id=$_sProvinceId';
     }
-    if (!(_sCityId == '' || _sCityId == null)) {
+    if (!(_sCityId == '' || _sCityId == null || _sCityId == '0')) {
       searchEndPoint = searchEndPoint + '&city_id=$_sCityId';
     }
     if (!(_sField == '' || _sField == null)) {
@@ -138,10 +138,10 @@ class Places with ChangeNotifier {
     _sPerPage = value;
   }
 
-  get sComplexType => _sComplexType;
+  get sPlaceType => _sPlaceType;
 
-  set sComplexType(value) {
-    _sComplexType = value;
+  set sPlaceType(value) {
+    _sPlaceType = value;
   }
 
   get sProvinceId => _sProvinceId;
@@ -198,7 +198,7 @@ class Places with ChangeNotifier {
 
   List<Region> get itemsRegions => _itemsRegions;
 
-  SearchDetails get complexSearchDetails =>
+  SearchDetails get placeSearchDetails =>
       _placeSearchDetails; //data transportation
 
   List<Facility> get itemsFacilities => _itemsFacilities;
@@ -275,10 +275,14 @@ class Places with ChangeNotifier {
     print('searchItem ffff' + _items.length.toString());
   }
 
-  Future<void> retrieveCityComplexes(int cityId) async {
-    print('retrieveCityComplexes');
-
-    final url = Urls.rootUrl + Urls.placesEndPoint + '?city_id=$cityId';
+  Future<void> retrieveCityPlaces(int cityId) async {
+    print('retrieveCityPlaces');
+    String url = '';
+    if (cityId == 0) {
+      url = Urls.rootUrl + Urls.placesEndPoint;
+    } else {
+      url = Urls.rootUrl + Urls.placesEndPoint + '?city_id=$cityId';
+    }
     print(url);
 
     try {
@@ -446,7 +450,7 @@ class Places with ChangeNotifier {
   Future<bool> sendLike(int placeId) async {
     print('sendLike');
 
-    final url = Urls.rootUrl + Urls.userLikesEndPoint;
+    final url = Urls.rootUrl + Urls.likePlaceEndPoint;
     print(url);
 
     final prefs = await SharedPreferences.getInstance();
@@ -587,7 +591,7 @@ class Places with ChangeNotifier {
   }
 
   Future<void> retrieveFavoriteComplex() async {
-    print('retrieveComplex');
+    print('retrieveFavoriteComplex');
 
     final url = Urls.rootUrl + Urls.userLikesEndPoint;
     print(url);

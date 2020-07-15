@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
 import '../../provider/app_theme.dart';
 import '../../screen/user_profile/profile_view.dart';
 import '../../widget/main_drawer.dart';
 
 class ProfileScreen extends StatefulWidget {
-  static const routeName = '/profile';
+  static const routeName = '/ProfileScreen';
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -15,19 +16,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         centerTitle: true,
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
-
+      backgroundColor: AppTheme.white,
       endDrawer: Theme(
         data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+          canvasColor: Colors.white,
         ),
         child: MainDrawer(),
-      ), // resizeToAvoidBottomInset: false,
+      ),
       body: ProfileView(),
     );
   }

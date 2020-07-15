@@ -101,7 +101,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
                         Container(
                           width: deviceWidth * 0.3,
                           height: deviceWidth * 0.3,
-                          color: AppTheme.bg,
+                          color: AppTheme.white,
                           child: FadeInImage(
                             placeholder: AssetImage('assets/images/circle.gif'),
                             image: AssetImage(
@@ -125,25 +125,67 @@ class _ContactWithUsState extends State<ContactWithUs> {
                         Divider(),
                         Column(
                           children: <Widget>[
-                            Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.location_on,
-                                        color: Colors.indigoAccent,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 8,
-                                      child: Padding(
+                            InkWell(
+                              onTap: () {
+                                _launchURL('https://goo.gl/maps/jFWrYRBtBYARzRWEA');
+                              },
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Padding(
                                         padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.location_on,
+                                          color: Colors.indigoAccent,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 8,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'دفتر مرکزی: تبریز - میدان ساعت - خیابان ارتش شمالی، جنب اتاق بازرگانی، ساختمان 49',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'Iransans',
+                                              fontSize: textScaleFactor * 18,
+                                            ),
+                                            overflow: TextOverflow.clip,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                _launchURL('tel:04135265197');
+                              },
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.call,
+                                          color: Colors.indigoAccent,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 8,
                                         child: Text(
-                                          'دفتر مرکزی: تبریز - میدان ساعت - خیابان ارتش شمالی، جنب اتاق بازرگانی، ساختمان 49',
+                                          EnArConvertor().replaceArNumber(
+                                            '04135265197',
+                                          ),
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontFamily: 'Iransans',
@@ -152,69 +194,44 @@ class _ContactWithUsState extends State<ContactWithUs> {
                                           overflow: TextOverflow.clip,
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                            Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.call,
-                                        color: Colors.indigoAccent,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 8,
-                                      child: Text(
-                                        EnArConvertor().replaceArNumber(
-                                          '04135265197',
+                            InkWell(
+                              onTap: () {
+                                _launchURL('tel:09147694436');
+                              },
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.smartphone,
+                                          color: Colors.indigoAccent,
                                         ),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 18,
+                                      ),
+                                      Expanded(
+                                        flex: 8,
+                                        child: Text(
+                                          EnArConvertor()
+                                              .replaceArNumber('09147694436'),
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 18,
+                                          ),
+                                          overflow: TextOverflow.clip,
                                         ),
-                                        overflow: TextOverflow.clip,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.smartphone,
-                                        color: Colors.indigoAccent,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 8,
-                                      child: Text(
-                                        EnArConvertor()
-                                            .replaceArNumber('09147694436'),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 18,
-                                        ),
-                                        overflow: TextOverflow.clip,
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -265,7 +282,7 @@ class _ContactWithUsState extends State<ContactWithUs> {
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+              .white, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
         ),
         child: MainDrawer(),
       ),

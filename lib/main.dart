@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_comments_screen.dart';
+import 'package:tapsalon/screen/place_detail/place_location_screen.dart';
+import 'package:tapsalon/screen/user_profile/user_detail_info_screen.dart';
+import 'package:tapsalon/screen/user_profile/user_detail_reserve_screen.dart';
 
 import './provider/auth.dart';
 import './provider/places.dart';
@@ -14,8 +17,6 @@ import './screen/favorite_screen.dart';
 import './screen/home_screen.dart';
 import './screen/map_screen.dart';
 import './screen/navigation_bottom_screen.dart';
-import './screen/notification_screen.dart';
-import './screen/reserve_detail_screen.dart';
 import './screen/search_screen.dart';
 import './screen/splash_Screen.dart';
 import './screen/user_profile/login_screen.dart';
@@ -102,14 +103,16 @@ class _MyAppState extends State<MyApp> {
             AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
             ContactWithUs.routeName: (ctx) => ContactWithUs(),
             NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
-            ReserveDetailScreen.routeName: (ctx) => ReserveDetailScreen(),
-            NotificationScreen.routeName: (ctx) => NotificationScreen(),
             CommentCreateScreen.routeName: (ctx) => CommentCreateScreen(),
             MapScreen.routeName: (ctx) => MapScreen(),
+            UserDetailInfoScreen.routeName: (ctx) => UserDetailInfoScreen(),
+            UserDetailReserveScreen.routeName: (ctx) =>
+                UserDetailReserveScreen(),
             PlaceDetailTimingScreen.routeName: (ctx) =>
                 PlaceDetailTimingScreen(),
             PlaceDetailCommentsScreen.routeName: (ctx) =>
                 PlaceDetailCommentsScreen(),
+            PlaceLocationScreen.routeName: (ctx) => PlaceLocationScreen(),
           },
         )
 //          : Platform.isIOS

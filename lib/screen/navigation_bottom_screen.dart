@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
 import '../models/city.dart';
@@ -8,12 +10,11 @@ import '../provider/cities.dart';
 import '../provider/strings.dart';
 import '../screen/home_screen.dart';
 import '../screen/map_screen.dart';
-import '../screen/reserve_detail_screen.dart';
 import '../screen/user_profile/profile_view.dart';
-import '../widget/custom_dialog_enter.dart';
+import '../widget/dialogs/custom_dialog_enter.dart';
 import '../widget/favorite_view.dart';
 import '../widget/main_drawer.dart';
-import '../widget/select_city_dialog.dart';
+import '../widget/dialogs/select_city_dialog.dart';
 
 class NavigationBottomScreen extends StatefulWidget {
   static const routeName = '/NavigationBottomScreen';
@@ -25,18 +26,16 @@ class NavigationBottomScreen extends StatefulWidget {
 class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var init = true;
+  DateTime currentBackPressTime;
+
   final List<Map<String, Object>> _pages = [
     {
-      'page': ReserveDetailScreen(),
-      'title': Strings.navReservse,
+      'page': HomeScreen(),
+      'title': Strings.navHome,
     },
     {
       'page': MapScreen(),
       'title': Strings.naveNearby,
-    },
-    {
-      'page': HomeScreen(),
-      'title': Strings.navHome,
     },
     {
       'page': FavoriteView(),
@@ -48,7 +47,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
     }
   ];
 
-  int _selectedPageIndex = 2;
+  int _selectedPageIndex = 0;
 
   void _selectBNBItem(int index) {
     setState(
@@ -68,57 +67,6 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
             ));
   }
 
-  Future<bool> _onBackPressed() {
-    return showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            contentTextStyle: TextStyle(
-                color: AppTheme.grey,
-                fontFamily: 'Iransans',
-                fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
-            title: Text(
-              'خروج از اپلیکیشن',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: AppTheme.black,
-                  fontFamily: 'Iransans',
-                  fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
-            ),
-            content: Text(
-              'آیا میخواهید از اپلیکیشن خارج شوید؟',
-              style: TextStyle(
-                  color: AppTheme.grey,
-                  fontFamily: 'Iransans',
-                  fontSize: MediaQuery.of(context).textScaleFactor * 15.0),
-            ),
-            actionsPadding: EdgeInsets.all(10),
-            actions: <Widget>[
-              GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text(
-                  "نه",
-                  style: TextStyle(
-                      color: AppTheme.black,
-                      fontFamily: 'Iransans',
-                      fontSize: MediaQuery.of(context).textScaleFactor * 18.0),
-                ),
-              ),
-              SizedBox(
-                height: 16,
-                width: MediaQuery.of(context).size.width * 0.3,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: Text("بلی"),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-  }
-
   @override
   void didChangeDependencies() async {
     if (init) {
@@ -136,10 +84,50 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
     super.didChangeDependencies();
   }
 
+  Future<bool> onWillPop() async {
+    if (_scaffoldKey.currentState.isDrawerOpen) {
+      Navigator.pop(context);
+      return false;
+    } else {
+      DateTime now = DateTime.now();
+      if (currentBackPressTime == null ||
+          now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+        currentBackPressTime = now;
+        FlutterToast(context).showToast(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white70,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "برای خروج دوباره فشار دهید",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: AppTheme.black,
+                    fontFamily: 'Iransans',
+                    fontWeight: FontWeight.w600,
+                    fontSize: MediaQuery.of(context).textScaleFactor * 14.0),
+              ),
+            ),
+          ),
+        );
+        return Future.value(false);
+      }
+      return Future.value(true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
+    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var currencyFormat = intl.NumberFormat.decimalPattern();
+
     return WillPopScope(
-      onWillPop: _onBackPressed,
+      onWillPop: onWillPop,
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -151,7 +139,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
             actions: <Widget>[
               Consumer<Cities>(
                 builder: (_, cities, ch) => Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: InkWell(
                     onTap: () {
                       showDialog(
@@ -165,20 +153,15 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
                         children: <Widget>[
                           Text(
                             cities.selectedCity.name,
+                            softWrap: true,
                             style: TextStyle(
-                                color: AppTheme.appBarIconColor,
+                                color: AppTheme.black,
                                 fontFamily: 'Iransans',
-                                fontSize:
-                                    MediaQuery.of(context).textScaleFactor *
-                                        12.0),
+                                fontSize: textScaleFactor * 12.0),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Icon(
-                              Icons.arrow_drop_down,
-                              color: AppTheme.appBarIconColor,
-                              size: 25,
-                            ),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            size: 25,
                           )
                         ],
                       ),
@@ -190,55 +173,53 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
           ),
           drawer: Theme(
             data: Theme.of(context).copyWith(
-              // Set the transparency here
-              canvasColor: Colors
-                  .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+              canvasColor: AppTheme.white,
             ),
             child: MainDrawer(),
           ),
-          body: _pages[_selectedPageIndex]['page'],
+          body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
+            child: _pages[_selectedPageIndex]['page'],
+          ),
           bottomNavigationBar: BottomNavigationBar(
-            elevation: 1,
+            elevation: 2,
             selectedLabelStyle: TextStyle(
                 color: AppTheme.darkText,
                 fontFamily: 'Iransans',
                 fontSize: MediaQuery.of(context).textScaleFactor * 10.0),
             onTap: _selectBNBItem,
-            backgroundColor: AppTheme.BNbgColor,
-            unselectedItemColor: AppTheme.darkText,
+            backgroundColor: AppTheme.white,
+            unselectedItemColor: AppTheme.grey,
             selectedItemColor: AppTheme.BNbSelectedItemColor,
             currentIndex: _selectedPageIndex,
             items: [
               BottomNavigationBarItem(
-                backgroundColor: AppTheme.BNbgColor,
-                icon: Icon(Icons.date_range),
-                title: Text(
-                  Strings.navReservse,
-                ),
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: AppTheme.BNbgColor,
-                icon: Icon(Icons.near_me),
-                title: Text(
-                  Strings.naveNearby,
-                ),
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: AppTheme.BNbgColor,
+                backgroundColor: AppTheme.white,
                 icon: Icon(Icons.home),
                 title: Text(
                   Strings.navHome,
                 ),
               ),
               BottomNavigationBarItem(
-                backgroundColor: AppTheme.BNbgColor,
+                backgroundColor: AppTheme.white,
+                icon: Icon(
+                  Icons.map,
+                ),
+                title: Text(
+                  Strings.naveNearby,
+                ),
+              ),
+              BottomNavigationBarItem(
+                backgroundColor: AppTheme.white,
                 icon: Icon(Icons.favorite),
                 title: Text(
                   Strings.naveFavorite,
                 ),
               ),
               BottomNavigationBarItem(
-                backgroundColor: AppTheme.BNbgColor,
+                backgroundColor: AppTheme.white,
                 icon: Icon(Icons.account_circle),
                 title: Text(
                   Strings.navProfile,

@@ -10,12 +10,11 @@ import '../provider/app_theme.dart';
 import '../provider/cities.dart';
 import '../provider/places.dart';
 import '../provider/user_info.dart';
-import '../screen/notification_screen.dart';
 import '../widget/badge.dart';
 import '../widget/en_to_ar_number_convertor.dart';
 import '../widget/filter_drawer.dart';
 import '../widget/main_drawer.dart';
-import '../widget/select_city_dialog.dart';
+import '../widget/dialogs/select_city_dialog.dart';
 
 class SalonFinderScreen extends StatefulWidget {
   static const routeName = '/searchScreen';
@@ -105,7 +104,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
     await Provider.of<Places>(context, listen: false).searchItem();
     filterList = Provider.of<Places>(context, listen: false).filterTitle;
     searchDetails =
-        Provider.of<Places>(context, listen: false).complexSearchDetails;
+        Provider.of<Places>(context, listen: false).placeSearchDetails;
     _submit();
 
     setState(() {
@@ -189,7 +188,6 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
               ),
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(NotificationScreen.routeName);
                 },
                 color: AppTheme.appBarIconColor,
                 icon: Icon(
@@ -334,16 +332,16 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                                 onTap: (i) {
                                   if (i == 0) {
                                     Provider.of<Places>(context, listen: false)
-                                        .sComplexType = '';
+                                        .sPlaceType = '';
                                   } else if (i == 1) {
                                     Provider.of<Places>(context, listen: false)
-                                        .sComplexType = '1';
+                                        .sPlaceType = '1';
                                   } else if (i == 2) {
                                     Provider.of<Places>(context, listen: false)
-                                        .sComplexType = '2';
+                                        .sPlaceType = '2';
                                   } else if (i == 3) {
                                     Provider.of<Places>(context, listen: false)
-                                        .sComplexType = '3';
+                                        .sPlaceType = '3';
                                   }
                                   page = 1;
                                   Provider.of<Places>(context, listen: false)
@@ -634,9 +632,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
         ),
         drawer: Theme(
           data: Theme.of(context).copyWith(
-            // Set the transparency here
-            canvasColor: Colors
-                .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+            canvasColor: Colors.white,
           ),
           child: MainDrawer(),
         ),

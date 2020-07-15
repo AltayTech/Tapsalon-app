@@ -1,74 +1,117 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/image.dart';
 
-import '../field_search.dart';
+import '../../models/field.dart';
+import '../../models/image.dart';
+import '../city.dart';
+import '../province.dart';
+import '../region.dart';
 
 class PlaceFavorite with ChangeNotifier {
   final int id;
-  final double latitude;
-  final double longitude;
   final String name;
   final String excerpt;
   final String about;
-  final String address;
-  final Image image;
-  final int likesNo;
-  final int visitsNo;
-  final double stars;
-  final String phone;
+
+//  final String timings_excerpt;
+  final int price;
+
+//  final String phone;
   final String mobile;
+  final String address;
+
+//  final double latitude;
+//  final double longitude;
   final String createdAt;
   final String updatedAt;
 
-  final List<FieldSearch> fields;
+//  final bool liked;
+//  final ComplexInPlace complex;
+//  final PlaceType placeType;
+  final List<Field> fields;
+  final ImageObj image;
+  final Province province;
+  final City city;
+  final Region region;
 
-  PlaceFavorite({
-    this.id,
-    this.latitude,
-    this.longitude,
-    this.name,
-    this.excerpt,
-    this.about,
-    this.address,
-    this.image,
-    this.likesNo,
-    this.visitsNo,
-    this.stars,
-    this.phone,
-    this.mobile,
-    this.createdAt,
-    this.updatedAt,
-    this.fields,
-  });
+//  final int likes_count;
+//  final int comments_count;
+//  final int visitsNo;
+  final double rate;
+
+  PlaceFavorite(
+      {this.id,
+      this.name,
+      this.excerpt,
+      this.about,
+//        this.timings_excerpt,
+      this.price,
+//        this.phone,
+      this.mobile,
+      this.address,
+//        this.latitude,
+//        this.longitude,
+      this.createdAt,
+      this.updatedAt,
+//        this.liked,
+//        this.complex,
+//        this.placeType,
+      this.fields,
+      this.image,
+      this.province,
+      this.city,
+      this.region,
+//        this.likes_count,
+//        this.comments_count,
+//        this.visitsNo,
+      this.rate});
 
   factory PlaceFavorite.fromJson(Map<String, dynamic> parsedJson) {
-    List<FieldSearch> fieldsRaw = new List<FieldSearch>();
-
-    try {
-      var fieldsList = parsedJson['fields'] as List<dynamic>;
-      fieldsRaw = new List<FieldSearch>();
-      fieldsRaw = fieldsList.map((i) => FieldSearch.fromJson(i)).toList();
-    } catch (error) {
-      fieldsRaw = [];
-    }
+    var filedsList = parsedJson['fields'] as List;
+    List<Field> fieldRaw = new List<Field>();
+    fieldRaw = filedsList.map((i) => Field.fromJson(i)).toList();
 
     return PlaceFavorite(
       id: parsedJson['id'],
-      latitude: parsedJson['latitude'],
-      longitude: parsedJson['longitude'],
       name: parsedJson['name'],
-      excerpt: parsedJson['excerpt'],
-      about: parsedJson['about'],
-      address: parsedJson['address'],
-      image: Image.fromJson(parsedJson['image']),
-      likesNo: parsedJson['likes_no'],
-      visitsNo: parsedJson['visits_no'],
-      stars: double.parse(parsedJson['stars'].toString()),
-      phone: parsedJson['phone'],
-      mobile: parsedJson['mobile'],
-      createdAt: parsedJson['created_at'],
-      updatedAt: parsedJson['updated_at'],
-      fields: fieldsRaw,
+      excerpt: parsedJson['excerpt'] != null ? parsedJson['excerpt'] : '',
+      about: parsedJson['about'] != null ? parsedJson['about'] : '',
+//      timings_excerpt: parsedJson['timings_excerpt'] != null
+//          ? parsedJson['timings_excerpt']
+//          : '',
+      price: parsedJson['price'] != null ? parsedJson['price'] : 0,
+//      phone: parsedJson['phone'] != null ? parsedJson['phone'] : '',
+      mobile: parsedJson['mobile'] != null ? parsedJson['mobile'] : '',
+      address: parsedJson['address'] != null ? parsedJson['address'] : '',
+//      latitude: parsedJson['latitude'] != null
+//          ? double.parse(parsedJson['latitude'].toString())
+//          : 0.0,
+//      longitude: parsedJson['longitude'] != null
+//          ? double.parse(parsedJson['longitude'].toString())
+//          : 0.0,
+      createdAt:
+          parsedJson['created_at'] != null ? parsedJson['created_at'] : '',
+      updatedAt:
+          parsedJson['updated_at'] != null ? parsedJson['updated_at'] : '',
+//      liked: parsedJson['liked'] != null ? parsedJson['liked'] : false,
+//      complex: ComplexInPlace.fromJson(parsedJson['complex']),
+//      placeType: PlaceType.fromJson(parsedJson['place_type']),
+      fields: fieldRaw,
+      image: ImageObj.fromJson(parsedJson['image']),
+      province: Province.fromJson(parsedJson['ostan']),
+      city: City.fromJson(parsedJson['city']),
+      region: Region.fromJson(parsedJson['region']),
+//      likes_count: parsedJson['likes_count'] != null
+//          ? int.parse(parsedJson['likes_count'].toString())
+//          : 0,
+//      comments_count: parsedJson['comments_count'] != null
+//          ? int.parse(parsedJson['comments_count'].toString())
+//          : 0,
+//      visitsNo: parsedJson['visitsNo'] != null
+//          ? int.parse(parsedJson['visitsNo'].toString())
+//          : 0,
+      rate: parsedJson['rate'] != null
+          ? double.parse(parsedJson['rate'].toString())
+          : 0.0,
     );
   }
 }

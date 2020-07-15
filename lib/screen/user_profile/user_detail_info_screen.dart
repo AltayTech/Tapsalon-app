@@ -1,44 +1,51 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import '../../models/user_models/user.dart';
-import '../../provider/user_info.dart';
-import '../../screen/user_profile/user_detail_info_edit_screen.dart';
-
+import 'package:tapsalon/models/user_models/user.dart';
+import 'package:tapsalon/provider/app_theme.dart';
+import 'package:tapsalon/provider/cities.dart';
+import 'package:tapsalon/provider/user_info.dart';
+import 'package:tapsalon/screen/user_profile/user_detail_info_edit_screen.dart';
+import 'package:tapsalon/widget/dialogs/select_city_dialog.dart';
+import 'package:tapsalon/widget/main_drawer.dart';
 class UserDetailInfoScreen extends StatefulWidget {
-  final User user;
+  static const routeName = '/UserDetailInfoScreen';
 
-  UserDetailInfoScreen({this.user});
+  final User customer;
+
+  UserDetailInfoScreen({this.customer});
 
   @override
   _UserDetailInfoScreenState createState() => _UserDetailInfoScreenState();
 }
 
 class _UserDetailInfoScreenState extends State<UserDetailInfoScreen> {
-  User user;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  User customer;
+  var _isLoading = false;
+  bool _isInit = true;
 
   @override
   void didChangeDependencies() {
-    user = Provider.of<UserInfo>(context).user;
-
+    if (_isInit) {
+      cashOrder();
+    }
+    _isInit = false;
     super.didChangeDependencies();
   }
 
-  String genderRetrieve(int genderId) {
-    String genderName = '';
-    if (genderId == 2) {
-      genderName = 'زن';
-    } else if (genderId == 1) {
-      genderName = 'مرد';
-    } else {
-      genderName = 'نامشخص';
-    }
-    return genderName;
+  Future<void> cashOrder() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await Provider.of<UserInfo>(context, listen: false).getUser();
+    customer = Provider.of<UserInfo>(context, listen: false).user;
+
+    setState(() {
+      _isLoading = false;
+      print(_isLoading.toString());
+    });
+    print(_isLoading.toString());
   }
 
   @override
@@ -47,129 +54,212 @@ class _UserDetailInfoScreenState extends State<UserDetailInfoScreen> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-    return Container(
-      color: Colors.transparent,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'اطلاعات کاربری',
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontFamily: 'Iransans',
-                      fontSize: textScaleFactor * 14.0,
-                    ),
-                    textAlign: TextAlign.right,
-                  ),
-                  FittedBox(
-                    child: FlatButton(
-                      color: Colors.green,
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed(UserDetailInfoEditScreen.routeName);
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                          Text(
-                            ' ویرایش',
-                            style: TextStyle(
-                              color: Colors.white,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppTheme.appBarColor,
+          elevation: 0,
+          iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
+          actions: <Widget>[
+            Consumer<Cities>(
+              builder: (_, cities, ch) => Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: InkWell(
+                  onTap: () {
+                    showDialog(
+                        context: context, builder: (ctx) => SelectCityDialog());
+                  },
+                  child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          cities.selectedCity.name,
+                          softWrap: true,
+                          style: TextStyle(
+                              color: AppTheme.black,
                               fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 14.0,
+                              fontSize: textScaleFactor * 12.0),
+                        ),
+                        Icon(
+                          Icons.arrow_drop_down,
+                          size: 25,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        drawer: Theme(
+          data: Theme.of(context).copyWith(
+            // Set the transparency here
+            canvasColor: AppTheme
+                .white, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+          ),
+          child: MainDrawer(),
+        ),
+        body: _isLoading
+            ? Align(
+                alignment: Alignment.center,
+                child: SpinKitFadingCircle(
+                  itemBuilder: (BuildContext context, int index) {
+                    return DecoratedBox(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: index.isEven ? Colors.grey : Colors.grey,
+                      ),
+                    );
+                  },
+                ),
+              )
+            : SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 16, top: 16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 8,
+                              top: 8,
+                            ),
+                            child: Image.asset(
+                              'assets/images/user_Icon.png',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'اطلاعات شخصی',
+                              style: TextStyle(
+                                color: AppTheme.h1,
+                                fontFamily: 'Iransans',
+                                fontSize: textScaleFactor * 18.0,
+                              ),
+                              textAlign: TextAlign.right,
                             ),
                           ),
                         ],
                       ),
-                    ),
+                      Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'مشخصات',
+                                style: TextStyle(
+                                  color: AppTheme.black,
+                                  fontFamily: 'Iransans',
+                                  fontSize: textScaleFactor * 14.0,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                              FittedBox(
+                                child: FlatButton(
+                                  color: Colors.green,
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed(
+                                        UserDetailInfoEditScreen.routeName);
+                                  },
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
+                                      Text(
+                                        ' ویرایش',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 14.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          ListView(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            children: <Widget>[
+                              InfoItem(
+                                title: 'نام',
+                                text: customer.fname,
+                                bgColor: Colors.white,
+                                iconColor: Color(0xffA67FEC),
+                              ),
+                              InfoItem(
+                                title: 'نام خانوادگی',
+                                text: customer.lname,
+                                bgColor: Colors.white,
+                                iconColor: Color(0xffA67FEC),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            color: Colors.white,
+                          ),
+                          Container(
+                            child: ListView(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              children: <Widget>[
+                                InfoItem(
+                                  title: 'ایمیل',
+                                  text: customer.email,
+                                  bgColor: Colors.white,
+                                  iconColor: Color(0xffA67FEC),
+                                ),
+                                InfoItem(
+                                  title: 'استان',
+                                  text: customer.ostan != null
+                                      ? customer.ostan.name
+                                      : '',
+                                  bgColor: Colors.white,
+                                  iconColor: Color(0xff4392F1),
+                                ),
+                                InfoItem(
+                                  title: 'شهر',
+                                  text: customer.city != null
+                                      ? customer.city.name
+                                      : '',
+                                  bgColor: Colors.white,
+                                  iconColor: Color(0xff4392F1),
+                                ),
+                                InfoItem(
+                                  title: 'کدپستی',
+                                  text: customer.address != null
+                                      ? customer.address
+                                      : '',
+                                  bgColor: Colors.white,
+                                  iconColor: Color(0xff4392F1),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: deviceHeight * 0.02,
+                      )
+                    ],
                   ),
-                ],
-              ),
-              Divider(),
-              Container(
-                color: Color(0xffFFF2F2),
-                child: ListView(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    InfoItem(
-                      title: 'نام',
-                      text: user.fname,
-                      bgColor: Color(0xffFFF2F2),
-                      iconColor: Color(0xffA67FEC),
-                    ),
-                    InfoItem(
-                      title: 'نام خانوادگی',
-                      text: user.lname,
-                      bgColor: Color(0xffFFF2F2),
-                      iconColor: Color(0xffA67FEC),
-                    ),
-                    InfoItem(
-                      title: 'جنسیت',
-                      text:
-                          genderRetrieve(user.gender != null ? user.gender : 0),
-                      bgColor: Color(0xffFFF2F2),
-                      iconColor: Color(0xffA67FEC),
-                    ),
-                  ],
                 ),
               ),
-              Divider(
-                color: Colors.white,
-              ),
-              Text(
-                'اطلاعات تماس',
-                style: TextStyle(
-                  color: Colors.blueGrey,
-                  fontFamily: 'Iransans',
-                  fontSize: textScaleFactor * 14.0,
-                ),
-                textAlign: TextAlign.right,
-              ),
-              Container(
-                color: Color(0xffF1F5FF),
-                child: ListView(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    InfoItem(
-                      title: 'استان',
-                      text: user.ostan.name != null ? user.ostan.name : '',
-                      bgColor: Color(0xffF1F5FF),
-                      iconColor: Color(0xff4392F1),
-                    ),
-                    InfoItem(
-                      title: 'شهر',
-                      text: user.city.name != null ? user.city.name : '',
-                      bgColor: Color(0xffF1F5FF),
-                      iconColor: Color(0xff4392F1),
-                    ),
-                    InfoItem(
-                      title: 'موبایل',
-                      text: user.mobile != null ? user.mobile : '',
-                      bgColor: Color(0xffF1F5FF),
-                      iconColor: Color(0xff4392F1),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: deviceHeight * 0.02,
-              )
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -195,84 +285,40 @@ class InfoItem extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Padding(
-      padding: const EdgeInsets.all(3.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Row(
-            children: <Widget>[
-              Icon(
-                Icons.arrow_right,
-                color: iconColor,
-              ),
-              Text(
-                '$title : ',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontFamily: 'Iransans',
-                  fontSize: textScaleFactor * 14.0,
-                ),
-              ),
-              Text(text)
-            ],
+      padding: const EdgeInsets.only(top: 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            '$title : ',
+            style: TextStyle(
+              color: AppTheme.grey,
+              fontFamily: 'Iransans',
+              fontSize: textScaleFactor * 14.0,
+            ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class InfoItem2 extends StatelessWidget {
-  const InfoItem2({
-    Key key,
-    @required this.title,
-    @required this.text,
-    @required this.bgColor,
-    @required this.iconColor,
-  }) : super(key: key);
-
-  final String title;
-  final String text;
-  final Color bgColor;
-  final Color iconColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Wrap(
-            children: <Widget>[
-              Icon(
-                Icons.arrow_right,
-                color: iconColor,
+          Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: bgColor,
+                border: Border.all(
+                    color: Colors.grey.withOpacity(
+                  0.0,
+                )),
+                borderRadius: BorderRadius.circular(5),
               ),
-              Text(
-                '$title : ',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontFamily: 'Iransans',
-                  fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    color: AppTheme.black,
+                    fontFamily: 'Iransans',
+                    fontSize: textScaleFactor * 14.0,
+                  ),
                 ),
-              ),
-              Wrap(
-                children: <Widget>[
-                  Text(text),
-                ],
-              )
-            ],
-          ),
-        ),
+              ))
+        ],
       ),
     );
   }

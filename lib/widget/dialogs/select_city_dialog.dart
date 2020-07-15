@@ -3,9 +3,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/screen/navigation_bottom_screen.dart';
 
-import '../models/city.dart';
-import '../models/province.dart';
-import '../provider/cities.dart';
+import '../../models/city.dart';
+import '../../models/province.dart';
+import '../../provider/cities.dart';
 
 class SelectCityDialog extends StatefulWidget {
   @override
@@ -62,7 +62,6 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
       _isLoading = true;
     });
     try {
-
       await Provider.of<Cities>(context, listen: false)
           .retrieveOstanCities(provinceId);
 
@@ -131,27 +130,22 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min, // To make the card compact
                   children: <Widget>[
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'لطفا استان و شهر مورد نظر را انتخاب کنید',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Iransans',
-                            fontSize: textScaleFactor * 13.0,
-                          ),
-                        ),
+                    Text(
+                      'لطفا استان و شهر مورد نظر را انتخاب کنید',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Iransans',
+                        fontSize: textScaleFactor * 13.0,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(top:8.0,bottom: 12),
                       child: Container(
-                        width: constraint.maxHeight * 0.7,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.start,
                           children: <Widget>[
                             Text(
                               'استان : ',
@@ -174,8 +168,9 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                                 child: Container(
                                   alignment: Alignment.centerRight,
                                   decoration: BoxDecoration(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      border: Border.all(color: Colors.grey)),
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.grey, width: 0.3)),
                                   child: DropdownButton<String>(
                                     hint: Text(
                                       _isLoading
@@ -188,9 +183,14 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                                       ),
                                     ),
                                     value: provinceValue,
-                                    icon: Icon(
-                                      Icons.arrow_drop_down,
-                                      color: Colors.orange,
+
+                                    icon: Padding(
+                                      padding: const EdgeInsets.only(bottom:6),
+                                      child: Icon(
+                                        Icons.arrow_drop_down,
+                                        color: Colors.black,
+
+                                      ),
                                     ),
                                     style: TextStyle(
                                       color: Colors.black,
@@ -207,17 +207,26 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                                       });
                                       loadCities();
                                     },
+                                    elevation: 0,
+                                    underline: Container(color: Colors.white,),
                                     items: provinceValueList
                                         .map<DropdownMenuItem<String>>(
                                             (String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
-                                        child: Text(
-                                          value,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 13.0,
+
+                                        child: Container(
+                                          width: constraint.maxWidth*0.5,
+                                          child: Text(
+                                            value,
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+
+                                              color: Colors.black,
+                                              fontFamily: 'Iransans',
+                                              fontSize: textScaleFactor * 13.0,
+                                            ),
+                                            textDirection: TextDirection.rtl,
                                           ),
                                         ),
                                       );
@@ -230,9 +239,6 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                         ),
                       ),
                     ),
-                    Divider(
-                      thickness: 1,
-                    ),
                     Text(
                       'شهر : ',
                       style: TextStyle(
@@ -240,6 +246,10 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                         fontFamily: 'Iransans',
                         fontSize: textScaleFactor * 13.0,
                       ),
+                    ),
+                    Divider(
+                      thickness: 0.3,
+                      height: 1,
                     ),
                     ConstrainedBox(
                       constraints: BoxConstraints(
@@ -249,30 +259,28 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                       child: ListView.builder(
                           itemCount: citiesList.length,
                           itemBuilder: (ctx, i) {
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 15.0),
-                              child: Container(
-                                color: selectedCity != null
-                                    ? selectedCity.id != citiesList[i].id
-                                        ? Colors.white
-                                        : Colors.grey.withOpacity(0.2)
-                                    : Colors.white,
-                                child: ListTile(
-                                  title: Text(
-                                    citiesList[i].name,
-                                    style: TextStyle(
-                                      fontFamily: "Iransans",
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: textScaleFactor * 15,
-                                      color: Colors.black,
-                                    ),
-                                    textAlign: TextAlign.right,
+                            return Container(
+                              color: selectedCity != null
+                                  ? selectedCity.id != citiesList[i].id
+                                      ? Colors.white
+                                      : Colors.grey.withOpacity(0.2)
+                                  : Colors.white,
+                              child: ListTile(
+
+                                title: Text(
+                                  citiesList[i].name,
+                                  style: TextStyle(
+                                    fontFamily: "Iransans",
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: textScaleFactor * 15,
+                                    color: Colors.black,
                                   ),
-                                  onTap: () {
-                                    selectedCity = citiesList[i];
-                                    setState(() {});
-                                  },
+                                  textAlign: TextAlign.right,
                                 ),
+                                onTap: () {
+                                  selectedCity = citiesList[i];
+                                  setState(() {});
+                                },
                               ),
                             );
                           }),

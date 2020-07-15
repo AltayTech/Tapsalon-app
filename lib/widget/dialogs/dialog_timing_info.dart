@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screen/user_profile/profile_screen.dart';
+import '../../screen/user_profile/profile_screen.dart';
 
 class DialogTimingInfo extends StatelessWidget {
   final String title, description, buttonText;

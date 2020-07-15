@@ -36,7 +36,7 @@ class _UserDetailWalletScreenState extends State<UserDetailWalletScreen> {
             crossAxisAlignment: WrapCrossAlignment.start,
             children: <Widget>[
               Text(
-                'سفارشات',
+                'اعتباری فعلا اضافه نگردیده است',
                 style: TextStyle(
                   color: Colors.blueGrey,
                   fontFamily: 'Iransans',
@@ -87,92 +87,92 @@ class _UserDetailWalletScreenState extends State<UserDetailWalletScreen> {
 //
 //                ],
 //              ),
-              Card(
-                elevation: 0.5,
-                child: Wrap(
-                  children: <Widget>[
-                    Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4.0, right: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                'وضعیت',
-                                style: TextStyle(
-                                  fontFamily: 'Iransans',
-                                  color: Colors.grey,
-                                  fontSize: textScaleFactor * 10.0,
-                                ),
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Text(
-                                'نوع خرید',
-                                style: TextStyle(
-                                  fontFamily: 'Iransans',
-                                  color: Colors.grey,
-                                  fontSize: textScaleFactor * 10.0,
-                                ),
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Text(
-                                'تاریخ',
-                                style: TextStyle(
-                                  fontFamily: 'Iransans',
-                                  color: Colors.grey,
-                                  fontSize: textScaleFactor * 10.0,
-                                ),
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: Text(
-                                'شماره',
-                                style: TextStyle(
-                                  fontFamily: 'Iransans',
-                                  color: Colors.grey,
-                                  fontSize: textScaleFactor * 10.0,
-                                ),
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-//                    ListView.builder(
-//                      physics: NeverScrollableScrollPhysics(),
-//                      shrinkWrap: true,
-//                      itemCount: orderList.length,
-//                      itemBuilder: (ctx, index) {
-//                        return GestureDetector(
-//                          onTap: () {
-//                            Navigator.of(context).pushNamed(
-//                                OrderViewScreen.routeName,
-//                                arguments: orderList[index].id);
-//                          },
-//                          child: OrderItem(
-//                            number: orderList[index].shenaseh.toString(),
-//                            date:
-//                                orderList[index].order_register_date.toString(),
-//                            sellCase: orderList[index].pay_type.toString(),
-//                            status: orderList[index].pay_status.toString(),
-//                          ),
-//                        );
-//                      },
+//              Card(
+//                elevation: 0.5,
+//                child: Wrap(
+//                  children: <Widget>[
+//                    Directionality(
+//                      textDirection: TextDirection.ltr,
+//                      child: Padding(
+//                        padding: const EdgeInsets.only(top: 4.0, right: 10),
+//                        child: Row(
+//                          children: <Widget>[
+//                            Expanded(
+//                              flex: 4,
+//                              child: Text(
+//                                'وضعیت',
+//                                style: TextStyle(
+//                                  fontFamily: 'Iransans',
+//                                  color: Colors.grey,
+//                                  fontSize: textScaleFactor * 10.0,
+//                                ),
+//                                textAlign: TextAlign.right,
+//                              ),
+//                            ),
+//                            Expanded(
+//                              flex: 2,
+//                              child: Text(
+//                                'نوع خرید',
+//                                style: TextStyle(
+//                                  fontFamily: 'Iransans',
+//                                  color: Colors.grey,
+//                                  fontSize: textScaleFactor * 10.0,
+//                                ),
+//                                textAlign: TextAlign.right,
+//                              ),
+//                            ),
+//                            Expanded(
+//                              flex: 3,
+//                              child: Text(
+//                                'تاریخ',
+//                                style: TextStyle(
+//                                  fontFamily: 'Iransans',
+//                                  color: Colors.grey,
+//                                  fontSize: textScaleFactor * 10.0,
+//                                ),
+//                                textAlign: TextAlign.right,
+//                              ),
+//                            ),
+//                            Expanded(
+//                              flex: 5,
+//                              child: Text(
+//                                'شماره',
+//                                style: TextStyle(
+//                                  fontFamily: 'Iransans',
+//                                  color: Colors.grey,
+//                                  fontSize: textScaleFactor * 10.0,
+//                                ),
+//                                textAlign: TextAlign.right,
+//                              ),
+//                            ),
+//                          ],
+//                        ),
+//                      ),
 //                    ),
-                  ],
-                ),
-              ),
+////                    ListView.builder(
+////                      physics: NeverScrollableScrollPhysics(),
+////                      shrinkWrap: true,
+////                      itemCount: orderList.length,
+////                      itemBuilder: (ctx, index) {
+////                        return GestureDetector(
+////                          onTap: () {
+////                            Navigator.of(context).pushNamed(
+////                                OrderViewScreen.routeName,
+////                                arguments: orderList[index].id);
+////                          },
+////                          child: OrderItem(
+////                            number: orderList[index].shenaseh.toString(),
+////                            date:
+////                                orderList[index].order_register_date.toString(),
+////                            sellCase: orderList[index].pay_type.toString(),
+////                            status: orderList[index].pay_status.toString(),
+////                          ),
+////                        );
+////                      },
+////                    ),
+//                  ],
+//                ),
+//              ),
               SizedBox(
                 height: deviceHeight * 0.03,
               )

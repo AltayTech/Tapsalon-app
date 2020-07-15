@@ -7,7 +7,13 @@ class Field with ChangeNotifier {
   final String excerpt;
   final String icon;
 
-  Field({this.id, this.description, this.name, this.excerpt, this.icon});
+  Field({
+    this.id,
+    this.description,
+    this.name,
+    this.excerpt,
+    this.icon,
+  });
 
   factory Field.fromJson(Map<String, dynamic> parsedJson) {
     return Field(

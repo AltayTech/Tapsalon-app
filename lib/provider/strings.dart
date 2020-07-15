@@ -10,6 +10,6 @@ class Strings {
 
   // mainTopic title
   static const titlClubs = 'باشگاه ها';
-  static const titleSalons = 'سالن های ورزشی';
-  static const titleEntertainment = 'مجموعه های تفریحی';
+  static const titleSalons = 'سالن ها';
+  static const titleEntertainment = 'تفریحی';
 }

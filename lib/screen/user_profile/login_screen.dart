@@ -8,6 +8,7 @@ import '../../classes/http_exception.dart';
 import '../../provider/app_theme.dart';
 import '../../provider/auth.dart';
 import '../../widget/main_drawer.dart';
+import '../navigation_bottom_screen.dart';
 
 enum AuthMode { VerificationCode, Login }
 
@@ -31,16 +32,13 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: AppTheme.appBarColor,
         iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
       ),
-
       backgroundColor: Color(0xffF9F9F9),
       endDrawer: Theme(
         data: Theme.of(context).copyWith(
-          // Set the transparency here
-          canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+          canvasColor: Colors.white,
         ),
         child: MainDrawer(),
-      ), // resizeToAvoidBottomInset: false,
+      ),
       body: SingleChildScrollView(
         child: Container(
           height: deviceSize.height - 80,
@@ -72,10 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Container(
                   height: deviceSize.height * 0.99,
                   width: deviceSize.width,
-                  child: Flexible(
-                    flex: deviceSize.width > 600 ? 2 : 1,
-                    child: AuthCard(),
-                  ),
+                  child: AuthCard(),
                 ),
               ),
             ],
@@ -202,7 +197,9 @@ class _AuthCardState extends State<AuthCard>
         );
         if (response) {
 //          Navigator.of(context).pushNamed('/');
-          Navigator.of(context).popAndPushNamed('/');
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              NavigationBottomScreen.routeName,
+              (Route<dynamic> route) => false);
         } else {
           _showErrorDialog('کد وارد شده صحیح نمیباشد');
         }
@@ -267,7 +264,7 @@ class _AuthCardState extends State<AuthCard>
 
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Container(
-      width: deviceSize.width * 0.85,
+      width: deviceSize.width * 0.4,
       padding: EdgeInsets.all(16.0),
       child: Form(
         key: _formKey,
@@ -341,6 +338,8 @@ class _AuthCardState extends State<AuthCard>
                                 height: deviceSize.height * 0.055,
                                 width: deviceSize.width * 0.6,
                                 decoration: BoxDecoration(
+                                  color:Colors.white70,
+
                                   borderRadius: BorderRadius.circular(50),
                                   border: Border.all(
                                       color: Colors.blue, width: 1.5),
@@ -355,7 +354,8 @@ class _AuthCardState extends State<AuthCard>
                                           textAlign: TextAlign.center,
                                           enabled: true,
                                           decoration: InputDecoration(
-                                            fillColor: Colors.white10,
+//                                            filled: true,
+//                                            fillColor: Colors.white,
                                             border: InputBorder.none,
                                             suffix: Text(''),
                                             labelStyle: TextStyle(
@@ -406,6 +406,7 @@ class _AuthCardState extends State<AuthCard>
                                 height: deviceSize.height * 0.055,
                                 width: deviceSize.width * 0.6,
                                 decoration: BoxDecoration(
+                                  color:Colors.white70,
                                   borderRadius: BorderRadius.circular(50),
                                   border: Border.all(
                                       color: Colors.blue, width: 1.5),
@@ -416,12 +417,13 @@ class _AuthCardState extends State<AuthCard>
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: <Widget>[
-                                      TextFormField(
+                                     TextFormField(
                                         textAlign: TextAlign.center,
                                         decoration: InputDecoration(
+//                                          filled: true,
+//                                          fillColor: Colors.white,
                                           border: InputBorder.none,
                                           suffix: Text(''),
-                                          fillColor: Colors.white,
                                           focusColor: Colors.white,
                                           counterStyle: TextStyle(
                                             decorationStyle:

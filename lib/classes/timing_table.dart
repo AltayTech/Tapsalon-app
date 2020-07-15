@@ -11,6 +11,7 @@ class TimingTable extends StatefulWidget {
   final double rowHeight;
   final double titleWidth;
   final double timeStep;
+  final double initialHour;
 
   TimingTable({
     this.timingList,
@@ -18,6 +19,7 @@ class TimingTable extends StatefulWidget {
     this.rowHeight,
     this.titleWidth,
     this.timeStep,
+    this.initialHour = 0,
   });
 
   @override
@@ -39,6 +41,7 @@ class _TimingTableState extends State<TimingTable> {
     'پنج شنبه',
     'جمعه',
   ];
+  ScrollController _scrollController;
 
   Future<void> initialTable() async {
     widgetList = widget.timingList
@@ -81,7 +84,9 @@ class _TimingTableState extends State<TimingTable> {
                       ),
                       Spacer(),
                       Text(
-                        EnArConvertor().replaceArNumber('${e.discount}%'),
+                        e.discount != null && e.discount != 0
+                            ? EnArConvertor().replaceArNumber('${e.discount}%')
+                            : '',
                         style: TextStyle(
                           fontFamily: 'Iransans',
                           fontWeight: FontWeight.bold,
@@ -153,6 +158,11 @@ class _TimingTableState extends State<TimingTable> {
 
   @override
   void didChangeDependencies() async {
+    _scrollController = ScrollController(
+        initialScrollOffset: widget.timeStep * widget.initialHour);
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
+
     await initialTable();
 
     super.didChangeDependencies();
@@ -225,6 +235,7 @@ class _TimingTableState extends State<TimingTable> {
           ),
           Expanded(
             child: SingleChildScrollView(
+              controller: _scrollController,
               scrollDirection: Axis.horizontal,
               child: Container(
                 height: 7 * widget.rowHeight + widget.headerHeight + 2,

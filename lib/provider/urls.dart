@@ -14,5 +14,6 @@ class Urls {
   static const userEndPoint = '/api/user';
   static const commentEndPoint = '/api/comments';
 
-  static const userLikesEndPoint = '/api/likes';
+  static const userLikesEndPoint = '/api/user/likes';
+  static const likePlaceEndPoint = '/api/likes';
 }

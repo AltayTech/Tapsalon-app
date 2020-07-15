@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:tapsalon/models/field.dart';
 import 'package:tapsalon/models/image.dart';
+import 'package:tapsalon/models/places_models/place_in_complex.dart';
 
-import 'place_in_complex.dart';
 import '../region.dart';
 import '../user_models/user_in_complex.dart';
 import '../city.dart';
@@ -24,11 +24,11 @@ class Complex with ChangeNotifier {
   final String createdAt;
   final String updatedAt;
   final UserInComplex user;
-  final Image image;
+  final ImageObj image;
 
   final List<PlaceInComplex> placeList;
   final List<Field> fieldList;
-  final List<Image> gallery;
+  final List<ImageObj> gallery;
   final Province province;
   final City city;
   final Region region;
@@ -68,8 +68,8 @@ class Complex with ChangeNotifier {
     fieldRaw = fieldList.map((i) => Field.fromJson(i)).toList();
 
     var gallery = parsedJson['gallery'] as List<dynamic>;
-    List<Image> galleryRaw = new List<Image>();
-    galleryRaw = gallery.map((i) => Image.fromJson(i)).toList();
+    List<ImageObj> galleryRaw = new List<ImageObj>();
+    galleryRaw = gallery.map((i) => ImageObj.fromJson(i)).toList();
 
     return Complex(
       id: parsedJson['id'],
@@ -87,7 +87,7 @@ class Complex with ChangeNotifier {
       createdAt: parsedJson['created_at'],
       updatedAt: parsedJson['updated_at'],
       province: Province.fromJson(parsedJson['ostan']),
-      image: Image.fromJson(parsedJson['image']),
+      image: ImageObj.fromJson(parsedJson['image']),
       placeList: placeRaw,
       fieldList: fieldRaw,
       gallery: galleryRaw,

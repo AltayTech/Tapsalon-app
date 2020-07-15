@@ -7,7 +7,7 @@ class PlaceInComplex with ChangeNotifier {
   final String excerpt;
   final String about;
   final int price;
-  final Image image;
+  final ImageObj image;
   final String created_at;
   final String updated_at;
 
@@ -33,7 +33,7 @@ class PlaceInComplex with ChangeNotifier {
       excerpt: parsedJson['excerpt'],
       about: parsedJson['about'],
       price: parsedJson['price'],
-      image: Image.fromJson(parsedJson['image']),
+      image: ImageObj.fromJson(parsedJson['image']),
       created_at: parsedJson['created_at'],
       updated_at: parsedJson['updated_at'],
     );

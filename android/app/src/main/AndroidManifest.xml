@@ -11,8 +11,8 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="tapsalon"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Tapsalon"
+        android:icon="@drawable/tapsalon_icon_200">
         <meta-data android:name="com.google.android.geo.API_KEY"
                    android:value="AIzaSyAZU0fLfsuVinIskarXUEpcrMBxtQf7Dd0"/>
         <activity

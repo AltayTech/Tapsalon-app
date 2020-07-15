@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
+import 'package:tapsalon/models/city.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
-import 'package:tapsalon/widget/place_item.dart';
+import 'package:tapsalon/widget/items/place_item.dart';
 
 import '../models/searchDetails.dart';
 import '../provider/app_theme.dart';
 import '../provider/cities.dart';
 import '../provider/places.dart';
-import '../widget/custom_dialog_enter.dart';
 import '../widget/en_to_ar_number_convertor.dart';
 import '../widget/filter_drawer.dart';
 import '../widget/main_drawer.dart';
-import '../widget/select_city_dialog.dart';
+import '../widget/dialogs/select_city_dialog.dart';
 
 class SearchScreen extends StatefulWidget {
   static const routeName = '/searchScreen';
@@ -29,6 +29,7 @@ class _SearchScreenState extends State<SearchScreen>
   var _isLoading;
   int page = 1;
   List<String> filterList = [];
+  City selectedCity;
 
   SearchDetails searchDetails;
   final searchTextController = TextEditingController();
@@ -38,7 +39,7 @@ class _SearchScreenState extends State<SearchScreen>
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, length: 4);
+    _tabController = TabController(vsync: this, length: 5);
     _tabController.addListener(_handleTabSelection);
 
     _scrollController.addListener(() {
@@ -65,27 +66,50 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     if (_isInit) {
       int tabIndex = ModalRoute.of(context).settings.arguments as int;
       _tabController.index = tabIndex;
       cleanFilter();
-      Provider.of<Places>(context, listen: false).sPage = page;
-      Provider.of<Places>(context, listen: false).searchBuilder();
+      setState(() {
+        _isLoading = true;
+      });
+      selectedCity = Provider
+          .of<Cities>(context, listen: false)
+          .selectedCity;
+      if(selectedCity==null) {
+        await Provider.of<Cities>(context, listen: false).getSelectedCity();
 
-      searchItems();
+      }
+      selectedCity = Provider
+          .of<Cities>(context, listen: false)
+          .selectedCity;
+      print('selectedCity.id' + selectedCity.id.toString());
+      Provider
+          .of<Places>(context, listen: false)
+          .sCityId =
+          selectedCity.id.toString();
+
+      Provider.of<Places>(context, listen: false).sPage = page;
+
+      searchTextController.text =
+          Provider.of<Places>(context, listen: false).searchKey;
+
+      await searchItems();
+      setState(() {
+        _isLoading = false;
+      });
     }
     _isInit = false;
     super.didChangeDependencies();
   }
+
   Future<void> cleanFilter() async {
     setState(() {
       _isLoading = true;
     });
 
-    Provider.of<Places>(context, listen: false).searchKey = '';
     Provider.of<Places>(context, listen: false).filterTitle.clear();
-
     Provider.of<Places>(context, listen: false).sFacility = '';
     Provider.of<Places>(context, listen: false).sField = '';
     Provider.of<Places>(context, listen: false).sRange = '';
@@ -96,10 +120,9 @@ class _SearchScreenState extends State<SearchScreen>
 
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
+
   List<PlaceInSearch> loadedPlaces = [];
   List<PlaceInSearch> loadedPlacesToList = [];
 
@@ -122,7 +145,7 @@ class _SearchScreenState extends State<SearchScreen>
 
     filterList = Provider.of<Places>(context, listen: false).filterTitle;
     searchDetails =
-        Provider.of<Places>(context, listen: false).complexSearchDetails;
+        Provider.of<Places>(context, listen: false).placeSearchDetails;
 
     setState(() {
       _isLoading = false;
@@ -170,16 +193,54 @@ class _SearchScreenState extends State<SearchScreen>
     var currencyFormat = intl.NumberFormat.decimalPattern();
     final List<Tab> myTabs = <Tab>[
       Tab(
-        text: 'همه',
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'همه',
+            style: TextStyle(
+                fontFamily: 'Iransans', fontSize: textScaleFactor * 16.0),
+          ),
+        ),
       ),
       Tab(
-        text: 'ورزشی',
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'سالن',
+            style: TextStyle(
+                fontFamily: 'Iransans', fontSize: textScaleFactor * 16.0),
+          ),
+        ),
       ),
       Tab(
-        text: 'باشگاه ها',
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'باشگاه ها',
+            style: TextStyle(
+                fontFamily: 'Iransans', fontSize: textScaleFactor * 16.0),
+          ),
+        ),
       ),
       Tab(
-        text: 'تفریحی',
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'مجموعه ورزشی',
+            style: TextStyle(
+                fontFamily: 'Iransans', fontSize: textScaleFactor * 16.0),
+          ),
+        ),
+      ),
+      Tab(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'مجموعه تفریحی',
+            style: TextStyle(
+                fontFamily: 'Iransans', fontSize: textScaleFactor * 16.0),
+          ),
+        ),
       ),
     ];
 
@@ -194,7 +255,7 @@ class _SearchScreenState extends State<SearchScreen>
           actions: <Widget>[
             Consumer<Cities>(
               builder: (_, cities, ch) => Padding(
-                padding: const EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.only(left: 20.0),
                 child: InkWell(
                   onTap: () {
                     showDialog(
@@ -207,17 +268,15 @@ class _SearchScreenState extends State<SearchScreen>
                       children: <Widget>[
                         Text(
                           cities.selectedCity.name,
+                          softWrap: true,
                           style: TextStyle(
                               color: AppTheme.black,
                               fontFamily: 'Iransans',
                               fontSize: textScaleFactor * 12.0),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Icon(
-                            Icons.arrow_drop_down,
-                            size: 25,
-                          ),
+                        Icon(
+                          Icons.arrow_drop_down,
+                          size: 25,
                         )
                       ],
                     ),
@@ -227,122 +286,129 @@ class _SearchScreenState extends State<SearchScreen>
             ),
           ],
         ),
-        body: Builder(
-          builder: (context) => SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: deviceWidth * 0.04, horizontal: deviceWidth * 0.03),
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        height: deviceHeight * 0.06,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppTheme.primary.withOpacity(1),
-                                blurRadius: 10.10,
-                                spreadRadius: 5.510,
-                                offset: Offset(
-                                  0,
-                                  0,
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Builder(
+            builder: (context) => SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: deviceWidth * 0.04,
+                    horizontal: deviceWidth * 0.04),
+                child: Stack(
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          height: deviceHeight * 0.06,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppTheme.grey.withOpacity(0.3),
+                                  blurRadius: 6,
+                                  spreadRadius: 3,
+                                  offset: Offset(
+                                    0,
+                                    0,
+                                  ),
                                 ),
-                              )
-                            ],
-                            borderRadius:
-                                new BorderRadius.all(Radius.circular(25))),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: TextFormField(
-                                    controller: searchTextController,
-                                    textInputAction: TextInputAction.search,
-                                    onFieldSubmitted: (_) {
-                                      Provider.of<Places>(context,
-                                                  listen: false)
-                                              .searchKey =
-                                          searchTextController.text;
-                                      page = 1;
-                                      Provider.of<Places>(context,
-                                              listen: false)
-                                          .sPage = page;
-                                      loadedPlacesToList.clear();
+                              ],
+                              borderRadius:
+                                  new BorderRadius.all(Radius.circular(50))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: TextFormField(
+                                      controller: searchTextController,
+                                      textInputAction: TextInputAction.search,
+                                      onFieldSubmitted: (_) {
+                                        Provider.of<Places>(context,
+                                                    listen: false)
+                                                .searchKey =
+                                            searchTextController.text;
+                                        page = 1;
+                                        Provider.of<Places>(context,
+                                                listen: false)
+                                            .sPage = page;
+                                        loadedPlacesToList.clear();
 
-                                      searchItems();
-                                    },
-                                    onChanged: (_) {
-                                      Provider.of<Places>(context,
-                                                  listen: false)
-                                              .searchKey =
-                                          searchTextController.text;
-                                      page = 1;
-                                      Provider.of<Places>(context,
-                                              listen: false)
-                                          .sPage = page;
-                                      loadedPlacesToList.clear();
+                                        searchItems();
+                                      },
+                                      onChanged: (_) {
+                                        Provider.of<Places>(context,
+                                                    listen: false)
+                                                .searchKey =
+                                            searchTextController.text;
+                                        page = 1;
+                                        Provider.of<Places>(context,
+                                                listen: false)
+                                            .sPage = page;
+                                        loadedPlacesToList.clear();
 
-                                      searchItems();
-                                    },
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
+                                        searchItems();
+                                      },
+                                      style: TextStyle(
+                                        color: AppTheme.black,
                                         fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 12.0,
                                       ),
-                                      hintText: 'جستجو',
-                                      labelStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 10.0,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 12.0,
+                                        ),
+                                        hintText: 'جستجو',
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 10.0,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Provider.of<Places>(context, listen: false)
-                                      .searchKey = searchTextController.text;
-                                  page = 1;
-                                  Provider.of<Places>(context, listen: false)
-                                      .sPage = page;
-                                  loadedPlacesToList.clear();
+                                InkWell(
+                                  onTap: () {
+                                    Provider.of<Places>(context, listen: false)
+                                        .searchKey = searchTextController.text;
+                                    page = 1;
+                                    Provider.of<Places>(context, listen: false)
+                                        .sPage = page;
+                                    loadedPlacesToList.clear();
 
-                                  searchItems();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Icon(
-                                    Icons.search,
-                                    color: Colors.grey.withOpacity(0.5),
-                                    size: 30,
+                                    searchItems();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Icon(
+                                      Icons.search,
+                                      color: Colors.grey.withOpacity(0.5),
+                                      size: 30,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: Container(
-                              width: deviceWidth,
-                              height: deviceHeight * 0.055,
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: InkWell(
+                        Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: Container(
+                                width: deviceWidth,
+                                height: deviceHeight * 0.055,
+                                child: Row(
+                                  children: <Widget>[
+                                    InkWell(
                                         onTap: () {
                                           Scaffold.of(context).openEndDrawer();
                                         },
@@ -350,7 +416,7 @@ class _SearchScreenState extends State<SearchScreen>
                                           decoration: BoxDecoration(
                                             color: AppTheme.white,
                                             border: Border.all(
-                                                color: AppTheme.grey
+                                                color: AppTheme.white
                                                     .withOpacity(0.5),
                                                 width: 0.5),
                                             borderRadius:
@@ -360,73 +426,128 @@ class _SearchScreenState extends State<SearchScreen>
                                             padding: const EdgeInsets.all(4.0),
                                             child: Icon(
                                               Icons.filter_list,
-                                              color: AppTheme.iconColor,
+                                              color: AppTheme.grey,
                                               size: 30,
                                             ),
                                           ),
                                         )),
-                                  ),
-                                  Expanded(
-                                    child: TabBar(
-                                        onTap: (i) {
-                                          if (i == 0) {
+                                    Expanded(
+                                      child: TabBar(
+                                          onTap: (i) {
+                                            if (i == 0) {
+                                              cleanFilter();
+                                              Provider.of<Places>(context,
+                                                      listen: false)
+                                                  .sPlaceType = '';
+                                            } else if (i == 1) {
+                                              Provider.of<Places>(context,
+                                                      listen: false)
+                                                  .sPlaceType = '1';
+                                            } else if (i == 2) {
+                                              Provider.of<Places>(context,
+                                                      listen: false)
+                                                  .sPlaceType = '2';
+                                            } else if (i == 3) {
+                                              Provider.of<Places>(context,
+                                                      listen: false)
+                                                  .sPlaceType = '3';
+                                            } else if (i == 4) {
+                                              Provider.of<Places>(context,
+                                                      listen: false)
+                                                  .sPlaceType = '4';
+                                            }
+                                            page = 1;
                                             Provider.of<Places>(context,
                                                     listen: false)
-                                                .sComplexType = '';
-                                          } else if (i == 1) {
-                                            Provider.of<Places>(context,
-                                                    listen: false)
-                                                .sComplexType = '1';
-                                          } else if (i == 2) {
-                                            Provider.of<Places>(context,
-                                                    listen: false)
-                                                .sComplexType = '2';
-                                          } else if (i == 3) {
-                                            Provider.of<Places>(context,
-                                                    listen: false)
-                                                .sComplexType = '3';
-                                          }
-                                          page = 1;
-                                          Provider.of<Places>(context,
-                                                  listen: false)
-                                              .sPage = page;
-                                          loadedPlacesToList.clear();
+                                                .sPage = page;
+                                            loadedPlacesToList.clear();
 
-                                          searchItems();
-                                        },
-                                        indicator: BoxDecoration(
-                                          color: AppTheme.white,
-                                        ),
-//                                indicatorColor: Colors.red,
-                                        indicatorWeight: 0,
-                                        unselectedLabelColor: AppTheme.grey,
-                                        labelColor: AppTheme.black,
-                                        labelPadding:
-                                            EdgeInsets.only(top: 2, left: 4),
-                                        labelStyle: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 15.0,
-                                        ),
-                                        unselectedLabelStyle: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 14.0,
-                                        ),
-                                        controller: _tabController,
-                                        tabs: myTabs),
-                                  ),
-                                ],
+                                            searchItems();
+                                          },
+                                          indicator: BoxDecoration(
+                                            color: AppTheme.white,
+                                          ),
+                                          isScrollable: true,
+                                          indicatorWeight: 0,
+                                          unselectedLabelColor: AppTheme.grey,
+                                          labelColor: AppTheme.black,
+                                          labelPadding:
+                                              EdgeInsets.only(top: 2, left: 4),
+                                          labelStyle: TextStyle(
+                                            fontFamily: 'Iransans',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: textScaleFactor * 15.0,
+                                          ),
+                                          unselectedLabelStyle: TextStyle(
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 14.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          controller: _tabController,
+                                          tabs: myTabs),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0, top: 8),
-                            child: Container(
-                              height: deviceHeight * 0.04,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Consumer<Places>(
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 8.0, top: 8),
+                              child: Container(
+                                height: deviceHeight * 0.04,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Directionality(
+                                      textDirection: TextDirection.ltr,
+                                      child: DropdownButton<String>(
+                                        value: sortValue,
+                                        icon: Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 6),
+                                          child: Icon(
+                                            Icons.arrow_drop_down,
+                                            color: AppTheme.black,
+                                          ),
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 13.0,
+                                        ),
+                                        onChanged: (String newValue) {
+                                          setState(() {
+                                            sortValue = newValue;
+                                          });
+                                          setSort(newValue);
+                                        },
+                                        underline: Container(
+                                          color: Colors.white,
+                                        ),
+                                        items: sortList
+                                            .map<DropdownMenuItem<String>>(
+                                                (String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Container(
+                                              width: deviceWidth * 0.25,
+                                              child: Text(
+                                                value,
+                                                textAlign: TextAlign.end,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'Iransans',
+                                                  fontSize:
+                                                      textScaleFactor * 13.0,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Consumer<Places>(
                                         builder: (_, products, ch) {
                                       return Container(
                                         child: Wrap(
@@ -468,183 +589,144 @@ class _SearchScreenState extends State<SearchScreen>
                                                   ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 3,
-                                                        vertical: 5),
-                                                child: Text(
-                                                  filterList.length == 0
-                                                      ? ''
-                                                      : 'فیلتر',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Iransans',
-                                                    fontSize:
-                                                        textScaleFactor * 12.0,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: deviceWidth * 0.65,
-                                                height: deviceHeight * 0.06,
-                                                child: filterList.length == 0
-                                                    ? Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal: 3,
-                                                                vertical: 5),
-                                                        child: Container(
-                                                          child: Text(
-                                                            '',
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'Iransans',
-                                                              fontSize:
-                                                                  textScaleFactor *
-                                                                      12.0,
-                                                            ),
-                                                          ),
-                                                          alignment: Alignment
-                                                              .centerRight,
-                                                        ),
-                                                      )
-                                                    : ListView.builder(
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        itemCount:
-                                                            filterList.length,
-                                                        itemBuilder: (ctx, i) =>
-                                                            Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(2.0),
-                                                          child: Chip(
-                                                            label: Text(
-                                                              filterList[i],
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Iransans',
-                                                                fontSize:
-                                                                    textScaleFactor *
-                                                                        12.0,
-                                                              ),
-                                                            ),
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    0),
-                                                            backgroundColor:
-                                                                Colors.black12,
-                                                          ),
-                                                        ),
-                                                      ),
-                                              ),
+//                                            Padding(
+//                                              padding:
+//                                                  const EdgeInsets.symmetric(
+//                                                      horizontal: 3,
+//                                                      vertical: 5),
+//                                              child: Text(
+//                                                filterList.length == 0
+//                                                    ? ''
+//                                                    : 'فیلتر',
+//                                                style: TextStyle(
+//                                                  fontFamily: 'Iransans',
+//                                                  fontSize:
+//                                                      textScaleFactor * 12.0,
+//                                                ),
+//                                              ),
+//                                            ),
+//                                            Container(
+//                                              width: deviceWidth * 0.65,
+//                                              height: deviceHeight * 0.06,
+//                                              child: filterList.length == 0
+//                                                  ? Padding(
+//                                                      padding:
+//                                                          const EdgeInsets
+//                                                                  .symmetric(
+//                                                              horizontal: 3,
+//                                                              vertical: 5),
+//                                                      child: Container(
+//                                                        child: Text(
+//                                                          '',
+//                                                          style: TextStyle(
+//                                                            fontFamily:
+//                                                                'Iransans',
+//                                                            fontSize:
+//                                                                textScaleFactor *
+//                                                                    12.0,
+//                                                          ),
+//                                                        ),
+//                                                        alignment: Alignment
+//                                                            .centerRight,
+//                                                      ),
+//                                                    )
+//                                                  : ListView.builder(
+//                                                      scrollDirection:
+//                                                          Axis.horizontal,
+//                                                      itemCount:
+//                                                          filterList.length,
+//                                                      itemBuilder: (ctx, i) =>
+//                                                          Padding(
+//                                                        padding:
+//                                                            const EdgeInsets
+//                                                                .all(2.0),
+//                                                        child: Chip(
+//                                                          label: Text(
+//                                                            filterList[i],
+//                                                            style: TextStyle(
+//                                                              fontFamily:
+//                                                                  'Iransans',
+//                                                              fontSize:
+//                                                                  textScaleFactor *
+//                                                                      12.0,
+//                                                            ),
+//                                                          ),
+//                                                          padding:
+//                                                              EdgeInsets.all(
+//                                                                  0),
+//                                                          backgroundColor:
+//                                                              Colors.black12,
+//                                                        ),
+//                                                      ),
+//                                                    ),
+//                                            ),
                                             ]),
                                       );
                                     }),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Center(
-                                      child: DropdownButton<String>(
-                                        value: sortValue,
-                                        icon: Icon(
-                                          Icons.arrow_drop_down,
-                                          color: Colors.orange,
-                                        ),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 13.0,
-                                        ),
-                                        onChanged: (String newValue) {
-                                          setState(() {
-                                            sortValue = newValue;
-                                          });
-                                          setSort(newValue);
-                                        },
-                                        items: sortList
-                                            .map<DropdownMenuItem<String>>(
-                                                (String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(
-                                              value,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'Iransans',
-                                                fontSize:
-                                                    textScaleFactor * 13.0,
-                                              ),
-                                            ),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            height: deviceHeight * 0.67,
-                            child: ListView.builder(
-                              controller: _scrollController,
-                              scrollDirection: Axis.vertical,
-                              itemCount: loadedPlacesToList.length,
-                              itemBuilder: (ctx, i) =>
-                                  ChangeNotifierProvider.value(
-                                value: loadedPlacesToList[i],
-                                child: Container(
-                                  height: deviceHeight * 0.4,
-                                  child: PlaceItem(
-                                    place: loadedPlacesToList[i],
+                            Container(
+                              width: double.infinity,
+                              height: deviceHeight * 0.67,
+                              child: ListView.builder(
+                                controller: _scrollController,
+                                scrollDirection: Axis.vertical,
+                                itemCount: loadedPlacesToList.length,
+                                itemBuilder: (ctx, i) =>
+                                    ChangeNotifierProvider.value(
+                                  value: loadedPlacesToList[i],
+                                  child: Container(
+                                    height: deviceHeight * 0.35,
+                                    child: PlaceItem(
+                                      place: loadedPlacesToList[i],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Positioned(
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: _isLoading
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: index.isEven
-                                        ? AppTheme.spinerColor
-                                        : AppTheme.spinerColor,
-                                  ),
-                                );
-                              },
-                            )
-                          : Container(
-                              child: loadedPlacesToList.isEmpty
-                                  ? Center(
-                                      child: Text(
-                                        'سالنی وجود ندارد',
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 15.0,
-                                        ),
-                                      ),
-                                    )
-                                  : Container(),
-                            ),
+                          ],
+                        )
+                      ],
                     ),
-                  ),
-                ],
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: _isLoading
+                            ? SpinKitFadingCircle(
+                                itemBuilder: (BuildContext context, int index) {
+                                  return DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: index.isEven
+                                          ? AppTheme.spinerColor
+                                          : AppTheme.spinerColor,
+                                    ),
+                                  );
+                                },
+                              )
+                            : Container(
+                                child: loadedPlacesToList.isEmpty
+                                    ? Center(
+                                        child: Text(
+                                          'موردی وجود ندارد',
+                                          style: TextStyle(
+                                            fontFamily: 'Iransans',
+                                            fontSize: textScaleFactor * 15.0,
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -653,7 +735,7 @@ class _SearchScreenState extends State<SearchScreen>
           data: Theme.of(context).copyWith(
             // Set the transparency here
             canvasColor: Colors
-                .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+                .white, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
           ),
           child: MainDrawer(),
         ),

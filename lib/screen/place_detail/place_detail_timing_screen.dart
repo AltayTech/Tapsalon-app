@@ -1,13 +1,9 @@
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:tapsalon/classes/timing_table.dart';
 import 'package:tapsalon/models/places_models/place.dart';
-import 'package:tapsalon/widget/custom_dialog_enter.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
 
 import '../../provider/app_theme.dart';
 import '../../provider/places.dart';
@@ -63,16 +59,6 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
     });
   }
 
-  void _showLoginDialog() {
-    showDialog(
-        context: context,
-        builder: (ctx) => CustomDialogEnter(
-              title: 'ورود',
-              buttonText: 'صفحه ورود ',
-              description: 'برای ادامه باید وارد شوید',
-            ));
-  }
-
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -118,7 +104,7 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        width: deviceWidth * 0.9,
+                        width: deviceWidth * 0.93,
                         decoration: BoxDecoration(
                             color: AppTheme.white,
                             border: Border.all(width: 5, color: AppTheme.bg),
@@ -126,7 +112,8 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
                         child: Column(
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.only(top: 10, right: 10),
+                              padding:
+                                  const EdgeInsets.only(top: 10, right: 10),
                               child: Text(
                                 title.isNotEmpty ? title : '',
                                 style: TextStyle(
@@ -136,7 +123,8 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 10, right: 10,bottom: 8),
+                              padding: const EdgeInsets.only(
+                                  top: 10, right: 10, bottom: 8, left: 10),
                               child: Text(
                                 loadedPlace.address,
                                 style: TextStyle(
@@ -151,8 +139,8 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
                       ),
                     ),
                     Container(
-                      width: deviceWidth * 0.9,
-                      height: deviceWidth*0.13,
+                      width: deviceWidth * 0.93,
+                      height: deviceWidth * 0.13,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
@@ -208,7 +196,7 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
                             padding: const EdgeInsets.only(
                                 right: 5, left: 10, top: 1, bottom: 4),
                             child: Text(
-                            'آقایان',
+                              'آقایان',
                               textAlign: TextAlign.right,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -224,28 +212,29 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
                       ),
                     ),
                     Container(
-                      width: deviceWidth ,
+                      width: deviceWidth,
                       decoration: BoxDecoration(
-                          color: AppTheme.white,
-                         ),
+                        color: AppTheme.white,
+                      ),
                       child: Padding(
-                        padding: const EdgeInsets.only(right:16.0,left: 16),
+                        padding: const EdgeInsets.only(right: 16.0, left: 16),
                         child: Container(
-                          width: deviceWidth*0.9,
+                          width: deviceWidth * 0.9,
                           child: TimingTable(
                             timeStep: 60,
                             headerHeight: 50,
                             timingList: loadedPlace.timings,
                             rowHeight: 40,
                             titleWidth: 70,
+                            initialHour: 9,
                           ),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 16,top: 8),
+                      padding: const EdgeInsets.only(bottom: 16, top: 8),
                       child: Container(
-                        width: deviceWidth * 0.9,
+                        width: deviceWidth * 0.93,
                         decoration: BoxDecoration(
                             color: AppTheme.white,
                             border: Border.all(width: 5, color: AppTheme.bg),
@@ -254,9 +243,9 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
                           children: <Widget>[
                             Padding(
                               padding:
-                              const EdgeInsets.only(bottom: 8.0, top: 16),
+                                  const EdgeInsets.only(bottom: 8.0, top: 16),
                               child: Container(
-                                width: deviceWidth * 0.75,
+                                width: deviceWidth * 0.8,
                                 child: Row(
                                   children: <Widget>[
                                     Padding(
@@ -299,18 +288,18 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
                                 bottom: 16.0,
                               ),
                               child: Container(
-                                width: deviceWidth * 0.75,
+                                width: deviceWidth * 0.8,
                                 decoration: BoxDecoration(
-                                    color: AppTheme.bg,
+                                    color: AppTheme.white,
                                     border: Border.all(
-                                        width: 5, color: AppTheme.bg),
+                                        width: 5, color: AppTheme.white),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
                                     loadedPlace.timings_excerpt != ''
                                         ? loadedPlace.timings_excerpt
-                                        : 'توضیحی ارائه نشده ست',
+                                        : 'توضیحی ارائه نشده است',
                                     style: TextStyle(
                                       fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 14.0,
@@ -331,7 +320,7 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
       endDrawer: Theme(
         data: Theme.of(context).copyWith(
             // Set the transparency here
-            canvasColor: Colors.transparent),
+            canvasColor: Colors.white),
         child: MainDrawer(),
       ),
     );

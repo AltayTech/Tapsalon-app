@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../screen/user_profile/profile_screen.dart';
+import '../../screen/user_profile/login_screen.dart';
 
-class CustomDialogProfile extends StatelessWidget {
+class CustomDialogEnter extends StatelessWidget {
   final String title, description, buttonText;
   final Image image;
 
-  CustomDialogProfile({
+  CustomDialogEnter({
     @required this.title,
     @required this.description,
     @required this.buttonText,
@@ -76,7 +76,7 @@ class CustomDialogProfile extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       return Navigator.of(context)
-                          .popAndPushNamed(ProfileScreen.routeName);
+                          .popAndPushNamed(LoginScreen.routeName);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.06,
@@ -111,6 +111,6 @@ class CustomDialogProfile extends StatelessWidget {
 class Consts {
   Consts._();
 
-  static const double padding = 16.0;
+  static const double padding = 20.0;
   static const double avatarRadius = 10;
 }

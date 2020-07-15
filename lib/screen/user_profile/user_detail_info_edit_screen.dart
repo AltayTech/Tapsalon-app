@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import '../../provider/app_theme.dart';
+import 'package:tapsalon/screen/user_profile/user_detail_info_screen.dart';
+
 import '../../models/city.dart';
 import '../../models/province.dart';
 import '../../models/user_models/user.dart';
+import '../../provider/app_theme.dart';
 import '../../provider/cities.dart';
 import '../../provider/user_info.dart';
 import '../../screen/user_profile/profile_screen.dart';
@@ -26,6 +28,7 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
   final familyController = TextEditingController();
   final genderController = TextEditingController();
   final mobileController = TextEditingController();
+  final addressController = TextEditingController();
 
   GenderSelection _character = GenderSelection.male;
 
@@ -39,9 +42,9 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
 
   List<String> citiesValueList = [];
 
-  List<Province> provinceList;
+  List<Province> provinceList = [];
 
-  List<City> citiesList;
+  List<City> citiesList = [];
 
   int cityId;
 
@@ -57,6 +60,7 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
     familyController.text = user.lname;
     genderController.text = user.gender.toString();
     mobileController.text = user.mobile;
+    addressController.text = user.address;
 
     super.initState();
   }
@@ -67,7 +71,6 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
     });
     await Provider.of<Cities>(context, listen: false).retrieveProvince();
     provinceList = Provider.of<Cities>(context, listen: false).provincesItems;
-
     for (int i = 0; i < provinceList.length; i++) {
       provinceValueList.add(provinceList[i].name);
     }
@@ -80,10 +83,13 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
     setState(() {
       _isLoading = true;
     });
+    citiesList.clear();
     await Provider.of<Cities>(context, listen: false)
         .retrieveOstanCities(provinceId);
     citiesList = Provider.of<Cities>(context, listen: false).citiesItems;
-
+    citiesValue = null;
+    setState(() {});
+    citiesValueList.clear();
     for (int i = 0; i < citiesList.length; i++) {
       citiesValueList.add(citiesList[i].name);
     }
@@ -112,6 +118,7 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
     familyController.dispose();
     genderController.dispose();
     mobileController.dispose();
+    addressController.dispose();
     super.dispose();
   }
 
@@ -125,19 +132,17 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0,
           centerTitle: true,
           backgroundColor: AppTheme.appBarColor,
           iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
         ),
-
         drawer: Theme(
           data: Theme.of(context).copyWith(
-            // Set the transparency here
-            canvasColor: Colors
-                .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+            canvasColor: Colors.white,
           ),
           child: MainDrawer(),
-        ), // resizeToAvoidBottomInset: false,
+        ),
         body: Builder(
           builder: (context) => Directionality(
             textDirection: TextDirection.rtl,
@@ -154,12 +159,15 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              'اطلاعات کاربر',
-                              textAlign: TextAlign.right,
+                            Container(
+                              color: AppTheme.white,
+                              child: Text(
+                                'اطلاعات کاربر',
+                                textAlign: TextAlign.right,
+                              ),
                             ),
                             Container(
-                              color: Color(0xffFFF2F2),
+                              color: AppTheme.white,
                               child: ListView(
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
@@ -167,15 +175,11 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                   InfoEditItem(
                                     title: 'نام',
                                     controller: nameController,
-                                    bgColor: Color(0xffFFF2F2),
-                                    iconColor: Color(0xffA67FEC),
                                     keybordType: TextInputType.text,
                                   ),
                                   InfoEditItem(
                                     title: 'نام خانوادگی',
                                     controller: familyController,
-                                    bgColor: Color(0xffFFF2F2),
-                                    iconColor: Color(0xffA67FEC),
                                     keybordType: TextInputType.text,
                                   ),
                                   Padding(
@@ -183,16 +187,12 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                     child: Container(
                                       width: deviceWidth * 0.8,
                                       decoration: BoxDecoration(
-                                        color: Color(0xffFFF2F2),
+                                        color: AppTheme.white,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: Container(
                                         child: Wrap(
                                           children: <Widget>[
-                                            Icon(
-                                              Icons.arrow_right,
-                                              color: Color(0xffA67FEC),
-                                            ),
                                             Text(
                                               'جنسیت : ',
                                               style: TextStyle(
@@ -206,8 +206,6 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                               width: deviceWidth,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                border: Border.all(
-                                                    color: Colors.grey),
                                                 borderRadius:
                                                     BorderRadius.circular(5),
                                               ),
@@ -255,99 +253,85 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Divider(
-                              color: Colors.grey,
-                            ),
-                            Text(
-                              'اطلاعات تماس',
-                              textAlign: TextAlign.right,
-                            ),
-                            Container(
-                              color: Color(0xffF1F5FF),
-                              child: ListView(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                children: <Widget>[
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
                                       width: deviceWidth * 0.8,
                                       decoration: BoxDecoration(
-                                        color: Color(0xffFFF2F2),
+                                        color: AppTheme.white,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
-                                      child: Container(
-                                        child: Wrap(
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.arrow_right,
-                                              color: Color(0xffA67FEC),
+                                      child: Wrap(
+                                        children: <Widget>[
+                                          Text(
+                                            'استان : ',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontFamily: 'Iransans',
+                                              fontSize: textScaleFactor * 13.0,
                                             ),
-                                            Text(
-                                              'استان : ',
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontFamily: 'Iransans',
-                                                fontSize:
-                                                    textScaleFactor * 13.0,
-                                              ),
+                                          ),
+                                          Container(
+                                            width: deviceWidth,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                  color: Colors.grey,
+                                                  width: 0.4),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                             ),
-                                            Container(
-                                              width: deviceWidth,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                    color: Colors.grey),
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                              child: Directionality(
-                                                textDirection:
-                                                    TextDirection.ltr,
-                                                child: Container(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.2),
-                                                      border: Border.all(
-                                                          color: Colors.grey)),
-                                                  child: DropdownButton<String>(
-                                                    value: provinceValue,
-                                                    icon: Icon(
-                                                      Icons.arrow_drop_down,
-                                                      color: Colors.orange,
-                                                    ),
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              13.0,
-                                                    ),
-                                                    onChanged: (newValue) {
-                                                      setState(() {
-                                                        provinceValue = newValue;
-                                                        provinceId = provinceList[
-                                                                provinceValueList
-                                                                    .indexOf(
-                                                                        newValue)]
-                                                            .id;
-                                                        retrieveCities(provinceId);
-                                                      });
-                                                    },
-                                                    items: provinceValueList.map<
-                                                            DropdownMenuItem<
-                                                                String>>(
-                                                        (String value) {
-                                                      return DropdownMenuItem<
-                                                          String>(
-                                                        value: value,
+                                            child: Directionality(
+                                              textDirection: TextDirection.ltr,
+                                              child: Container(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                decoration: BoxDecoration(
+                                                    color: AppTheme.white,
+                                                    border: Border.all(
+                                                        color: Colors.grey,
+                                                        width: 0.3)),
+                                                child: DropdownButton<String>(
+                                                  value: provinceValue,
+                                                  icon: Icon(
+                                                    Icons.arrow_drop_down,
+                                                    color: Colors.orange,
+                                                  ),
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Iransans',
+                                                    fontSize:
+                                                        textScaleFactor * 13.0,
+                                                  ),
+                                                  onChanged: (newValue) {
+                                                    setState(() {
+                                                      provinceValue = newValue;
+                                                      provinceId = provinceList[
+                                                              provinceValueList
+                                                                  .indexOf(
+                                                                      newValue)]
+                                                          .id;
+                                                      retrieveCities(
+                                                          provinceId);
+                                                    });
+                                                  },
+                                                  underline: Container(
+                                                    color: AppTheme.white,
+                                                  ),
+                                                  items: provinceValueList.map<
+                                                          DropdownMenuItem<
+                                                              String>>(
+                                                      (String value) {
+                                                    return DropdownMenuItem<
+                                                        String>(
+                                                      value: value,
+                                                      child: Container(
+                                                        width:
+                                                            deviceWidth * 0.6,
                                                         child: Text(
                                                           value,
+                                                          textAlign:
+                                                              TextAlign.end,
                                                           style: TextStyle(
                                                             color: Colors.black,
                                                             fontFamily:
@@ -357,14 +341,14 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                                                     13.0,
                                                           ),
                                                         ),
-                                                      );
-                                                    }).toList(),
-                                                  ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -373,79 +357,78 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                     child: Container(
                                       width: deviceWidth * 0.8,
                                       decoration: BoxDecoration(
-                                        color: Color(0xffFFF2F2),
-                                        borderRadius: BorderRadius.circular(5),
+                                        color: AppTheme.white,
                                       ),
-                                      child: Container(
-                                        child: Wrap(
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.arrow_right,
-                                              color: Color(0xffA67FEC),
+                                      child: Wrap(
+                                        children: <Widget>[
+                                          Text(
+                                            'شهر : ',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontFamily: 'Iransans',
+                                              fontSize: textScaleFactor * 13.0,
                                             ),
-                                            Text(
-                                              'شهر : ',
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontFamily: 'Iransans',
-                                                fontSize:
-                                                    textScaleFactor * 13.0,
-                                              ),
+                                          ),
+                                          Container(
+                                            width: deviceWidth,
+                                            decoration: BoxDecoration(
+                                              color: AppTheme.white,
+                                              border: Border.all(
+                                                  color: Colors.grey,
+                                                  width: 0.4),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                             ),
-                                            Container(
-                                              width: deviceWidth,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                    color: Colors.grey),
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                              child: Directionality(
-                                                textDirection:
-                                                    TextDirection.ltr,
-                                                child: Container(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.2),
-                                                      border: Border.all(
-                                                          color: Colors.grey)),
-                                                  child: DropdownButton<String>(
-                                                    value: citiesValue,
-                                                    icon: Icon(
-                                                      Icons.arrow_drop_down,
-                                                      color: Colors.orange,
-                                                    ),
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontFamily: 'Iransans',
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              13.0,
-                                                    ),
-                                                    onChanged:
-                                                        (String newValue) {
-                                                      setState(() {
-                                                        citiesValue = newValue;
+                                            child: Directionality(
+                                              textDirection: TextDirection.ltr,
+                                              child: Container(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                decoration: BoxDecoration(
+                                                    color: AppTheme.white,
+                                                    border: Border.all(
+                                                        color: Colors.grey,
+                                                        width: 0.4)),
+                                                child: DropdownButton<String>(
+                                                  value: citiesValue,
+                                                  icon: Icon(
+                                                    Icons.arrow_drop_down,
+                                                    color: Colors.orange,
+                                                  ),
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Iransans',
+                                                    fontSize:
+                                                        textScaleFactor * 13.0,
+                                                  ),
+                                                  onChanged: (String newValue) {
+                                                    setState(() {
+                                                      citiesValue = newValue;
 
-                                                        cityId = citiesList[
-                                                                citiesValueList
-                                                                    .indexOf(
-                                                                        newValue)]
-                                                            .id;
-                                                      });
-                                                    },
-                                                    items: citiesValueList.map<
-                                                            DropdownMenuItem<
-                                                                String>>(
-                                                        (String value) {
-                                                      return DropdownMenuItem<
-                                                          String>(
-                                                        value: value,
+                                                      cityId = citiesList[
+                                                              citiesValueList
+                                                                  .indexOf(
+                                                                      newValue)]
+                                                          .id;
+                                                    });
+                                                  },
+                                                  underline: Container(
+                                                    color: AppTheme.white,
+                                                  ),
+                                                  items: citiesValueList.map<
+                                                          DropdownMenuItem<
+                                                              String>>(
+                                                      (String value) {
+                                                    return DropdownMenuItem<
+                                                        String>(
+                                                      value: value,
+                                                      child: Container(
+                                                        width:
+                                                            deviceWidth * 0.6,
                                                         child: Text(
                                                           value,
+                                                          textAlign:
+                                                              TextAlign.end,
                                                           style: TextStyle(
                                                             color: Colors.black,
                                                             fontFamily:
@@ -455,29 +438,29 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                                                     13.0,
                                                           ),
                                                         ),
-                                                      );
-                                                    }).toList(),
-                                                  ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                   InfoEditItem(
+                                    title: 'آدرس',
+                                    controller: addressController,
+                                    keybordType: TextInputType.text,
+                                  ),
+                                  InfoEditItem(
                                     title: 'موبایل',
                                     controller: mobileController,
-                                    bgColor: Color(0xffFFF2F2),
-                                    iconColor: Color(0xffA67FEC),
                                     keybordType: TextInputType.phone,
                                   ),
                                 ],
                               ),
-                            ),
-                            Divider(
-                              color: Colors.grey,
                             ),
                             SizedBox(
                               height: deviceHeight * 0.02,
@@ -541,6 +524,8 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                             cityId;
                         Provider.of<UserInfo>(context, listen: false).mobile =
                             mobileController.text;
+                        Provider.of<UserInfo>(context, listen: false).address =
+                            addressController.text;
                         Provider.of<UserInfo>(context, listen: false)
                             .endBuilder();
 
@@ -549,7 +534,7 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                             .then((v) {
                           Scaffold.of(context).showSnackBar(addToCartSnackBar);
                           Navigator.of(context)
-                              .popAndPushNamed(ProfileScreen.routeName);
+                              .popAndPushNamed(UserDetailInfoScreen.routeName);
                         });
                       },
                       backgroundColor: Color(0xff3F9B12),
@@ -575,16 +560,11 @@ class InfoEditItem extends StatelessWidget {
     @required this.title,
     @required this.controller,
     @required this.keybordType,
-    @required this.bgColor,
-    @required this.iconColor,
   }) : super(key: key);
 
   final String title;
   final TextEditingController controller;
   final TextInputType keybordType;
-
-  final Color bgColor;
-  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -592,63 +572,53 @@ class InfoEditItem extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: deviceWidth * 0.8,
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Container(
-            child: Wrap(
-              children: <Widget>[
-                Icon(
-                  Icons.arrow_right,
-                  color: iconColor,
+    return Container(
+      width: deviceWidth * 0.8,
+      decoration: BoxDecoration(
+        color: AppTheme.white,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Container(
+          child: Wrap(
+            children: <Widget>[
+              Text(
+                '$title : ',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Iransans',
+                  fontSize: textScaleFactor * 13.0,
                 ),
-                Text(
-                  '$title : ',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontFamily: 'Iransans',
-                    fontSize: textScaleFactor * 13.0,
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  child: Form(
-                    child: Container(
-                      height: deviceHeight * 0.05,
-                      child: TextFormField(
-                        keyboardType: keybordType,
-                        onEditingComplete: () {},
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'لطفا مقداری را وارد نمایید';
-                          }
-                          return null;
-                        },
-                        textInputAction: TextInputAction.none,
-                        controller: controller,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          labelStyle: TextStyle(
-                            color: Colors.blue,
-                            fontFamily: 'Iransans',
-                            fontSize: textScaleFactor * 10.0,
-                          ),
-                        ),
+              ),
+              Container(
+                color: Colors.white,
+                child: Form(
+                  child: TextFormField(
+                    keyboardType: keybordType,
+                    onEditingComplete: () {},
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'لطفا مقداری را وارد نمایید';
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.none,
+                    controller: controller,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      labelStyle: TextStyle(
+                        color: Colors.blue,
+                        fontFamily: 'Iransans',
+                        fontSize: textScaleFactor * 10.0,
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

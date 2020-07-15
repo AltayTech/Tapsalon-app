@@ -5,10 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:tapsalon/models/comment.dart';
 import 'package:tapsalon/models/places_models/place.dart';
 import 'package:tapsalon/models/searchDetails.dart';
+import 'package:tapsalon/provider/auth.dart';
 import 'package:tapsalon/screen/place_detail/comment_create_screen.dart';
-import 'package:tapsalon/widget/comment_item.dart';
-import 'package:tapsalon/widget/custom_dialog_enter.dart';
+import 'package:tapsalon/widget/dialogs/custom_dialog_enter.dart';
 import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
+import 'package:tapsalon/widget/items/comment_item.dart';
 
 import '../../provider/app_theme.dart';
 import '../../provider/places.dart';
@@ -64,7 +65,9 @@ class _PlaceDetailCommentsScreenState extends State<PlaceDetailCommentsScreen>
     setState(() {
       _isLoading = true;
     });
-    loadedPlace = Provider.of<Places>(context, listen: false).itemPlace;
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+    loadedPlace = arguments['place'];
+//    loadedPlace = Provider.of<Places>(context, listen: false).itemPlace;
     setState(() {
       _isLoading = false;
     });
@@ -86,6 +89,7 @@ class _PlaceDetailCommentsScreenState extends State<PlaceDetailCommentsScreen>
     double deviceWidth = MediaQuery.of(context).size.width;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
+    bool isLogin = Provider.of<Auth>(context, listen: false).isAuth;
 
     return Scaffold(
       backgroundColor: AppTheme.bg,
@@ -123,31 +127,38 @@ class _PlaceDetailCommentsScreenState extends State<PlaceDetailCommentsScreen>
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Container(
-                        width: deviceWidth * 0.9,
                         decoration: BoxDecoration(
                             color: AppTheme.white,
-                            border: Border.all(width: 5, color: AppTheme.bg),
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppTheme.grey.withOpacity(0.3),
+                                blurRadius: 6,
+                                spreadRadius: 3,
+                                offset: Offset(
+                                  0,
+                                  0,
+                                ),
+                              ),
+                            ]),
                         child: Column(
                           children: <Widget>[
-                            Container(
-                              width: deviceWidth * 0.9,
-                              child: Center(
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 10, right: 10),
-                                  child: Text(
-                                    loadedPlace.name.isNotEmpty
-                                        ? loadedPlace.name
-                                        : '',
-                                    style: TextStyle(
+                            Center(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 10, right: 10),
+                                child: Text(
+                                  loadedPlace.name.isNotEmpty
+                                      ? loadedPlace.name
+                                      : '',
+                                  style: TextStyle(
                                       fontFamily: 'Iransans',
                                       fontSize: textScaleFactor * 18.0,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                                      fontWeight: FontWeight.w600,
+                                      color: AppTheme.grey),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
@@ -234,11 +245,10 @@ class _PlaceDetailCommentsScreenState extends State<PlaceDetailCommentsScreen>
                       ),
                     ),
                     Container(
-                      width: deviceWidth * 0.9,
-                      height: deviceHeight * 0.8,
+                      width: deviceWidth * 0.92,
+                      height: deviceHeight * 0.69,
                       decoration: BoxDecoration(
                           color: AppTheme.bg,
-//                          border: Border.all(width: 5, color: AppTheme.bg),
                           borderRadius: BorderRadius.circular(10)),
                       child: Consumer<Places>(
                         builder: (context, value, child) {
@@ -256,88 +266,6 @@ class _PlaceDetailCommentsScreenState extends State<PlaceDetailCommentsScreen>
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: Container(
-                        width: deviceWidth * 0.9,
-                        decoration: BoxDecoration(
-                            color: AppTheme.white,
-                            border: Border.all(width: 5, color: AppTheme.bg),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 8.0, top: 16),
-                              child: Container(
-                                width: deviceWidth * 0.75,
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 1,
-                                          left: 3.0,
-                                          top: 1,
-                                          bottom: 4),
-                                      child: Icon(
-                                        Icons.description,
-                                        color: AppTheme.iconColor,
-                                        size: 25,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 5,
-                                          left: 10,
-                                          top: 4,
-                                          bottom: 1),
-                                      child: Text(
-                                        'درباره',
-                                        textAlign: TextAlign.right,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          color: AppTheme.grey,
-                                          fontSize: textScaleFactor * 16.0,
-                                        ),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 16.0,
-                              ),
-                              child: Container(
-                                width: deviceWidth * 0.75,
-                                decoration: BoxDecoration(
-                                    color: AppTheme.bg,
-                                    border: Border.all(
-                                        width: 5, color: AppTheme.bg),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                    loadedPlace.about != ''
-                                        ? loadedPlace.about
-                                        : 'توضیحی ارائه نشده ست',
-                                    style: TextStyle(
-                                      fontFamily: 'Iransans',
-                                      fontSize: textScaleFactor * 14.0,
-                                    ),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),
@@ -349,14 +277,18 @@ class _PlaceDetailCommentsScreenState extends State<PlaceDetailCommentsScreen>
           color: AppTheme.white,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, CommentCreateScreen.routeName,
-              arguments: loadedPlace.id);
+          if (isLogin) {
+            Navigator.pushNamed(context, CommentCreateScreen.routeName,
+                arguments: loadedPlace.id);
+          } else {
+            _showLoginDialog();
+          }
         },
       ),
       endDrawer: Theme(
         data: Theme.of(context).copyWith(
             // Set the transparency here
-            canvasColor: Colors.transparent),
+            canvasColor: Colors.white),
         child: MainDrawer(),
       ),
     );

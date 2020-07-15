@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:tapsalon/models/places_models/complex_in_place.dart';
 import 'package:tapsalon/models/timing.dart';
 
 import '../../models/facility.dart';
@@ -8,8 +9,6 @@ import '../city.dart';
 import '../places_models/place_type.dart';
 import '../province.dart';
 import '../region.dart';
-import '../user_models/user_in_complex.dart';
-import 'complex_in_place.dart';
 
 class Place with ChangeNotifier {
   final int id;
@@ -30,13 +29,14 @@ class Place with ChangeNotifier {
   final PlaceType placeType;
   final List<Field> fields;
   final List<Facility> facilities;
-  final Image image;
-  final List<Image> gallery;
+  final ImageObj image;
+  final List<ImageObj> gallery;
   final List<Timing> timings;
   final Province province;
   final City city;
   final Region region;
-  final UserInComplex user;
+
+//  final UserInComplex user;
   final int likes_count;
   final int comments_count;
   final int visitsNo;
@@ -67,16 +67,20 @@ class Place with ChangeNotifier {
       this.province,
       this.city,
       this.region,
-      this.user,
+//      this.user,
       this.likes_count,
       this.comments_count,
       this.visitsNo,
       this.rate});
 
   factory Place.fromJson(Map<String, dynamic> parsedJson) {
-    var galleryList = parsedJson['gallery'] as List;
-    List<Image> galleryRaw = new List<Image>();
-    galleryRaw = galleryList.map((i) => Image.fromJson(i)).toList();
+    List<ImageObj> galleryRaw = [];
+
+    if (parsedJson['gallery'] != null) {
+      var galleryList = parsedJson['gallery'] as List;
+      galleryRaw = new List<ImageObj>();
+      galleryRaw = galleryList.map((i) => ImageObj.fromJson(i)).toList();
+    }
 
     var facilitiesList = parsedJson['facilities'] as List;
     List<Facility> faciltyRaw = new List<Facility>();
@@ -86,10 +90,12 @@ class Place with ChangeNotifier {
     List<Field> fieldRaw = new List<Field>();
     fieldRaw = filedsList.map((i) => Field.fromJson(i)).toList();
 
-    var timingsList = parsedJson['timings'] as List;
-    List<Timing> timingsRaw = new List<Timing>();
-    timingsRaw = timingsList.map((i) => Timing.fromJson(i)).toList();
-
+    List<Timing> timingsRaw = [];
+    if (parsedJson['timings'] != null) {
+      var timingsList = parsedJson['timings'] as List;
+      timingsRaw = new List<Timing>();
+      timingsRaw = timingsList.map((i) => Timing.fromJson(i)).toList();
+    }
     return Place(
       id: parsedJson['id'],
       name: parsedJson['name'],
@@ -117,13 +123,13 @@ class Place with ChangeNotifier {
       placeType: PlaceType.fromJson(parsedJson['place_type']),
       fields: fieldRaw,
       facilities: faciltyRaw,
-      image: Image.fromJson(parsedJson['image']),
+      image: ImageObj.fromJson(parsedJson['image']),
       gallery: galleryRaw,
       timings: timingsRaw,
       province: Province.fromJson(parsedJson['ostan']),
       city: City.fromJson(parsedJson['city']),
       region: Region.fromJson(parsedJson['region']),
-      user: UserInComplex.fromJson(parsedJson['user']),
+//      user: UserInComplex.fromJson(parsedJson['user']),
       likes_count: parsedJson['likes_count'] != null
           ? int.parse(parsedJson['likes_count'].toString())
           : 0,

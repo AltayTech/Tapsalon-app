@@ -76,6 +76,7 @@ class UserInfo with ChangeNotifier {
 
   String lname;
   String mobile;
+  String address;
 
   int gender = 1;
   int ostanId;
@@ -102,7 +103,9 @@ class UserInfo with ChangeNotifier {
     if (!(mobile == null)) {
       searchEndPoint = searchEndPoint + '&mobile=$mobile';
     }
-
+    if (!(address == null)) {
+      searchEndPoint = searchEndPoint + '&address=$address';
+    }
     print(searchEndPoint);
   }
 

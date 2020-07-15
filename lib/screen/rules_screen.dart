@@ -125,7 +125,7 @@ class _RulesScreenState extends State<RulesScreen> {
         data: Theme.of(context).copyWith(
           // Set the transparency here
           canvasColor: Colors
-              .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+              .white, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
         ),
         child: MainDrawer(),
       ),

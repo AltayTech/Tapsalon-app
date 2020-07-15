@@ -25,14 +25,17 @@ class Timing with ChangeNotifier {
   factory Timing.fromJson(Map<String, dynamic> parsedJson) {
     return Timing(
       id: parsedJson['id'],
-      place_id: parsedJson['place_id'],
-      gender: parsedJson['gender'],
-      date_start: parsedJson['start'],
-      date_end: parsedJson['end'],
-      discount: parsedJson['discount'],
-      reservable: parsedJson['reservable'],
-      created_at: parsedJson['created_at'],
-      updated_at: parsedJson['updated_at'],
+      place_id: parsedJson['place_id'] != null ? parsedJson['place_id'] : 0,
+      gender: parsedJson['gender'] != null ? parsedJson['gender'] : '',
+      date_start: parsedJson['start'] != null ? parsedJson['start'] : '0',
+      date_end: parsedJson['end'] != null ? parsedJson['end'] : '0',
+      discount: parsedJson['discount'] != null ? parsedJson['discount'] : 0,
+      reservable:
+          parsedJson['reservable'] != null ? parsedJson['reservable'] : 0,
+      created_at:
+          parsedJson['created_at'] != null ? parsedJson['created_at'] : '0',
+      updated_at:
+          parsedJson['updated_at'] != null ? parsedJson['updated_at'] : '0',
     );
   }
 }

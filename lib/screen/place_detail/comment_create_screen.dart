@@ -80,7 +80,7 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
         drawer: Theme(
           data: Theme.of(context).copyWith(
             canvasColor: Colors
-                .transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+                .white, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
           ),
           child: MainDrawer(),
         ),
