@@ -479,9 +479,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                   style: TextStyle(
                                                     fontFamily: 'Iransans',
                                                     color: AppTheme.grey,
-                                                    fontSize: MediaQuery.of(
-                                                                context)
-                                                            .textScaleFactor *
+                                                    fontSize: textScaleFactor *
                                                         16.0,
                                                   ),
                                                 ),

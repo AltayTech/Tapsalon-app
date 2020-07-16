@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tapsalon/classes/najva.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_comments_screen.dart';
 import 'package:tapsalon/screen/place_detail/place_location_screen.dart';
 import 'package:tapsalon/screen/user_profile/user_detail_info_screen.dart';
@@ -37,6 +38,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Najva najva;
+
+  @override
+  void initState() {
+    super.initState();
+    najva = new Najva();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

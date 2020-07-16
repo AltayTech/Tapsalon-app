@@ -199,7 +199,8 @@ class PlaceItem extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 4, ),
                             child: Text(
-                             'هزینه ثبت نشده',
+//                             'هزینه ثبت نشده',
+                            '',
                               style: TextStyle(
                                 color: AppTheme.grey,
                                 fontFamily: 'Iransans',

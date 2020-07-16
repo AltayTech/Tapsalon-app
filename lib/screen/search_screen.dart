@@ -475,13 +475,13 @@ class _SearchScreenState extends State<SearchScreen>
                                               EdgeInsets.only(top: 2, left: 4),
                                           labelStyle: TextStyle(
                                             fontFamily: 'Iransans',
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                             fontSize: textScaleFactor * 15.0,
                                           ),
                                           unselectedLabelStyle: TextStyle(
                                             fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 14.0,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                           controller: _tabController,
                                           tabs: myTabs),

@@ -561,41 +561,52 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                           ),
                                           Expanded(
                                             flex: 3,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: <Widget>[
-                                                Text(
-                                                  selectedPlace.price != null
-                                                      ? EnArConvertor()
-                                                          .replaceArNumber(currencyFormat
-                                                              .format(double.parse(
-                                                                  selectedPlace
-                                                                      .price
-                                                                      .toString()))
-                                                              .toString())
-                                                          .toString()
-                                                      : EnArConvertor()
-                                                          .replaceArNumber('0'),
-                                                  style: TextStyle(
-                                                    color: AppTheme.black,
-                                                    fontFamily: 'Iransans',
-                                                    fontSize:
-                                                        textScaleFactor * 18.0,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'هزار \n تومان',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily: 'Iransans',
-                                                    color: AppTheme.grey,
-                                                    fontSize:
-                                                        textScaleFactor * 10.0,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                            child: selectedPlace.price !=
+                                                        null ||
+                                                    selectedPlace.price != 0
+                                                ? Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        selectedPlace.price !=
+                                                                null
+                                                            ? EnArConvertor()
+                                                                .replaceArNumber(currencyFormat
+                                                                    .format(double.parse(
+                                                                        selectedPlace
+                                                                            .price
+                                                                            .toString()))
+                                                                    .toString())
+                                                                .toString()
+                                                            : EnArConvertor()
+                                                                .replaceArNumber(
+                                                                    '0'),
+                                                        style: TextStyle(
+                                                          color: AppTheme.black,
+                                                          fontFamily:
+                                                              'Iransans',
+                                                          fontSize:
+                                                              textScaleFactor *
+                                                                  18.0,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        'هزار \n تومان',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              'Iransans',
+                                                          color: AppTheme.grey,
+                                                          fontSize:
+                                                              textScaleFactor *
+                                                                  10.0,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : Container(),
                                           ),
                                         ],
                                       ),

@@ -42,7 +42,7 @@ class HorizontalList extends StatelessWidget {
                 listTitle,
                 style: TextStyle(
                   fontFamily: 'Iransans',
-                  color: AppTheme.black,
+                  color: Colors.black54,
                   fontWeight: FontWeight.w600,
                   fontSize: textScaleFactor * 16.0,
                 ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tapsalon/models/city.dart';
 import 'package:tapsalon/models/main_regions.dart';
 import 'package:tapsalon/models/places_models/main_places.dart';
 import 'package:tapsalon/models/places_models/place.dart';
@@ -275,15 +276,22 @@ class Places with ChangeNotifier {
     print('searchItem ffff' + _items.length.toString());
   }
 
-  Future<void> retrieveCityPlaces(int cityId) async {
+  Future<List<PlaceInSearch>> retrieveCityPlaces(
+      int cityId, String orderby) async {
     print('retrieveCityPlaces');
     String url = '';
     if (cityId == 0) {
       url = Urls.rootUrl + Urls.placesEndPoint;
+    } else if (orderby != '') {
+      url = Urls.rootUrl +
+          Urls.placesEndPoint +
+          '?city_id=$cityId' +
+          '&orderby=$orderby';
     } else {
       url = Urls.rootUrl + Urls.placesEndPoint + '?city_id=$cityId';
     }
     print(url);
+    List<PlaceInSearch> loadedPlaces = [];
 
     try {
       final response = await get(url);
@@ -293,18 +301,28 @@ class Places with ChangeNotifier {
 
         MainPlaces mainPlaces = MainPlaces.fromJson(extractedData);
         print(response.headers.toString());
-        _itemsCityPlaces.clear();
-        _itemsCityPlaces.addAll(mainPlaces.data);
+        loadedPlaces.clear();
+        loadedPlaces = mainPlaces.data;
 
         print(_placeSearchDetails.total.toString());
       } else {
-        _itemsCityPlaces = [];
+        loadedPlaces = [];
       }
       notifyListeners();
     } catch (error) {
       print(error.toString());
       throw (error);
     }
+    return loadedPlaces;
+  }
+
+  Future<List<PlaceInSearch>> retrieveNewItemInCity(
+      City selectedCity, String orderby) async {
+    List<PlaceInSearch> loadedPlaces = [];
+
+    loadedPlaces = await retrieveCityPlaces(selectedCity.id, orderby);
+
+    return loadedPlaces;
   }
 
   Future<void> retrieveRegions(int cityId) async {

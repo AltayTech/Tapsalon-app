@@ -8,7 +8,6 @@ import 'package:tapsalon/provider/app_theme.dart';
 import '../provider/cities.dart';
 import '../provider/places.dart';
 import '../provider/strings.dart';
-import '../provider/user_info.dart';
 import '../screen/search_screen.dart';
 import '../widget/horizontal_list.dart';
 import '../widget/items/main_topic_item.dart';
@@ -26,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
   var _searchTextController = TextEditingController();
 
   List<PlaceInSearch> loadedPlace = [];
+  List<PlaceInSearch> loadedPlaceMostViewed = [];
+  List<PlaceInSearch> loadedPlaceBestRated = [];
 
   City selectedCity;
 
@@ -64,19 +65,26 @@ class _HomeScreenState extends State<HomeScreen> {
       Provider.of<Places>(context, listen: false).sCityId = selectedCity.id;
     } catch (_) {}
 
-    try {
-      await Provider.of<Places>(context, listen: false)
-          .retrieveCityPlaces(selectedCity.id);
-      loadedPlace = Provider.of<Places>(context, listen: false).itemsCityPlace;
-    } catch (_) {}
-
-    try {
-      await Provider.of<UserInfo>(context, listen: false).getNotification();
-    } catch (_) {}
+    loadedPlaceMostViewed = await retrieveMainItem('visit');
+    loadedPlaceBestRated = await retrieveMainItem('rate');
+    loadedPlace = await retrieveMainItem('');
 
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<List<PlaceInSearch>> retrieveMainItem(String orderby) async {
+    List<PlaceInSearch> loadedPlaces = [];
+
+    cleanFilters(context);
+
+    try {
+      loadedPlaces = await Provider.of<Places>(context, listen: false)
+          .retrieveNewItemInCity(selectedCity, orderby);
+    } catch (_) {}
+
+    return loadedPlaces;
   }
 
   @override
@@ -167,80 +175,73 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                    top: 0,
-                    left: deviceHeight * 0.02,
-                    right: deviceHeight * 0.02,
-                    bottom: 8),
-                child: Container(
-                  height: deviceHeight * 0.17,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: AppTheme.white,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            cleanFilters(context);
-                            Provider.of<Places>(context, listen: false).sType =
-                                '1';
+              Container(
+                height: deviceHeight * 0.18,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(0),
+                  color: AppTheme.white,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top:8.0,bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          cleanFilters(context);
+                          Provider.of<Places>(context, listen: false).sType =
+                              '1';
 
-                            Navigator.of(context).pushNamed(
-                                SearchScreen.routeName,
-                                arguments: 1);
-                          },
-                          child: MainTopicItem(
-                            number: 1,
-                            title: Strings.titleSalons,
-                            icon: 'assets/images/main_page_salon_ic.png',
-                            bgColor: AppTheme.bg,
-                            iconColor: AppTheme.mainPageColor,
-                          ),
+                          Navigator.of(context).pushNamed(
+                              SearchScreen.routeName,
+                              arguments: 1);
+                        },
+                        child: MainTopicItem(
+                          number: 1,
+                          title: Strings.titleSalons,
+                          icon: 'assets/images/main_page_salon_ic.png',
+                          bgColor: AppTheme.bg,
+                          iconColor: AppTheme.mainPageColor,
                         ),
-                        InkWell(
-                          onTap: () {
-                            cleanFilters(context);
-                            Provider.of<Places>(context, listen: false).sType =
-                                '2';
+                      ),
+                      InkWell(
+                        onTap: () {
+                          cleanFilters(context);
+                          Provider.of<Places>(context, listen: false).sType =
+                              '2';
 
-                            Navigator.of(context).pushNamed(
-                                SearchScreen.routeName,
-                                arguments: 2);
-                          },
-                          child: MainTopicItem(
-                            number: 1,
-                            title: Strings.titlClubs,
-                            icon: 'assets/images/main_page_gym_ic.png',
-                            bgColor: AppTheme.bg,
-                            iconColor: AppTheme.mainPageColor,
-                          ),
+                          Navigator.of(context).pushNamed(
+                              SearchScreen.routeName,
+                              arguments: 2);
+                        },
+                        child: MainTopicItem(
+                          number: 1,
+                          title: Strings.titlClubs,
+                          icon: 'assets/images/main_page_gym_ic.png',
+                          bgColor: AppTheme.bg,
+                          iconColor: AppTheme.mainPageColor,
                         ),
-                        InkWell(
-                          onTap: () {
-                            cleanFilters(context);
-                            Provider.of<Places>(context, listen: false).sType =
-                                '3';
+                      ),
+                      InkWell(
+                        onTap: () {
+                          cleanFilters(context);
+                          Provider.of<Places>(context, listen: false).sType =
+                              '3';
 
-                            Navigator.of(context).pushNamed(
-                                SearchScreen.routeName,
-                                arguments: 3);
-                          },
-                          child: MainTopicItem(
-                            number: 1,
-                            title: Strings.titleEntertainment,
-                            icon: 'assets/images/main_page_ent_ic.png',
-                            bgColor: AppTheme.bg,
-                            iconColor: AppTheme.mainPageColor,
-                          ),
+                          Navigator.of(context).pushNamed(
+                              SearchScreen.routeName,
+                              arguments: 3);
+                        },
+                        child: MainTopicItem(
+                          number: 1,
+                          title: Strings.titleEntertainment,
+                          icon: 'assets/images/main_page_ent_ic.png',
+                          bgColor: AppTheme.bg,
+                          iconColor: AppTheme.mainPageColor,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -251,14 +252,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           new HorizontalList(
             list: loadedPlace,
-            listTitle: 'سالن های محبوب',
-          ),
-          new HorizontalList(
-            list: loadedPlace,
             listTitle: 'سالن های جدید',
           ),
           new HorizontalList(
-            list: loadedPlace,
+            list: loadedPlaceBestRated,
+            listTitle: 'سالن های محبوب',
+          ),
+          new HorizontalList(
+            list: loadedPlaceMostViewed,
             listTitle: 'سالن های پربازدید',
           ),
         ],

@@ -20,8 +20,8 @@ class MainTopicItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.25,
-      height: MediaQuery.of(context).size.width * 0.25,
+      width: MediaQuery.of(context).size.width * 0.29,
+      height: MediaQuery.of(context).size.width * 0.29,
       decoration: BoxDecoration(
           color: bgColor,
           boxShadow: [

@@ -122,15 +122,74 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
                                 ),
                               ),
                             ),
+
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10, right: 10, bottom: 8, left: 10),
-                              child: Text(
-                                loadedPlace.address,
-                                style: TextStyle(
-                                  fontFamily: 'Iransans',
-                                  color: AppTheme.grey,
-                                  fontSize: textScaleFactor * 14.0,
+                              padding:
+                              const EdgeInsets.only(bottom: 8, top: 8),
+                              child: Container(
+                                width: deviceWidth * 0.8,
+                                decoration: BoxDecoration(
+                                    color: AppTheme.white,
+                                    border: Border.all(
+                                        width: 2, color: AppTheme.white),
+                                    borderRadius:
+                                    BorderRadius.circular(10)),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 6,
+                                      ),
+                                      child: Text(
+                                        'رشته ها',
+                                        style: TextStyle(
+                                          fontFamily: 'Iransans',
+                                          color: AppTheme.grey,
+                                          fontSize: textScaleFactor * 14.0,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(6.0),
+                                      child: Wrap(
+                                        crossAxisAlignment:
+                                        WrapCrossAlignment.center,
+                                        alignment: WrapAlignment.center,
+                                        children: loadedPlace.fields
+                                            .map((e) =>
+                                            ChangeNotifierProvider
+                                                .value(
+                                              value: e,
+                                              child: Text(
+                                                loadedPlace.fields
+                                                    .indexOf(
+                                                    e) <
+                                                    (loadedPlace
+                                                        .fields
+                                                        .length -
+                                                        1)
+                                                    ? (e.name + '، ')
+                                                    : e.name,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                    'Iransans',
+                                                    color: Colors.black,
+                                                    fontSize:
+                                                    textScaleFactor *
+                                                        14.0,
+                                                    fontWeight:
+                                                    FontWeight
+                                                        .w600),
+                                                textAlign:
+                                                TextAlign.center,
+                                              ),
+                                            ))
+                                            .toList(),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
