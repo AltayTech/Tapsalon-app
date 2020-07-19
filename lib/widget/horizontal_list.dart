@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
 import 'package:tapsalon/provider/app_theme.dart';
-import 'file:///C:/AndroidStudioProjects/Pro_tapsalon/tapsalon_flutter%20pro/tapsalon/lib/widget/items/main_page_place_item.dart';
 
 import '../provider/places.dart';
 import '../screen/search_screen.dart';
+import 'items/main_page_place_item.dart';
 
 class HorizontalList extends StatelessWidget {
   const HorizontalList({

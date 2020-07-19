@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:tapsalon/models/places_models/place.dart';
 
 import 'place_favorite.dart';
 
