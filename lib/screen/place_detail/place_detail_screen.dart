@@ -152,8 +152,9 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                       children: <Widget>[
                         GestureDetector(
                           onTap: () {
-                            if(loadedPlace.gallery.isNotEmpty){
-                            _showImageDialog();}
+                            if (loadedPlace.gallery.isNotEmpty) {
+                              _showImageDialog();
+                            }
                           },
 //                              setState(() => _isImageShown = !_isImageShown),
                           child: Container(
@@ -479,8 +480,8 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                   style: TextStyle(
                                                     fontFamily: 'Iransans',
                                                     color: AppTheme.grey,
-                                                    fontSize: textScaleFactor *
-                                                        16.0,
+                                                    fontSize:
+                                                        textScaleFactor * 16.0,
                                                   ),
                                                 ),
                                               ),
@@ -799,12 +800,14 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                           padding: const EdgeInsets.all(4.0),
                                           child: Text(
                                             'مشاهده تایم ها',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 15.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                            style: AppTheme.textTheme.headline6
+                                                .copyWith(color: Colors.white),
+//                                            style: TextStyle(
+//                                              color: Colors.white,
+//                                              fontFamily: 'Iransans',
+//                                              fontSize: textScaleFactor * 15.0,
+//                                              fontWeight: FontWeight.w600,
+//                                            ),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -848,7 +851,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                 padding: const EdgeInsets.only(
                                                     right: 5,
                                                     left: 10,
-                                                    top: 1,
+                                                    top: 4,
                                                     bottom: 4),
                                                 child: Text(
                                                   'نقشه',
@@ -856,12 +859,14 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 1,
-                                                  style: TextStyle(
-                                                    fontFamily: 'Iransans',
-                                                    color: AppTheme.black,
-                                                    fontSize:
-                                                        textScaleFactor * 16.0,
-                                                  ),
+                                                  style:AppTheme.textTheme.button,
+
+//                                                  style: TextStyle(
+//                                                    fontFamily: 'Iransans',
+//                                                    color: AppTheme.black,
+//                                                    fontSize:
+//                                                        textScaleFactor * 16.0,
+//                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -904,12 +909,14 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 1,
-                                                  style: TextStyle(
-                                                    fontFamily: 'Iransans',
-                                                    color: AppTheme.black,
-                                                    fontSize:
-                                                        textScaleFactor * 16.0,
-                                                  ),
+                                                  style:AppTheme.textTheme.button,
+
+//                                                  style: TextStyle(
+//                                                    fontFamily: 'Iransans',
+//                                                    color: AppTheme.black,
+//                                                    fontSize:
+//                                                        textScaleFactor * 16.0,
+//                                                  ),
                                                 ),
                                               ),
                                             ],

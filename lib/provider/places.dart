@@ -432,6 +432,47 @@ class Places with ChangeNotifier {
     }
   }
 
+  Future<void> sendCommentReport(
+    int placeId,
+    int commentId,
+  ) async {
+    print('sendCommentReport');
+
+    final url = Urls.rootUrl + Urls.commentEndPoint;
+    print(url);
+
+    final prefs = await SharedPreferences.getInstance();
+
+    var _token = prefs.getString('token');
+    print(_token);
+
+    try {
+      final response = await post(
+        url,
+        headers: {
+          'Authorization': 'Bearer $_token',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: json.encode(
+          {
+            'place_id': placeId,
+            'comment_ir': commentId,
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final extractedData = json.decode(response.body);
+        print(extractedData.toString());
+      }
+      notifyListeners();
+    } catch (error) {
+      print(error.toString());
+      throw (error);
+    }
+  }
+
   Future<void> retrieveLikes(int placeId) async {
     print('retrieveLikes');
 

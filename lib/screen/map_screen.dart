@@ -8,8 +8,8 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/city.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
 import 'package:tapsalon/widget/fancy_fab.dart';
+import 'package:tapsalon/widget/items/map_info_windows_item.dart';
 
 import '../models/searchDetails.dart';
 import '../provider/app_theme.dart';
@@ -46,8 +46,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   double speed;
 
   AnimationController _animationController;
+  AnimationController _animationMapController;
   Animation<Offset> _slideAnimation;
   Animation<double> _opacityAnimation;
+  Animation<double> _scaleAnimation;
 
   BitmapDescriptor salonBitmapDescriptor = BitmapDescriptor.defaultMarker;
   BitmapDescriptor gymBitmapDescriptor = BitmapDescriptor.defaultMarker;
@@ -58,7 +60,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   PlaceInSearch selectedPlace;
 
   Animation<double> _animation;
-  AnimationController _FBanimationController;
+  AnimationController _FBAnimationController;
 
   @override
   void didChangeDependencies() {
@@ -155,20 +157,14 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     _onAddMarker(loadedPlacesToList);
   }
 
-  void _onMapTypeButtonPressed() {
-    setState(() {
-      _currentMapType = _currentMapType == MapType.normal
-          ? MapType.satellite
-          : MapType.normal;
-    });
-  }
-
   Future<void> changePick(List<PlaceInSearch> list, int i) async {
     if (_isInfoShow) {
+      await _animationMapController.forward();
       await _animationController.reverse();
       setState(() {});
 
       selectedPlace = list[i];
+      _animationMapController.reverse();
 
       _animationController.forward();
 
@@ -178,6 +174,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       setState(() {});
       selectedPlace = list[i];
 
+      _animationMapController.forward();
       _animationController.forward();
       setState(() {});
     }
@@ -186,6 +183,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   Future<void> putOn() async {
     print('putOn');
 
+    await _animationMapController.forward();
     await _animationController.reverse();
     setState(() {});
     _isInfoShow = false;
@@ -306,13 +304,19 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _FBanimationController = AnimationController(
+    _animationMapController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 600,
+      ),
+    );
+    _FBAnimationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 260),
     );
 
     final curvedAnimation = CurvedAnimation(
-        curve: Curves.easeInOut, parent: _FBanimationController);
+        curve: Curves.easeInOut, parent: _FBAnimationController);
     _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
 
     _tabController = TabController(vsync: this, length: 4);
@@ -325,7 +329,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: Offset(3, 0),
+      begin: Offset(0, 2),
       end: Offset(0, 0),
     ).animate(
       CurvedAnimation(
@@ -336,6 +340,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _animationController,
+        curve: Curves.easeIn,
+      ),
+    );
+    _scaleAnimation = Tween(begin: 1.0, end: 0).animate(
+      CurvedAnimation(
+        parent: _animationMapController,
         curve: Curves.easeIn,
       ),
     );
@@ -355,19 +365,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     setState(() {});
   }
 
-  void updateLocation() async {
-    try {
-      Position newPosition = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-          .timeout(new Duration(seconds: 5));
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _animationMapController.dispose();
+    _FBAnimationController.dispose();
 
-      setState(() {
-        _lastMapPosition = LatLng(newPosition.latitude, newPosition.longitude);
-        _position = newPosition;
-      });
-    } catch (e) {
-      print('Error: ${e.toString()}');
-    }
+    super.dispose();
   }
 
   @override
@@ -380,285 +384,67 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _lastMapPosition,
-              zoom: 11.0,
-            ),
-            mapType: _currentMapType,
-            markers: _markers,
-            onCameraMove: _onCameraMove,
-            myLocationEnabled: true,
-            compassEnabled: true,
-            scrollGesturesEnabled: true,
-            mapToolbarEnabled: true,
-            myLocationButtonEnabled: true,
-            onTap: (_) {
-              putOn();
-            },
-            zoomGesturesEnabled: true,
-            onLongPress: (latlng) => _onAddMarkerButtonPressed(latlng),
-          ),
-          _isInfoShow
-              ? Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: AnimatedContainer(
-                    duration: _animationController.duration,
-                    curve: Curves.easeIn,
-                    child: FadeTransition(
-                      opacity: _opacityAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: LayoutBuilder(
-                          builder: (cxt, constraint) => InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                PlaceDetailScreen.routeName,
-                                arguments: {
-                                  'placeId': selectedPlace.id,
-                                  'name': selectedPlace.name,
-                                  'imageUrl': selectedPlace.image.url.medium,
-                                  'stars': selectedPlace.rate.toString(),
-                                },
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: AppTheme.white,
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(15),
-                                    topLeft: Radius.circular(15),
-                                  )),
-                              height: deviceHeight * 0.2,
-                              width: deviceWidth * 0.9,
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 8,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 5.0),
-                                              child: Text(
-                                                selectedPlace.name,
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.right,
-                                                maxLines: 1,
-                                                style: TextStyle(
-                                                  fontFamily: 'Iransans',
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize:
-                                                      textScaleFactor * 16.0,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: <Widget>[
-                                                Icon(
-                                                  Icons.star,
-                                                  color: AppTheme.iconColor,
-                                                  size: 25,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                    right: 5,
-                                                    top: 5,
-                                                  ),
-                                                  child: Text(
-                                                    EnArConvertor()
-                                                        .replaceArNumber(
-                                                      selectedPlace.rate
-                                                          .toString(),
-                                                    ),
-                                                    textAlign: TextAlign.right,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                      fontFamily: 'Iransans',
-                                                      color: AppTheme.grey,
-                                                      fontSize:
-                                                          textScaleFactor *
-                                                              16.0,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 8,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 5.0),
-                                              child: Container(
-                                                width:
-                                                    constraint.minWidth * 0.7,
-                                                child: Wrap(
-                                                  children: selectedPlace.fields
-                                                      .map(
-                                                        (e) =>
-                                                            ChangeNotifierProvider
-                                                                .value(
-                                                          value: e,
-                                                          child: Text(
-                                                            selectedPlace.fields
-                                                                        .indexOf(
-                                                                            e) <
-                                                                    (selectedPlace
-                                                                            .fields
-                                                                            .length -
-                                                                        1)
-                                                                ? (e.name +
-                                                                    ' ،')
-                                                                : e.name,
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'Iransans',
-                                                              color:
-                                                                  AppTheme.grey,
-                                                              fontSize:
-                                                                  textScaleFactor *
-                                                                      15.0,
-                                                            ),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                          ),
-                                                        ),
-                                                      )
-                                                      .toList(),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 3,
-                                            child: selectedPlace.price !=
-                                                        null ||
-                                                    selectedPlace.price != 0
-                                                ? Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        selectedPlace.price !=
-                                                                null
-                                                            ? EnArConvertor()
-                                                                .replaceArNumber(currencyFormat
-                                                                    .format(double.parse(
-                                                                        selectedPlace
-                                                                            .price
-                                                                            .toString()))
-                                                                    .toString())
-                                                                .toString()
-                                                            : EnArConvertor()
-                                                                .replaceArNumber(
-                                                                    '0'),
-                                                        style: TextStyle(
-                                                          color: AppTheme.black,
-                                                          fontFamily:
-                                                              'Iransans',
-                                                          fontSize:
-                                                              textScaleFactor *
-                                                                  18.0,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        'هزار \n تومان',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              'Iransans',
-                                                          color: AppTheme.grey,
-                                                          fontSize:
-                                                              textScaleFactor *
-                                                                  10.0,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )
-                                                : Container(),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 3.0, top: 4, bottom: 5),
-                                            child: Icon(
-                                              Icons.location_on,
-                                              color: AppTheme.iconColor,
-                                              size: 25,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 3.0, top: 4, bottom: 1),
-                                              child: Text(
-                                                selectedPlace.address,
-                                                textAlign: TextAlign.right,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                style: TextStyle(
-                                                  fontFamily: 'Iransans',
-                                                  color: AppTheme.grey,
-                                                  fontSize:
-                                                      textScaleFactor * 15.0,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height:
+                  deviceHeight * 0.93 - Scaffold.of(context).appBarMaxHeight,
+              width: deviceWidth,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: AnimatedContainer(
+                      duration: _animationMapController.duration,
+                      curve: Curves.easeIn,
+                      child: ScaleTransition(
+                        scale: _scaleAnimation,
+                        child: GoogleMap(
+                          onMapCreated: _onMapCreated,
+                          initialCameraPosition: CameraPosition(
+                            target: _lastMapPosition,
+                            zoom: 11.0,
                           ),
+                          mapType: _currentMapType,
+                          markers: _markers,
+                          onCameraMove: _onCameraMove,
+                          myLocationEnabled: true,
+                          compassEnabled: true,
+                          scrollGesturesEnabled: true,
+                          mapToolbarEnabled: true,
+                          myLocationButtonEnabled: true,
+                          onTap: (_) {
+                            putOn();
+                          },
+                          zoomGesturesEnabled: true,
+                          onLongPress: (latlng) =>
+                              _onAddMarkerButtonPressed(latlng),
                         ),
                       ),
                     ),
                   ),
-                )
-              : Container(),
+                  _isInfoShow
+                      ? AnimatedContainer(
+                          duration: _animationController.duration,
+                          curve: Curves.easeIn,
+                          child: FadeTransition(
+                            opacity: _opacityAnimation,
+                            child: SlideTransition(
+                              position: _slideAnimation,
+                              child: Expanded(
+                                child: MapInfoWindowItem(
+                                  selectedPlace: selectedPlace,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
+          ),
           Positioned(
             top: 10,
             left: 0,

@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:provider/provider.dart';
 import 'package:tapsalon/provider/app_theme.dart';
+import 'package:tapsalon/provider/places.dart';
 
 import '../../models/comment.dart';
 import '../en_to_ar_number_convertor.dart';
 
-class CommentItem extends StatelessWidget {
+class CommentItem extends StatefulWidget {
   final Comment comment;
 
   CommentItem({this.comment});
+
+  @override
+  _CommentItemState createState() => _CommentItemState();
+}
+
+class _CommentItemState extends State<CommentItem> {
+  var _isLoading = false;
 
   String getDuration(String time) {
     String duration = EnArConvertor().replaceArNumber(
@@ -47,6 +57,19 @@ class CommentItem extends StatelessWidget {
     return duration;
   }
 
+  Future<void> reportComment() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    await Provider.of<Places>(context, listen: false)
+        .sendCommentReport(widget.comment.place_id, widget.comment.id);
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -68,100 +91,166 @@ class CommentItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(10)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.account_circle,
-                        color: Colors.blue,
-                        size: 25,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${comment.user.fname} ${comment.user.lname}',
-                          textAlign: TextAlign.right,
-                          maxLines: 1,
-                          style: TextStyle(
-                            fontFamily: 'Iransans',
-                            fontSize: textScaleFactor * 13.0,
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        getDuration(comment.createdAt),
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          fontFamily: 'Iransans',
-                          color: Colors.grey,
-                          fontSize: textScaleFactor * 12.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: 30.0,
-                      left: 30,
-                      bottom: 15,
-                    ),
-                    child: Text(
-                      comment.content,
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontFamily: 'Iransans',
-                        color: AppTheme.black,
-                        fontSize: textScaleFactor * 14.0,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Container(
-                    width: deviceWidth * 0.9,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              right: 1, left: 3.0, top: 1, bottom: 4),
-                          child: Icon(
-                            Icons.star,
-                            color: AppTheme.iconColor,
+            child: Stack(
+              children: [
+                Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(
+                            Icons.account_circle,
+                            color: Colors.blue,
                             size: 25,
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              right: 5, left: 10, top: 1, bottom: 4),
-                          child: Text(
-                            EnArConvertor().replaceArNumber(
-                              comment.rate.toString(),
-                            ),
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontFamily: 'Iransans',
-                              color: AppTheme.grey,
-                              fontSize: textScaleFactor * 16.0,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              '${widget.comment.user.fname} ${widget.comment.user.lname}',
+                              textAlign: TextAlign.right,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontFamily: 'Iransans',
+                                fontSize: textScaleFactor * 13.0,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                          Spacer(),
+                          Text(
+                            getDuration(widget.comment.createdAt),
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontFamily: 'Iransans',
+                              color: Colors.grey,
+                              fontSize: textScaleFactor * 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                    Container(
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 30.0,
+                          left: 30,
+                          bottom: 15,
+                        ),
+                        child: Text(
+                          widget.comment.content,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontFamily: 'Iransans',
+                            color: AppTheme.black,
+                            fontSize: textScaleFactor * 14.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Container(
+                        width: deviceWidth * 0.9,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 5, left: 10, top: 1, bottom: 4),
+                              child: InkWell(
+                                onTap: () async{
+                                  SnackBar sendReportSnackBar = SnackBar(
+                                    content: Text(
+                                      'گزارش شما ارسال شد',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 14.0,
+                                      ),
+                                    ),
+                                    action: SnackBarAction(
+                                      label: 'متوجه شدم',
+                                      onPressed: () {
+                                        // Some code to undo the change.
+                                      },
+                                    ),
+                                  );
+                                  await reportComment();
+                                  Scaffold.of(context).showSnackBar(sendReportSnackBar);
+
+
+                                },
+                                child: Text(
+                                  'گزارش نظر',
+                                  textAlign: TextAlign.right,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontFamily: 'Iransans',
+                                    color: AppTheme.iconColor,
+                                    fontSize: textScaleFactor * 12.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 1, left: 3.0, top: 1, bottom: 4),
+                              child: Icon(
+                                Icons.star,
+                                color: AppTheme.iconColor,
+                                size: 25,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 5, left: 10, top: 1, bottom: 4),
+                              child: Text(
+                                EnArConvertor().replaceArNumber(
+                                  widget.comment.rate.toString(),
+                                ),
+                                textAlign: TextAlign.right,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontFamily: 'Iransans',
+                                  color: AppTheme.grey,
+                                  fontSize: textScaleFactor * 16.0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: index.isEven
+                                      ? AppTheme.spinerColor
+                                      : AppTheme.spinerColor,
+                                ),
+                              );
+                            },
+                          )
+                        : Container(),
                   ),
-                )
+                ),
               ],
             ),
           ),

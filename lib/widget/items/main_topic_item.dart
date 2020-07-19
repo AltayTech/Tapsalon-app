@@ -65,12 +65,15 @@ class MainTopicItem extends StatelessWidget {
                     padding: const EdgeInsets.only(top:12.0),
                     child: Text(
                       title,
-                      style: TextStyle(
-                        color: AppTheme.black.withOpacity(0.7),
-                        fontFamily: 'Iransans',
-                        fontWeight: FontWeight.w600,
-                        fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
-                      ),
+                        style:AppTheme.textTheme.subtitle1
+
+
+//                      TextStyle(
+//                        color: AppTheme.black.withOpacity(0.7),
+//                        fontFamily: 'Iransans',
+//                        fontWeight: FontWeight.w600,
+//                        fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
+//                      ),
                     ),
                   ),
                 ),

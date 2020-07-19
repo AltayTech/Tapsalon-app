@@ -3,12 +3,12 @@ import 'package:provider/provider.dart';
 
 import '../provider/app_theme.dart';
 import '../provider/cities.dart';
+import '../widget/dialogs/select_city_dialog.dart';
 import '../widget/favorite_view.dart';
 import '../widget/main_drawer.dart';
-import '../widget/dialogs/select_city_dialog.dart';
 
 class FavoriteScreen extends StatefulWidget {
-  static const routeName = '/favorite';
+  static const routeName = '/FavoriteScreen';
 
   @override
   _FavoriteScreenState createState() => _FavoriteScreenState();

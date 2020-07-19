@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tapsalon/classes/najva.dart';
+import 'package:tapsalon/provider/app_theme.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_comments_screen.dart';
 import 'package:tapsalon/screen/place_detail/place_location_screen.dart';
 import 'package:tapsalon/screen/user_profile/user_detail_info_screen.dart';
@@ -38,12 +38,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Najva najva;
 
   @override
   void initState() {
     super.initState();
-    najva = new Najva();
   }
 
   @override
@@ -75,26 +73,26 @@ class _MyAppState extends State<MyApp> {
             MaterialApp(
           title: Strings.appTitle,
           theme: ThemeData(
-            primarySwatch: Colors.green,
-            accentColor: Colors.amber,
-            textTheme: ThemeData.light().textTheme.copyWith(
-                  bodyText1: TextStyle(
-                    fontFamily: 'Iransans',
-                    color: Color.fromRGBO(20, 51, 51, 1),
-                  ),
-                  bodyText2: TextStyle(
-                    fontFamily: 'Iransans',
-                    color: Color.fromRGBO(20, 51, 51, 1),
-                  ),
-                  headline1: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Iransans',
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+            primaryColor: AppTheme.white,
+            backgroundColor: AppTheme.bg,
+            textTheme:AppTheme.textTheme,
           ),
           // home: CategoriesScreen(),
-
+//                ThemeData.light().textTheme.copyWith(
+//                  bodyText1: TextStyle(
+//                    fontFamily: 'Iransans',
+//                    color: Color.fromRGBO(20, 51, 51, 1),
+//                  ),
+//                  bodyText2: TextStyle(
+//                    fontFamily: 'Iransans',
+//                    color: Color.fromRGBO(20, 51, 51, 1),
+//                  ),
+//                  headline1: TextStyle(
+//                    fontSize: 20,
+//                    fontFamily: 'Iransans',
+//                    fontWeight: FontWeight.bold,
+//                  ),
+//                )
           home: Directionality(
             child: SplashScreens(),
             textDirection: TextDirection.rtl, // setting rtl
