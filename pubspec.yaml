@@ -1,8 +1,7 @@
 name: tapsalon
 description: A new Flutter project.
 
-version: 4.0.11+19
-
+version: 4.0.12+20
 environment:
   sdk: ">=2.1.0 <3.0.0"
 module:
