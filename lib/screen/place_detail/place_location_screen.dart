@@ -5,10 +5,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:provider/provider.dart';
 import 'package:tapsalon/models/places_models/place.dart';
+import 'package:tapsalon/models/places_models/place_in_search.dart';
 import 'package:tapsalon/provider/app_theme.dart';
-import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
+import 'package:tapsalon/widget/items/map_info_windows_item.dart';
+import 'package:tapsalon/widget/main_drawer.dart';
 
 class PlaceLocationScreen extends StatefulWidget {
   static const routeName = '/PlaceLocationScreen';
@@ -101,7 +102,6 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
       icon: pinLocationIcon,
     ));
   }
-
 
   void _onCameraMove(CameraPosition position) {
     _lastMapPosition = position.target;
@@ -203,7 +203,6 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
     setCustomMapPin();
   }
 
-
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -275,250 +274,15 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
                               opacity: _opacityAnimation,
                               child: SlideTransition(
                                 position: _slideAnimation,
-                                child: LayoutBuilder(
-                                  builder: (cxt, constraint) => Container(
-                                    decoration: BoxDecoration(
-                                        color: AppTheme.white,
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(15),
-                                          topLeft: Radius.circular(15),
-                                        )),
-                                    height: deviceHeight * 0.2,
-                                    width: deviceWidth * 0.9,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: <Widget>[
-                                                Expanded(
-                                                  flex: 8,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 5.0),
-                                                    child: Text(
-                                                      selectedPlace.name,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      textAlign:
-                                                          TextAlign.right,
-                                                      maxLines: 1,
-                                                      style: TextStyle(
-                                                        fontFamily: 'Iransans',
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize:
-                                                            textScaleFactor *
-                                                                16.0,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: <Widget>[
-                                                      Icon(
-                                                        Icons.star,
-                                                        color:
-                                                            AppTheme.iconColor,
-                                                        size: 25,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          right: 5,
-                                                          top: 5,
-                                                        ),
-                                                        child: Text(
-                                                          EnArConvertor()
-                                                              .replaceArNumber(
-                                                            selectedPlace.rate
-                                                                .toString(),
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                'Iransans',
-                                                            color:
-                                                                AppTheme.grey,
-                                                            fontSize:
-                                                                textScaleFactor *
-                                                                    16.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: <Widget>[
-                                                Expanded(
-                                                  flex: 8,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 5.0),
-                                                    child: Container(
-                                                      width:
-                                                          constraint.minWidth *
-                                                              0.7,
-                                                      child: Wrap(
-                                                        children:
-                                                            selectedPlace.fields
-                                                                .map(
-                                                                  (e) =>
-                                                                      ChangeNotifierProvider
-                                                                          .value(
-                                                                    value: e,
-                                                                    child: Text(
-                                                                      selectedPlace.fields.indexOf(e) <
-                                                                              (selectedPlace.fields.length -
-                                                                                  1)
-                                                                          ? (e.name +
-                                                                              ' ،')
-                                                                          : e.name,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontFamily:
-                                                                            'Iransans',
-                                                                        color: AppTheme
-                                                                            .grey,
-                                                                        fontSize:
-                                                                            textScaleFactor *
-                                                                                15.0,
-                                                                      ),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                                .toList(),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 3,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        selectedPlace.price !=
-                                                                null
-                                                            ? EnArConvertor()
-                                                                .replaceArNumber(currencyFormat
-                                                                    .format(double.parse(
-                                                                        selectedPlace
-                                                                            .price
-                                                                            .toString()))
-                                                                    .toString())
-                                                                .toString()
-                                                            : EnArConvertor()
-                                                                .replaceArNumber(
-                                                                    '0'),
-                                                        style: TextStyle(
-                                                          color: AppTheme.black,
-                                                          fontFamily:
-                                                              'Iransans',
-                                                          fontSize:
-                                                              textScaleFactor *
-                                                                  18.0,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        'هزار \n تومان',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              'Iransans',
-                                                          color: AppTheme.grey,
-                                                          fontSize:
-                                                              textScaleFactor *
-                                                                  10.0,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 3.0,
-                                                          top: 4,
-                                                          bottom: 5),
-                                                  child: Icon(
-                                                    Icons.location_on,
-                                                    color: AppTheme.iconColor,
-                                                    size: 25,
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 3.0,
-                                                            top: 4,
-                                                            bottom: 1),
-                                                    child: Text(
-                                                      selectedPlace.address,
-                                                      textAlign:
-                                                          TextAlign.right,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 1,
-                                                      style: TextStyle(
-                                                        fontFamily: 'Iransans',
-                                                        color: AppTheme.grey,
-                                                        fontSize:
-                                                            textScaleFactor *
-                                                                15.0,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                child: MapInfoWindowItem(
+                                  selectedPlace: PlaceInSearch(
+                                    id: selectedPlace.id,
+                                    name: selectedPlace.name,
+                                    image: selectedPlace.image,
+                                    rate: selectedPlace.rate,
+                                    fields: selectedPlace.fields,
+                                    price: selectedPlace.price,
+                                    address: selectedPlace.address,
                                   ),
                                 ),
                               ),
@@ -552,6 +316,14 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
                     ),
                   ],
                 ),
+        ),
+        drawer: Theme(
+          data: Theme.of(context).copyWith(
+            // Set the transparency here
+            canvasColor: Colors
+                .white, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+          ),
+          child: MainDrawer(),
         ),
       ),
     );

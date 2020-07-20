@@ -343,12 +343,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         curve: Curves.easeIn,
       ),
     );
-    _scaleAnimation = Tween(begin: 1.0, end: 0).animate(
-      CurvedAnimation(
-        parent: _animationMapController,
-        curve: Curves.easeIn,
-      ),
-    );
+//    _scaleAnimation = Tween(begin: 1.0, end: 0).animate(
+//      CurvedAnimation(
+//        parent: _animationMapController,
+//        curve: Curves.easeIn,
+//      ),
+//    );
     _geolocator = Geolocator();
     LocationOptions locationOptions =
         LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 1);
@@ -398,8 +398,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                     child: AnimatedContainer(
                       duration: _animationMapController.duration,
                       curve: Curves.easeIn,
-                      child: ScaleTransition(
-                        scale: _scaleAnimation,
+//                      child: ScaleTransition(
+//                        scale: _scaleAnimation,
                         child: GoogleMap(
                           onMapCreated: _onMapCreated,
                           initialCameraPosition: CameraPosition(
@@ -421,7 +421,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                           onLongPress: (latlng) =>
                               _onAddMarkerButtonPressed(latlng),
                         ),
-                      ),
+//                      ),
                     ),
                   ),
                   _isInfoShow
