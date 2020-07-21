@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tapsalon/models/city.dart';
+import 'package:tapsalon/models/image.dart';
+import 'package:tapsalon/models/image_url.dart';
 import 'package:tapsalon/models/main_regions.dart';
 import 'package:tapsalon/models/places_models/main_places.dart';
 import 'package:tapsalon/models/places_models/place.dart';
@@ -23,7 +25,6 @@ import '../provider/urls.dart';
 class Places with ChangeNotifier {
 //parameter definition
   List<PlaceInSearch> _items = [];
-  List<PlaceInSearch> _itemsCityPlaces = [];
 
   List<Favorite> favoriteItems = [];
   List<Region> _itemsRegions = [];
@@ -35,6 +36,16 @@ class Places with ChangeNotifier {
   );
   List<Comment> _itemsComments = [];
 
+  ImageObj _defaultImage = ImageObj(
+      id: 0,
+      filename: '',
+      url: ImageUrl(
+        medium: 'assets/images/place_placeholder.jpeg',
+        large: 'assets/images/place_placeholder.jpeg',
+        thumb: 'assets/images/place_placeholder.jpeg',
+      ));
+
+  //search parameters
   String searchKey = '';
   String searchEndPoint = '';
   var _sPage = 1;
@@ -195,8 +206,6 @@ class Places with ChangeNotifier {
 
   List<PlaceInSearch> get items => _items;
 
-  List<PlaceInSearch> get itemsCityPlace => _itemsCityPlaces;
-
   List<Region> get itemsRegions => _itemsRegions;
 
   SearchDetails get placeSearchDetails =>
@@ -221,6 +230,12 @@ class Places with ChangeNotifier {
   SearchDetails get commentsSearchDetails => _commentsSearchDetails;
 
   List<Comment> get itemsComments => _itemsComments;
+
+
+  ImageObj get defaultImage => _defaultImage;
+
+
+
 
   Future<void> searchItem() async {
     print('searchItem');

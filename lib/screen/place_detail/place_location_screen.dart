@@ -43,9 +43,6 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
   BitmapDescriptor gymBitmapDescriptor = BitmapDescriptor.defaultMarker;
   BitmapDescriptor entBitmapDescriptor = BitmapDescriptor.defaultMarker;
 
-  Animation<double> _animation;
-  AnimationController _FBanimationController;
-
   Place selectedPlace;
 
   @override
@@ -137,6 +134,8 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
   BitmapDescriptor pinLocationIconGym;
 
   void setCustomMapPin() async {
+    print('setCustomMapPin');
+
     pinLocationIconSalon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(
           devicePixelRatio: 2.5,
@@ -160,19 +159,11 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
   @override
   void initState() {
     super.initState();
-    _FBanimationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 260),
-    );
-
-    final curvedAnimation = CurvedAnimation(
-        curve: Curves.easeInOut, parent: _FBanimationController);
-    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
 
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(
-        milliseconds: 600,
+        milliseconds: 1600,
       ),
     );
 
@@ -210,121 +201,118 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            '',
-            style: TextStyle(
-              color: Colors.blue,
-              fontFamily: 'Iransans',
-              fontSize: textScaleFactor * 18.0,
-            ),
-            textAlign: TextAlign.center,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          '',
+          style: TextStyle(
+            color: Colors.blue,
+            fontFamily: 'Iransans',
+            fontSize: textScaleFactor * 18.0,
           ),
-          elevation: 0,
-          centerTitle: true,
-          backgroundColor: AppTheme.appBarColor,
-          iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+          textAlign: TextAlign.center,
         ),
-        body: Directionality(
-          textDirection: TextDirection.rtl,
-          child: _isLoading
-              ? SpinKitFadingCircle(
-                  itemBuilder: (BuildContext context, int index) {
-                    return DecoratedBox(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: index.isEven
-                            ? AppTheme.spinerColor
-                            : AppTheme.spinerColor,
-                      ),
-                    );
-                  },
-                )
-              : Stack(
-                  children: <Widget>[
-                    Column(
-                      children: [
-                        Expanded(
-                          child: GoogleMap(
-                            onMapCreated: _onMapCreated,
-                            initialCameraPosition: CameraPosition(
-                              target: _lastMapPosition,
-                              zoom: 11.0,
-                            ),
-                            mapType: _currentMapType,
-                            markers: _markers,
-                            onCameraMove: _onCameraMove,
-                            myLocationEnabled: true,
-                            compassEnabled: true,
-                            scrollGesturesEnabled: true,
-                            mapToolbarEnabled: true,
-                            myLocationButtonEnabled: true,
-                            zoomGesturesEnabled: true,
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: AppTheme.appBarColor,
+        iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
+      ),
+      body: Directionality(
+        textDirection: TextDirection.rtl,
+        child: _isLoading
+            ? SpinKitFadingCircle(
+                itemBuilder: (BuildContext context, int index) {
+                  return DecoratedBox(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: index.isEven
+                          ? AppTheme.spinerColor
+                          : AppTheme.spinerColor,
+                    ),
+                  );
+                },
+              )
+            : Stack(
+                children: <Widget>[
+                  Column(
+                    children: [
+                      Expanded(
+                        child: GoogleMap(
+                          onMapCreated: _onMapCreated,
+                          initialCameraPosition: CameraPosition(
+                            target: _lastMapPosition,
+                            zoom: 11.0,
                           ),
+                          mapType: _currentMapType,
+                          markers: _markers,
+                          onCameraMove: _onCameraMove,
+                          myLocationEnabled: true,
+                          compassEnabled: true,
+                          scrollGesturesEnabled: true,
+                          mapToolbarEnabled: true,
+                          myLocationButtonEnabled: true,
+                          zoomGesturesEnabled: true,
                         ),
-                        Container(
-                          height: deviceWidth * 0.5,
-                          child: AnimatedContainer(
-                            duration: _animationController.duration,
-                            curve: Curves.easeIn,
-                            child: FadeTransition(
-                              opacity: _opacityAnimation,
-                              child: SlideTransition(
-                                position: _slideAnimation,
-                                child: MapInfoWindowItem(
-                                  selectedPlace: PlaceInSearch(
-                                    id: selectedPlace.id,
-                                    name: selectedPlace.name,
-                                    image: selectedPlace.image,
-                                    rate: selectedPlace.rate,
-                                    fields: selectedPlace.fields,
-                                    price: selectedPlace.price,
-                                    address: selectedPlace.address,
-                                  ),
+                      ),
+                      Container(
+                        height: deviceWidth * 0.5,
+                        child: AnimatedContainer(
+                          duration: _animationController.duration,
+                          curve: Curves.easeIn,
+                          child: FadeTransition(
+                            opacity: _opacityAnimation,
+                            child: SlideTransition(
+                              position: _slideAnimation,
+                              child: MapInfoWindowItem(
+                                selectedPlace: PlaceInSearch(
+                                  id: selectedPlace.id,
+                                  name: selectedPlace.name,
+                                  image: selectedPlace.image,
+                                  rate: selectedPlace.rate,
+                                  fields: selectedPlace.fields,
+                                  price: selectedPlace.price,
+                                  address: selectedPlace.address,
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                    Positioned(
-                      top: 0,
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: _isLoading
-                            ? SpinKitFadingCircle(
-                                itemBuilder: (BuildContext context, int index) {
-                                  return DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: index.isEven
-                                          ? AppTheme.spinerColor
-                                          : AppTheme.spinerColor,
-                                    ),
-                                  );
-                                },
-                              )
-                            : Container(),
                       ),
+                    ],
+                  ),
+                  Positioned(
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: _isLoading
+                          ? SpinKitFadingCircle(
+                              itemBuilder: (BuildContext context, int index) {
+                                return DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: index.isEven
+                                        ? AppTheme.spinerColor
+                                        : AppTheme.spinerColor,
+                                  ),
+                                );
+                              },
+                            )
+                          : Container(),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
+      ),
+      endDrawer: Theme(
+        data: Theme.of(context).copyWith(
+          // Set the transparency here
+          canvasColor: Colors
+              .white, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
         ),
-        drawer: Theme(
-          data: Theme.of(context).copyWith(
-            // Set the transparency here
-            canvasColor: Colors
-                .white, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
-          ),
-          child: MainDrawer(),
-        ),
+        child: MainDrawer(),
       ),
     );
   }

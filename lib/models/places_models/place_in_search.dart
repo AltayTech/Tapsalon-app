@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:tapsalon/models/image_url.dart';
 import 'package:tapsalon/models/places_models/place_type.dart';
 import 'package:tapsalon/models/region.dart';
 
@@ -98,7 +99,14 @@ class PlaceInSearch with ChangeNotifier {
       facilities: facilityRaw,
       image: parsedJson['image'] != null
           ? ImageObj.fromJson(parsedJson['image'])
-          : ImageObj(id: 0, filename: ''),
+          : ImageObj(
+          id: 0,
+          filename: '',
+          url: ImageUrl(
+            medium: 'assets/images/place_placeholder.jpeg',
+            large: 'assets/images/place_placeholder.jpeg',
+            thumb: 'assets/images/place_placeholder.jpeg',
+          )),
       province: Province.fromJson(parsedJson['ostan']),
       city: City.fromJson(parsedJson['city']),
       region: parsedJson['region'] != null

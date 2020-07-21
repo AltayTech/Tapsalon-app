@@ -281,6 +281,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   BitmapDescriptor pinLocationIconGym;
 
   void setCustomMapPin() async {
+    print('setCustomMapPin');
     pinLocationIconSalon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(
           devicePixelRatio: 2.5,
@@ -305,11 +306,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _animationMapController = AnimationController(
-      vsync: this,
-      duration: Duration(
-        milliseconds: 600,
-      ),
-    );
+        vsync: this,
+        duration: Duration(
+          milliseconds: 600,
+        ),
+        value: 1);
     _FBAnimationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 260),
@@ -343,12 +344,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         curve: Curves.easeIn,
       ),
     );
-//    _scaleAnimation = Tween(begin: 1.0, end: 0).animate(
-//      CurvedAnimation(
-//        parent: _animationMapController,
-//        curve: Curves.easeIn,
-//      ),
-//    );
+    _scaleAnimation = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationMapController,
+        curve: Curves.easeIn,
+      ),
+    );
     _geolocator = Geolocator();
     LocationOptions locationOptions =
         LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 1);
@@ -399,28 +400,30 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                       duration: _animationMapController.duration,
                       curve: Curves.easeIn,
 //                      child: ScaleTransition(
+//                        alignment: Alignment.center,
 //                        scale: _scaleAnimation,
-                        child: GoogleMap(
-                          onMapCreated: _onMapCreated,
-                          initialCameraPosition: CameraPosition(
-                            target: _lastMapPosition,
-                            zoom: 11.0,
-                          ),
-                          mapType: _currentMapType,
-                          markers: _markers,
-                          onCameraMove: _onCameraMove,
-                          myLocationEnabled: true,
-                          compassEnabled: true,
-                          scrollGesturesEnabled: true,
-                          mapToolbarEnabled: true,
-                          myLocationButtonEnabled: true,
-                          onTap: (_) {
-                            putOn();
-                          },
-                          zoomGesturesEnabled: true,
-                          onLongPress: (latlng) =>
-                              _onAddMarkerButtonPressed(latlng),
+
+                      child: GoogleMap(
+                        onMapCreated: _onMapCreated,
+                        initialCameraPosition: CameraPosition(
+                          target: _lastMapPosition,
+                          zoom: 11.0,
                         ),
+                        mapType: _currentMapType,
+                        markers: _markers,
+                        onCameraMove: _onCameraMove,
+                        myLocationEnabled: true,
+                        compassEnabled: true,
+                        scrollGesturesEnabled: true,
+                        mapToolbarEnabled: true,
+                        myLocationButtonEnabled: true,
+                        onTap: (_) {
+                          putOn();
+                        },
+                        zoomGesturesEnabled: true,
+                        onLongPress: (latlng) =>
+                            _onAddMarkerButtonPressed(latlng),
+                      ),
 //                      ),
                     ),
                   ),

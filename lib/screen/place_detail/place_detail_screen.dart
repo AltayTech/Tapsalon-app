@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
+import 'package:tapsalon/models/image.dart';
 import 'package:tapsalon/models/places_models/place.dart';
 import 'package:tapsalon/provider/auth.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_timing_screen.dart';
@@ -41,7 +42,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
   bool isLike = false;
   int _current = 0;
 
-  var _isImageShown = false;
+  List<ImageObj> gallery = [];
 
   @override
   void dispose() {
@@ -51,7 +52,16 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
   @override
   void didChangeDependencies() async {
     if (_isInit) {
+      ImageObj defaultImage =
+          Provider.of<Places>(context, listen: false).defaultImage;
       await searchItems();
+
+      if (loadedPlace.gallery.length < 1) {
+        gallery.clear();
+        gallery.add(defaultImage);
+      } else {
+        gallery = loadedPlace.gallery;
+      }
 
       await Provider.of<Places>(context, listen: false)
           .retrieveLikes(loadedPlace.id);
@@ -94,7 +104,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
     showDialog(
         context: context,
         builder: (ctx) => CustomDialogShowPicture(
-              image: loadedPlace.gallery[_current],
+              image: gallery[_current],
             ));
   }
 
@@ -152,11 +162,10 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                       children: <Widget>[
                         GestureDetector(
                           onTap: () {
-                            if (loadedPlace.gallery.isNotEmpty) {
+
                               _showImageDialog();
-                            }
+
                           },
-//                              setState(() => _isImageShown = !_isImageShown),
                           child: Container(
                             height: deviceWidth * 0.6,
                             child: Stack(
@@ -173,7 +182,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                       initialPage: 0,
                                       enableInfiniteScroll: true,
                                       reverse: false,
-                                      autoPlay: true,
+                                      autoPlay: gallery.length==1?true:false,
                                       height: double.infinity,
                                       autoPlayInterval: Duration(seconds: 5),
                                       autoPlayAnimationDuration:
@@ -186,7 +195,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                       },
                                       autoPlayCurve: Curves.fastOutSlowIn,
                                     ),
-                                    items: loadedPlace.gallery.map((gallery) {
+                                    items: gallery.map((gallery) {
                                       return Builder(
                                         builder: (BuildContext context) {
                                           return Container(
@@ -203,8 +212,13 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                 child: FadeInImage(
                                                   placeholder: AssetImage(
                                                       'assets/images/circle.gif'),
-                                                  image: NetworkImage(
-                                                      gallery.url.medium),
+                                                  image: gallery.url.large
+                                                          .startsWith(
+                                                              'assets/images')
+                                                      ? AssetImage(
+                                                          gallery.url.medium)
+                                                      : NetworkImage(
+                                                          gallery.url.medium),
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
@@ -223,7 +237,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: loadedPlace.gallery.map<Widget>(
+                                    children: gallery.map<Widget>(
                                       (index) {
                                         return Container(
                                           width: 10.0,
@@ -235,8 +249,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                             border: Border.all(
                                                 color: AppTheme.h1, width: 0.4),
                                             color: _current ==
-                                                    loadedPlace.gallery
-                                                        .indexOf(index)
+                                                    gallery.indexOf(index)
                                                 ? AppTheme.iconColor
                                                 : AppTheme.bg,
                                           ),
@@ -859,7 +872,8 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 1,
-                                                  style:AppTheme.textTheme.button,
+                                                  style:
+                                                      AppTheme.textTheme.button,
 
 //                                                  style: TextStyle(
 //                                                    fontFamily: 'Iransans',
@@ -909,7 +923,9 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 1,
-                                                  style:AppTheme.textTheme.button,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .button,
 
 //                                                  style: TextStyle(
 //                                                    fontFamily: 'Iransans',

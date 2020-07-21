@@ -14,9 +14,9 @@ class ImageObj with ChangeNotifier {
   factory ImageObj.fromJson(Map<String, dynamic> parsedJson) {
     return ImageObj(
       id: parsedJson['id']!=null?parsedJson['id']:0,
-      filename: parsedJson['filename'],
-      extension: parsedJson['extension'],
-      url: ImageUrl.fromJson(parsedJson['url']),
+      filename: parsedJson['filename']!=null?parsedJson['filename']:'',
+      extension: parsedJson['extension']!=null?parsedJson['extension']:'',
+      url: parsedJson['url']!=null?ImageUrl.fromJson(parsedJson['url']):ImageUrl(),
     );
   }
 }

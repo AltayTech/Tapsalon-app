@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
+import 'package:tapsalon/provider/places.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_screen.dart';
 
 import '../../provider/app_theme.dart';
@@ -19,9 +20,9 @@ class PlaceItem extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     double textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-
+    var defaultImage = Provider.of<Places>(context, listen: false).defaultImage;
     return Padding(
-      padding: const EdgeInsets.only(top:16),
+      padding: const EdgeInsets.only(top: 16),
       child: LayoutBuilder(
         builder: (context, constraint) => InkWell(
           onTap: () {
@@ -65,8 +66,7 @@ class PlaceItem extends StatelessWidget {
                     width: constraint.maxWidth,
                     height: constraint.maxHeight * 0.55,
                     child: FadeInImage(
-                      placeholder:
-                          AssetImage('assets/images/place_placeholder.jpeg'),
+                      placeholder: AssetImage(defaultImage.url.medium),
                       image: NetworkImage(place.image.url.medium.toString()),
                       fit: BoxFit.cover,
                     ),
@@ -92,36 +92,38 @@ class PlaceItem extends StatelessWidget {
                           ),
                         ),
                         Spacer(),
-                        place.rate != 0.0&&  place.rate != 0? Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 1, left: 3.0, top: 1, bottom: 6),
-                              child: Icon(
-                                Icons.star,
-                                color: AppTheme.iconColor,
-                                size: 25,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 5, left: 0, top: 1, bottom: 4),
-                              child: Text(
-                                EnArConvertor().replaceArNumber(
-                                  place.rate.toString(),
-                                ),
-                                textAlign: TextAlign.right,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontFamily: 'Iransans',
-                                  color: AppTheme.grey,
-                                  fontSize: textScaleFactor * 16.0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ):Container(),
+                        place.rate != 0.0 && place.rate != 0
+                            ? Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 1, left: 3.0, top: 1, bottom: 6),
+                                    child: Icon(
+                                      Icons.star,
+                                      color: AppTheme.iconColor,
+                                      size: 25,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 5, left: 0, top: 1, bottom: 4),
+                                    child: Text(
+                                      EnArConvertor().replaceArNumber(
+                                        place.rate.toString(),
+                                      ),
+                                      textAlign: TextAlign.right,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        fontFamily: 'Iransans',
+                                        color: AppTheme.grey,
+                                        fontSize: textScaleFactor * 16.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
                       ],
                     ),
                   ),
@@ -159,56 +161,62 @@ class PlaceItem extends StatelessWidget {
                           ),
                         ),
                         Spacer(),
-                        place.price != null&&  place.price != 0.0&&place.price != 0?  Wrap(
-                          direction: Axis.horizontal,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 10),
-                                child: Text(
-                                  place.price != null
-                                      ? EnArConvertor()
-                                          .replaceArNumber(currencyFormat
-                                              .format(double.parse(
-                                                  place.price.toString()))
-                                              .toString())
-                                          .toString()
-                                      : EnArConvertor().replaceArNumber('0'),
-                                  style: TextStyle(
-                                    color: AppTheme.black,
-                                    fontFamily: 'Iransans',
-                                    fontSize: textScaleFactor * 16.0,
+                        place.price != null &&
+                                place.price != 0.0 &&
+                                place.price != 0
+                            ? Wrap(
+                                direction: Axis.horizontal,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4, horizontal: 10),
+                                      child: Text(
+                                        place.price != null
+                                            ? EnArConvertor()
+                                                .replaceArNumber(currencyFormat
+                                                    .format(double.parse(
+                                                        place.price.toString()))
+                                                    .toString())
+                                                .toString()
+                                            : EnArConvertor()
+                                                .replaceArNumber('0'),
+                                        style: TextStyle(
+                                          color: AppTheme.black,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 16.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    'هزار \n تومان',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: 'Iransans',
+                                      color: AppTheme.grey,
+                                      fontSize: textScaleFactor * 10.0,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 4,
+                                  ),
+                                  child: Text(
+//                             'هزینه ثبت نشده',
+                                    '',
+                                    style: TextStyle(
+                                      color: AppTheme.grey,
+                                      fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 14.0,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Text(
-                              'هزار \n تومان',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Iransans',
-                                color: AppTheme.grey,
-                                fontSize: textScaleFactor * 10.0,
-                              ),
-                            ),
-                          ],
-                        ):Container(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4, ),
-                            child: Text(
-//                             'هزینه ثبت نشده',
-                            '',
-                              style: TextStyle(
-                                color: AppTheme.grey,
-                                fontFamily: 'Iransans',
-                                fontSize: textScaleFactor * 14.0,
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),

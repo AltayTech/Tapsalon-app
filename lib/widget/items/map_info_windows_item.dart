@@ -47,7 +47,7 @@ class _MapInfoWindowItemState extends State<MapInfoWindowItem> {
                 topLeft: Radius.circular(15),
               )),
           height: deviceHeight * 0.2,
-          width: deviceWidth * 0.9,
+          width: deviceWidth ,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(

@@ -77,22 +77,7 @@ class _MyAppState extends State<MyApp> {
             backgroundColor: AppTheme.bg,
             textTheme:AppTheme.textTheme,
           ),
-          // home: CategoriesScreen(),
-//                ThemeData.light().textTheme.copyWith(
-//                  bodyText1: TextStyle(
-//                    fontFamily: 'Iransans',
-//                    color: Color.fromRGBO(20, 51, 51, 1),
-//                  ),
-//                  bodyText2: TextStyle(
-//                    fontFamily: 'Iransans',
-//                    color: Color.fromRGBO(20, 51, 51, 1),
-//                  ),
-//                  headline1: TextStyle(
-//                    fontSize: 20,
-//                    fontFamily: 'Iransans',
-//                    fontWeight: FontWeight.bold,
-//                  ),
-//                )
+
           home: Directionality(
             child: SplashScreens(),
             textDirection: TextDirection.rtl, // setting rtl

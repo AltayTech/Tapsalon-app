@@ -9,9 +9,9 @@ class ImageUrl with ChangeNotifier {
 
   factory ImageUrl.fromJson(Map<String, dynamic> parsedJson) {
     return ImageUrl(
-      thumb: parsedJson['thumb'],
-      medium: parsedJson['medium'],
-      large: parsedJson['large'],
+      thumb: parsedJson['thumb']!=null?parsedJson['thumb']:'',
+      medium: parsedJson['medium']!=null?parsedJson['medium']:'',
+      large: parsedJson['large']!=null?parsedJson['large']:'',
     );
   }
 }

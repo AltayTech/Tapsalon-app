@@ -6,6 +6,7 @@ import '../../models/facility.dart';
 import '../../models/field.dart';
 import '../../models/image.dart';
 import '../city.dart';
+import '../image_url.dart';
 import '../places_models/place_type.dart';
 import '../province.dart';
 import '../region.dart';
@@ -123,7 +124,16 @@ class Place with ChangeNotifier {
       placeType: PlaceType.fromJson(parsedJson['place_type']),
       fields: fieldRaw,
       facilities: faciltyRaw,
-      image: ImageObj.fromJson(parsedJson['image']),
+      image: parsedJson['image'] != null
+          ? ImageObj.fromJson(parsedJson['image'])
+          : ImageObj(
+          id: 0,
+          filename: '',
+          url: ImageUrl(
+            medium: 'assets/images/place_placeholder.jpeg',
+            large: 'assets/images/place_placeholder.jpeg',
+            thumb: 'assets/images/place_placeholder.jpeg',
+          )),
       gallery: galleryRaw,
       timings: timingsRaw,
       province: Province.fromJson(parsedJson['ostan']),

@@ -21,6 +21,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     return Scaffold(
       backgroundColor: AppTheme.white,
       appBar: AppBar(
+
         elevation: 0,
         title: Text(
           'درباره ما',
