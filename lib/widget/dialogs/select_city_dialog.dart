@@ -87,6 +87,7 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      insetPadding: EdgeInsets.only(left: 20,right:20),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Consts.padding),
       ),
@@ -304,8 +305,7 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                             width: constraint.maxWidth * 0.4,
                             decoration: BoxDecoration(
                               color: selectedCity == null
-                                  ? Colors.grey
-                                  : Color(0xffFF6D6B),
+                                  ? Colors.grey:Colors.blue,
                               borderRadius: BorderRadius.circular(25),
                             ),
                             child: Center(

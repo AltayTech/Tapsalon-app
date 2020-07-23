@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
+import 'package:tapsalon/models/places_models/place_favorite.dart';
+import 'package:tapsalon/provider/places.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_screen.dart';
 
 import '../../models/places_models/favorite.dart';
@@ -21,6 +23,8 @@ class FavoriteComplexItem extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     double textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
+    PlaceFavorite place = favoritePlace.place;
+    var defaultImage = Provider.of<Places>(context, listen: false).defaultImage;
 
     return Padding(
       padding: const EdgeInsets.only(top: 16),
@@ -30,10 +34,10 @@ class FavoriteComplexItem extends StatelessWidget {
             Navigator.of(context).pushNamed(
               PlaceDetailScreen.routeName,
               arguments: {
-                'placeId': favoritePlace.place.id,
-                'name': favoritePlace.place.name,
-                'imageUrl': favoritePlace.place.image.url.medium,
-                'stars': favoritePlace.place.rate.toString()
+                'placeId': place.id,
+                'name': place.name,
+                'imageUrl': place.image.url.medium,
+                'stars': place.rate.toString()
               },
             );
           },
@@ -67,10 +71,8 @@ class FavoriteComplexItem extends StatelessWidget {
                     width: constraint.maxWidth,
                     height: constraint.maxHeight * 0.55,
                     child: FadeInImage(
-                      placeholder:
-                          AssetImage('assets/images/place_placeholder.jpeg'),
-                      image: NetworkImage(
-                          favoritePlace.place.image.url.medium.toString()),
+                      placeholder: AssetImage(defaultImage.url.medium),
+                      image: NetworkImage(place.image.url.medium.toString()),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -84,7 +86,7 @@ class FavoriteComplexItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          favoritePlace.place.name,
+                          place.name,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.right,
                           maxLines: 1,
@@ -95,8 +97,7 @@ class FavoriteComplexItem extends StatelessWidget {
                           ),
                         ),
                         Spacer(),
-                        favoritePlace.place.rate != 0.0 &&
-                                favoritePlace.place.rate != 0
+                        place.rate != 0.0 && place.rate != 0
                             ? Row(
                                 children: <Widget>[
                                   Padding(
@@ -113,7 +114,7 @@ class FavoriteComplexItem extends StatelessWidget {
                                         right: 5, left: 0, top: 1, bottom: 4),
                                     child: Text(
                                       EnArConvertor().replaceArNumber(
-                                        favoritePlace.place.rate.toString(),
+                                        place.rate.toString(),
                                       ),
                                       textAlign: TextAlign.right,
                                       overflow: TextOverflow.ellipsis,
@@ -153,7 +154,7 @@ class FavoriteComplexItem extends StatelessWidget {
                           padding: const EdgeInsets.only(
                               left: 3.0, top: 4, bottom: 1),
                           child: Text(
-                            favoritePlace.place.region.name,
+                            place.region.name,
                             textAlign: TextAlign.right,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
@@ -165,9 +166,9 @@ class FavoriteComplexItem extends StatelessWidget {
                           ),
                         ),
                         Spacer(),
-                        favoritePlace.place.price != null &&
-                                favoritePlace.place.price != 0.0 &&
-                                favoritePlace.place.price != 0
+                        place.price != null &&
+                                place.price != 0.0 &&
+                                place.price != 0
                             ? Wrap(
                                 direction: Axis.horizontal,
                                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -175,15 +176,13 @@ class FavoriteComplexItem extends StatelessWidget {
                                   Container(
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 4, horizontal: 10),
+                                          vertical: 4, horizontal: 5),
                                       child: Text(
-                                        favoritePlace.place.price != null
+                                        place.price != null
                                             ? EnArConvertor()
                                                 .replaceArNumber(currencyFormat
                                                     .format(double.parse(
-                                                        favoritePlace
-                                                            .place.price
-                                                            .toString()))
+                                                        place.price.toString()))
                                                     .toString())
                                                 .toString()
                                             : EnArConvertor()
@@ -213,7 +212,8 @@ class FavoriteComplexItem extends StatelessWidget {
                                     vertical: 4,
                                   ),
                                   child: Text(
-                                    'هزینه ثبت نشده',
+//                             'هزینه ثبت نشده',
+                                    '',
                                     style: TextStyle(
                                       color: AppTheme.grey,
                                       fontFamily: 'Iransans',
@@ -232,13 +232,12 @@ class FavoriteComplexItem extends StatelessWidget {
                   child: Container(
                     width: constraint.minWidth,
                     child: Wrap(
-                      children: favoritePlace.place.fields
+                      children: place.fields
                           .map((e) => ChangeNotifierProvider.value(
                                 value: e,
                                 child: Text(
-                                  favoritePlace.place.fields.indexOf(e) <
-                                          (favoritePlace.place.fields.length -
-                                              1)
+                                  place.fields.indexOf(e) <
+                                          (place.fields.length - 1)
                                       ? (e.name + ' ،')
                                       : e.name,
                                   style: TextStyle(

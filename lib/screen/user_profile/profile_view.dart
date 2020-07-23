@@ -178,18 +178,18 @@ class _ProfileViewState extends State<ProfileView>
                                                   fontFamily: "Iransans",
                                                   fontWeight: FontWeight.w500,
                                                   fontSize:
-                                                      textScaleFactor * 18,
+                                                      textScaleFactor * 16,
                                                   color: AppTheme.black,
                                                 ),
                                                 textAlign: TextAlign.right,
                                               ),
                                               trailing: Icon(
                                                 Icons.arrow_forward_ios,
-                                                color: AppTheme.grey,
+                                                color: AppTheme.grey
+                                                    .withOpacity(0.5),
+                                                size: 20,
                                               ),
                                               onTap: () {
-                                                Navigator.of(context).pop();
-
                                                 Navigator.of(context).pushNamed(
                                                     UserDetailInfoScreen
                                                         .routeName,
@@ -207,18 +207,17 @@ class _ProfileViewState extends State<ProfileView>
                                                   fontFamily: "Iransans",
                                                   fontWeight: FontWeight.w500,
                                                   fontSize:
-                                                      textScaleFactor * 18,
+                                                      textScaleFactor * 16,
                                                   color: AppTheme.black,
                                                 ),
                                                 textAlign: TextAlign.right,
                                               ),
                                               trailing: Icon(
                                                 Icons.arrow_forward_ios,
-                                                color: AppTheme.grey,
+                                                color: AppTheme.grey
+                                                    .withOpacity(0.5),
                                               ),
                                               onTap: () {
-                                                Navigator.of(context).pop();
-
                                                 Navigator.of(context).pushNamed(
                                                     FavoriteScreen.routeName,
                                                     arguments: 0);
@@ -235,18 +234,17 @@ class _ProfileViewState extends State<ProfileView>
                                                   fontFamily: "Iransans",
                                                   fontWeight: FontWeight.w500,
                                                   fontSize:
-                                                      textScaleFactor * 18,
+                                                      textScaleFactor * 16,
                                                   color: AppTheme.black,
                                                 ),
                                                 textAlign: TextAlign.right,
                                               ),
                                               trailing: Icon(
                                                 Icons.arrow_forward_ios,
-                                                color: AppTheme.grey,
+                                                color: AppTheme.grey
+                                                    .withOpacity(0.5),
                                               ),
                                               onTap: () {
-                                                Navigator.of(context).pop();
-
                                                 Navigator.of(context).pushNamed(
                                                     UserDetailReserveScreen
                                                         .routeName,

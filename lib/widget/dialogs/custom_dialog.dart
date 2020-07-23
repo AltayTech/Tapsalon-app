@@ -79,7 +79,7 @@ class CustomDialog extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.06,
                       width: MediaQuery.of(context).size.width * 0.4,
                       decoration: BoxDecoration(
-                        color: Color(0xffFF6D6B),
+                        color: Colors.blue,
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Center(

@@ -9,6 +9,7 @@ import 'package:tapsalon/provider/user_info.dart';
 import 'package:tapsalon/screen/user_profile/user_detail_info_edit_screen.dart';
 import 'package:tapsalon/widget/dialogs/select_city_dialog.dart';
 import 'package:tapsalon/widget/main_drawer.dart';
+
 class UserDetailInfoScreen extends StatefulWidget {
   static const routeName = '/UserDetailInfoScreen';
 
@@ -119,7 +120,8 @@ class _UserDetailInfoScreenState extends State<UserDetailInfoScreen> {
               )
             : SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 16, top: 16),
+                  padding: const EdgeInsets.only(
+                      left: 20, right: 20, top: 20, bottom: 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,7 +243,7 @@ class _UserDetailInfoScreenState extends State<UserDetailInfoScreen> {
                                   iconColor: Color(0xff4392F1),
                                 ),
                                 InfoItem(
-                                  title: 'کدپستی',
+                                  title: 'آدرس',
                                   text: customer.address != null
                                       ? customer.address
                                       : '',

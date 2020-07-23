@@ -224,15 +224,15 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                 decoration: _selectedRegionIndexs
                                         .contains(index)
                                     ? BoxDecoration(
-                                        color: AppTheme.white,
+                                        color: Colors.blue,
                                         borderRadius: BorderRadius.circular(5),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color:
-                                                  Colors.green.withOpacity(0.4),
-                                              spreadRadius: 2,
-                                              blurRadius: 10),
-                                        ],
+//                                        boxShadow: [
+//                                          BoxShadow(
+//                                              color:
+//                                                  Colors.green.withOpacity(0.4),
+//                                              spreadRadius: 2,
+//                                              blurRadius: 10),
+//                                        ],
                                       )
                                     : BoxDecoration(
                                         color: AppTheme.white,
@@ -243,7 +243,10 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                     child: Text(
                                       regionList[index].name,
                                       style: TextStyle(
-                                        color: AppTheme.black,
+                                        color: _selectedRegionIndexs
+                                                .contains(index)
+                                            ? AppTheme.white
+                                            : AppTheme.black,
                                         fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 12.0,
                                       ),
@@ -308,19 +311,19 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                 decoration: _selectedFacilityIndexs
                                         .contains(index)
                                     ? BoxDecoration(
-                                        color: AppTheme.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color:
-                                                  Colors.green.withOpacity(0.4),
-                                              spreadRadius: 2,
-                                              blurRadius: 10),
-                                        ],
+                                  color: Colors.blue,
+                                        borderRadius: BorderRadius.circular(5),
+//                                        boxShadow: [
+//                                          BoxShadow(
+//                                              color:
+//                                                  Colors.green.withOpacity(0.4),
+//                                              spreadRadius: 2,
+//                                              blurRadius: 10),
+//                                        ],
                                       )
                                     : BoxDecoration(
                                         color: AppTheme.white,
-                                  borderRadius: BorderRadius.circular(5),
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -328,7 +331,10 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                     child: Text(
                                       facilitiesList[index].name,
                                       style: TextStyle(
-                                        color: AppTheme.black,
+                                        color: _selectedFacilityIndexs
+                                            .contains(index)
+                                            ? AppTheme.white
+                                            : AppTheme.black,
                                         fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
@@ -389,19 +395,19 @@ class _FilterDrawerState extends State<FilterDrawer> {
                               child: Container(
                                 decoration: _selectedFieldIndexs.contains(index)
                                     ? BoxDecoration(
-                                        color: AppTheme.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color:
-                                                  Colors.green.withOpacity(0.4),
-                                              spreadRadius: 2,
-                                              blurRadius: 10),
-                                        ],
+                                  color: Colors.blue,
+                                        borderRadius: BorderRadius.circular(5),
+//                                        boxShadow: [
+//                                          BoxShadow(
+//                                              color:
+//                                                  Colors.green.withOpacity(0.4),
+//                                              spreadRadius: 2,
+//                                              blurRadius: 10),
+//                                        ],
                                       )
                                     : BoxDecoration(
                                         color: AppTheme.white,
-                                  borderRadius: BorderRadius.circular(5),
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -409,7 +415,10 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                     child: Text(
                                       fieldsList[index].name,
                                       style: TextStyle(
-                                        color: AppTheme.black,
+                                        color: _selectedFieldIndexs
+                                            .contains(index)
+                                            ? AppTheme.white
+                                            : AppTheme.black,
                                         fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
@@ -427,83 +436,83 @@ class _FilterDrawerState extends State<FilterDrawer> {
                       height: 3,
                       color: AppTheme.grey.withOpacity(0.6),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Switch(
-                            value: isDiscounted,
-                            onChanged: (value) {
-//                      if (value) {
-//                        _selectedSellCaseId.add(72);
-//                        _selectedSellcaseTitle.remove('قسطی');
+//                    Padding(
+//                      padding: const EdgeInsets.only(left: 15.0, right: 15),
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        children: <Widget>[
+//                          Switch(
+//                            value: isDiscounted,
+//                            onChanged: (value) {
+////                      if (value) {
+////                        _selectedSellCaseId.add(72);
+////                        _selectedSellcaseTitle.remove('قسطی');
+////
+////                        _selectedSellcaseTitle.add('قسطی');
+////                      } else {
+////                        _selectedSellCaseId.remove(72);
+////                        _selectedSellcaseTitle.remove('قسطی');
+////                      }
+//                              setState(() {
+//                                isDiscounted = value;
+//                              });
+//                            },
+//                            activeTrackColor: Colors.lightGreenAccent,
+//                            activeColor: Colors.green,
+//                          ),
+//                          Text(
+//                            'تخفیف دار',
+//                            style: TextStyle(
+//                              fontFamily: "Iransans",
+//                              fontWeight: FontWeight.w400,
+//                              fontSize: 15,
+//                              color: Colors.black54,
+//                            ),
+//                          ),
+//                        ],
+//                      ),
+//                    ),
+//                    Padding(
+//                      padding: const EdgeInsets.only(left: 15.0, right: 15),
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        children: <Widget>[
+//                          Switch(
+//                            value: isReservable,
+//                            onChanged: (value) {
+////                      if (value) {
+////                        _selectedSellCaseId.add(73);
+////                        _selectedSellcaseTitle.remove('تخفیف دار');
+////
+////                        _selectedSellcaseTitle.add('تخفیف دار');
+////                      } else {
+////                        _selectedSellCaseId.remove(73);
+////                        _selectedSellcaseTitle.remove('تخفیف دار');
+////                      }
 //
-//                        _selectedSellcaseTitle.add('قسطی');
-//                      } else {
-//                        _selectedSellCaseId.remove(72);
-//                        _selectedSellcaseTitle.remove('قسطی');
-//                      }
-                              setState(() {
-                                isDiscounted = value;
-                              });
-                            },
-                            activeTrackColor: Colors.lightGreenAccent,
-                            activeColor: Colors.green,
-                          ),
-                          Text(
-                            'تخفیف دار',
-                            style: TextStyle(
-                              fontFamily: "Iransans",
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15,
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Switch(
-                            value: isReservable,
-                            onChanged: (value) {
-//                      if (value) {
-//                        _selectedSellCaseId.add(73);
-//                        _selectedSellcaseTitle.remove('تخفیف دار');
-//
-//                        _selectedSellcaseTitle.add('تخفیف دار');
-//                      } else {
-//                        _selectedSellCaseId.remove(73);
-//                        _selectedSellcaseTitle.remove('تخفیف دار');
-//                      }
-
-                              setState(() {
-                                isReservable = value;
-                              });
-                            },
-                            activeTrackColor: Colors.lightGreenAccent,
-                            activeColor: Colors.green,
-                          ),
-                          Text(
-                            'قابل رزرو آنلاین',
-                            style: TextStyle(
-                              fontFamily: "Iransans",
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15,
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(
-                      height: 3,
-                      color: AppTheme.grey.withOpacity(0.6),
-                    ),
+//                              setState(() {
+//                                isReservable = value;
+//                              });
+//                            },
+//                            activeTrackColor: Colors.lightGreenAccent,
+//                            activeColor: Colors.green,
+//                          ),
+//                          Text(
+//                            'قابل رزرو آنلاین',
+//                            style: TextStyle(
+//                              fontFamily: "Iransans",
+//                              fontWeight: FontWeight.w400,
+//                              fontSize: 15,
+//                              color: Colors.black54,
+//                            ),
+//                          ),
+//                        ],
+//                      ),
+//                    ),
+//                    Divider(
+//                      height: 3,
+//                      color: AppTheme.grey.withOpacity(0.6),
+//                    ),
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Row(
@@ -719,9 +728,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
                                     border: Border.all(
-                                      color: Colors.grey,
-                                      width: 0.5
-                                    ),
+                                        color: Colors.grey, width: 0.5),
                                   ),
                                   child: Center(
                                     child: Padding(

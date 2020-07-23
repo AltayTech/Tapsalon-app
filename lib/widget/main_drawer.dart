@@ -8,7 +8,6 @@ import 'package:tapsalon/screen/navigation_bottom_screen.dart';
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
 import '../screen/about_us_screen.dart';
-import '../screen/contact_with_us_screen.dart';
 import '../screen/favorite_screen.dart';
 import '../screen/search_screen.dart';
 import '../screen/user_profile/login_screen.dart';
@@ -213,28 +212,7 @@ class MainDrawer extends StatelessWidget {
 //                                  .pushNamed(RulesScreen.routeName);
 //                            },
 //                          ),
-                          ListTile(
-                            title: Text(
-                              'تماس با ما',
-                              style: TextStyle(
-                                fontFamily: "Iransans",
-                                fontWeight: FontWeight.w500,
-                                fontSize: textScaleFactor * 15,
-                                color: textColor,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                            trailing: Icon(
-                              Icons.call,
-                              color: iconColor,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
 
-                              Navigator.of(context)
-                                  .pushNamed(ContactWithUs.routeName);
-                            },
-                          ),
                           ListTile(
                             title: Text(
                               'درباره ما',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tapsalon/provider/app_theme.dart';
 
 import '../widget/en_to_ar_number_convertor.dart';
 import '../widget/splashscreen.dart';
@@ -28,16 +29,27 @@ class _SplashScreensState extends State<SplashScreens> {
       seconds: 3,
       navigateAfterSeconds: NavigationBottomScreen(),
       title: Text(
-        'تاپ سالن\n مرجع اماکن ورزشی',
-        style: TextStyle(
-          fontFamily: 'BFarnaz',
-          fontSize: MediaQuery.of(context).textScaleFactor * 30,
-          color: Colors.black,
-        ),
+        'تاپ سالن',
+        style: AppTheme.textTheme.headline4.copyWith(color: Color(0xff149D49),
+        fontWeight: FontWeight.bold),
+//        TextStyle(
+//          fontFamily: 'Iransans',
+//          fontSize: MediaQuery.of(context).textScaleFactor * 30,
+//          color: Color(0xff149D49),
+//        ),
         textAlign: TextAlign.center,
       ),
+      subtitle:Text(
+        'مرجع اماکن ورزشی',
+        style: TextStyle(
+          fontFamily: 'Iransans',
+          fontSize: MediaQuery.of(context).textScaleFactor * 20,
+          color: Colors.grey,
+        ),
+        textAlign: TextAlign.center,
+      ) ,
       loadingText: Text(
-        EnArConvertor().replaceArNumber('نسخه 4.0.0'),
+        EnArConvertor().replaceArNumber('نسخه 4.0.15'),
         style: TextStyle(
           fontFamily: 'Iransans',
           fontWeight: FontWeight.w400,

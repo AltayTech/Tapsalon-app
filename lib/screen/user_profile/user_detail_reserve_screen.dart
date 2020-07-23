@@ -6,7 +6,6 @@ import 'package:tapsalon/models/user_models/user.dart';
 import 'package:tapsalon/provider/app_theme.dart';
 import 'package:tapsalon/provider/cities.dart';
 import 'package:tapsalon/provider/user_info.dart';
-import 'package:tapsalon/screen/user_profile/user_detail_reserve_list_view.dart';
 import 'package:tapsalon/widget/dialogs/select_city_dialog.dart';
 import 'package:tapsalon/widget/main_drawer.dart';
 
@@ -18,7 +17,8 @@ class UserDetailReserveScreen extends StatefulWidget {
   UserDetailReserveScreen({this.user});
 
   @override
-  _UserDetailReserveScreenState createState() => _UserDetailReserveScreenState();
+  _UserDetailReserveScreenState createState() =>
+      _UserDetailReserveScreenState();
 }
 
 class _UserDetailReserveScreenState extends State<UserDetailReserveScreen> {
@@ -56,47 +56,15 @@ class _UserDetailReserveScreenState extends State<UserDetailReserveScreen> {
     double textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: TextDirection.ltr,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppTheme.appBarColor,
           elevation: 0,
           iconTheme: IconThemeData(color: AppTheme.appBarIconColor),
-          actions: <Widget>[
-            Consumer<Cities>(
-              builder: (_, cities, ch) => Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: InkWell(
-                  onTap: () {
-                    showDialog(
-                        context: context, builder: (ctx) => SelectCityDialog());
-                  },
-                  child: Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          cities.selectedCity.name,
-                          softWrap: true,
-                          style: TextStyle(
-                              color: AppTheme.black,
-                              fontFamily: 'Iransans',
-                              fontSize: textScaleFactor * 12.0),
-                        ),
-                        Icon(
-                          Icons.arrow_drop_down,
-                          size: 25,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+
         ),
-        drawer: Theme(
+        endDrawer: Theme(
           data: Theme.of(context).copyWith(
             // Set the transparency here
             canvasColor: AppTheme
@@ -118,10 +86,21 @@ class _UserDetailReserveScreenState extends State<UserDetailReserveScreen> {
                   },
                 ),
               )
-            : UserDetailReserveView(user: user,),
+//            : UserDetailReserveView(user: user,),
+            : Center(
+              child: Container(
+                  width: deviceWidth * 0.75,
+                  child: Text(
+                    'فعلا امکان روزرو آنلاین مکان ها وجود ندارد برای رزرو سالن ها میتوانید با شماره تماس قرارد داده شده در هر سالن تماس بگیرید',
+                    softWrap: true,
+                    style: TextStyle(
+                        color: AppTheme.black,
+                        fontFamily: 'Iransans',
+                        fontSize: textScaleFactor * 16.0),
+                  ),
+                ),
+            ),
       ),
     );
   }
 }
-
-

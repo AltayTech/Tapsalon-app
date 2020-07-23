@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:tapsalon/widget/dialogs/custom_dialog.dart';
 
 import '../../models/user_models/user.dart';
 import '../../provider/app_theme.dart';
@@ -27,6 +28,16 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
 
   int placeId;
 
+
+  List<String> subjectValueList = [
+    'نظر',
+    'انتقاد',
+    'پیشنهاد',
+    'عدم صحت اطلاعات',
+    'دیگر',
+  ];
+  String subjectValue='نظر';
+
   @override
   void initState() {
     user = Provider.of<UserInfo>(context, listen: false).user;
@@ -43,13 +54,14 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
     super.dispose();
   }
 
-  Future<void> createComment(int placeId, String content, double rate) async {
+
+  Future<void> createComment(int placeId, String content, double rate,String subject) async {
     setState(() {
       _isLoading = true;
     });
 
     await Provider.of<Places>(context, listen: false)
-        .sendComment(placeId, content, rate)
+        .sendComment(placeId, content, rate,subject)
         .then((value) async {
       await Provider.of<Places>(context, listen: false)
           .retrieveComment(placeId);
@@ -57,9 +69,18 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
 
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
+  }
+
+  void _showLoginDialog() {
+    showDialog(
+        context: context,
+        builder: (ctx) => CustomDialog(
+              title: 'تشکر',
+              buttonText: 'خب',
+              description:
+                  'نظر شما با موفقیت ثبت شد\n بعد از تایید نمایش داده خواهد شد',
+            ));
   }
 
   @override
@@ -68,8 +89,9 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
     double deviceHeight = MediaQuery.of(context).size.height;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     placeId = ModalRoute.of(context).settings.arguments as int;
+
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: TextDirection.ltr,
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -77,7 +99,7 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
           iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
         ),
 
-        drawer: Theme(
+        endDrawer: Theme(
           data: Theme.of(context).copyWith(
             canvasColor: Colors
                 .white, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
@@ -120,6 +142,83 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
                                       spacing: 0.0),
                                 ),
                               ),
+                            ),
+                            Wrap(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom:8.0),
+                                  child: Text(
+                                    'موضوع:',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: 'Iransans',
+                                      fontSize: textScaleFactor * 13.0,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: deviceWidth,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                    BorderRadius.circular(5),
+                                  ),
+                                  child: Directionality(
+                                    textDirection: TextDirection.ltr,
+                                    child: Container(
+                                      alignment: Alignment.centerRight,
+                                      decoration: BoxDecoration(
+                                          color: AppTheme.white,
+                                          borderRadius:
+                                          BorderRadius.circular(5),
+                                          border: Border.all(
+                                              color: Colors.grey,
+                                              width: 0.3)),
+                                      child: DropdownButton<String>(
+                                        value: subjectValue,
+                                        icon: Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.black,
+                                        ),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Iransans',
+                                          fontSize: textScaleFactor * 13.0,
+                                        ),
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            subjectValue = newValue;
+                                          });
+                                        },
+                                        underline: Container(
+                                          color: AppTheme.white,
+                                        ),
+                                        items: subjectValueList
+                                            .map<DropdownMenuItem<String>>(
+                                                (String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Container(
+                                              width: deviceWidth * 0.6,
+                                              child: Text(
+                                                value,
+                                                textAlign: TextAlign.end,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'Iransans',
+                                                  fontSize:
+                                                      textScaleFactor *
+                                                          13.0,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 35),
@@ -189,8 +288,11 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
               placeId,
               reviewTextController.text,
               rating,
+              subjectValue
             ).then((_) {
               Navigator.of(context).pop();
+
+              _showLoginDialog();
             });
           },
           backgroundColor: AppTheme.buttonColor,

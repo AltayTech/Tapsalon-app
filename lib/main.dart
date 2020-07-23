@@ -13,7 +13,6 @@ import './provider/salons.dart';
 import './provider/strings.dart';
 import './provider/user_info.dart';
 import './screen/about_us_screen.dart';
-import './screen/contact_with_us_screen.dart';
 import './screen/favorite_screen.dart';
 import './screen/home_screen.dart';
 import './screen/map_screen.dart';
@@ -38,7 +37,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -75,9 +73,8 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             primaryColor: AppTheme.white,
             backgroundColor: AppTheme.bg,
-            textTheme:AppTheme.textTheme,
+            textTheme: AppTheme.textTheme,
           ),
-
           home: Directionality(
             child: SplashScreens(),
             textDirection: TextDirection.rtl, // setting rtl
@@ -93,7 +90,6 @@ class _MyAppState extends State<MyApp> {
             ProfileScreen.routeName: (ctx) => ProfileScreen(),
             SearchScreen.routeName: (ctx) => SearchScreen(),
             AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
-            ContactWithUs.routeName: (ctx) => ContactWithUs(),
             NavigationBottomScreen.routeName: (ctx) => NavigationBottomScreen(),
             CommentCreateScreen.routeName: (ctx) => CommentCreateScreen(),
             MapScreen.routeName: (ctx) => MapScreen(),

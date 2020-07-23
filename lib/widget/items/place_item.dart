@@ -87,7 +87,7 @@ class PlaceItem extends StatelessWidget {
                           maxLines: 1,
                           style: TextStyle(
                             fontFamily: 'Iransans',
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                             fontSize: textScaleFactor * 16.0,
                           ),
                         ),
@@ -171,7 +171,7 @@ class PlaceItem extends StatelessWidget {
                                   Container(
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 4, horizontal: 10),
+                                          vertical: 4, horizontal: 5),
                                       child: Text(
                                         place.price != null
                                             ? EnArConvertor()

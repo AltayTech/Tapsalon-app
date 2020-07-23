@@ -407,7 +407,7 @@ class Places with ChangeNotifier {
     }
   }
 
-  Future<void> sendComment(int placeId, String content, double rate) async {
+  Future<void> sendComment(int placeId, String content, double rate,String subject) async {
     print('sendComment');
 
     final url = Urls.rootUrl + Urls.commentEndPoint;
@@ -431,6 +431,8 @@ class Places with ChangeNotifier {
             'place_id': placeId,
             'content': content,
             'rate': rate,
+            'subject': subject,
+
           },
         ),
       );

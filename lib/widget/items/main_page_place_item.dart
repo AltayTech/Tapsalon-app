@@ -87,7 +87,7 @@ class MainPagePlaceItem extends StatelessWidget {
                                   maxLines: 1,
                                   style: TextStyle(
                                     fontFamily: 'Iransans',
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     fontSize: textScaleFactor * 14.0,
                                   ),
                                 ),

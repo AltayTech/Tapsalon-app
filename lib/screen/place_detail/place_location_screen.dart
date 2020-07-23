@@ -59,6 +59,8 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
   Future<void> searchItem() async {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     selectedPlace = arguments != null ? arguments['place'] : Place();
+   await setCustomMapPin();
+
     _onAddMarker(selectedPlace);
     changePick(selectedPlace);
   }

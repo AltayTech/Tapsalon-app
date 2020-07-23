@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class SplashScreen extends StatefulWidget {
   final int seconds;
   final Text title;
+  final Text subtitle;
   final Color backgroundColor;
   final TextStyle styleTextUnderTheLoader;
   final dynamic navigateAfterSeconds;
@@ -25,6 +26,7 @@ class SplashScreen extends StatefulWidget {
       this.onClick,
       this.navigateAfterSeconds,
       this.title = const Text(''),
+      this.subtitle = const Text(''),
       this.backgroundColor = Colors.white,
       this.styleTextUnderTheLoader = const TextStyle(
           fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
@@ -92,9 +94,13 @@ class _SplashScreenState extends State<SplashScreen> {
                         radius: widget.photoSize,
                       ),
                       new Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
+                        padding:  EdgeInsets.only(top:  MediaQuery.of(context).size.height * 0.1),
                       ),
-                      widget.title
+                      widget.title,
+                      new Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                      ),
+                      widget.subtitle
                     ],
                   )),
                 ),
@@ -110,7 +116,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           return DecoratedBox(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: index.isEven ? Colors.grey : Colors.grey,
+                              color:Color(0xffF2B107),
                             ),
                           );
                         },
