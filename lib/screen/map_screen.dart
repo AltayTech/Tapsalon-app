@@ -396,36 +396,36 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               child: Column(
                 children: [
                   Expanded(
-                    child: AnimatedContainer(
-                      duration: _animationMapController.duration,
-                      curve: Curves.easeIn,
+//                    child: AnimatedContainer(
+//                      duration: _animationMapController.duration,
+//                      curve: Curves.easeIn,
 //                      child: ScaleTransition(
 //                        alignment: Alignment.center,
 //                        scale: _scaleAnimation,
 
-                      child: GoogleMap(
-                        onMapCreated: _onMapCreated,
-                        initialCameraPosition: CameraPosition(
-                          target: _lastMapPosition,
-                          zoom: 11.0,
-                        ),
-                        mapType: _currentMapType,
-                        markers: _markers,
-                        onCameraMove: _onCameraMove,
-                        myLocationEnabled: true,
-                        compassEnabled: true,
-                        scrollGesturesEnabled: true,
-                        mapToolbarEnabled: true,
-                        myLocationButtonEnabled: true,
-                        onTap: (_) {
-                          putOn();
-                        },
-                        zoomGesturesEnabled: true,
-                        onLongPress: (latlng) =>
-                            _onAddMarkerButtonPressed(latlng),
+                    child: GoogleMap(
+                      onMapCreated: _onMapCreated,
+                      initialCameraPosition: CameraPosition(
+                        target: _lastMapPosition,
+                        zoom: 11.0,
                       ),
-//                      ),
+                      mapType: _currentMapType,
+                      markers: _markers,
+                      onCameraMove: _onCameraMove,
+                      myLocationEnabled: true,
+                      compassEnabled: true,
+                      scrollGesturesEnabled: true,
+                      mapToolbarEnabled: true,
+                      myLocationButtonEnabled: true,
+                      onTap: (_) {
+                        putOn();
+                      },
+                      zoomGesturesEnabled: true,
+                      onLongPress: (latlng) =>
+                          _onAddMarkerButtonPressed(latlng),
                     ),
+//                      ),
+//                    ),
                   ),
                   _isInfoShow
                       ? AnimatedContainer(
@@ -435,10 +435,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                             opacity: _opacityAnimation,
                             child: SlideTransition(
                               position: _slideAnimation,
-                              child: Expanded(
-                                child: MapInfoWindowItem(
-                                  selectedPlace: selectedPlace,
-                                ),
+                              child: MapInfoWindowItem(
+                                selectedPlace: selectedPlace,
                               ),
                             ),
                           ),
