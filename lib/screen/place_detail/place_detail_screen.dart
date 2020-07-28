@@ -206,6 +206,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                                 child: FadeInImage(
+
                                                   placeholder: AssetImage(
                                                       'assets/images/circle.gif'),
                                                   image: gallery.url.large

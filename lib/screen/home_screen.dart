@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: EdgeInsets.all(deviceHeight * 0.02),
                 child: Container(
-                  height: deviceHeight * 0.06,
+                  height: 50,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       boxShadow: [
@@ -120,6 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Expanded(
                           child: Padding(
@@ -131,6 +132,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: AppTheme.black,
                                 fontFamily: 'Iransans',
                               ),
+                              onFieldSubmitted: (_) {
+                                cleanFilters(context);
+
+                                Provider.of<Places>(context, listen: false)
+                                    .searchKey = _searchTextController.text;
+                                Provider.of<Places>(context, listen: false)
+                                    .searchBuilder();
+                                return Navigator.of(context).pushNamed(
+                                    SearchScreen.routeName,
+                                    arguments: 0);
+                              },
                               textAlignVertical: TextAlignVertical.center,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -176,26 +188,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
-                height: deviceHeight * 0.18,
+//                height: deviceHeight * 0.18,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(0),
                   color: AppTheme.white,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(top:8.0,bottom: 8),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       InkWell(
                         onTap: () {
                           cleanFilters(context);
-                          Provider.of<Places>(context, listen: false).sType =
-                              '1';
+                          Provider.of<Places>(context, listen: false)
+                              .sPlaceType = '1';
 
-                          Navigator.of(context).pushNamed(
-                              SearchScreen.routeName,
-                              arguments: 1);
+                          Navigator.of(context)
+                              .pushNamed(SearchScreen.routeName, arguments: 1);
                         },
                         child: MainTopicItem(
                           number: 1,
@@ -208,12 +219,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       InkWell(
                         onTap: () {
                           cleanFilters(context);
-                          Provider.of<Places>(context, listen: false).sType =
-                              '2';
+                          Provider.of<Places>(context, listen: false)
+                              .sPlaceType = '2';
 
-                          Navigator.of(context).pushNamed(
-                              SearchScreen.routeName,
-                              arguments: 2);
+                          Navigator.of(context)
+                              .pushNamed(SearchScreen.routeName, arguments: 2);
                         },
                         child: MainTopicItem(
                           number: 1,
@@ -226,12 +236,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       InkWell(
                         onTap: () {
                           cleanFilters(context);
-                          Provider.of<Places>(context, listen: false).sType =
-                              '3';
+                          Provider.of<Places>(context, listen: false)
+                              .sPlaceType = '4';
 
-                          Navigator.of(context).pushNamed(
-                              SearchScreen.routeName,
-                              arguments: 3);
+                          Navigator.of(context)
+                              .pushNamed(SearchScreen.routeName, arguments: 4);
                         },
                         child: MainTopicItem(
                           number: 1,

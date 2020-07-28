@@ -196,7 +196,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                           textAlign: TextAlign.right,
                         )),
                     Container(
-                      height: deviceHeight * 0.07,
+                      height: 60,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: regionList.length,
@@ -281,7 +281,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                       ),
                     ),
                     Container(
-                      height: deviceHeight * 0.07,
+                      height: 60,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: facilitiesList.length,
@@ -311,7 +311,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                 decoration: _selectedFacilityIndexs
                                         .contains(index)
                                     ? BoxDecoration(
-                                  color: Colors.blue,
+                                        color: Colors.blue,
                                         borderRadius: BorderRadius.circular(5),
 //                                        boxShadow: [
 //                                          BoxShadow(
@@ -332,7 +332,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                       facilitiesList[index].name,
                                       style: TextStyle(
                                         color: _selectedFacilityIndexs
-                                            .contains(index)
+                                                .contains(index)
                                             ? AppTheme.white
                                             : AppTheme.black,
                                         fontFamily: 'Iransans',
@@ -369,7 +369,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                       ),
                     ),
                     Container(
-                      height: deviceHeight * 0.07,
+                      height: 60,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: fieldsList.length,
@@ -395,7 +395,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                               child: Container(
                                 decoration: _selectedFieldIndexs.contains(index)
                                     ? BoxDecoration(
-                                  color: Colors.blue,
+                                        color: Colors.blue,
                                         borderRadius: BorderRadius.circular(5),
 //                                        boxShadow: [
 //                                          BoxShadow(
@@ -415,10 +415,10 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                     child: Text(
                                       fieldsList[index].name,
                                       style: TextStyle(
-                                        color: _selectedFieldIndexs
-                                            .contains(index)
-                                            ? AppTheme.white
-                                            : AppTheme.black,
+                                        color:
+                                            _selectedFieldIndexs.contains(index)
+                                                ? AppTheme.white
+                                                : AppTheme.black,
                                         fontFamily: 'Iransans',
                                         fontSize: textScaleFactor * 14.0,
                                       ),
@@ -690,7 +690,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                   Navigator.pop(context);
                                 },
                                 child: Container(
-                                  height: deviceHeight * 0.06,
+                                  height: 40,
                                   decoration: BoxDecoration(
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(5),
@@ -724,7 +724,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                   Navigator.pop(context);
                                 },
                                 child: Container(
-                                  height: deviceHeight * 0.06,
+                                  height: 40,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
                                     border: Border.all(

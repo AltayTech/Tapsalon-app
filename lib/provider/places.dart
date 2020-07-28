@@ -57,7 +57,7 @@ class Places with ChangeNotifier {
   var _sField = '';
   var _sFacility = '';
   var _sOrderBy = 'name';
-  var _sSort = 'DES';
+  var _sSort = 'DESC';
   var _sType = '';
   var _sRange = '';
   var _sRegion = '';
@@ -103,7 +103,7 @@ class Places with ChangeNotifier {
       searchEndPoint = searchEndPoint + '?page=$_sPage&per_page=$_sPerPage';
     }
     if (!(_sSort == '')) {
-      searchEndPoint = searchEndPoint + '&sort=$_sSort';
+      searchEndPoint = searchEndPoint + '&order=$_sSort';
     }
     if (!(_sOrderBy == '')) {
       searchEndPoint = searchEndPoint + '&orderby=$_sOrderBy';

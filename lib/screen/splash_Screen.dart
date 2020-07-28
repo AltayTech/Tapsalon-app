@@ -49,7 +49,7 @@ class _SplashScreensState extends State<SplashScreens> {
         textAlign: TextAlign.center,
       ) ,
       loadingText: Text(
-        EnArConvertor().replaceArNumber('نسخه 4.0.15'),
+        EnArConvertor().replaceArNumber('نسخه 4.0.17'),
         style: TextStyle(
           fontFamily: 'Iransans',
           fontWeight: FontWeight.w400,

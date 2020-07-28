@@ -74,15 +74,14 @@ class HorizontalList extends StatelessWidget {
         ),
         Container(
           width: deviceWidth,
-          height: deviceHeight * 0.27,
+          height: 250,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.all(10.0),
             itemCount: list.length,
             itemBuilder: (ctx, i) {
               return Container(
-                  width: deviceWidth * 0.6,
-                  height: deviceWidth * 0.4,
+                  width: 250,
                   child: MainPagePlaceItem(
                     loadedPlace: list[i],
                   ));

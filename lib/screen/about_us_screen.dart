@@ -147,7 +147,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                             padding: const EdgeInsets.only(top: 8, right: 5),
                             child: Text(
                               EnArConvertor().replaceArNumber(
-                                'دفتر مرکزی: تبریز - میدان ساعت - خیابان ارتش شمالی، جنب اتاق بازرگانی، ساختمان 49',
+                                'دفتر مرکزی: تبریز، میدان ساعت، خیابان ارتش شمالی، جنب اتاق بازرگانی، ساختمان 49',
                               ),
                               style: AppTheme.textTheme.bodyText2
                                   .copyWith(height: 2),
@@ -205,9 +205,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                 ),
 
                 Container(
-                  height: deviceHeight * 0.10,
+                  height: 55,
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -220,12 +220,12 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                           child: Image.asset('assets/images/instagram.png'),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(10),
                         ),
                         InkWell(
                             onTap: () {
                               _launchURL(
-                                  'https://www.instagram.com/tapsalon.ir/');
+                                  'https://t.me/tapsalon');
                             },
                             child: Image.asset('assets/images/telegram.png')),
                       ],
@@ -236,7 +236,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   width: deviceWidth,
                   child: Padding(
                     padding:
-                        const EdgeInsets.only(top: 8, right: 5, bottom: 20),
+                        const EdgeInsets.only(top: 8, bottom: 20),
                     child: InkWell(
                       onTap: () {
                         _launchURL('https://tapsalon.ir/');

@@ -10,7 +10,6 @@ import '../../models/user_models/user.dart';
 import '../../provider/app_theme.dart';
 import '../../provider/cities.dart';
 import '../../provider/user_info.dart';
-import '../../screen/user_profile/profile_screen.dart';
 import '../../widget/main_drawer.dart';
 
 class UserDetailInfoEditScreen extends StatefulWidget {
@@ -147,6 +146,7 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
           builder: (context) => Directionality(
             textDirection: TextDirection.rtl,
             child: Container(
+              color: AppTheme.white,
               height: deviceHeight * 0.9,
               child: Stack(
                 children: <Widget>[
@@ -573,7 +573,7 @@ class InfoEditItem extends StatelessWidget {
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Container(
-      width: deviceWidth * 0.8,
+//      width: deviceWidth * 0.8,
       decoration: BoxDecoration(
         color: AppTheme.white,
         borderRadius: BorderRadius.circular(5),
@@ -593,27 +593,25 @@ class InfoEditItem extends StatelessWidget {
               ),
               Container(
                 color: Colors.white,
-                child: Form(
-                  child: TextFormField(
-                    keyboardType: keybordType,
-                    onEditingComplete: () {},
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'لطفا مقداری را وارد نمایید';
-                      }
-                      return null;
-                    },
-                    textInputAction: TextInputAction.none,
-                    controller: controller,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      labelStyle: TextStyle(
-                        color: Colors.blue,
-                        fontFamily: 'Iransans',
-                        fontSize: textScaleFactor * 10.0,
-                      ),
+                child: TextFormField(
+                  keyboardType: keybordType,
+                  onEditingComplete: () {},
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'لطفا مقداری را وارد نمایید';
+                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.none,
+                  controller: controller,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    labelStyle: TextStyle(
+                      color: Colors.blue,
+                      fontFamily: 'Iransans',
+                      fontSize: textScaleFactor * 10.0,
                     ),
                   ),
                 ),

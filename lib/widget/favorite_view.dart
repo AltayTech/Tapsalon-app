@@ -146,7 +146,7 @@ class _FavoriteViewState extends State<FavoriteView>
                         itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
                           value: loadedPlaceTolist[i],
                           child: Container(
-                            height: deviceHeight * 0.35,
+                            height: 260,
                             child: FavoriteComplexItem(
                               favoritePlace: loadedPlaceTolist[i],
                             ),

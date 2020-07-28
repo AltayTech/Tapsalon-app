@@ -90,13 +90,13 @@ class _CommentItemState extends State<CommentItem> {
 //                          border: Border.all(width: 5, color: AppTheme.bg),
               borderRadius: BorderRadius.circular(10)),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.all(12),
             child: Stack(
               children: [
                 Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
@@ -106,9 +106,9 @@ class _CommentItemState extends State<CommentItem> {
                             size: 25,
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top:5,right: 5),
                             child: Text(
-                              '${widget.comment.user.fname} ${widget.comment.user.lname}',
+                              '${widget.comment.user.fname}',
                               textAlign: TextAlign.right,
                               maxLines: 1,
                               style: TextStyle(
@@ -149,82 +149,78 @@ class _CommentItemState extends State<CommentItem> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Container(
-                        width: deviceWidth * 0.9,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 5, left: 10, top: 1, bottom: 4),
-                              child: InkWell(
-                                onTap: () async{
-                                  SnackBar sendReportSnackBar = SnackBar(
-                                    content: Text(
-                                      'گزارش شما ارسال شد',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Iransans',
-                                        fontSize: textScaleFactor * 14.0,
-                                      ),
-                                    ),
-                                    action: SnackBarAction(
-                                      label: 'متوجه شدم',
-                                      onPressed: () {
-                                        // Some code to undo the change.
-                                      },
-                                    ),
-                                  );
-                                  await reportComment();
-                                  Scaffold.of(context).showSnackBar(sendReportSnackBar);
-
-
-                                },
-                                child: Text(
-                                  'گزارش نظر',
-                                  textAlign: TextAlign.right,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(
+                             left: 10, top: 1),
+                          child: InkWell(
+                            onTap: () async{
+                              SnackBar sendReportSnackBar = SnackBar(
+                                content: Text(
+                                  'گزارش شما ارسال شد',
                                   style: TextStyle(
+                                    color: Colors.white,
                                     fontFamily: 'Iransans',
-                                    color: AppTheme.iconColor,
-                                    fontSize: textScaleFactor * 12.0,
+                                    fontSize: textScaleFactor * 14.0,
                                   ),
                                 ),
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 1, left: 3.0, top: 1, bottom: 4),
-                              child: Icon(
-                                Icons.star,
+                                action: SnackBarAction(
+                                  label: 'متوجه شدم',
+                                  onPressed: () {
+                                    // Some code to undo the change.
+                                  },
+                                ),
+                              );
+                              await reportComment();
+                              Scaffold.of(context).showSnackBar(sendReportSnackBar);
+
+
+                            },
+                            child: Text(
+                              'گزارش نظر',
+                              textAlign: TextAlign.right,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontFamily: 'Iransans',
                                 color: AppTheme.iconColor,
-                                size: 25,
+                                fontSize: textScaleFactor * 12.0,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 5, left: 10, top: 1, bottom: 4),
-                              child: Text(
-                                EnArConvertor().replaceArNumber(
-                                  widget.comment.rate.toString(),
-                                ),
-                                textAlign: TextAlign.right,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontFamily: 'Iransans',
-                                  color: AppTheme.grey,
-                                  fontSize: textScaleFactor * 16.0,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
+                        Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 1, left: 3.0, top: 1,),
+                          child: Icon(
+                            Icons.star,
+                            color: AppTheme.iconColor,
+                            size: 25,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 5, top: 8),
+                          child: Text(
+                            EnArConvertor().replaceArNumber(
+                              widget.comment.rate.toString(),
+                            ),
+
+                            textAlign: TextAlign.right,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+
+                              fontFamily: 'Iransans',
+                              color: AppTheme.grey,
+                              fontSize: textScaleFactor * 16.0,
+                            ),
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),

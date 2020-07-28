@@ -91,10 +91,10 @@ class Cities with ChangeNotifier {
     }
   }
 
-  Future<void> retrieveOstanCities(int ostanId) async {
+  Future<void> retrieveOstanCities(int ostanId,{String havePlaces=''}) async {
     print('retrieveOstanCities');
 
-    final url = Urls.rootUrl + Urls.provincesEndPoint + '/$ostanId/cities';
+    final url = Urls.rootUrl + Urls.provincesEndPoint + '/$ostanId/cities'+'?have_places=$havePlaces';
     print(url);
 
     try {
@@ -119,10 +119,10 @@ class Cities with ChangeNotifier {
     }
   }
 
-  Future<void> retrieveProvince() async {
+  Future<void> retrieveProvince({String havePlaces=''}) async {
     print('retrieveProvince');
 
-    final url = Urls.rootUrl + Urls.provincesEndPoint;
+    final url = Urls.rootUrl + Urls.provincesEndPoint+'?have_places=$havePlaces';
     print(url);
 
     try {

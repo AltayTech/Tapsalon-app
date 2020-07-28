@@ -92,7 +92,7 @@ class FavoriteComplexItem extends StatelessWidget {
                           maxLines: 1,
                           style: TextStyle(
                             fontFamily: 'Iransans',
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                             fontSize: textScaleFactor * 16.0,
                           ),
                         ),

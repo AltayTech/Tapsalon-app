@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/screen/navigation_bottom_screen.dart';
+import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
 
 import '../../models/city.dart';
 import '../../models/province.dart';
@@ -42,12 +43,14 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<Cities>(context, listen: false).retrieveProvince();
+    await Provider.of<Cities>(context, listen: false)
+        .retrieveProvince(havePlaces: 'true');
     provinceList = Provider.of<Cities>(context, listen: false).provincesItems;
 
     for (int i = 0; i < provinceList.length; i++) {
       print(i.toString());
-      provinceValueList.add(provinceList[i].name);
+      provinceValueList.add(provinceList[i].name +
+          ' (${EnArConvertor().replaceArNumber(provinceList[i].place_count.toString())})');
     }
 
     setState(() {
@@ -63,31 +66,28 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
     });
     try {
       await Provider.of<Cities>(context, listen: false)
-          .retrieveOstanCities(provinceId);
+          .retrieveOstanCities(provinceId, havePlaces: 'true');
 
       citiesList = Provider.of<Cities>(context, listen: false).citiesItems;
       citiesValueList.clear();
       for (int i = 0; i < provinceList.length; i++) {
-        print(i.toString());
-        citiesValueList.add(citiesList[i].name);
+        citiesValueList.add(citiesList[i].name +
+            ' (${EnArConvertor().replaceArNumber(citiesList[i].place_count.toString())})');
       }
     } catch (error) {
       setState(() {
         _isLoading = false;
-        print(_isLoading.toString());
       });
     }
     setState(() {
       _isLoading = false;
-      print(_isLoading.toString());
     });
-    print(_isLoading.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.only(left: 20,right:20),
+      insetPadding: EdgeInsets.only(left: 20, right: 20),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Consts.padding),
       ),
@@ -140,7 +140,7 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:8.0,bottom: 12),
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 12),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
@@ -158,12 +158,6 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                             ),
                             Container(
                               width: deviceWidth,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border:
-                                    Border.all(color: Colors.grey, width: 0.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
                               child: Directionality(
                                 textDirection: TextDirection.ltr,
                                 child: Container(
@@ -171,7 +165,8 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       border: Border.all(
-                                          color: Colors.grey, width: 0.3)),
+                                          color: Colors.grey, width: 0.5),
+                                      borderRadius: BorderRadius.circular(5)),
                                   child: DropdownButton<String>(
                                     hint: Text(
                                       _isLoading
@@ -184,13 +179,11 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                                       ),
                                     ),
                                     value: provinceValue,
-
                                     icon: Padding(
-                                      padding: const EdgeInsets.only(bottom:6),
+                                      padding: const EdgeInsets.only(bottom: 6),
                                       child: Icon(
                                         Icons.arrow_drop_down,
                                         color: Colors.black,
-
                                       ),
                                     ),
                                     style: TextStyle(
@@ -209,20 +202,20 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                                       loadCities();
                                     },
                                     elevation: 0,
-                                    underline: Container(color: Colors.white,),
+                                    underline: Container(
+                                      color: Colors.white,
+                                    ),
                                     items: provinceValueList
                                         .map<DropdownMenuItem<String>>(
                                             (String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
-
                                         child: Container(
-                                          width: constraint.maxWidth*0.5,
+                                          width: constraint.maxWidth * 0.5,
                                           child: Text(
                                             value,
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
-
                                               color: Colors.black,
                                               fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 13.0,
@@ -261,15 +254,17 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                           itemCount: citiesList.length,
                           itemBuilder: (ctx, i) {
                             return Container(
-                              color: selectedCity != null
-                                  ? selectedCity.id != citiesList[i].id
-                                      ? Colors.white
-                                      : Colors.grey.withOpacity(0.2)
-                                  : Colors.white,
+                              decoration: BoxDecoration(
+                                  color: selectedCity != null
+                                      ? selectedCity.id != citiesList[i].id
+                                          ? Colors.white
+                                          : Colors.grey.withOpacity(0.2)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.circular(5)),
                               child: ListTile(
-
                                 title: Text(
-                                  citiesList[i].name,
+                                  citiesList[i].name +
+                                      ' (${EnArConvertor().replaceArNumber(citiesList[i].place_count.toString())})',
                                   style: TextStyle(
                                     fontFamily: "Iransans",
                                     fontWeight: FontWeight.w400,
@@ -305,7 +300,8 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                             width: constraint.maxWidth * 0.4,
                             decoration: BoxDecoration(
                               color: selectedCity == null
-                                  ? Colors.grey:Colors.blue,
+                                  ? Colors.grey
+                                  : Colors.blue,
                               borderRadius: BorderRadius.circular(25),
                             ),
                             child: Center(

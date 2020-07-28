@@ -449,8 +449,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           Positioned(
             top: 10,
             left: 0,
-            width: deviceWidth * 0.2,
-            height: deviceHeight * 0.05,
+            width: 80,
+            height: 35,
             child: Builder(
               builder: (context) => InkWell(
                 onTap: () {
@@ -487,7 +487,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             ),
           ),
           Positioned(
-              top: deviceHeight * 0.07,
+              top: 50,
               left: 15,
               child: FancyFab(
                 onPressed0: () {

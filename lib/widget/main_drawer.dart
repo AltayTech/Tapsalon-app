@@ -147,7 +147,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              'جستجو مجموعه',
+                              'جستجو مکان های ورزشی',
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,
@@ -170,7 +170,7 @@ class MainDrawer extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              'مجموعه های مورد علاقه',
+                              ' مکان های ورزشی مورد علاقه',
                               style: TextStyle(
                                 fontFamily: "Iransans",
                                 fontWeight: FontWeight.w500,

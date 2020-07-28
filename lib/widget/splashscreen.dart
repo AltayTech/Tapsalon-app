@@ -89,7 +89,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       new CircleAvatar(
                         backgroundColor: Colors.transparent,
                         child: new Container(
-                            height: MediaQuery.of(context).size.height * 0.25,
+                            height: MediaQuery.of(context).size.height * 0.18,
                             child: widget.image),
                         radius: widget.photoSize,
                       ),

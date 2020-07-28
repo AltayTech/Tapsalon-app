@@ -46,9 +46,24 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               Positioned.fill(
                   top: -deviceSize.height * 0.1,
-                  child: Image.asset(
-                    'assets/images/login_bg.png',
-                    fit: BoxFit.cover,
+                  child: ShaderMask(
+                    shaderCallback: (bounds) => LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        stops: [
+                          0.4,
+                          0.54,
+                          0.7
+                        ],
+                        colors: [
+                          Colors.white.withOpacity(1),
+                          Colors.white.withOpacity(0.1),
+                          Colors.white.withOpacity(1)
+                        ]).createShader(bounds),
+                    child: Image.asset(
+                      'assets/images/login_bg.png',
+                      fit: BoxFit.cover,
+                    ),
                   )),
               Positioned(
                 top: deviceSize.height * 0.1,
@@ -313,7 +328,7 @@ class _AuthCardState extends State<AuthCard>
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontFamily: 'Iransans',
-                                  fontSize: textScaleFactor * 11.0,
+                                  fontSize: textScaleFactor * 12.0,
                                 ),
                               ),
                             ),
@@ -332,61 +347,59 @@ class _AuthCardState extends State<AuthCard>
                       child: SlideTransition(
                         position: _slideAnimation,
                         child: Center(
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: deviceSize.height * 0.055,
-                                width: deviceSize.width * 0.6,
-                                decoration: BoxDecoration(
-                                  color:Colors.white70,
-
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(
-                                      color: Colors.blue, width: 1.5),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Center(
-                                        child: TextFormField(
-                                          textAlign: TextAlign.center,
-                                          enabled: true,
-                                          decoration: InputDecoration(
+                          child: Container(
+//                            height: 50,
+                            width: deviceSize.width * 0.6,
+                            decoration: BoxDecoration(
+                              color: Colors.white70,
+                              borderRadius: BorderRadius.circular(50),
+                              border:
+                                  Border.all(color: Colors.blue, width: 1.5),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  TextFormField(
+                                    textAlign: TextAlign.center,
+                                    enabled: true,
+                                    decoration: InputDecoration(
 //                                            filled: true,
 //                                            fillColor: Colors.white,
-                                            border: InputBorder.none,
-                                            suffix: Text(''),
-                                            labelStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontFamily: 'Iransans',
-                                              fontSize: textScaleFactor * 15.0,
-                                            ),
-                                          ),
-                                          keyboardType: TextInputType.phone,
-                                          validator: _authMode == AuthMode.Login
-                                              ? (value) {
-                                                  _authData[
-                                                          'verificationCode'] =
-                                                      value;
-                                                }
-                                              : null,
-                                        ),
+                                      border: InputBorder.none,
+                                      suffix: Text(''),
+                                      labelStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 15.0,
                                       ),
-                                      Positioned(
-                                          right: 3,
-                                          top: 5,
-                                          bottom: 12,
-                                          child: Icon(
-                                            Icons.phone_android,
-                                            color: AppTheme.black,
-                                          )),
-                                    ],
+                                    ),
+                                    onFieldSubmitted: (String text) {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                      _submit();
+                                    },
+                                    keyboardType: TextInputType.phone,
+                                    validator: _authMode == AuthMode.Login
+                                        ? (value) {
+                                            _authData['verificationCode'] =
+                                                value;
+                                          }
+                                        : null,
                                   ),
-                                ),
+                                  Positioned(
+                                      right: 3,
+                                      top: 5,
+                                      bottom: 12,
+                                      child: Icon(
+                                        Icons.phone_android,
+                                        color: AppTheme.black,
+                                      )),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
@@ -400,62 +413,67 @@ class _AuthCardState extends State<AuthCard>
                       child: SlideTransition(
                         position: _slideAnimation1,
                         child: Center(
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: deviceSize.height * 0.055,
-                                width: deviceSize.width * 0.6,
-                                decoration: BoxDecoration(
-                                  color:Colors.white70,
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(
-                                      color: Colors.blue, width: 1.5),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                     TextFormField(
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
+                          child: Container(
+                            height: 50,
+                            width: deviceSize.width * 0.6,
+                            decoration: BoxDecoration(
+                              color: Colors.white70,
+                              borderRadius: BorderRadius.circular(50),
+                              border:
+                                  Border.all(color: Colors.blue, width: 1.5),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  TextFormField(
+                                    textAlign: TextAlign.center,
+                                    decoration: InputDecoration(
 //                                          filled: true,
 //                                          fillColor: Colors.white,
-                                          border: InputBorder.none,
-                                          suffix: Text(''),
-                                          focusColor: Colors.white,
-                                          counterStyle: TextStyle(
-                                            decorationStyle:
-                                                TextDecorationStyle.dashed,
-                                            color: Colors.grey,
-                                            fontFamily: 'Iransans',
-                                            fontSize: textScaleFactor * 18.0,
-                                          ),
-                                        ),
-                                        keyboardType: TextInputType.phone,
-                                        validator: (value) {
-                                          if (value.isEmpty) {
-                                            return 'لطفا شماره تلفن را وارد نمایید';
-                                          }
-                                        },
-                                        onSaved: (value) {
-                                          _authData['phoneNumber'] = value;
-                                        },
+                                      border: InputBorder.none,
+                                      suffix: Text(''),
+                                      focusColor: Colors.white,
+                                      counterStyle: TextStyle(
+                                        decorationStyle:
+                                            TextDecorationStyle.dashed,
+                                        color: Colors.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 18.0,
                                       ),
-                                      Positioned(
-                                          right: 3,
-                                          top: 7,
-                                          bottom: 12,
-                                          child: Icon(
-                                            Icons.phone_android,
-                                            color: AppTheme.black,
-                                          )),
-                                    ],
+                                    ),
+                                    onTap: () {
+                                      _formKey.currentState.reset();
+                                      setState(() {});
+                                    },
+                                    keyboardType: TextInputType.phone,
+                                    onFieldSubmitted: (String text) {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                      _submit();
+                                    },
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'لطفا شماره تلفن را وارد نمایید';
+                                      }
+                                    },
+                                    onSaved: (value) {
+                                      _authData['phoneNumber'] = value;
+                                    },
                                   ),
-                                ),
+                                  Positioned(
+                                      right: 3,
+                                      top: 7,
+                                      bottom: 12,
+                                      child: Icon(
+                                        Icons.phone_android,
+                                        color: AppTheme.black,
+                                      )),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
@@ -480,7 +498,7 @@ class _AuthCardState extends State<AuthCard>
                       },
                     )
                   : Container(
-                      height: deviceSize.height * 0.055,
+                      height: 50,
                       width: deviceSize.width * 0.6,
                       child: RaisedButton(
                         child: Text(

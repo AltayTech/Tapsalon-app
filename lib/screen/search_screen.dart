@@ -11,10 +11,10 @@ import '../models/searchDetails.dart';
 import '../provider/app_theme.dart';
 import '../provider/cities.dart';
 import '../provider/places.dart';
+import '../widget/dialogs/select_city_dialog.dart';
 import '../widget/en_to_ar_number_convertor.dart';
 import '../widget/filter_drawer.dart';
 import '../widget/main_drawer.dart';
-import '../widget/dialogs/select_city_dialog.dart';
 
 class SearchScreen extends StatefulWidget {
   static const routeName = '/searchScreen';
@@ -74,20 +74,13 @@ class _SearchScreenState extends State<SearchScreen>
       setState(() {
         _isLoading = true;
       });
-      selectedCity = Provider
-          .of<Cities>(context, listen: false)
-          .selectedCity;
-      if(selectedCity==null) {
+      selectedCity = Provider.of<Cities>(context, listen: false).selectedCity;
+      if (selectedCity == null) {
         await Provider.of<Cities>(context, listen: false).getSelectedCity();
-
       }
-      selectedCity = Provider
-          .of<Cities>(context, listen: false)
-          .selectedCity;
+      selectedCity = Provider.of<Cities>(context, listen: false).selectedCity;
       print('selectedCity.id' + selectedCity.id.toString());
-      Provider
-          .of<Places>(context, listen: false)
-          .sCityId =
+      Provider.of<Places>(context, listen: false).sCityId =
           selectedCity.id.toString();
 
       Provider.of<Places>(context, listen: false).sPage = page;
@@ -154,16 +147,16 @@ class _SearchScreenState extends State<SearchScreen>
 
   Future<void> setSort(String sortValue) async {
     if (sortValue == 'محبوبترین') {
-      Provider.of<Places>(context, listen: false).sOrderBy = 'stars';
+      Provider.of<Places>(context, listen: false).sOrderBy = 'rate';
       Provider.of<Places>(context, listen: false).sSort = 'DESC';
     } else if (sortValue == 'پربازدیدترین') {
-      Provider.of<Places>(context, listen: false).sOrderBy = 'visits_no';
+      Provider.of<Places>(context, listen: false).sOrderBy = 'visit';
       Provider.of<Places>(context, listen: false).sSort = 'DESC';
     } else if (sortValue == 'پرطرفدارترین') {
-      Provider.of<Places>(context, listen: false).sOrderBy = 'likes_no';
+      Provider.of<Places>(context, listen: false).sOrderBy = 'likes_count';
       Provider.of<Places>(context, listen: false).sSort = 'DESC';
     } else if (sortValue == 'کم بازدیدترین') {
-      Provider.of<Places>(context, listen: false).sOrderBy = 'visits_no';
+      Provider.of<Places>(context, listen: false).sOrderBy = 'visit';
       Provider.of<Places>(context, listen: false).sSort = 'ASC';
     } else {
       Provider.of<Places>(context, listen: false).sOrderBy = 'name';
@@ -301,7 +294,7 @@ class _SearchScreenState extends State<SearchScreen>
                     Column(
                       children: <Widget>[
                         Container(
-                          height: deviceHeight * 0.06,
+                          height: 50,
                           decoration: BoxDecoration(
                               color: Colors.white,
                               boxShadow: [
@@ -321,6 +314,7 @@ class _SearchScreenState extends State<SearchScreen>
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Expanded(
                                   child: Padding(
@@ -405,7 +399,7 @@ class _SearchScreenState extends State<SearchScreen>
                               padding: const EdgeInsets.only(top: 16.0),
                               child: Container(
                                 width: deviceWidth,
-                                height: deviceHeight * 0.055,
+//                                height: deviceHeight * 0.055,
                                 child: Row(
                                   children: <Widget>[
                                     InkWell(
@@ -678,7 +672,7 @@ class _SearchScreenState extends State<SearchScreen>
                                     ChangeNotifierProvider.value(
                                   value: loadedPlacesToList[i],
                                   child: Container(
-                                    height: deviceHeight * 0.35,
+                                    height: 260,
                                     child: PlaceItem(
                                       place: loadedPlacesToList[i],
                                     ),
