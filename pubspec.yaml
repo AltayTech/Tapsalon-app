@@ -37,6 +37,7 @@ dependencies:
 
 dev_dependencies:
   flutter_launcher_icons: ^0.7.5
+  build_web_compilers: ^2.11.0
 
   flutter_test:
     sdk: flutter

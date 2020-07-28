@@ -602,9 +602,11 @@ class InfoEditItem extends StatelessWidget {
                     }
                     return null;
                   },
+                  
                   textInputAction: TextInputAction.none,
                   controller: controller,
                   decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(right: 8),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
