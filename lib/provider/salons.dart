@@ -22,7 +22,12 @@ class Salons with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'version': Urls.versionCode
+        },);
 
       final extractedData = json.decode(response.body);
 
@@ -52,7 +57,8 @@ class Salons with ChangeNotifier {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'version': Urls.versionCode
         },
       );
 

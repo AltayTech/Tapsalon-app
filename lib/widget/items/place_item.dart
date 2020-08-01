@@ -20,7 +20,8 @@ class PlaceItem extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     double textScaleFactor = MediaQuery.of(context).textScaleFactor;
     var currencyFormat = intl.NumberFormat.decimalPattern();
-    var defaultImage = Provider.of<Places>(context, listen: false).defaultImage;
+    var placeDefaultImage = Provider.of<Places>(context, listen: false).placeDefaultImage;
+    var gymDefaultImage = Provider.of<Places>(context, listen: false).gymDefaultImage;
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: LayoutBuilder(
@@ -66,7 +67,7 @@ class PlaceItem extends StatelessWidget {
                     width: constraint.maxWidth,
                     height: constraint.maxHeight * 0.55,
                     child: FadeInImage(
-                      placeholder: AssetImage(defaultImage.url.medium),
+                      placeholder: AssetImage(place.placeType.id==2?gymDefaultImage.url.medium:placeDefaultImage.url.medium),
                       image: NetworkImage(place.image.url.medium.toString()),
                       fit: BoxFit.cover,
                     ),

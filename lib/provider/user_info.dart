@@ -54,6 +54,9 @@ class UserInfo with ChangeNotifier {
     try {
       final response = await post(url, headers: {
         'Authorization': 'Bearer $_token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'version': Urls.versionCode
       });
 
       final extractedData = json.decode(response.body);
@@ -126,6 +129,7 @@ class UserInfo with ChangeNotifier {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'version': Urls.versionCode
         },
       );
 
@@ -153,6 +157,8 @@ class UserInfo with ChangeNotifier {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'version': Urls.versionCode
+
         });
 
         final extractedData = json.decode(response.body);

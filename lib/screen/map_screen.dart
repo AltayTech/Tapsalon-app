@@ -110,14 +110,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       await Provider.of<Cities>(context, listen: false).getSelectedCity();
       selectedCity = Provider.of<Cities>(context, listen: false).selectedCity;
 
-      cleanFilters(context);
       Provider.of<Places>(context, listen: false).sCityId =
           selectedCity.id.toString();
 
       await searchItems();
     } else {
-      cleanFilters(context);
-
       Provider.of<Places>(context, listen: false).sCityId =
           selectedCity.id.toString();
       loadedPlacesToList.clear();
@@ -142,6 +139,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     Provider.of<Places>(context, listen: false).sField = '';
     Provider.of<Places>(context, listen: false).sFacility = '';
     Provider.of<Places>(context, listen: false).sRange = '';
+    Provider.of<Places>(context, listen: false).sPlaceType = '';
+
     Provider.of<Places>(context, listen: false).searchBuilder();
   }
 
@@ -198,9 +197,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       var pinLocationIcon;
       if (list[i].placeType.id == 1) {
         pinLocationIcon = pinLocationIconSalon;
-      } else if (list[i].placeType.id == 2) {
+      } else if (list[i].placeType.id == 4) {
         pinLocationIcon = pinLocationIconEnt;
-      } else if (list[i].placeType.id == 3) {
+      } else if (list[i].placeType.id == 2) {
         pinLocationIcon = pinLocationIconGym;
       } else {
         pinLocationIcon = pinLocationIconSalon;
@@ -281,25 +280,21 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   BitmapDescriptor pinLocationIconGym;
 
   void setCustomMapPin() async {
-    print('setCustomMapPin');
     pinLocationIconSalon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(
-          devicePixelRatio: 2.5,
-        ),
-        'assets/images/marker_ic_1_v1.png',
-        mipmaps: true);
+      ImageConfiguration(size: Size(20, 30)),
+      'assets/images/marker_ic_1_v1.png',
+    );
     pinLocationIconEnt = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(
-          devicePixelRatio: 2.5,
-        ),
-        'assets/images/marker_ic_2_v1.png',
-        mipmaps: true);
+      ImageConfiguration(size: Size(20, 30)),
+      'assets/images/marker_ic_2_v1.png',
+    );
     pinLocationIconGym = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(
-          devicePixelRatio: 2.5,
-        ),
-        'assets/images/marker_ic_3_v1.png',
-        mipmaps: true);
+      ImageConfiguration(
+        devicePixelRatio: 3,
+        size: Size(10, 18),
+      ),
+      'assets/images/marker_ic_3_v1.png',
+    );
   }
 
   @override
@@ -381,6 +376,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     double deviceWidth = MediaQuery.of(context).size.width;
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
+    print(deviceHeight.toString());
+    print(deviceWidth.toString());
+    print(MediaQuery.of(context).size.toString());
+    print(MediaQuery.of(context).physicalDepth.toString());
+    print(MediaQuery.of(context).devicePixelRatio.toString());
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
       body: Stack(
@@ -491,6 +491,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               left: 15,
               child: FancyFab(
                 onPressed0: () {
+                  cleanFilters(context);
+
                   Provider.of<Places>(context, listen: false).sPlaceType = '';
                   Provider.of<Places>(context, listen: false).sPage = 1;
                   loadedPlacesToList.clear();
@@ -505,6 +507,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   retrieveItems();
                 },
                 onPressed2: () {
+                  cleanFilters(context);
+
                   Provider.of<Places>(context, listen: false).sPlaceType = '2';
                   Provider.of<Places>(context, listen: false).sPage = 1;
                   loadedPlacesToList.clear();
@@ -512,6 +516,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   retrieveItems();
                 },
                 onPressed3: () {
+                  cleanFilters(context);
+
                   Provider.of<Places>(context, listen: false).sPlaceType = '3';
                   Provider.of<Places>(context, listen: false).sPage = 1;
                   loadedPlacesToList.clear();
@@ -519,6 +525,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   retrieveItems();
                 },
                 onPressed4: () {
+                  cleanFilters(context);
+
                   Provider.of<Places>(context, listen: false).sPlaceType = '4';
                   Provider.of<Places>(context, listen: false).sPage = 1;
                   loadedPlacesToList.clear();

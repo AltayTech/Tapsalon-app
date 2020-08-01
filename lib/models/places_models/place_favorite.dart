@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:tapsalon/models/places_models/place_type.dart';
 
 import '../../models/field.dart';
 import '../../models/image.dart';
@@ -17,6 +18,8 @@ class PlaceFavorite with ChangeNotifier {
   final String address;
   final String createdAt;
   final String updatedAt;
+  final PlaceType placeType;
+
   final List<Field> fields;
   final ImageObj image;
   final Province province;
@@ -32,6 +35,7 @@ class PlaceFavorite with ChangeNotifier {
       this.price,
       this.mobile,
       this.address,
+      this.placeType,
       this.createdAt,
       this.updatedAt,
       this.fields,
@@ -62,14 +66,21 @@ class PlaceFavorite with ChangeNotifier {
       image: parsedJson['image'] != null
           ? ImageObj.fromJson(parsedJson['image'])
           : ImageObj(
-              id: 0,
-              filename: '',
-              url: ImageUrl(
-                medium: 'assets/images/place_placeholder.jpeg',
-                large: 'assets/images/place_placeholder.jpeg',
-                thumb: 'assets/images/place_placeholder.jpeg',
-              )),
+          id: 0,
+          filename: '',
+          url:PlaceType.fromJson(parsedJson['place_type']).id!=2 ?ImageUrl(
+            medium: 'assets/images/place_placeholder.jpeg',
+            large: 'assets/images/place_placeholder.jpeg',
+            thumb: 'assets/images/place_placeholder.jpeg',
+          ):ImageUrl(
+            medium: 'assets/images/gym_placeholder.jpg',
+            large: 'assets/images/gym_placeholder.jpg',
+            thumb: 'assets/images/gym_placeholder.jpg',
+          )),
       province: Province.fromJson(parsedJson['ostan']),
+      placeType: parsedJson['place_type'] != null
+          ? PlaceType.fromJson(parsedJson['place_type'])
+          : PlaceType(id: 0, name: 'سالن'),
       city: City.fromJson(parsedJson['city']),
       region: Region.fromJson(parsedJson['region']),
       rate: parsedJson['rate'] != null

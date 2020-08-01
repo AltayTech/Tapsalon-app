@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
+import 'package:tapsalon/models/search_argument.dart';
 import 'package:tapsalon/provider/app_theme.dart';
 
 import '../provider/places.dart';
@@ -23,6 +24,7 @@ class HorizontalList extends StatelessWidget {
     Provider.of<Places>(context, listen: false).sType = '';
     Provider.of<Places>(context, listen: false).sField = '';
     Provider.of<Places>(context, listen: false).sFacility = '';
+    Provider.of<Places>(context, listen: false).sPlaceType = '';
     Provider.of<Places>(context, listen: false).searchBuilder();
   }
 
@@ -43,7 +45,7 @@ class HorizontalList extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Iransans',
                   color: Colors.black54,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   fontSize: textScaleFactor * 16.0,
                 ),
               ),
@@ -54,8 +56,8 @@ class HorizontalList extends StatelessWidget {
                 onTap: () {
                   cleanFilters(context);
 
-                  Navigator.of(context)
-                      .pushNamed(SearchScreen.routeName, arguments: 0);
+                  Navigator.of(context).pushNamed(SearchScreen.routeName,
+                      arguments:SearchArgument(tabIndex: 0,sortValue: listTitle) );
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 2.0),

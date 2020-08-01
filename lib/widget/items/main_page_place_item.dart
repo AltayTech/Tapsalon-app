@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
+import 'package:tapsalon/provider/places.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_screen.dart';
 
 import '../../provider/app_theme.dart';
@@ -16,6 +18,8 @@ class MainPagePlaceItem extends StatelessWidget {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     double textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var placeDefaultImage = Provider.of<Places>(context, listen: false).placeDefaultImage;
+    var gymDefaultImage = Provider.of<Places>(context, listen: false).gymDefaultImage;
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -60,11 +64,14 @@ class MainPagePlaceItem extends StatelessWidget {
                           height: constraint.maxHeight * 0.65,
                           width: constraint.maxWidth,
                           child: FadeInImage(
-                            placeholder: AssetImage(
-                                'assets/images/place_placeholder.jpeg'),
-                            alignment: Alignment.center,
-                            image: NetworkImage(
-                                loadedPlace.image.url.medium.toString()),
+                            placeholder: AssetImage(loadedPlace.placeType.id==2?gymDefaultImage.url.medium:placeDefaultImage.url.medium),
+
+                            image: loadedPlace.image.url.large
+                                    .startsWith('assets/images')
+                                ? AssetImage(loadedPlace.image.url.medium)
+                                : NetworkImage(
+                                    loadedPlace.image.url.medium,
+                                  ),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -149,38 +156,44 @@ class MainPagePlaceItem extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              loadedPlace.rate != 0.0&&  loadedPlace.rate != 0?  Expanded(
-                                flex: 3,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.star,
-                                      color: AppTheme.iconColor,
-                                      size: 15,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 5, top: 5),
-                                      child: Text(
-                                        loadedPlace.rate != 0.0
-                                            ? EnArConvertor().replaceArNumber(
-                                                loadedPlace.rate.toString(),
-                                              )
-                                            : '--',
-                                        textAlign: TextAlign.left,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          color: AppTheme.grey,
-                                          fontSize: textScaleFactor * 12.0,
-                                        ),
+                              loadedPlace.rate != 0.0 && loadedPlace.rate != 0
+                                  ? Expanded(
+                                      flex: 3,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.star,
+                                            color: AppTheme.iconColor,
+                                            size: 15,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 5, top: 5),
+                                            child: Text(
+                                              loadedPlace.rate != 0.0
+                                                  ? EnArConvertor()
+                                                      .replaceArNumber(
+                                                      loadedPlace.rate
+                                                          .toString(),
+                                                    )
+                                                  : '--',
+                                              textAlign: TextAlign.left,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontFamily: 'Iransans',
+                                                color: AppTheme.grey,
+                                                fontSize:
+                                                    textScaleFactor * 12.0,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ):Container(),
+                                    )
+                                  : Container(),
                             ],
                           ),
                         ),

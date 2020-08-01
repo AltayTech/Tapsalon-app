@@ -676,7 +676,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                       ? Provider.of<Places>(context,
                                                   listen: false)
                                               .sRange =
-                                          '$_minPriceValueC,$_maxPriceValueC'
+                                          '${_minPriceValueC / 1000},${_maxPriceValueC / 1000}'
                                       : Provider.of<Places>(context,
                                               listen: false)
                                           .sRange = '';

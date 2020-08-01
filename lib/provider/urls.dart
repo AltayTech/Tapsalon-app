@@ -3,6 +3,7 @@ class Urls {
   static const citiesEndPoint = '/api/cities';
   static const provincesEndPoint = '/api/ostans';
   static const placesEndPoint = '/api/places';
+
 //  static const placesEndPoint = '/api/places';
   static const usersEndPoint = '/api/users';
   static const facilitiesEndPoint = '/api/facilities';
@@ -16,4 +17,10 @@ class Urls {
 
   static const userLikesEndPoint = '/api/user/likes';
   static const likePlaceEndPoint = '/api/likes';
+  static const versionCode = '2';
+  static const requestHeader = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'version': versionCode
+  };
 }

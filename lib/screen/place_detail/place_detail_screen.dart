@@ -52,13 +52,15 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      ImageObj defaultImage =
-          Provider.of<Places>(context, listen: false).defaultImage;
+      ImageObj placeDefaultImage =
+          Provider.of<Places>(context, listen: false).placeDefaultImage;
+      var gymDefaultImage = Provider.of<Places>(context, listen: false).gymDefaultImage;
+
       await searchItems();
 
       if (loadedPlace.gallery.length < 1) {
         gallery.clear();
-        gallery.add(defaultImage);
+        gallery.add(loadedPlace.placeType.id==2?gymDefaultImage:placeDefaultImage);
       } else {
         gallery = loadedPlace.gallery;
       }
@@ -205,19 +207,44 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(10),
-                                                child: FadeInImage(
-
-                                                  placeholder: AssetImage(
-                                                      'assets/images/circle.gif'),
-                                                  image: gallery.url.large
+                                                child:
+                                                gallery.url.large
                                                           .startsWith(
                                                               'assets/images')
-                                                      ? AssetImage(
-                                                          gallery.url.medium)
-                                                      : NetworkImage(
-                                                          gallery.url.medium),
+                                                      ?
+                                                Image.asset(
+                                                  gallery.url.medium,
                                                   fit: BoxFit.cover,
+
+                                                ):  Image.network(
+                                                  gallery.url.medium,
+                                                  fit: BoxFit.cover,
+
+                                                  loadingBuilder: (BuildContext context, Widget child,
+                                                      ImageChunkEvent loadingProgress) {
+                                                    if (loadingProgress == null) return child;
+                                                    return Center(
+                                                      child: CircularProgressIndicator(
+                                                        value: loadingProgress.expectedTotalBytes != null
+                                                            ? loadingProgress.cumulativeBytesLoaded /
+                                                            loadingProgress.expectedTotalBytes
+                                                            : null,
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
+//                                                FadeInImage(
+//                                                  placeholder: AssetImage(
+//                                                      'assets/images/circle.gif'),
+//                                                  image: gallery.url.large
+//                                                          .startsWith(
+//                                                              'assets/images')
+//                                                      ? AssetImage(
+//                                                          gallery.url.medium)
+//                                                      : NetworkImage(
+//                                                          gallery.url.medium,),
+//                                                  fit: BoxFit.cover,
+//                                                ),
                                               ),
                                             );
                                           },

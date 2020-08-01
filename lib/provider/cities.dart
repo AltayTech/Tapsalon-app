@@ -53,7 +53,12 @@ class Cities with ChangeNotifier {
       print(url);
 
       try {
-        final response = await get(url);
+        final response = await get(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'version': Urls.versionCode
+          },);
 
         final extractedData = json.decode(response.body);
         print(extractedData);
@@ -75,7 +80,12 @@ class Cities with ChangeNotifier {
     final url = Urls.rootUrl + Urls.citiesEndPoint;
 
     try {
-      final response = await get(url);
+      final response = await get(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'version': Urls.versionCode
+        },);
 
       Iterable extractedData = json.decode(response.body) as List;
       print(extractedData);
@@ -103,6 +113,7 @@ class Cities with ChangeNotifier {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'version': Urls.versionCode
         },
       );
 
@@ -126,7 +137,12 @@ class Cities with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'version': Urls.versionCode
+        },);
 
       final extractedData = json.decode(response.body);
       print(extractedData);

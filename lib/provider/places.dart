@@ -36,13 +36,21 @@ class Places with ChangeNotifier {
   );
   List<Comment> _itemsComments = [];
 
-  ImageObj _defaultImage = ImageObj(
+  ImageObj _placeDefaultImage = ImageObj(
       id: 0,
       filename: '',
       url: ImageUrl(
         medium: 'assets/images/place_placeholder.jpeg',
         large: 'assets/images/place_placeholder.jpeg',
         thumb: 'assets/images/place_placeholder.jpeg',
+      ));
+  ImageObj _gymDefaultImage = ImageObj(
+      id: 0,
+      filename: '',
+      url: ImageUrl(
+        medium: 'assets/images/gym_placeholder.jpg',
+        large: 'assets/images/gym_placeholder.jpg',
+        thumb: 'assets/images/gym_placeholder.jpg',
       ));
 
   //search parameters
@@ -231,11 +239,8 @@ class Places with ChangeNotifier {
 
   List<Comment> get itemsComments => _itemsComments;
 
-
-  ImageObj get defaultImage => _defaultImage;
-
-
-
+  ImageObj get placeDefaultImage => _placeDefaultImage;
+  ImageObj get gymDefaultImage => _gymDefaultImage;
 
   Future<void> searchItem() async {
     print('searchItem');
@@ -250,7 +255,8 @@ class Places with ChangeNotifier {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'version': Urls.versionCode
         },
       );
       print(response.statusCode);
@@ -309,7 +315,14 @@ class Places with ChangeNotifier {
     List<PlaceInSearch> loadedPlaces = [];
 
     try {
-      final response = await get(url);
+      final response = await get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'version': Urls.versionCode
+        },
+      );
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         print(extractedData.toString());
@@ -347,7 +360,14 @@ class Places with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'version': Urls.versionCode
+        },
+      );
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         print(extractedData);
@@ -373,7 +393,14 @@ class Places with ChangeNotifier {
     final url = Urls.rootUrl + Urls.placesEndPoint + '/$placeId/comments';
     print(url);
     try {
-      final response = await get(url);
+      final response = await get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'version': Urls.versionCode
+        },
+      );
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         print(extractedData.toString());
@@ -407,7 +434,8 @@ class Places with ChangeNotifier {
     }
   }
 
-  Future<void> sendComment(int placeId, String content, double rate,String subject) async {
+  Future<void> sendComment(
+      int placeId, String content, double rate, String subject) async {
     print('sendComment');
 
     final url = Urls.rootUrl + Urls.commentEndPoint;
@@ -425,6 +453,7 @@ class Places with ChangeNotifier {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'version': Urls.versionCode
         },
         body: json.encode(
           {
@@ -432,7 +461,6 @@ class Places with ChangeNotifier {
             'content': content,
             'rate': rate,
             'subject': subject,
-
           },
         ),
       );
@@ -470,6 +498,7 @@ class Places with ChangeNotifier {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'version': Urls.versionCode
         },
         body: json.encode(
           {
@@ -506,6 +535,7 @@ class Places with ChangeNotifier {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'version': Urls.versionCode
         },
       );
       if (response.statusCode == 200) {
@@ -540,6 +570,7 @@ class Places with ChangeNotifier {
             'Authorization': 'Bearer $_token',
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'version': Urls.versionCode
           },
           body: json.encode({
             'place_id': placeId,
@@ -570,7 +601,14 @@ class Places with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'version': Urls.versionCode
+        },
+      );
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List;
         print(extractedData.toString());
@@ -598,7 +636,14 @@ class Places with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'version': Urls.versionCode
+        },
+      );
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List;
         print(extractedData.toString());
@@ -625,7 +670,14 @@ class Places with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'version': Urls.versionCode
+        },
+      );
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         print(extractedData.toString());
@@ -648,7 +700,14 @@ class Places with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'version': Urls.versionCode
+        },
+      );
 
       final extractedData = json.decode(response.body);
 
@@ -684,6 +743,7 @@ class Places with ChangeNotifier {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'version': Urls.versionCode
         },
       );
       print(response.body);

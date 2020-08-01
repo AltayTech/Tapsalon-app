@@ -5,6 +5,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/city.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
+import 'package:tapsalon/models/search_argument.dart';
 import 'package:tapsalon/widget/items/place_item.dart';
 
 import '../models/searchDetails.dart';
@@ -26,7 +27,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen>
     with TickerProviderStateMixin {
   bool _isInit = true;
-  var _isLoading;
+  var _isLoading = false;
   int page = 1;
   List<String> filterList = [];
   City selectedCity;
@@ -68,9 +69,16 @@ class _SearchScreenState extends State<SearchScreen>
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      int tabIndex = ModalRoute.of(context).settings.arguments as int;
-      _tabController.index = tabIndex;
+      var searchArgument =
+          ModalRoute.of(context).settings.arguments as SearchArgument;
+      int tabIndex = searchArgument.tabIndex;
       cleanFilter();
+
+      sortValue = searchArgument.sortValue;
+      await setSort(sortValue);
+      _tabController.index = tabIndex;
+      await changeTab(tabIndex);
+
       setState(() {
         _isLoading = true;
       });
@@ -109,6 +117,8 @@ class _SearchScreenState extends State<SearchScreen>
     Provider.of<Places>(context, listen: false).sPage = 1;
     Provider.of<Places>(context, listen: false).sPerPage = 10;
     Provider.of<Places>(context, listen: false).sRegion = '';
+    Provider.of<Places>(context, listen: false).sPlaceType = '';
+
     Provider.of<Places>(context, listen: false).searchBuilder();
 
     setState(() {
@@ -158,13 +168,44 @@ class _SearchScreenState extends State<SearchScreen>
     } else if (sortValue == 'کم بازدیدترین') {
       Provider.of<Places>(context, listen: false).sOrderBy = 'visit';
       Provider.of<Places>(context, listen: false).sSort = 'ASC';
+    } else if (sortValue == 'جدیدترین') {
+      Provider.of<Places>(context, listen: false).sOrderBy = '';
+      Provider.of<Places>(context, listen: false).sSort = '';
     } else {
       Provider.of<Places>(context, listen: false).sOrderBy = 'name';
       Provider.of<Places>(context, listen: false).sSort = 'ASC';
     }
+  }
+
+  Future<void> setSortSearch(String sortValue) async {
+    await setSort(sortValue);
     page = 1;
     Provider.of<Places>(context, listen: false).sPage = page;
     loadedPlacesToList.clear();
+    searchItems();
+  }
+
+  Future<void> changeTab(int tabIndex) async {
+    if (tabIndex == 0) {
+      cleanFilter();
+      Provider.of<Places>(context, listen: false).sPlaceType = '';
+    } else if (tabIndex == 1) {
+      Provider.of<Places>(context, listen: false).sPlaceType = '1';
+    } else if (tabIndex == 2) {
+      Provider.of<Places>(context, listen: false).sPlaceType = '2';
+    } else if (tabIndex == 3) {
+      Provider.of<Places>(context, listen: false).sPlaceType = '3';
+    } else if (tabIndex == 4) {
+      Provider.of<Places>(context, listen: false).sPlaceType = '4';
+    }
+  }
+
+  Future<void> changeTabSearch(int tabIndex) async {
+    await changeTab(tabIndex);
+    page = 1;
+    Provider.of<Places>(context, listen: false).sPage = page;
+    loadedPlacesToList.clear();
+
     searchItems();
   }
 
@@ -172,6 +213,7 @@ class _SearchScreenState extends State<SearchScreen>
 
   final List<String> sortList = [
     'محبوبترین',
+    'جدیدترین',
     'پربازدیدترین',
     'پرطرفدارترین',
     'براساس نام',
@@ -311,60 +353,57 @@ class _SearchScreenState extends State<SearchScreen>
                               borderRadius:
                                   new BorderRadius.all(Radius.circular(50))),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(left: 8, right: 16),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: TextFormField(
-                                      controller: searchTextController,
-                                      textInputAction: TextInputAction.search,
-                                      onFieldSubmitted: (_) {
-                                        Provider.of<Places>(context,
-                                                    listen: false)
-                                                .searchKey =
-                                            searchTextController.text;
-                                        page = 1;
-                                        Provider.of<Places>(context,
-                                                listen: false)
-                                            .sPage = page;
-                                        loadedPlacesToList.clear();
+                                  child: TextFormField(
+                                    controller: searchTextController,
+                                    textInputAction: TextInputAction.search,
+                                    onFieldSubmitted: (_) {
+                                      Provider.of<Places>(context,
+                                                  listen: false)
+                                              .searchKey =
+                                          searchTextController.text;
+                                      page = 1;
+                                      Provider.of<Places>(context,
+                                              listen: false)
+                                          .sPage = page;
+                                      loadedPlacesToList.clear();
 
-                                        searchItems();
-                                      },
-                                      onChanged: (_) {
-                                        Provider.of<Places>(context,
-                                                    listen: false)
-                                                .searchKey =
-                                            searchTextController.text;
-                                        page = 1;
-                                        Provider.of<Places>(context,
-                                                listen: false)
-                                            .sPage = page;
-                                        loadedPlacesToList.clear();
+                                      searchItems();
+                                    },
+                                    onChanged: (_) {
+                                      Provider.of<Places>(context,
+                                                  listen: false)
+                                              .searchKey =
+                                          searchTextController.text;
+                                      page = 1;
+                                      Provider.of<Places>(context,
+                                              listen: false)
+                                          .sPage = page;
+                                      loadedPlacesToList.clear();
 
-                                        searchItems();
-                                      },
-                                      style: TextStyle(
-                                        color: AppTheme.black,
+                                      searchItems();
+                                    },
+                                    style: TextStyle(
+                                      color: AppTheme.black,
+                                      fontFamily: 'Iransans',
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey,
                                         fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 12.0,
                                       ),
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey,
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 12.0,
-                                        ),
-                                        hintText: 'جستجو',
-                                        labelStyle: TextStyle(
-                                          color: Colors.grey,
-                                          fontFamily: 'Iransans',
-                                          fontSize: textScaleFactor * 10.0,
-                                        ),
+                                      hintText: 'جستجو',
+                                      labelStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontFamily: 'Iransans',
+                                        fontSize: textScaleFactor * 10.0,
                                       ),
                                     ),
                                   ),
@@ -428,35 +467,7 @@ class _SearchScreenState extends State<SearchScreen>
                                     Expanded(
                                       child: TabBar(
                                           onTap: (i) {
-                                            if (i == 0) {
-                                              cleanFilter();
-                                              Provider.of<Places>(context,
-                                                      listen: false)
-                                                  .sPlaceType = '';
-                                            } else if (i == 1) {
-                                              Provider.of<Places>(context,
-                                                      listen: false)
-                                                  .sPlaceType = '1';
-                                            } else if (i == 2) {
-                                              Provider.of<Places>(context,
-                                                      listen: false)
-                                                  .sPlaceType = '2';
-                                            } else if (i == 3) {
-                                              Provider.of<Places>(context,
-                                                      listen: false)
-                                                  .sPlaceType = '3';
-                                            } else if (i == 4) {
-                                              Provider.of<Places>(context,
-                                                      listen: false)
-                                                  .sPlaceType = '4';
-                                            }
-                                            page = 1;
-                                            Provider.of<Places>(context,
-                                                    listen: false)
-                                                .sPage = page;
-                                            loadedPlacesToList.clear();
-
-                                            searchItems();
+                                            changeTabSearch(i);
                                           },
                                           indicator: BoxDecoration(
                                             color: AppTheme.white,
@@ -513,7 +524,7 @@ class _SearchScreenState extends State<SearchScreen>
                                           setState(() {
                                             sortValue = newValue;
                                           });
-                                          setSort(newValue);
+                                          setSortSearch(newValue);
                                         },
                                         underline: Container(
                                           color: Colors.white,
@@ -672,7 +683,7 @@ class _SearchScreenState extends State<SearchScreen>
                                     ChangeNotifierProvider.value(
                                   value: loadedPlacesToList[i],
                                   child: Container(
-                                    height: 260,
+                                    height: 280,
                                     child: PlaceItem(
                                       place: loadedPlacesToList[i],
                                     ),

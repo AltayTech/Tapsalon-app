@@ -1,7 +1,7 @@
 name: tapsalon
 description: A new Flutter project.
 
-version: 4.0.17+24
+version: 4.0.18+25
 environment:
   sdk: ">=2.1.0 <3.0.0"
 module:
@@ -63,9 +63,14 @@ flutter:
     - assets/images/main_page_salon_ic.png
     - assets/images/user_Icon.png
     - assets/images/marker_ic_1_v1.png
+    - assets/images/marker_ic_1_v2.png
     - assets/images/marker_ic_2_v1.png
+    - assets/images/marker_ic_2_v2.png
+    - assets/images/marker_ic_2_v3.png
     - assets/images/marker_ic_3_v1.png
+    - assets/images/marker_ic_3_v2.png
     - assets/images/place_placeholder.jpeg
+    - assets/images/gym_placeholder.jpg
 
   fonts:
 

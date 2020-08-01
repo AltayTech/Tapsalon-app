@@ -102,10 +102,14 @@ class PlaceInSearch with ChangeNotifier {
           : ImageObj(
           id: 0,
           filename: '',
-          url: ImageUrl(
+          url:PlaceType.fromJson(parsedJson['place_type']).id!=2 ?ImageUrl(
             medium: 'assets/images/place_placeholder.jpeg',
             large: 'assets/images/place_placeholder.jpeg',
             thumb: 'assets/images/place_placeholder.jpeg',
+          ):ImageUrl(
+            medium: 'assets/images/gym_placeholder.jpg',
+            large: 'assets/images/gym_placeholder.jpg',
+            thumb: 'assets/images/gym_placeholder.jpg',
           )),
       province: Province.fromJson(parsedJson['ostan']),
       city: City.fromJson(parsedJson['city']),

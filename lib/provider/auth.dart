@@ -32,7 +32,11 @@ class Auth with ChangeNotifier {
 
     try {
       final response = await http.post(url,
-          headers: {'Content-Type': 'application/json'},
+         headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'version': Urls.versionCode
+          },
           body: json.encode({
             'grant_type': 'client_credentials',
             'client_id': '3',
@@ -82,7 +86,11 @@ class Auth with ChangeNotifier {
       print(verificationCode);
 
       final response = await http.post(url,
-          headers: {'Content-Type': 'application/json'},
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'version': Urls.versionCode
+          },
           body: json.encode({
             'grant_type': 'password',
             'client_id': '2',
@@ -147,7 +155,9 @@ class Auth with ChangeNotifier {
         url,
         headers: {
           'Authorization': 'Bearer $_credentialAccessToken',
-          'Accept': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'version': Urls.versionCode
         },
       );
       return true;

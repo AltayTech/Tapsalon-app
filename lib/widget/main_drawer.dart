@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tapsalon/models/search_argument.dart';
 import 'package:tapsalon/screen/navigation_bottom_screen.dart';
 
 import '../provider/app_theme.dart';
@@ -165,7 +166,7 @@ class MainDrawer extends StatelessWidget {
 
                               Navigator.of(context).pushNamed(
                                   SearchScreen.routeName,
-                                  arguments: 0);
+                                  arguments: SearchArgument(tabIndex: 0,sortValue: 'جدیدترین'));
                             },
                           ),
                           ListTile(
