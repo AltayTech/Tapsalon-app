@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/search_argument.dart';
 import 'package:tapsalon/screen/navigation_bottom_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../provider/app_theme.dart';
 import '../provider/auth.dart';
@@ -31,7 +32,13 @@ class MainDrawer extends StatelessWidget {
       onTap: tapHandler,
     );
   }
-
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -46,15 +53,6 @@ class MainDrawer extends StatelessWidget {
         child: Container(
           child: Stack(
             children: <Widget>[
-//              Container(
-//                child: BackdropFilter(
-//                  filter: ImageFilter.blur(
-//                    sigmaX: 5,
-//                    sigmaY: 5,
-//                  ),
-//                  child: Container(color: Colors.black.withOpacity(0.3)),
-//                ),
-//              ),
               Wrap(
                 children: <Widget>[
                   Container(
@@ -76,7 +74,6 @@ class MainDrawer extends StatelessWidget {
                           left: 0,
                           child: Container(
                             alignment: Alignment.center,
-//                        color: Colors.purpleAccent.withOpacity(0.1),
                             child: Text(
                               'تاپ سالن',
                               style: TextStyle(
@@ -191,28 +188,28 @@ class MainDrawer extends StatelessWidget {
                                   .pushNamed(FavoriteScreen.routeName);
                             },
                           ),
-//                          ListTile(
-//                            title: Text(
-//                              'راهنما',
-//                              style: TextStyle(
-//                                fontFamily: "Iransans",
-//                                fontWeight: FontWeight.w500,
-//                                fontSize: textScaleFactor * 15,
-//                                color: textColor,
-//                              ),
-//                              textAlign: TextAlign.right,
-//                            ),
-//                            trailing: Icon(
-//                              Icons.help,
-//                              color: iconColor,
-//                            ),
-//                            onTap: () {
-//                              Navigator.of(context).pop();
-//
-//                              Navigator.of(context)
-//                                  .pushNamed(RulesScreen.routeName);
-//                            },
-//                          ),
+                          ListTile(
+                            title: Text(
+                              'معرفی مکان ورزشی',
+                              style: TextStyle(
+                                fontFamily: "Iransans",
+                                fontWeight: FontWeight.w500,
+                                fontSize: textScaleFactor * 15,
+                                color: textColor,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                            trailing: Icon(
+                              Icons.store,
+                              color: iconColor,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+
+                             _launchURL('https://tapsalon.ir/%d8%ab%d8%a8%d8%aa-%d9%85%da%a9%d8%a7%d9%86-%d9%88%d8%b1%d8%b2%d8%b4%db%8c/');
+                            },
+                          ),
+
 
                           ListTile(
                             title: Text(

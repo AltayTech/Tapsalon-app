@@ -50,6 +50,7 @@ class UserInfo with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
 
     _token = prefs.getString('token');
+    print(_token);
 
     try {
       final response = await post(url, headers: {
