@@ -53,9 +53,17 @@ class Places with ChangeNotifier {
         thumb: 'assets/images/gym_placeholder.jpg',
       ));
 
+  ImageObj _entDefaultImage = ImageObj(
+      id: 0,
+      filename: '',
+      url: ImageUrl(
+        medium: 'assets/images/ent_placeholder.jpg',
+        large: 'assets/images/ent_placeholder.jpg',
+        thumb: 'assets/images/ent_placeholder.jpg',
+      ));
+
   //search parameters
   String searchKey = '';
-  String searchEndPoint = '';
   var _sPage = 1;
   var _sPerPage = 10;
   var _sPlaceType = '';
@@ -66,7 +74,6 @@ class Places with ChangeNotifier {
   var _sFacility = '';
   var _sOrderBy = 'name';
   var _sSort = 'DESC';
-  var _sType = '';
   var _sRange = '';
   var _sRegion = '';
 
@@ -94,54 +101,48 @@ class Places with ChangeNotifier {
 
   bool isLiked;
 
+  Map<String, String> searchBody = {};
+
   Place get itemPlace => _itemPlace;
 
   SearchDetails get favoriteComplexSearchDetails =>
-      _favoriteComplexSearchDetails; //Methods
+      _favoriteComplexSearchDetails;
+
+  //Methods
 
   void searchBuilder() {
-    if (!(searchKey == '')) {
-      searchEndPoint = '';
+    searchBody = {
+      'name': searchKey,
+      'page': _sPage.toString(),
+      'per_page': _sPerPage.toString(),
+      'order': _sSort,
+      'orderby': _sOrderBy,
+      'range': _sRange,
+      'place_type_id': _sPlaceType,
+      'ostan_id': _sProvinceId,
+      'city_id': _sCityId,
+      'region_id': _sRegion,
+      'fields': _sField,
+      'facilities': _sFacility,
+    };
+    removeNullAndEmptyParams(searchBody);
+  }
 
-      searchEndPoint = searchEndPoint + '?name=$searchKey';
-      searchEndPoint = searchEndPoint + '&page=$_sPage&per_page=$_sPerPage';
-    } else {
-      searchEndPoint = '';
-
-      searchEndPoint = searchEndPoint + '?page=$_sPage&per_page=$_sPerPage';
+  void removeNullAndEmptyParams(Map<String, Object> mapToEdit) {
+// Remove all null values; they cause validation errors
+    final keys = mapToEdit.keys.toList(growable: false);
+    for (String key in keys) {
+      final value = mapToEdit[key];
+      if (value == null) {
+        mapToEdit.remove(key);
+      } else if (value is String) {
+        if (value.isEmpty) {
+          mapToEdit.remove(key);
+        }
+      } else if (value is Map) {
+        removeNullAndEmptyParams(value);
+      }
     }
-    if (!(_sSort == '')) {
-      searchEndPoint = searchEndPoint + '&order=$_sSort';
-    }
-    if (!(_sOrderBy == '')) {
-      searchEndPoint = searchEndPoint + '&orderby=$_sOrderBy';
-    }
-    if (!(_sType == '')) {
-      searchEndPoint = searchEndPoint + '&type=$_sType';
-    }
-
-    if (!(_sRange == '' || _sRange == null)) {
-      searchEndPoint = searchEndPoint + '&range=$_sRange';
-    }
-    if (!(_sPlaceType == '' || _sPlaceType == null)) {
-      searchEndPoint = searchEndPoint + '&place_type_id=$_sPlaceType';
-    }
-    if (!(_sProvinceId == '' || _sProvinceId == null)) {
-      searchEndPoint = searchEndPoint + '&ostan_id=$_sProvinceId';
-    }
-    if (!(_sCityId == '' || _sCityId == null || _sCityId == '0')) {
-      searchEndPoint = searchEndPoint + '&city_id=$_sCityId';
-    }
-    if (!(_sField == '' || _sField == null)) {
-      searchEndPoint = searchEndPoint + '&fields=$_sField';
-    }
-    if (!(_sFacility == '' || _sFacility == null)) {
-      searchEndPoint = searchEndPoint + '&facilities=$_sFacility';
-    }
-    if (!(_sRegion == '' || _sRegion == null)) {
-      searchEndPoint = searchEndPoint + '&region_id=$_sRegion';
-    }
-    print(searchEndPoint);
   }
 
 //getters and setters
@@ -200,11 +201,8 @@ class Places with ChangeNotifier {
     _sSort = value;
   }
 
-  get sType => _sType;
 
-  set sType(value) {
-    _sType = value;
-  }
+
 
   get sRange => _sRange;
 
@@ -240,26 +238,31 @@ class Places with ChangeNotifier {
   List<Comment> get itemsComments => _itemsComments;
 
   ImageObj get placeDefaultImage => _placeDefaultImage;
+
   ImageObj get gymDefaultImage => _gymDefaultImage;
+
+  ImageObj get entDefaultImage => _entDefaultImage;
 
   Future<void> searchItem() async {
     print('searchItem');
 
-    final url = Urls.rootUrl + Urls.placesEndPoint + '$searchEndPoint';
+    final url = Urls.rootUrl + Urls.placesEndPoint;
+    Uri uri = Uri.parse(url);
+    final newUrl = uri.replace(queryParameters: searchBody);
     print(url);
-
-    print(searchEndPoint.toString());
+    print(newUrl.queryParameters.toString());
 
     try {
       final response = await get(
-        url,
+        newUrl,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'version': Urls.versionCode
         },
       );
-      print(response.statusCode);
+
+      print(response.statusCode.toString());
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         print(extractedData.toString());

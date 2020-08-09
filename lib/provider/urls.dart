@@ -1,5 +1,5 @@
 class Urls {
-  static const rootUrl = 'http://rest.tapsalon.ir';
+  static const rootUrl = 'https://rest.tapsalon.ir';
   static const citiesEndPoint = '/api/cities';
   static const provincesEndPoint = '/api/ostans';
   static const placesEndPoint = '/api/places';
@@ -17,7 +17,7 @@ class Urls {
 
   static const userLikesEndPoint = '/api/user/likes';
   static const likePlaceEndPoint = '/api/likes';
-  static const versionCode = '2';
+  static const versionCode = '3';
   static const requestHeader = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',

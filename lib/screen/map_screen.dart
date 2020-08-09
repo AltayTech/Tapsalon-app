@@ -135,7 +135,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     Provider.of<Places>(context, listen: false).searchKey = '';
     Provider.of<Places>(context, listen: false).filterTitle.clear();
     Provider.of<Places>(context, listen: false).sProvinceId = '';
-    Provider.of<Places>(context, listen: false).sType = '';
     Provider.of<Places>(context, listen: false).sField = '';
     Provider.of<Places>(context, listen: false).sFacility = '';
     Provider.of<Places>(context, listen: false).sRange = '';
@@ -379,7 +378,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     print(deviceHeight.toString());
     print(deviceWidth.toString());
     print(MediaQuery.of(context).size.toString());
-    print(MediaQuery.of(context).physicalDepth.toString());
     print(MediaQuery.of(context).devicePixelRatio.toString());
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Scaffold(

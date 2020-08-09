@@ -21,7 +21,6 @@ class HorizontalList extends StatelessWidget {
     Provider.of<Places>(context, listen: false).searchKey = '';
     Provider.of<Places>(context, listen: false).filterTitle.clear();
     Provider.of<Places>(context, listen: false).sProvinceId = '';
-    Provider.of<Places>(context, listen: false).sType = '';
     Provider.of<Places>(context, listen: false).sField = '';
     Provider.of<Places>(context, listen: false).sFacility = '';
     Provider.of<Places>(context, listen: false).sPlaceType = '';

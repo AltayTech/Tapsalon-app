@@ -10,11 +10,17 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name=".Application"
         android:label="Tapsalon"
         android:icon="@mipmap/launcher_icon">
         <meta-data android:name="com.google.android.geo.API_KEY"
                    android:value="AIzaSyAZU0fLfsuVinIskarXUEpcrMBxtQf7Dd0"/>
+        <meta-data
+            android:name="com.najva.sdk.metadata.API_KEY"
+            android:value="ec30bc3a-fdc6-4075-8898-da1b541f8fbc" />
+        <meta-data
+            android:name="com.najva.sdk.metadata.WEBSITE_ID"
+            android:value="5990" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

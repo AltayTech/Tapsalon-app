@@ -22,6 +22,7 @@ import './screen/splash_Screen.dart';
 import './screen/user_profile/login_screen.dart';
 import './widget/favorite_view.dart';
 import 'models/user_models/user.dart';
+import 'najva.dart';
 import 'provider/cities.dart';
 import 'screen/place_detail/comment_create_screen.dart';
 import 'screen/place_detail/place_detail_screen.dart';
@@ -37,9 +38,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Najva najva;
+
   @override
   void initState() {
     super.initState();
+    najva = new Najva();
   }
 
   @override

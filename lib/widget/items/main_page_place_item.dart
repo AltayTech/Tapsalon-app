@@ -18,8 +18,12 @@ class MainPagePlaceItem extends StatelessWidget {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    var placeDefaultImage = Provider.of<Places>(context, listen: false).placeDefaultImage;
-    var gymDefaultImage = Provider.of<Places>(context, listen: false).gymDefaultImage;
+    var placeDefaultImage =
+        Provider.of<Places>(context, listen: false).placeDefaultImage;
+    var gymDefaultImage =
+        Provider.of<Places>(context, listen: false).gymDefaultImage;
+    var entDefaultImage =
+        Provider.of<Places>(context, listen: false).entDefaultImage;
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -64,8 +68,12 @@ class MainPagePlaceItem extends StatelessWidget {
                           height: constraint.maxHeight * 0.65,
                           width: constraint.maxWidth,
                           child: FadeInImage(
-                            placeholder: AssetImage(loadedPlace.placeType.id==2?gymDefaultImage.url.medium:placeDefaultImage.url.medium),
-
+                            placeholder: AssetImage(
+                                loadedPlace.placeType.id == 2
+                                    ? gymDefaultImage.url.medium
+                                    : loadedPlace.placeType.id == 4
+                                        ? entDefaultImage.url.medium
+                                        : placeDefaultImage.url.medium),
                             image: loadedPlace.image.url.large
                                     .startsWith('assets/images')
                                 ? AssetImage(loadedPlace.image.url.medium)

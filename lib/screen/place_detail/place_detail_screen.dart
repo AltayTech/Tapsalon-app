@@ -55,12 +55,13 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
       ImageObj placeDefaultImage =
           Provider.of<Places>(context, listen: false).placeDefaultImage;
       var gymDefaultImage = Provider.of<Places>(context, listen: false).gymDefaultImage;
+      var entDefaultImage = Provider.of<Places>(context, listen: false).entDefaultImage;
 
       await searchItems();
 
       if (loadedPlace.gallery.length < 1) {
         gallery.clear();
-        gallery.add(loadedPlace.placeType.id==2?gymDefaultImage:placeDefaultImage);
+        gallery.add(loadedPlace.placeType.id==2?gymDefaultImage:loadedPlace.placeType.id==4?entDefaultImage:placeDefaultImage);
       } else {
         gallery = loadedPlace.gallery;
       }

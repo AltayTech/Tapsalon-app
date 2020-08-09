@@ -10,4 +10,8 @@ public class MainActivity extends FlutterActivity {
     super.onCreate(savedInstanceState);
     GeneratedPluginRegistrant.registerWith(this);
   }
+  @java.lang.Override
+  protected void onDestroy() {
+    super.onDestroy();
+  }
 }
