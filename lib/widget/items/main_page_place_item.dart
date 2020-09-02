@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
 import 'package:tapsalon/provider/places.dart';
+import 'package:tapsalon/screen/place_detail/complex_detail_screen.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_screen.dart';
 
 import '../../provider/app_theme.dart';
@@ -31,7 +32,9 @@ class MainPagePlaceItem extends StatelessWidget {
         builder: (context, constraint) => InkWell(
           onTap: () {
             Navigator.of(context)
-                .pushNamed(PlaceDetailScreen.routeName, arguments: {
+                .pushNamed(
+                loadedPlace.placeType.id==3? ComplexDetailScreen.routeName: PlaceDetailScreen.routeName,
+                arguments: {
               'placeId': loadedPlace.id,
               'name': loadedPlace.name,
               'imageUrl': loadedPlace.image.url.medium,

@@ -428,7 +428,7 @@ class Places with ChangeNotifier {
         );
         print(_placeSearchDetails.total.toString());
       } else {
-        _itemsRegions = [];
+        _itemsComments = [];
       }
       notifyListeners();
     } catch (error) {
@@ -623,7 +623,7 @@ class Places with ChangeNotifier {
         _itemsFacilities.addAll(dataRaw);
         print(_itemsFacilities[0].name.toString());
       } else {
-        _itemsRegions = [];
+        _itemsFacilities = [];
       }
       notifyListeners();
     } catch (error) {
@@ -657,7 +657,7 @@ class Places with ChangeNotifier {
         _itemsFields.clear();
         _itemsFields.addAll(dataRaw);
       } else {
-        _itemsRegions = [];
+        _itemsFields = [];
       }
       notifyListeners();
     } catch (error) {

@@ -12,9 +12,9 @@ import '../screen/home_screen.dart';
 import '../screen/map_screen.dart';
 import '../screen/user_profile/profile_view.dart';
 import '../widget/dialogs/custom_dialog_enter.dart';
+import '../widget/dialogs/select_city_dialog.dart';
 import '../widget/favorite_view.dart';
 import '../widget/main_drawer.dart';
-import '../widget/dialogs/select_city_dialog.dart';
 
 class NavigationBottomScreen extends StatefulWidget {
   static const routeName = '/NavigationBottomScreen';
@@ -115,6 +115,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
         );
         return Future.value(false);
       }
+
       return Future.value(true);
     }
   }
@@ -185,15 +186,18 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
           ),
           bottomNavigationBar: BottomNavigationBar(
             elevation: 2,
+            showUnselectedLabels: true,
             selectedLabelStyle: TextStyle(
                 color: AppTheme.darkText,
                 fontFamily: 'Iransans',
-                fontSize: MediaQuery.of(context).textScaleFactor * 10.0),
+                fontSize: MediaQuery.of(context).textScaleFactor * 12.0),
+            unselectedFontSize: MediaQuery.of(context).textScaleFactor * 10,
             onTap: _selectBNBItem,
             backgroundColor: AppTheme.white,
             unselectedItemColor: AppTheme.grey,
             selectedItemColor: AppTheme.BNbSelectedItemColor,
             currentIndex: _selectedPageIndex,
+            type: BottomNavigationBarType.fixed,
             items: [
               BottomNavigationBarItem(
                 backgroundColor: AppTheme.white,

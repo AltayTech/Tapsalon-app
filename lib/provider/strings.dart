@@ -3,7 +3,7 @@ class Strings {
 
   // NavigationBotton title
   static const navHome = 'خانه';
-  static const naveFavorite = 'سالن های مورد علاقه';
+  static const naveFavorite = 'موردعلاقه';
   static const naveNearby = 'سالن های نزدیک';
   static const navProfile = 'پروفایل';
   static const navReservse = 'رزروها';

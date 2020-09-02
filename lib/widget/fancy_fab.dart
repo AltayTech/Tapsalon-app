@@ -5,21 +5,28 @@ import 'package:tapsalon/provider/places.dart';
 
 class FancyFab extends StatefulWidget {
   final Function() onPressed0;
+
   final Function() onPressed1;
+
   final Function() onPressed2;
+
   final Function() onPressed3;
+
   final Function() onPressed4;
+
   final String tooltip;
+
   final IconData icon;
 
-  FancyFab(
-      {this.onPressed0,
-      this.onPressed1,
-      this.onPressed2,
-      this.onPressed3,
-      this.onPressed4,
-      this.tooltip,
-      this.icon});
+  FancyFab({
+    this.onPressed0,
+    this.onPressed1,
+    this.onPressed2,
+    this.onPressed3,
+    this.onPressed4,
+    this.tooltip,
+    this.icon,
+  });
 
   @override
   _FancyFabState createState() => _FancyFabState();
@@ -28,12 +35,20 @@ class FancyFab extends StatefulWidget {
 class _FancyFabState extends State<FancyFab>
     with SingleTickerProviderStateMixin {
   bool isOpened = false;
+
   AnimationController _animationController;
+
   Animation<Color> _buttonColor;
+
   Animation<double> _animateIcon;
+
   Animation<double> _translateButton;
+
   Curve _curve = Curves.easeOut;
-  double _fabHeight = 2;
+
+  double _fabHeight = -2;
+
+  String title;
 
   @override
   initState() {
@@ -42,11 +57,13 @@ class _FancyFabState extends State<FancyFab>
           ..addListener(() {
             setState(() {});
           });
+
     _animateIcon =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+
     _buttonColor = ColorTween(
       begin: Colors.white,
-      end: Colors.red,
+      end: Colors.red[100],
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Interval(
@@ -55,8 +72,9 @@ class _FancyFabState extends State<FancyFab>
         curve: Curves.linear,
       ),
     ));
+
     _translateButton = Tween<double>(
-      begin: -56,
+      begin: 56,
       end: _fabHeight,
     ).animate(CurvedAnimation(
       parent: _animationController,
@@ -66,12 +84,14 @@ class _FancyFabState extends State<FancyFab>
         curve: _curve,
       ),
     ));
+
     super.initState();
   }
 
   @override
   dispose() {
     _animationController.dispose();
+
     super.dispose();
   }
 
@@ -81,6 +101,7 @@ class _FancyFabState extends State<FancyFab>
     } else {
       _animationController.reverse();
     }
+
     isOpened = !isOpened;
   }
 
@@ -92,6 +113,7 @@ class _FancyFabState extends State<FancyFab>
         backgroundColor: AppTheme.white,
         onPressed: () {
           widget.onPressed0();
+
           animate();
         },
         tooltip: 'همه',
@@ -100,7 +122,7 @@ class _FancyFabState extends State<FancyFab>
           style: TextStyle(
             fontFamily: 'Iransans',
             color: Colors.black,
-            fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
+            fontSize: MediaQuery.of(context).textScaleFactor * 12.0,
           ),
         ),
       ),
@@ -112,9 +134,10 @@ class _FancyFabState extends State<FancyFab>
       child: FloatingActionButton(
         heroTag: 'onPressed1',
         elevation: isOpened ? 3 : 0,
-        backgroundColor: AppTheme.white,
+        backgroundColor: Colors.white,
         onPressed: () {
           widget.onPressed1();
+
           animate();
         },
         tooltip: 'سالن',
@@ -123,7 +146,7 @@ class _FancyFabState extends State<FancyFab>
           style: TextStyle(
             fontFamily: 'Iransans',
             color: Colors.black,
-            fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
+            fontSize: MediaQuery.of(context).textScaleFactor * 12.0,
           ),
         ),
         isExtended: true,
@@ -136,7 +159,7 @@ class _FancyFabState extends State<FancyFab>
       child: FloatingActionButton(
         heroTag: 'onPressed2',
         elevation: isOpened ? 3 : 0,
-        backgroundColor: AppTheme.white,
+        backgroundColor: Colors.white,
         onPressed: () {
           widget.onPressed2();
           animate();
@@ -147,7 +170,7 @@ class _FancyFabState extends State<FancyFab>
           style: TextStyle(
             fontFamily: 'Iransans',
             color: Colors.black,
-            fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
+            fontSize: MediaQuery.of(context).textScaleFactor * 12.0,
           ),
         ),
       ),
@@ -159,29 +182,30 @@ class _FancyFabState extends State<FancyFab>
       child: FloatingActionButton(
         heroTag: 'onPressed3',
         elevation: isOpened ? 3 : 0,
-        backgroundColor: AppTheme.white,
+        backgroundColor: Colors.white,
         onPressed: () {
           widget.onPressed3();
           animate();
         },
-        tooltip: 'ورزشی',
+        tooltip: 'مجموعه',
         child: Text(
-          'ورزشی',
+          'مجموعه',
           style: TextStyle(
             fontFamily: 'Iransans',
             color: Colors.black,
-            fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
+            fontSize: MediaQuery.of(context).textScaleFactor * 12.0,
           ),
         ),
       ),
     );
   }
+
   Widget entertainment() {
     return Container(
       child: FloatingActionButton(
         heroTag: 'onPressed4',
         elevation: isOpened ? 3 : 0,
-        backgroundColor: AppTheme.white,
+        backgroundColor: Colors.white,
         onPressed: () {
           widget.onPressed4();
           animate();
@@ -192,7 +216,7 @@ class _FancyFabState extends State<FancyFab>
           style: TextStyle(
             fontFamily: 'Iransans',
             color: Colors.black,
-            fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
+            fontSize: MediaQuery.of(context).textScaleFactor * 12.0,
           ),
         ),
       ),
@@ -201,19 +225,40 @@ class _FancyFabState extends State<FancyFab>
 
   String buttonTitle() {
     String title = 'همه';
-    String placeTytpe =
-        Provider.of<Places>(context, listen: false).sPlaceType;
+
+    String placeTytpe = Provider.of<Places>(context, listen: false).sPlaceType;
+
     if (placeTytpe == '1') {
       title = 'سالن';
     } else if (placeTytpe == '2') {
       title = 'باشگاه';
-    }else if (placeTytpe == '3') {
-      title = 'ورزشی';
+    } else if (placeTytpe == '3') {
+      title = 'مجموعه';
     } else if (placeTytpe == '4') {
       title = 'تفریحی';
     } else {
       title = 'همه';
     }
+
+    return title;
+  }
+
+  String buttonColor() {
+
+    String placeTytpe = Provider.of<Places>(context, listen: false).sPlaceType;
+
+    if (placeTytpe == '1') {
+      title = 'سالن';
+    } else if (placeTytpe == '2') {
+      title = 'باشگاه';
+    } else if (placeTytpe == '3') {
+      title = 'مجموعه';
+    } else if (placeTytpe == '4') {
+      title = 'تفریحی';
+    } else {
+      title = 'همه';
+    }
+
     return title;
   }
 
@@ -233,7 +278,7 @@ class _FancyFabState extends State<FancyFab>
                 style: TextStyle(
                   fontFamily: 'Iransans',
                   color: Colors.black,
-                  fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
+                  fontSize: MediaQuery.of(context).textScaleFactor * 12.0,
                 ),
               ),
       ),
@@ -244,7 +289,7 @@ class _FancyFabState extends State<FancyFab>
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
-      verticalDirection: VerticalDirection.up,
+      verticalDirection: VerticalDirection.down,
       children: <Widget>[
         Transform(
           transform:
@@ -253,7 +298,7 @@ class _FancyFabState extends State<FancyFab>
         ),
         Transform(
           transform:
-          Matrix4.translationValues(0.0, _translateButton.value * 4.0, 0.0),
+              Matrix4.translationValues(0.0, _translateButton.value * 4.0, 0.0),
           child: sport(),
         ),
         Transform(
@@ -268,7 +313,7 @@ class _FancyFabState extends State<FancyFab>
         ),
         Transform(
           transform:
-              Matrix4.translationValues(0.0, _translateButton.value, 0.0),
+              Matrix4.translationValues(0.0, _translateButton.value * 1.0, 0.0),
           child: all(),
         ),
         toggle(),

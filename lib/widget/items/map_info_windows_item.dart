@@ -3,6 +3,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
 import 'package:tapsalon/provider/app_theme.dart';
+import 'package:tapsalon/screen/place_detail/complex_detail_screen.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_screen.dart';
 
 import '../en_to_ar_number_convertor.dart';
@@ -30,7 +31,7 @@ class _MapInfoWindowItemState extends State<MapInfoWindowItem> {
       builder: (cxt, constraint) => InkWell(
         onTap: () {
           Navigator.of(context).pushNamed(
-            PlaceDetailScreen.routeName,
+            widget.selectedPlace.placeType.id==3? ComplexDetailScreen.routeName: PlaceDetailScreen.routeName,
             arguments: {
               'placeId': widget.selectedPlace.id,
               'name': widget.selectedPlace.name,

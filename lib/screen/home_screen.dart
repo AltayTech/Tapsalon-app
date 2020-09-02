@@ -223,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: Strings.titleSalons,
                               icon: 'assets/images/main_page_salon_ic.png',
                               bgColor: AppTheme.bg,
-                              iconColor: AppTheme.mainPageColor,
+                              iconColor: Colors.orange[600],
                             ),
                           ),
                           InkWell(
@@ -240,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: Strings.titlClubs,
                               icon: 'assets/images/main_page_gym_ic.png',
                               bgColor: AppTheme.bg,
-                              iconColor: AppTheme.mainPageColor,
+                              iconColor: Colors.orange[600],
                             ),
                           ),
                           InkWell(
@@ -257,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: Strings.titleEntertainment,
                               icon: 'assets/images/main_page_ent_ic.png',
                               bgColor: AppTheme.bg,
-                              iconColor: AppTheme.mainPageColor,
+                              iconColor: Colors.orange[600],
                             ),
                           ),
                         ],
@@ -270,16 +270,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 16,
               ),
               new HorizontalList(
+                list: loadedPlaceMostViewed,
+                listTitle: 'پربازدیدترین',
+              ),
+              new HorizontalList(
                 list: loadedPlace,
                 listTitle: 'جدیدترین',
               ),
               new HorizontalList(
                 list: loadedPlaceBestRated,
                 listTitle: 'محبوبترین',
-              ),
-              new HorizontalList(
-                list: loadedPlaceMostViewed,
-                listTitle: 'پربازدیدترین',
               ),
             ],
           ),

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
 import 'package:tapsalon/provider/places.dart';
+import 'package:tapsalon/screen/place_detail/complex_detail_screen.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_screen.dart';
 
 import '../../provider/app_theme.dart';
@@ -30,7 +31,7 @@ class PlaceItem extends StatelessWidget {
         builder: (context, constraint) => InkWell(
           onTap: () {
             Navigator.of(context).pushNamed(
-              PlaceDetailScreen.routeName,
+             place.placeType.id==3? ComplexDetailScreen.routeName: PlaceDetailScreen.routeName,
               arguments: {
                 'placeId': place.id,
                 'name': place.name,

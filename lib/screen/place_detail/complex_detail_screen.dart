@@ -12,6 +12,7 @@ import 'package:tapsalon/screen/place_detail/place_location_screen.dart';
 import 'package:tapsalon/widget/dialogs/custom_dialog_enter.dart';
 import 'package:tapsalon/widget/dialogs/custom_dialog_show_picture.dart';
 import 'package:tapsalon/widget/en_to_ar_number_convertor.dart';
+import 'package:tapsalon/widget/items/place_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../provider/app_theme.dart';
@@ -19,14 +20,14 @@ import '../../provider/places.dart';
 import '../../widget/main_drawer.dart';
 import 'place_detail_comments_screen.dart';
 
-class PlaceDetailScreen extends StatefulWidget {
-  static const routeName = '/PlaceDetailScreen';
+class ComplexDetailScreen extends StatefulWidget {
+  static const routeName = '/ComplexDetailScreen';
 
   @override
-  _PlaceDetailScreenState createState() => _PlaceDetailScreenState();
+  _ComplexDetailScreenState createState() => _ComplexDetailScreenState();
 }
 
-class _PlaceDetailScreenState extends State<PlaceDetailScreen>
+class _ComplexDetailScreenState extends State<ComplexDetailScreen>
     with SingleTickerProviderStateMixin {
   var _isLoading;
   bool _isInit = true;
@@ -389,7 +390,8 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                               children: [
                                                 InkWell(
                                                   onTap: () {
-                                                    Navigator.of(context).pushNamed(
+                                                    Navigator.of(context)
+                                                        .pushNamed(
                                                       PlaceDetailCommentsScreen
                                                           .routeName,
                                                       arguments: {
@@ -425,7 +427,8 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                               4.0),
                                                       child: Row(
                                                         mainAxisAlignment:
-                                                            MainAxisAlignment.end,
+                                                            MainAxisAlignment
+                                                                .end,
                                                         children: <Widget>[
                                                           Icon(
                                                             Icons.comment,
@@ -448,7 +451,8 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                                     .toString(),
                                                               ),
                                                               textAlign:
-                                                                  TextAlign.right,
+                                                                  TextAlign
+                                                                      .right,
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,
@@ -456,8 +460,8 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                               style: TextStyle(
                                                                 fontFamily:
                                                                     'Iransans',
-                                                                color:
-                                                                    AppTheme.grey,
+                                                                color: AppTheme
+                                                                    .grey,
                                                                 fontSize:
                                                                     textScaleFactor *
                                                                         16.0,
@@ -501,6 +505,29 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                         fontFamily: 'Iransans',
                                         color: AppTheme.grey,
                                         fontSize: textScaleFactor * 14.0,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 8, top: 8),
+                                    child: Container(
+                                      width: double.infinity,
+//                                      height: deviceHeight * 0.67,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: loadedPlace.places.length,
+                                        itemBuilder: (ctx, i) =>
+                                            ChangeNotifierProvider.value(
+                                          value: loadedPlace.places[i],
+                                          child: Container(
+                                            height: 280,
+                                            child: PlaceItem(
+                                              place: loadedPlace.places[i],
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -720,9 +747,13 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                                         BorderRadius.circular(
                                                                             50)),
                                                                 child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .only(left:16,right:16,top:8,bottom: 8),
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left: 16,
+                                                                      right: 16,
+                                                                      top: 8,
+                                                                      bottom:
+                                                                          8),
                                                                   child: Text(
                                                                     e.name,
                                                                     style: TextStyle(
@@ -997,7 +1028,6 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                       ),
                                     ),
                                   ),
-
                                 ],
                               ),
                             ),

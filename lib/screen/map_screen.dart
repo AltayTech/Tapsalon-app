@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/city.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
@@ -16,6 +15,7 @@ import '../provider/app_theme.dart';
 import '../provider/cities.dart';
 import '../provider/places.dart';
 import '../widget/filter_drawer.dart';
+import 'place_detail/complex_detail_screen.dart';
 import 'place_detail/place_detail_screen.dart';
 
 class MapScreen extends StatefulWidget {
@@ -46,13 +46,19 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   double speed;
 
   AnimationController _animationController;
+
   AnimationController _animationMapController;
+
   Animation<Offset> _slideAnimation;
+
   Animation<double> _opacityAnimation;
+
   Animation<double> _scaleAnimation;
 
   BitmapDescriptor salonBitmapDescriptor = BitmapDescriptor.defaultMarker;
+
   BitmapDescriptor gymBitmapDescriptor = BitmapDescriptor.defaultMarker;
+
   BitmapDescriptor entBitmapDescriptor = BitmapDescriptor.defaultMarker;
 
   City selectedCity;
@@ -60,21 +66,28 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   PlaceInSearch selectedPlace;
 
   Animation<double> _animation;
+
   AnimationController _FBAnimationController;
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
       Provider.of<Places>(context, listen: false).searchBuilder();
+
       _tabController.index = 0;
+
       cleanFilter();
+
       try {
         selectedCity = Provider.of<Cities>(context, listen: false).selectedCity;
       } catch (error) {}
+
       _lastMapPosition = LatLng(selectedCity.latitude, selectedCity.longitude);
+
       retrieveItems();
     }
     _isInit = false;
+
     super.didChangeDependencies();
   }
 
@@ -84,14 +97,21 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     });
 
     Provider.of<Places>(context, listen: false).searchKey = '';
+
     Provider.of<Places>(context, listen: false).filterTitle.clear();
 
     Provider.of<Places>(context, listen: false).sFacility = '';
+
     Provider.of<Places>(context, listen: false).sField = '';
+
     Provider.of<Places>(context, listen: false).sRange = '';
+
     Provider.of<Places>(context, listen: false).sPage = 1;
+
     Provider.of<Places>(context, listen: false).sPerPage = 10;
+
     Provider.of<Places>(context, listen: false).sRegion = '';
+
     Provider.of<Places>(context, listen: false).searchBuilder();
 
     setState(() {
@@ -133,11 +153,17 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   Future<void> cleanFilters(BuildContext context) async {
     Provider.of<Places>(context, listen: false).searchKey = '';
+
     Provider.of<Places>(context, listen: false).filterTitle.clear();
+
     Provider.of<Places>(context, listen: false).sProvinceId = '';
+
     Provider.of<Places>(context, listen: false).sField = '';
+
     Provider.of<Places>(context, listen: false).sFacility = '';
+
     Provider.of<Places>(context, listen: false).sRange = '';
+
     Provider.of<Places>(context, listen: false).sPlaceType = '';
 
     Provider.of<Places>(context, listen: false).searchBuilder();
@@ -145,23 +171,33 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   Future<void> searchItems() async {
     Provider.of<Places>(context, listen: false).sPerPage = 1000;
+
     Provider.of<Places>(context, listen: false).searchBuilder();
+
     await Provider.of<Places>(context, listen: false).searchItem();
+
     searchDetails =
         Provider.of<Places>(context, listen: false).placeSearchDetails;
+
     loadedPlaces.clear();
+
     loadedPlaces = Provider.of<Places>(context, listen: false).items;
+
     loadedPlacesToList.addAll(loadedPlaces);
+
     _onAddMarker(loadedPlacesToList);
   }
 
   Future<void> changePick(List<PlaceInSearch> list, int i) async {
     if (_isInfoShow) {
       await _animationMapController.forward();
+
       await _animationController.reverse();
+
       setState(() {});
 
       selectedPlace = list[i];
+
       _animationMapController.reverse();
 
       _animationController.forward();
@@ -169,11 +205,15 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       setState(() {});
     } else {
       _isInfoShow = true;
+
       setState(() {});
+
       selectedPlace = list[i];
 
       _animationMapController.forward();
+
       _animationController.forward();
+
       setState(() {});
     }
   }
@@ -182,18 +222,23 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     print('putOn');
 
     await _animationMapController.forward();
+
     await _animationController.reverse();
+
     setState(() {});
+
     _isInfoShow = false;
   }
 
   void _onAddMarker(List<PlaceInSearch> list) async {
     _markers.clear();
+
     for (int i = 0; i < list.length; i++) {
-      print(list[i].latitude);
-      print(list[i].longitude);
+
       var latLng = LatLng(list[i].latitude, list[i].longitude);
+
       var pinLocationIcon;
+
       if (list[i].placeType.id == 1) {
         pinLocationIcon = pinLocationIconSalon;
       } else if (list[i].placeType.id == 4) {
@@ -213,7 +258,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           title: list[i].name,
           onTap: () {
             Navigator.of(context).pushNamed(
-              PlaceDetailScreen.routeName,
+              selectedPlace.placeType.id==3? ComplexDetailScreen.routeName: PlaceDetailScreen.routeName,
               arguments: {
                 'placeId': selectedPlace.id,
                 'name': selectedPlace.name,
@@ -363,7 +408,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     _animationController.dispose();
+
     _animationMapController.dispose();
+
     _FBAnimationController.dispose();
 
     super.dispose();
@@ -372,14 +419,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    var currencyFormat = intl.NumberFormat.decimalPattern();
 
-    print(deviceHeight.toString());
-    print(deviceWidth.toString());
-    print(MediaQuery.of(context).size.toString());
-    print(MediaQuery.of(context).devicePixelRatio.toString());
+    double deviceWidth = MediaQuery.of(context).size.width;
+
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -401,26 +445,88 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 //                        alignment: Alignment.center,
 //                        scale: _scaleAnimation,
 
-                    child: GoogleMap(
-                      onMapCreated: _onMapCreated,
-                      initialCameraPosition: CameraPosition(
-                        target: _lastMapPosition,
-                        zoom: 11.0,
-                      ),
-                      mapType: _currentMapType,
-                      markers: _markers,
-                      onCameraMove: _onCameraMove,
-                      myLocationEnabled: true,
-                      compassEnabled: true,
-                      scrollGesturesEnabled: true,
-                      mapToolbarEnabled: true,
-                      myLocationButtonEnabled: true,
-                      onTap: (_) {
-                        putOn();
-                      },
-                      zoomGesturesEnabled: true,
-                      onLongPress: (latlng) =>
-                          _onAddMarkerButtonPressed(latlng),
+                    child: Stack(
+                      children: [
+                        GoogleMap(
+                          onMapCreated: _onMapCreated,
+                          initialCameraPosition: CameraPosition(
+                            target: _lastMapPosition,
+                            zoom: 11.0,
+                          ),
+                          mapType: _currentMapType,
+                          markers: _markers,
+                          onCameraMove: _onCameraMove,
+                          myLocationEnabled: true,
+                          compassEnabled: true,
+                          scrollGesturesEnabled: true,
+                          mapToolbarEnabled: true,
+                          myLocationButtonEnabled: true,
+                          onTap: (_) {
+                            putOn();
+                          },
+                          zoomGesturesEnabled: true,
+                          onLongPress: (latlng) =>
+                              _onAddMarkerButtonPressed(latlng),
+                        ),
+                        Positioned(
+                            bottom: 20,
+                            left: 15,
+                            child: FancyFab(
+                              onPressed0: () {
+                                cleanFilters(context);
+
+                                Provider.of<Places>(context, listen: false)
+                                    .sPlaceType = '';
+                                Provider.of<Places>(context, listen: false)
+                                    .sPage = 1;
+                                loadedPlacesToList.clear();
+
+                                retrieveItems();
+                              },
+                              onPressed1: () {
+                                Provider.of<Places>(context, listen: false)
+                                    .sPlaceType = '1';
+                                Provider.of<Places>(context, listen: false)
+                                    .sPage = 1;
+                                loadedPlacesToList.clear();
+
+                                retrieveItems();
+                              },
+                              onPressed2: () {
+                                cleanFilters(context);
+
+                                Provider.of<Places>(context, listen: false)
+                                    .sPlaceType = '2';
+                                Provider.of<Places>(context, listen: false)
+                                    .sPage = 1;
+                                loadedPlacesToList.clear();
+
+                                retrieveItems();
+                              },
+                              onPressed3: () {
+                                cleanFilters(context);
+
+                                Provider.of<Places>(context, listen: false)
+                                    .sPlaceType = '3';
+                                Provider.of<Places>(context, listen: false)
+                                    .sPage = 1;
+                                loadedPlacesToList.clear();
+
+                                retrieveItems();
+                              },
+                              onPressed4: () {
+                                cleanFilters(context);
+
+                                Provider.of<Places>(context, listen: false)
+                                    .sPlaceType = '4';
+                                Provider.of<Places>(context, listen: false)
+                                    .sPage = 1;
+                                loadedPlacesToList.clear();
+
+                                retrieveItems();
+                              },
+                            )),
+                      ],
                     ),
 //                      ),
 //                    ),
@@ -484,54 +590,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               ),
             ),
           ),
-          Positioned(
-              top: 50,
-              left: 15,
-              child: FancyFab(
-                onPressed0: () {
-                  cleanFilters(context);
-
-                  Provider.of<Places>(context, listen: false).sPlaceType = '';
-                  Provider.of<Places>(context, listen: false).sPage = 1;
-                  loadedPlacesToList.clear();
-
-                  retrieveItems();
-                },
-                onPressed1: () {
-                  Provider.of<Places>(context, listen: false).sPlaceType = '1';
-                  Provider.of<Places>(context, listen: false).sPage = 1;
-                  loadedPlacesToList.clear();
-
-                  retrieveItems();
-                },
-                onPressed2: () {
-                  cleanFilters(context);
-
-                  Provider.of<Places>(context, listen: false).sPlaceType = '2';
-                  Provider.of<Places>(context, listen: false).sPage = 1;
-                  loadedPlacesToList.clear();
-
-                  retrieveItems();
-                },
-                onPressed3: () {
-                  cleanFilters(context);
-
-                  Provider.of<Places>(context, listen: false).sPlaceType = '3';
-                  Provider.of<Places>(context, listen: false).sPage = 1;
-                  loadedPlacesToList.clear();
-
-                  retrieveItems();
-                },
-                onPressed4: () {
-                  cleanFilters(context);
-
-                  Provider.of<Places>(context, listen: false).sPlaceType = '4';
-                  Provider.of<Places>(context, listen: false).sPage = 1;
-                  loadedPlacesToList.clear();
-
-                  retrieveItems();
-                },
-              )),
           Positioned(
             top: 0,
             bottom: 0,

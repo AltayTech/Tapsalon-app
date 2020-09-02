@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:tapsalon/models/places_models/complex_in_place.dart';
+import 'package:tapsalon/models/places_models/place_in_search.dart';
 import 'package:tapsalon/models/timing.dart';
 
 import '../../models/facility.dart';
@@ -42,37 +43,40 @@ class Place with ChangeNotifier {
   final int comments_count;
   final int visitsNo;
   final double rate;
+  final List<PlaceInSearch> places;
 
-  Place(
-      {this.id,
-      this.name,
-      this.excerpt,
-      this.about,
-      this.timings_excerpt,
-      this.price,
-      this.phone,
-      this.mobile,
-      this.address,
-      this.latitude,
-      this.longitude,
-      this.createdAt,
-      this.updatedAt,
-      this.liked,
-      this.complex,
-      this.placeType,
-      this.fields,
-      this.facilities,
-      this.image,
-      this.gallery,
-      this.timings,
-      this.province,
-      this.city,
-      this.region,
+  Place({
+    this.id,
+    this.name,
+    this.excerpt,
+    this.about,
+    this.timings_excerpt,
+    this.price,
+    this.phone,
+    this.mobile,
+    this.address,
+    this.latitude,
+    this.longitude,
+    this.createdAt,
+    this.updatedAt,
+    this.liked,
+    this.complex,
+    this.placeType,
+    this.fields,
+    this.facilities,
+    this.image,
+    this.gallery,
+    this.timings,
+    this.province,
+    this.city,
+    this.region,
 //      this.user,
-      this.likes_count,
-      this.comments_count,
-      this.visitsNo,
-      this.rate});
+    this.likes_count,
+    this.comments_count,
+    this.visitsNo,
+    this.rate,
+    this.places,
+  });
 
   factory Place.fromJson(Map<String, dynamic> parsedJson) {
     List<ImageObj> galleryRaw = [];
@@ -96,6 +100,13 @@ class Place with ChangeNotifier {
       var timingsList = parsedJson['timings'] as List;
       timingsRaw = new List<Timing>();
       timingsRaw = timingsList.map((i) => Timing.fromJson(i)).toList();
+    }
+
+    List<PlaceInSearch> palcesRaw = [];
+    if (parsedJson['places'] != null) {
+      var placesList = parsedJson['places'] as List;
+      palcesRaw = new List<PlaceInSearch>();
+      palcesRaw = placesList.map((i) => PlaceInSearch.fromJson(i)).toList();
     }
     return Place(
       id: parsedJson['id'],
@@ -127,17 +138,19 @@ class Place with ChangeNotifier {
       image: parsedJson['image'] != null
           ? ImageObj.fromJson(parsedJson['image'])
           : ImageObj(
-          id: 0,
-          filename: '',
-          url:PlaceType.fromJson(parsedJson['place_type']).id!=2 ?ImageUrl(
-            medium: 'assets/images/place_placeholder.jpeg',
-            large: 'assets/images/place_placeholder.jpeg',
-            thumb: 'assets/images/place_placeholder.jpeg',
-          ):ImageUrl(
-            medium: 'assets/images/gym_placeholder.jpg',
-            large: 'assets/images/gym_placeholder.jpg',
-            thumb: 'assets/images/gym_placeholder.jpg',
-          )),
+              id: 0,
+              filename: '',
+              url: PlaceType.fromJson(parsedJson['place_type']).id != 2
+                  ? ImageUrl(
+                      medium: 'assets/images/place_placeholder.jpeg',
+                      large: 'assets/images/place_placeholder.jpeg',
+                      thumb: 'assets/images/place_placeholder.jpeg',
+                    )
+                  : ImageUrl(
+                      medium: 'assets/images/gym_placeholder.jpg',
+                      large: 'assets/images/gym_placeholder.jpg',
+                      thumb: 'assets/images/gym_placeholder.jpg',
+                    )),
       gallery: galleryRaw,
       timings: timingsRaw,
       province: Province.fromJson(parsedJson['ostan']),
@@ -156,6 +169,7 @@ class Place with ChangeNotifier {
       rate: parsedJson['rate'] != null
           ? double.parse(parsedJson['rate'].toString())
           : 0.0,
+      places: palcesRaw,
     );
   }
 }

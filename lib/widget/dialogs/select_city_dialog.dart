@@ -301,7 +301,7 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                             decoration: BoxDecoration(
                               color: selectedCity == null
                                   ? Colors.grey
-                                  : Colors.blue,
+                                  : Colors.orange,
                               borderRadius: BorderRadius.circular(25),
                             ),
                             child: Center(

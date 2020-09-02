@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/provider/app_theme.dart';
+import 'package:tapsalon/screen/place_detail/complex_detail_screen.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_comments_screen.dart';
 import 'package:tapsalon/screen/place_detail/place_location_screen.dart';
 import 'package:tapsalon/screen/user_profile/user_detail_info_screen.dart';
@@ -105,86 +106,10 @@ class _MyAppState extends State<MyApp> {
             PlaceDetailCommentsScreen.routeName: (ctx) =>
                 PlaceDetailCommentsScreen(),
             PlaceLocationScreen.routeName: (ctx) => PlaceLocationScreen(),
+            ComplexDetailScreen.routeName: (ctx) => ComplexDetailScreen(),
           },
         )
-//          : Platform.isIOS
-//              ? CupertinoApp(
-//                  title: Strings.appTitle,
-//                  home: Directionality(
-//                    child: SplashScreens(),
-//                    textDirection: TextDirection.rtl, // setting rtl
-//                  ),
-//                  routes: {
-//                    HomeScreen.routeName: (ctx) => HomeScreen(),
-//                    FavoriteScreen.routeName: (ctx) => FavoriteScreen(),
-//                    FavoriteView.routeName: (ctx) => FavoriteView(),
-//                    PlaceDetailScreen.routeName: (ctx) => PlaceDetailScreen(),
-//                    LoginScreen.routeName: (ctx) => LoginScreen(),
-//                    UserDetailInfoEditScreen.routeName: (ctx) =>
-//                        UserDetailInfoEditScreen(),
-//                    ProfileScreen.routeName: (ctx) => ProfileScreen(),
-//                    SearchScreen.routeName: (ctx) => SearchScreen(),
-//                    AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
-//                    ContactWithUs.routeName: (ctx) => ContactWithUs(),
-//                    NavigationBottomScreen.routeName: (ctx) =>
-//                        NavigationBottomScreen(),
-//                    ReserveDetailScreen.routeName: (ctx) =>
-//                        ReserveDetailScreen(),
-//                    NotificationScreen.routeName: (ctx) => NotificationScreen(),
-//                    CommentCreateScreen.routeName: (ctx) =>
-//                        CommentCreateScreen(),
-//                    MapScreen.routeName: (ctx) => MapScreen(),
-//                  },
-//                )
-//              : MaterialApp(
-//                  title: Strings.appTitle,
-//                  theme: ThemeData(
-//                    primarySwatch: Colors.green,
-//                    accentColor: Colors.amber,
-//                    textTheme: ThemeData.light().textTheme.copyWith(
-//                          bodyText1: TextStyle(
-//                            fontFamily: 'Iransans',
-//                            color: Color.fromRGBO(20, 51, 51, 1),
-//                          ),
-//                          bodyText2: TextStyle(
-//                            fontFamily: 'Iransans',
-//                            color: Color.fromRGBO(20, 51, 51, 1),
-//                          ),
-//                          headline1: TextStyle(
-//                            fontSize: 20,
-//                            fontFamily: 'Iransans',
-//                            fontWeight: FontWeight.bold,
-//                          ),
-//                        ),
-//                  ),
-//                  // home: CategoriesScreen(),
-//
-//                  home: Directionality(
-//                    child: SplashScreens(),
-//                    textDirection: TextDirection.rtl, // setting rtl
-//                  ),
-//                  routes: {
-//                    HomeScreen.routeName: (ctx) => HomeScreen(),
-//                    FavoriteScreen.routeName: (ctx) => FavoriteScreen(),
-//                    FavoriteView.routeName: (ctx) => FavoriteView(),
-//                    PlaceDetailScreen.routeName: (ctx) => PlaceDetailScreen(),
-//                    LoginScreen.routeName: (ctx) => LoginScreen(),
-//                    UserDetailInfoEditScreen.routeName: (ctx) =>
-//                        UserDetailInfoEditScreen(),
-//                    ProfileScreen.routeName: (ctx) => ProfileScreen(),
-//                    SearchScreen.routeName: (ctx) => SearchScreen(),
-//                    AboutUsScreen.routeName: (ctx) => AboutUsScreen(),
-//                    ContactWithUs.routeName: (ctx) => ContactWithUs(),
-//                    NavigationBottomScreen.routeName: (ctx) =>
-//                        NavigationBottomScreen(),
-//                    ReserveDetailScreen.routeName: (ctx) =>
-//                        ReserveDetailScreen(),
-//                    NotificationScreen.routeName: (ctx) => NotificationScreen(),
-//                    CommentCreateScreen.routeName: (ctx) =>
-//                        CommentCreateScreen(),
-//                    MapScreen.routeName: (ctx) => MapScreen(),
-//                  },
-//                ),
+
         );
   }
 }
