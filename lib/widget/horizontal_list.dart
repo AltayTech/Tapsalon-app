@@ -9,8 +9,8 @@ import 'items/main_page_place_item.dart';
 
 class HorizontalList extends StatelessWidget {
   const HorizontalList({
-    @required this.listTitle,
-    @required this.list,
+    required this.listTitle,
+    required this.list,
   });
 
   final String listTitle;

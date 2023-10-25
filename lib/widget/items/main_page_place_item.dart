@@ -9,7 +9,7 @@ import '../en_to_ar_number_convertor.dart';
 class MainPagePlaceItem extends StatelessWidget {
   final PlaceInSearch loadedPlace;
 
-  MainPagePlaceItem({this.loadedPlace});
+  MainPagePlaceItem({required this.loadedPlace});
 
   @override
   Widget build(BuildContext context) {

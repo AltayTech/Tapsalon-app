@@ -22,13 +22,13 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
   var _isLoading;
   bool _isInit = true;
 
-  Place loadedPlace;
+  late Place loadedPlace;
 
   var title;
 
   var imageUrl;
 
-  String stars;
+  late String stars;
 
   bool isLike = false;
   int _current = 0;
@@ -46,7 +46,7 @@ class _PlaceDetailTimingScreenState extends State<PlaceDetailTimingScreen>
     setState(() {
       _isLoading = true;
     });
-    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+    final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
     final placeId = arguments != null ? arguments['placeId'] : 0;
     title = arguments != null ? arguments['name'] : '';
     imageUrl = arguments != null ? arguments['imageUrl'] : '';

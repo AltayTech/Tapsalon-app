@@ -11,12 +11,12 @@ class Favorite with ChangeNotifier {
   final String updated_at;
 
   Favorite(
-      {this.id,
-      this.user_id,
-      this.place_id,
-      this.place,
-      this.created_at,
-      this.updated_at});
+      {required this.id,
+      required this.user_id,
+      required this.place_id,
+      required this.place,
+      required this.created_at,
+      required this.updated_at});
 
   factory Favorite.fromJson(Map<String, dynamic> parsedJson) {
     return Favorite(

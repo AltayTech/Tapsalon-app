@@ -8,20 +8,25 @@ class City with ChangeNotifier {
   final double longitude;
 
   City({
-    this.id,
-    this.provinceId,
-    this.name,
-    this.latitude,
-    this.longitude,
-  });
+    id,
+    provinceId,
+    name,
+    latitude,
+    longitude,
+  })  : this.id = 1,
+        this.provinceId = 0,
+        this.name = '',
+        this.latitude = 0.0,
+        this.longitude = 0.0;
 
   factory City.fromJson(Map<String, dynamic> parsedJson) {
     return City(
-      id: parsedJson['id']!= null ? parsedJson['id'] :0,
-      provinceId: parsedJson['ostan_id']!= null ? parsedJson['ostan_id'] :0,
-      name: parsedJson['name']!= null ? parsedJson['name'] :'',
-      latitude: parsedJson['latitude']!= null ? parsedJson['latitude'] :0.0,
-      longitude: parsedJson['longitude']!= null ? parsedJson['longitude'] :0.0,
+      id: parsedJson['id'] != null ? parsedJson['id'] : 0,
+      provinceId: parsedJson['ostan_id'] != null ? parsedJson['ostan_id'] : 0,
+      name: parsedJson['name'] != null ? parsedJson['name'] : '',
+      latitude: parsedJson['latitude'] != null ? parsedJson['latitude'] : 0.0,
+      longitude:
+          parsedJson['longitude'] != null ? parsedJson['longitude'] : 0.0,
     );
   }
 }

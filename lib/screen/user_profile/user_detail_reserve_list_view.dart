@@ -5,7 +5,7 @@ class UserDetailReserveView extends StatefulWidget {
 
   final User user;
 
-  UserDetailReserveView({this.user});
+  UserDetailReserveView({required this.user});
 
   @override
   _UserDetailReserveViewState createState() =>
@@ -197,9 +197,9 @@ class _UserDetailReserveViewState
 
 class InfoItem extends StatelessWidget {
   const InfoItem({
-    Key key,
-    @required this.title,
-    @required this.text,
+    required Key key,
+    required this.title,
+    required this.text,
   }) : super(key: key);
 
   final String title;
@@ -229,11 +229,11 @@ class InfoItem extends StatelessWidget {
 
 class OrderItem extends StatelessWidget {
   const OrderItem({
-    Key key,
-    @required this.number,
-    @required this.date,
-    @required this.sellCase,
-    @required this.status,
+    required Key key,
+    required this.number,
+    required this.date,
+    required this.sellCase,
+    required this.status,
   }) : super(key: key);
 
   final String number;

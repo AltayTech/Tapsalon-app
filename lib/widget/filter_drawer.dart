@@ -35,7 +35,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
   bool isDiscounted = false;
   bool isReservable = false;
 
-  City selectedCity;
+  late City selectedCity;
 
   List<Region> regionList = [];
 
@@ -59,7 +59,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      onTap: tapHandler,
+      onTap: () => tapHandler,
     );
   }
 
@@ -309,7 +309,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                         .contains(index)
                                     ? BoxDecoration(
                                         color: AppTheme.white,
-                                  borderRadius: BorderRadius.circular(5),
+                                        borderRadius: BorderRadius.circular(5),
                                         boxShadow: [
                                           BoxShadow(
                                               color:
@@ -320,7 +320,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                       )
                                     : BoxDecoration(
                                         color: AppTheme.white,
-                                  borderRadius: BorderRadius.circular(5),
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -390,7 +390,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                 decoration: _selectedFieldIndexs.contains(index)
                                     ? BoxDecoration(
                                         color: AppTheme.white,
-                                  borderRadius: BorderRadius.circular(5),
+                                        borderRadius: BorderRadius.circular(5),
                                         boxShadow: [
                                           BoxShadow(
                                               color:
@@ -401,7 +401,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                       )
                                     : BoxDecoration(
                                         color: AppTheme.white,
-                                  borderRadius: BorderRadius.circular(5),
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -719,9 +719,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
                                     border: Border.all(
-                                      color: Colors.grey,
-                                      width: 0.5
-                                    ),
+                                        color: Colors.grey, width: 0.5),
                                   ),
                                   child: Center(
                                     child: Padding(

@@ -7,10 +7,10 @@ class Event implements EventInterface {
   final Widget dot;
 
   Event({
-    this.date,
-    this.title,
-    this.icon,
-    this.dot,
+    required this.date,
+    required this.title,
+    required  this.icon,
+    required  this.dot,
   }) : assert(date != null);
 
   @override

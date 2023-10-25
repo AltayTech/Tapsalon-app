@@ -16,19 +16,19 @@ class UserInComment with ChangeNotifier {
   final String updated_at;
 
   UserInComment({
-    this.id,
-    this.fname,
-    this.lname,
-    this.role_id,
-    this.gender,
-    this.phone,
-    this.mobile,
-    this.no_comments,
-    this.no_likes,
-    this.no_reserves,
-    this.wallet,
-    this.created_at,
-    this.updated_at,
+    required this.id,
+    required  this.fname,
+    required this.lname,
+    required  this.role_id,
+    required  this.gender,
+    required this.phone,
+    required  this.mobile,
+    required  this.no_comments,
+    required  this.no_likes,
+    required  this.no_reserves,
+    required  this.wallet,
+    required  this.created_at,
+    required  this.updated_at,
   });
 
   factory UserInComment.fromJson(Map<String, dynamic> parsedJson) {

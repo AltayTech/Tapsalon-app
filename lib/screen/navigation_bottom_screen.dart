@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart' as intl;
@@ -12,9 +11,9 @@ import '../screen/home_screen.dart';
 import '../screen/map_screen.dart';
 import '../screen/user_profile/profile_view.dart';
 import '../widget/dialogs/custom_dialog_enter.dart';
+import '../widget/dialogs/select_city_dialog.dart';
 import '../widget/favorite_view.dart';
 import '../widget/main_drawer.dart';
-import '../widget/dialogs/select_city_dialog.dart';
 
 class NavigationBottomScreen extends StatefulWidget {
   static const routeName = '/NavigationBottomScreen';
@@ -26,7 +25,7 @@ class NavigationBottomScreen extends StatefulWidget {
 class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var init = true;
-  DateTime currentBackPressTime;
+  late DateTime currentBackPressTime;
 
   final List<Map<String, Object>> _pages = [
     {
@@ -85,7 +84,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
   }
 
   Future<bool> onWillPop() async {
-    if (_scaffoldKey.currentState.isDrawerOpen) {
+    if (_scaffoldKey.currentState!.isDrawerOpen) {
       Navigator.pop(context);
       return false;
     } else {
@@ -93,7 +92,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
       if (currentBackPressTime == null ||
           now.difference(currentBackPressTime) > Duration(seconds: 2)) {
         currentBackPressTime = now;
-        FlutterToast(context).showToast(
+        FToast().showToast(
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white70,
@@ -181,7 +180,7 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
             onTap: () {
               FocusScope.of(context).requestFocus(new FocusNode());
             },
-            child: _pages[_selectedPageIndex]['page'],
+            child: _pages[_selectedPageIndex]['page'] as Widget,
           ),
           bottomNavigationBar: BottomNavigationBar(
             elevation: 2,
@@ -198,32 +197,24 @@ class _NavigationBottomScreenState extends State<NavigationBottomScreen> {
               BottomNavigationBarItem(
                 backgroundColor: AppTheme.white,
                 icon: Icon(Icons.home),
-                title: Text(
-                  Strings.navHome,
-                ),
+                label: Strings.navHome,
               ),
               BottomNavigationBarItem(
                 backgroundColor: AppTheme.white,
                 icon: Icon(
                   Icons.map,
                 ),
-                title: Text(
-                  Strings.naveNearby,
-                ),
+                label: Strings.naveNearby,
               ),
               BottomNavigationBarItem(
                 backgroundColor: AppTheme.white,
                 icon: Icon(Icons.favorite),
-                title: Text(
-                  Strings.naveFavorite,
-                ),
+                label: Strings.naveFavorite,
               ),
               BottomNavigationBarItem(
                 backgroundColor: AppTheme.white,
                 icon: Icon(Icons.account_circle),
-                title: Text(
-                  Strings.navProfile,
-                ),
+                label: Strings.navProfile,
               ),
             ],
           ),

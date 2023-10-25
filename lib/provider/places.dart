@@ -43,7 +43,7 @@ class Places with ChangeNotifier {
         medium: 'assets/images/place_placeholder.jpeg',
         large: 'assets/images/place_placeholder.jpeg',
         thumb: 'assets/images/place_placeholder.jpeg',
-      ));
+      ), extension: '');
 
   //search parameters
   String searchKey = '';
@@ -73,18 +73,18 @@ class Places with ChangeNotifier {
     per_page: 10,
     prev_page_url: '',
     to: 10,
-    total: 10,
+    total: 10, first_page_url: '',
   );
   SearchDetails _placeSearchDetails = _searchDetailsZero;
   SearchDetails _favoriteComplexSearchDetails = _searchDetailsZero;
   SearchDetails _facilitiesSearchDetails = _searchDetailsZero;
   SearchDetails _fieldsSearchDetails = _searchDetailsZero;
 
-  Place _itemPlace;
+  late Place _itemPlace;
 
-  SearchDetails _commentsSearchDetails;
+  late SearchDetails _commentsSearchDetails;
 
-  bool isLiked;
+  late bool isLiked;
 
   Place get itemPlace => _itemPlace;
 
@@ -247,7 +247,7 @@ class Places with ChangeNotifier {
 
     try {
       final response = await get(
-        url,
+        Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -309,7 +309,7 @@ class Places with ChangeNotifier {
     List<PlaceInSearch> loadedPlaces = [];
 
     try {
-      final response = await get(url);
+      final response = await get(Uri.parse(url));
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         print(extractedData.toString());
@@ -347,7 +347,7 @@ class Places with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(Uri.parse(url));
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         print(extractedData);
@@ -373,7 +373,7 @@ class Places with ChangeNotifier {
     final url = Urls.rootUrl + Urls.placesEndPoint + '/$placeId/comments';
     print(url);
     try {
-      final response = await get(url);
+      final response = await get(Uri.parse(url));
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         print(extractedData.toString());
@@ -420,7 +420,7 @@ class Places with ChangeNotifier {
 
     try {
       final response = await post(
-        url,
+        Uri.parse(url),
         headers: {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
@@ -463,7 +463,7 @@ class Places with ChangeNotifier {
 
     try {
       final response = await post(
-        url,
+        Uri.parse(url),
         headers: {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
@@ -499,7 +499,7 @@ class Places with ChangeNotifier {
 
       var _token = prefs.getString('token');
       final response = await get(
-        url,
+        Uri.parse(url),
         headers: {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
@@ -533,7 +533,7 @@ class Places with ChangeNotifier {
     print(_token);
 
     try {
-      final response = await post(url,
+      final response = await post(Uri.parse(url),
           headers: {
             'Authorization': 'Bearer $_token',
             'Content-Type': 'application/json',
@@ -568,12 +568,12 @@ class Places with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(Uri.parse(url));
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List;
         print(extractedData.toString());
 
-        List<Facility> dataRaw = new List<Facility>();
+        List<Facility> dataRaw = [];
         dataRaw = extractedData.map((i) => Facility.fromJson(i)).toList();
 
         _itemsFacilities.clear();
@@ -596,12 +596,12 @@ class Places with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(Uri.parse(url));
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List;
         print(extractedData.toString());
 
-        List<Field> dataRaw = new List<Field>();
+        List<Field> dataRaw = [];
         dataRaw = extractedData.map((i) => Field.fromJson(i)).toList();
 
         _itemsFields.clear();
@@ -623,7 +623,7 @@ class Places with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(Uri.parse(url));
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
         print(extractedData.toString());
@@ -646,7 +646,7 @@ class Places with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(Uri.parse(url));
 
       final extractedData = json.decode(response.body);
 
@@ -664,7 +664,7 @@ class Places with ChangeNotifier {
     }
   }
 
-  Future<void> retrieveFavoriteComplex() async {
+  Future<bool> retrieveFavoriteComplex() async {
     print('retrieveFavoriteComplex');
 
     final url = Urls.rootUrl + Urls.userLikesEndPoint;
@@ -677,7 +677,7 @@ class Places with ChangeNotifier {
 
     try {
       final response = await get(
-        url,
+        Uri.parse(url),
         headers: {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',

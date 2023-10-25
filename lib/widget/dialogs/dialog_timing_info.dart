@@ -7,10 +7,10 @@ class DialogTimingInfo extends StatelessWidget {
   final Image image;
 
   DialogTimingInfo({
-    @required this.title,
-    @required this.description,
-    @required this.buttonText,
-    this.image,
+    required this.title,
+    required this.description,
+    required this.buttonText,
+    required this.image,
   });
 
   @override
@@ -75,7 +75,7 @@ class DialogTimingInfo extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   child: InkWell(
                     onTap: () {
-                      return Navigator.of(context)
+                       Navigator.of(context)
                           .popAndPushNamed(ProfileScreen.routeName);
                     },
                     child: Container(

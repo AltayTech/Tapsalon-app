@@ -4,7 +4,10 @@ class PriceRange with ChangeNotifier {
   final String min;
   final String max;
 
-  PriceRange({this.min, this.max});
+  PriceRange({
+    required this.min,
+    required this.max,
+  });
 
   factory PriceRange.fromJson(Map<String, dynamic> parsedJson) {
     return PriceRange(

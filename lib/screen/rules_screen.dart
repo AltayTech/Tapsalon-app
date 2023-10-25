@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart' as intl;
@@ -22,7 +20,7 @@ class _RulesScreenState extends State<RulesScreen> {
   bool _isInit = true;
   var _isLoading;
 
-  List<RuleData> loadedruleList;
+  late List<RuleData> loadedruleList;
 
   @override
   void didChangeDependencies() {
@@ -82,13 +80,16 @@ class _RulesScreenState extends State<RulesScreen> {
                           itemCount: loadedruleList.length,
                           itemBuilder: (ctx, i) => HtmlWidget(
                             loadedruleList[i].content,
-                            onTapUrl: (url) => showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                title: Text('onTapUrl'),
-                                content: Text(url),
-                              ),
-                            ),
+                            onTapUrl: (url) async {
+                              showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  title: Text('onTapUrl'),
+                                  content: Text(url),
+                                ),
+                              );
+                              return true;
+                            },
                           ),
                         ),
                       ),

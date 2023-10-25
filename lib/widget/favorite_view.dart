@@ -26,7 +26,7 @@ class _FavoriteViewState extends State<FavoriteView>
   int page = 1;
   List<String> filterList = [];
 
-  SearchDetails searchDetails;
+  late SearchDetails searchDetails;
   final searchTextController = TextEditingController();
 
   ScrollController _scrollController = new ScrollController();
@@ -138,7 +138,7 @@ class _FavoriteViewState extends State<FavoriteView>
                     Container(
                       width: double.infinity,
                       height:
-                          deviceHeight - Scaffold.of(context).appBarMaxHeight,
+                          deviceHeight - Scaffold.of(context).appBarMaxHeight!,
                       child: ListView.builder(
                         controller: _scrollController,
                         scrollDirection: Axis.vertical,

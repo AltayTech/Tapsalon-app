@@ -28,11 +28,11 @@ class _PlaceDetailCommentsScreenState extends State<PlaceDetailCommentsScreen>
   var _isLoading;
   bool _isInit = true;
 
-  Place loadedPlace;
+  late Place loadedPlace;
 
   List<Comment> loadedComment = [];
 
-  SearchDetails loadedCommentsDetail;
+  late SearchDetails loadedCommentsDetail;
 
   @override
   void didChangeDependencies() async {
@@ -65,7 +65,7 @@ class _PlaceDetailCommentsScreenState extends State<PlaceDetailCommentsScreen>
     setState(() {
       _isLoading = true;
     });
-    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+    final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
     loadedPlace = arguments['place'];
 //    loadedPlace = Provider.of<Places>(context, listen: false).itemPlace;
     setState(() {
@@ -79,8 +79,8 @@ class _PlaceDetailCommentsScreenState extends State<PlaceDetailCommentsScreen>
         builder: (ctx) => CustomDialogEnter(
               title: 'ورود',
               buttonText: 'صفحه ورود ',
-              description: 'برای ادامه باید وارد شوید',
-            ));
+              description: 'برای ادامه باید وارد شوید', ),
+            );
   }
 
   @override

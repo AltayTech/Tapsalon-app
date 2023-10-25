@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import '../models/city.dart';
 
 class MainCities with ChangeNotifier {
@@ -16,22 +17,22 @@ class MainCities with ChangeNotifier {
   final int total;
 
   MainCities(
-      {this.current_page,
-      this.data,
-      this.first_page_url,
-      this.from,
-      this.last_page,
-      this.last_page_url,
-      this.next_page_url,
-      this.path,
-      this.per_page,
-      this.prev_page_url,
-      this.to,
-      this.total});
+      {required this.current_page,
+      required this.data,
+      required this.first_page_url,
+      required this.from,
+      required this.last_page,
+      required this.last_page_url,
+      required this.next_page_url,
+      required this.path,
+      required this.per_page,
+      required this.prev_page_url,
+      required this.to,
+      required this.total});
 
   factory MainCities.fromJson(Map<String, dynamic> parsedJson) {
     var dataList = parsedJson['data'] as List;
-    List<City> dataRaw = new List<City>();
+    List<City> dataRaw = [];
     dataRaw = dataList.map((i) => City.fromJson(i)).toList();
 
     return MainCities(
@@ -46,6 +47,7 @@ class MainCities with ChangeNotifier {
       prev_page_url: parsedJson['prev_page_url'],
       to: parsedJson['to'],
       total: parsedJson['total'],
+      first_page_url: '',
     );
   }
 }

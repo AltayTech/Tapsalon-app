@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
 
-
 class MainPlaces with ChangeNotifier {
   final int current_page;
   final List<PlaceInSearch> data;
@@ -16,23 +15,24 @@ class MainPlaces with ChangeNotifier {
   final int to;
   final int total;
 
-  MainPlaces(
-      {this.current_page,
-      this.data,
-      this.first_page_url,
-      this.from,
-      this.last_page,
-      this.last_page_url,
-      this.next_page_url,
-      this.path,
-      this.per_page,
-      this.prev_page_url,
-      this.to,
-      this.total});
+  MainPlaces({
+    required this.current_page,
+    required this.data,
+    required this.first_page_url,
+    required this.from,
+    required this.last_page,
+    required this.last_page_url,
+    required this.next_page_url,
+    required this.path,
+    required this.per_page,
+    required this.prev_page_url,
+    required this.to,
+    required this.total,
+  });
 
   factory MainPlaces.fromJson(Map<String, dynamic> parsedJson) {
     var dataList = parsedJson['data'] as List;
-    List<PlaceInSearch> dataRaw = new List<PlaceInSearch>();
+    List<PlaceInSearch> dataRaw = [];
     dataRaw = dataList.map((i) => PlaceInSearch.fromJson(i)).toList();
 
     return MainPlaces(
@@ -54,6 +54,7 @@ class MainPlaces with ChangeNotifier {
           : '',
       to: parsedJson['to'] != null ? parsedJson['to'] : 0,
       total: parsedJson['total'] != null ? parsedJson['total'] : 0,
+      first_page_url: '',
     );
   }
 }

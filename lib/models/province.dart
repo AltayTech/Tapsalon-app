@@ -7,9 +7,9 @@ class Province with ChangeNotifier {
   final int no_users;
 
   Province({
-    this.id,
-    this.name,
-    this.no_users,
+    required this.id,
+    required this.name,
+    this.no_users = 0,
   });
 
   factory Province.fromJson(Map<String, dynamic> parsedJson) {

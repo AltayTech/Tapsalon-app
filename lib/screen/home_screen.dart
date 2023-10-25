@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/models/city.dart';
@@ -28,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<PlaceInSearch> loadedPlaceMostViewed = [];
   List<PlaceInSearch> loadedPlaceBestRated = [];
 
-  City selectedCity;
+  late City selectedCity;
 
   @override
   void initState() {
@@ -157,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .searchKey = _searchTextController.text;
                             Provider.of<Places>(context, listen: false)
                                 .searchBuilder();
-                            return Navigator.of(context).pushNamed(
+                            Navigator.of(context).pushNamed(
                                 SearchScreen.routeName,
                                 arguments: 0);
                           },
@@ -183,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: AppTheme.white,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(top:8.0,bottom: 8),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -193,9 +192,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Provider.of<Places>(context, listen: false).sType =
                               '1';
 
-                          Navigator.of(context).pushNamed(
-                              SearchScreen.routeName,
-                              arguments: 1);
+                          Navigator.of(context)
+                              .pushNamed(SearchScreen.routeName, arguments: 1);
                         },
                         child: MainTopicItem(
                           number: 1,
@@ -211,9 +209,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Provider.of<Places>(context, listen: false).sType =
                               '2';
 
-                          Navigator.of(context).pushNamed(
-                              SearchScreen.routeName,
-                              arguments: 2);
+                          Navigator.of(context)
+                              .pushNamed(SearchScreen.routeName, arguments: 2);
                         },
                         child: MainTopicItem(
                           number: 1,
@@ -229,9 +226,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Provider.of<Places>(context, listen: false).sType =
                               '3';
 
-                          Navigator.of(context).pushNamed(
-                              SearchScreen.routeName,
-                              arguments: 3);
+                          Navigator.of(context)
+                              .pushNamed(SearchScreen.routeName, arguments: 3);
                         },
                         child: MainTopicItem(
                           number: 1,

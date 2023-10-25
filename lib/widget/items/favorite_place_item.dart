@@ -12,7 +12,7 @@ class FavoriteComplexItem extends StatelessWidget {
   final Favorite favoritePlace;
 
   FavoriteComplexItem({
-    this.favoritePlace,
+    required this.favoritePlace,
   });
 
   @override

@@ -9,14 +9,21 @@ class ImageObj with ChangeNotifier {
 
   final ImageUrl url;
 
-  ImageObj({this.id, this.filename, this.extension, this.url});
+  ImageObj({
+    this.id = 0,
+    this.filename = '',
+    this.extension = '',
+    url,
+  }) : this.url = ImageUrl();
 
   factory ImageObj.fromJson(Map<String, dynamic> parsedJson) {
     return ImageObj(
-      id: parsedJson['id']!=null?parsedJson['id']:0,
-      filename: parsedJson['filename']!=null?parsedJson['filename']:'',
-      extension: parsedJson['extension']!=null?parsedJson['extension']:'',
-      url: parsedJson['url']!=null?ImageUrl.fromJson(parsedJson['url']):ImageUrl(),
+      id: parsedJson['id'] != null ? parsedJson['id'] : 0,
+      filename: parsedJson['filename'] != null ? parsedJson['filename'] : '',
+      extension: parsedJson['extension'] != null ? parsedJson['extension'] : '',
+      url: parsedJson['url'] != null
+          ? ImageUrl.fromJson(parsedJson['url'])
+          : ImageUrl(thumb: '', medium: '', large: ''),
     );
   }
 }

@@ -15,6 +15,7 @@ import '../widget/en_to_ar_number_convertor.dart';
 import '../widget/filter_drawer.dart';
 import '../widget/main_drawer.dart';
 import '../widget/dialogs/select_city_dialog.dart';
+import 'package:badges/badges.dart' as badges;
 
 class SalonFinderScreen extends StatefulWidget {
   static const routeName = '/searchScreen';
@@ -32,9 +33,9 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
   int page = 1;
   List<String> filterList = [];
 
-  SearchDetails searchDetails;
+  late SearchDetails searchDetails;
   final searchTextController = TextEditingController();
-  TabController _tabController;
+  late TabController _tabController;
 
   ScrollController _scrollController = new ScrollController();
 
@@ -71,7 +72,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      int tabIndex = ModalRoute.of(context).settings.arguments as int;
+      int tabIndex = ModalRoute.of(context)?.settings.arguments as int;
       _tabController.index = tabIndex;
 
       Provider.of<Places>(context, listen: false).searchBuilder();
@@ -179,11 +180,12 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
           iconTheme: new IconThemeData(color: AppTheme.appBarIconColor),
           actions: <Widget>[
             Consumer<UserInfo>(
-              builder: (_, notification, ch) => Badge(
-                color: notification.notificationItems.length == 0
-                    ? Colors.grey
-                    : Colors.green,
-                value: notification.notificationItems.length.toString(),
+              builder: (_, notification, ch) => badges.Badge(
+                // color: notification.notificationItems.length == 0
+                //     ? Colors.grey
+                //     : Colors.green,
+                badgeContent: Text( notification.notificationItems.length.toString()),
+                // value: notification.notificationItems.length.toString(),
                 child: ch,
               ),
               child: IconButton(
@@ -255,7 +257,7 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                             Container(
                               height: deviceWidth * 0.13,
                               width: deviceWidth * 0.13,
-                              child: FlatButton(
+                              child: TextButton(
                                 child: Icon(
                                   Icons.search,
                                   color: Colors.blue,
@@ -487,11 +489,11 @@ class _SalonFinderScreenState extends State<SalonFinderScreen>
                                             fontFamily: 'Iransans',
                                             fontSize: textScaleFactor * 13.0,
                                           ),
-                                          onChanged: (String newValue) {
+                                          onChanged: (String? newValue) {
                                             setState(() {
-                                              sortValue = newValue;
+                                              sortValue = newValue!;
                                             });
-                                            setSort(newValue);
+                                            setSort(newValue!);
                                           },
                                           items: sortList
                                               .map<DropdownMenuItem<String>>(

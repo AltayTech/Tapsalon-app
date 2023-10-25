@@ -24,7 +24,7 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
   var _isLoading = false;
 
   Completer<GoogleMapController> _controller = Completer();
-  GoogleMapController myController;
+  late GoogleMapController myController;
   static const LatLng _center = const LatLng(38.074065, 46.312711);
 
   final Set<Marker> _markers = {};
@@ -33,17 +33,17 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
 
   MapType _currentMapType = MapType.normal;
 
-  double speed;
+  late double speed;
 
-  AnimationController _animationController;
-  Animation<Offset> _slideAnimation;
-  Animation<double> _opacityAnimation;
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
+  late Animation<double> _opacityAnimation;
 
   BitmapDescriptor salonBitmapDescriptor = BitmapDescriptor.defaultMarker;
   BitmapDescriptor gymBitmapDescriptor = BitmapDescriptor.defaultMarker;
   BitmapDescriptor entBitmapDescriptor = BitmapDescriptor.defaultMarker;
 
-  Place selectedPlace;
+  late Place selectedPlace;
 
   @override
   void didChangeDependencies() {
@@ -57,8 +57,8 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
   }
 
   Future<void> searchItem() async {
-    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
-    selectedPlace = arguments != null ? arguments['place'] : Place();
+    final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
+    selectedPlace = arguments != null ? arguments['place'] : Place(id: 0);
     _onAddMarker(selectedPlace);
     changePick(selectedPlace);
   }
@@ -109,29 +109,31 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
     _controller.complete(controller);
   }
 
-  Geolocator _geolocator;
-  Position _position;
+   // Geolocator _geolocator=Geolocator();
+  late Position _position;
 
-  void checkPermission() {
-    _geolocator.checkGeolocationPermissionStatus().then((status) {
+  void checkPermission()async {
+    LocationPermission permission = await Geolocator.requestPermission();
+
+    Geolocator.checkPermission().then((status) {
       print('status: $status');
     });
-    _geolocator
-        .checkGeolocationPermissionStatus(
-            locationPermission: GeolocationPermission.locationAlways)
-        .then((status) {
-      print('always status: $status');
-    });
-    _geolocator.checkGeolocationPermissionStatus(
-        locationPermission: GeolocationPermission.locationWhenInUse)
-      ..then((status) {
-        print('whenInUse status: $status');
-      });
+    // _geolocator
+    //     .checkGeolocationPermissionStatus(
+    //         locationPermission: GeolocationPermission.locationAlways)
+    //     .then((status) {
+    //   print('always status: $status');
+    // });
+    // _geolocator.checkGeolocationPermissionStatus(
+    //     locationPermission: GeolocationPermission.locationWhenInUse)
+    //   ..then((status) {
+    //     print('whenInUse status: $status');
+    //   });
   }
 
-  BitmapDescriptor pinLocationIconSalon;
-  BitmapDescriptor pinLocationIconEnt;
-  BitmapDescriptor pinLocationIconGym;
+  late BitmapDescriptor pinLocationIconSalon;
+  late BitmapDescriptor pinLocationIconEnt;
+  late BitmapDescriptor pinLocationIconGym;
 
   void setCustomMapPin() async {
     print('setCustomMapPin');
@@ -182,13 +184,14 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
         curve: Curves.easeIn,
       ),
     );
-    _geolocator = Geolocator();
-    LocationOptions locationOptions =
-        LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 1);
+    // Geolocator _geolocator = Geolocator();
+    LocationSettings locationSettings=
+    // LocationOptions locationOptions =
+    LocationSettings(accuracy: LocationAccuracy.high, distanceFilter: 1);
 
     checkPermission();
 
-    _geolocator.getPositionStream(locationOptions).listen((Position position) {
+    Geolocator.getPositionStream(locationSettings: locationSettings ).listen((Position position) {
       _position = position;
     });
     setCustomMapPin();
@@ -257,7 +260,7 @@ class _PlaceLocationScreenState extends State<PlaceLocationScreen>
                       Container(
                         height: deviceWidth * 0.5,
                         child: AnimatedContainer(
-                          duration: _animationController.duration,
+                          duration: _animationController.duration!,
                           curve: Curves.easeIn,
                           child: FadeTransition(
                             opacity: _opacityAnimation,

@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -31,13 +30,13 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
   var _isLoading;
   bool _isInit = true;
 
-  Place loadedPlace;
+  late Place loadedPlace;
 
   var title;
 
   var imageUrl;
 
-  String stars;
+  late String stars;
 
   bool isLike = false;
   int _current = 0;
@@ -77,7 +76,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
     setState(() {
       _isLoading = true;
     });
-    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+    final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
     final placeId = arguments != null ? arguments['placeId'] : 0;
     title = arguments != null ? arguments['name'] : '';
     imageUrl = arguments != null ? arguments['imageUrl'] : '';
@@ -162,9 +161,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                       children: <Widget>[
                         GestureDetector(
                           onTap: () {
-
-                              _showImageDialog();
-
+                            _showImageDialog();
                           },
                           child: Container(
                             height: deviceWidth * 0.6,
@@ -182,7 +179,8 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                       initialPage: 0,
                                       enableInfiniteScroll: true,
                                       reverse: false,
-                                      autoPlay: gallery.length==1?true:false,
+                                      autoPlay:
+                                          gallery.length == 1 ? true : false,
                                       height: double.infinity,
                                       autoPlayInterval: Duration(seconds: 5),
                                       autoPlayAnimationDuration:
@@ -213,12 +211,12 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                   placeholder: AssetImage(
                                                       'assets/images/circle.gif'),
                                                   image: gallery.url.large
-                                                          .startsWith(
-                                                              'assets/images')
+                                                      .startsWith(
+                                                      'assets/images')
                                                       ? AssetImage(
-                                                          gallery.url.medium)
+                                                      gallery.url.medium)
                                                       : NetworkImage(
-                                                          gallery.url.medium),
+                                                      gallery.url.medium) as ImageProvider,
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
@@ -362,15 +360,14 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                       textScaleFactor * 14.0,
                                                 ),
                                               ),
-                                              loadedPlace.price != null &&
-                                                      loadedPlace.price != 0
+                                              loadedPlace.price != 0
                                                   ? Row(
                                                       children: <Widget>[
                                                         Container(
                                                           child: Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .symmetric(
+                                                                    .symmetric(
                                                                     vertical: 4,
                                                                     horizontal:
                                                                         5),
@@ -664,7 +661,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 right: 1,
                                                                 left: 3.0,
                                                                 top: 1,
@@ -679,7 +676,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 right: 5,
                                                                 left: 10,
                                                                 top: 4,
@@ -722,7 +719,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 right: 1,
                                                                 left: 3.0,
                                                                 top: 1,
@@ -737,7 +734,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 right: 5,
                                                                 left: 10,
                                                                 top: 4,
@@ -814,7 +811,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                           child: Text(
                                             'مشاهده تایم ها',
                                             style: AppTheme.textTheme.headline6
-                                                .copyWith(color: Colors.white),
+                                                ?.copyWith(color: Colors.white),
 //                                            style: TextStyle(
 //                                              color: Colors.white,
 //                                              fontFamily: 'Iransans',

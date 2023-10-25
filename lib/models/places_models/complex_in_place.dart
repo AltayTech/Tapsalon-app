@@ -8,9 +8,9 @@ class ComplexInPlace with ChangeNotifier {
   final String about;
 
   ComplexInPlace({
-    this.id,
-    this.name,
-    this.about,
+     this.id=0,
+     this.name='',
+     this.about='',
   });
 
   factory ComplexInPlace.fromJson(Map<String, dynamic> parsedJson) {

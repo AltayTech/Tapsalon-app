@@ -15,6 +15,8 @@ class Cities with ChangeNotifier {
     id: 0,
     provinceId: 0,
     name: '',
+    latitude: 0.0,
+    longitude: 0.0,
 //    description: '',
 //    noUsers: 0,
   );
@@ -47,13 +49,13 @@ class Cities with ChangeNotifier {
     print('getSelectedCity');
 
     final prefs = await SharedPreferences.getInstance();
-    int _selectedCityId = prefs.getInt('selectedCity');
+    int? _selectedCityId = prefs.getInt('selectedCity');
     if (_selectedCityId != null) {
       final url = Urls.rootUrl + Urls.citiesEndPoint + '/$_selectedCityId';
       print(url);
 
       try {
-        final response = await get(url);
+        final response = await get(Uri.parse(url));
 
         final extractedData = json.decode(response.body);
         print(extractedData);
@@ -75,7 +77,7 @@ class Cities with ChangeNotifier {
     final url = Urls.rootUrl + Urls.citiesEndPoint;
 
     try {
-      final response = await get(url);
+      final response = await get(Uri.parse(url));
 
       Iterable extractedData = json.decode(response.body) as List;
       print(extractedData);
@@ -99,7 +101,7 @@ class Cities with ChangeNotifier {
 
     try {
       final response = await get(
-        url,
+        Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -126,7 +128,7 @@ class Cities with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(Uri.parse(url));
 
       final extractedData = json.decode(response.body);
       print(extractedData);

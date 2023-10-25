@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
 import '../../models/user_models/user.dart';
 import '../../provider/app_theme.dart';
@@ -21,11 +21,11 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
   final reviewTextController = TextEditingController();
   var _isLoading = false;
 
-  User user;
+  late User user;
 
   double rating = 0;
 
-  int placeId;
+  late int placeId;
 
   @override
   void initState() {
@@ -67,7 +67,7 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    placeId = ModalRoute.of(context).settings.arguments as int;
+    placeId = ModalRoute.of(context)?.settings.arguments as int;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -108,7 +108,7 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
                                   textDirection: TextDirection.ltr,
                                   child: SmoothStarRating(
                                       allowHalfRating: false,
-                                      onRated: (v) {
+                                      onRatingChanged: (v) {
                                         rating = v;
                                         setState(() {});
                                       },
@@ -206,13 +206,12 @@ class _CommentCreateScreenState extends State<CommentCreateScreen> {
 
 class InfoEditItem extends StatelessWidget {
   const InfoEditItem({
-    Key key,
-    @required this.title,
-    @required this.controller,
-    @required this.keybordType,
-    @required this.bgColor,
-    @required this.iconColor,
-  }) : super(key: key);
+    required this.title,
+    required this.controller,
+    required this.keybordType,
+    required this.bgColor,
+    required this.iconColor,
+  }) ;
 
   final String title;
   final TextEditingController controller;
@@ -261,7 +260,7 @@ class InfoEditItem extends StatelessWidget {
                         keyboardType: keybordType,
                         onEditingComplete: () {},
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'لطفا مقداری را وارد نمایید';
                           }
                           return null;

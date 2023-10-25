@@ -14,14 +14,14 @@ class UserDetailInfoScreen extends StatefulWidget {
 
   final User customer;
 
-  UserDetailInfoScreen({this.customer});
+  UserDetailInfoScreen({ customer}): this.customer=User();
 
   @override
   _UserDetailInfoScreenState createState() => _UserDetailInfoScreenState();
 }
 
 class _UserDetailInfoScreenState extends State<UserDetailInfoScreen> {
-  User customer;
+  late User customer;
   var _isLoading = false;
   bool _isInit = true;
 
@@ -165,8 +165,8 @@ class _UserDetailInfoScreenState extends State<UserDetailInfoScreen> {
                                 textAlign: TextAlign.right,
                               ),
                               FittedBox(
-                                child: FlatButton(
-                                  color: Colors.green,
+                                child: TextButton (
+                                  // color: Colors.green,
                                   onPressed: () {
                                     Navigator.of(context).pushNamed(
                                         UserDetailInfoEditScreen.routeName);
@@ -267,11 +267,11 @@ class _UserDetailInfoScreenState extends State<UserDetailInfoScreen> {
 
 class InfoItem extends StatelessWidget {
   const InfoItem({
-    Key key,
-    @required this.title,
-    @required this.text,
-    @required this.bgColor,
-    @required this.iconColor,
+     key,
+    required this.title,
+    required this.text,
+    required this.bgColor,
+    required this.iconColor,
   }) : super(key: key);
 
   final String title;

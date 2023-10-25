@@ -37,38 +37,68 @@ class PlaceInSearch with ChangeNotifier {
   final double rate;
 
   PlaceInSearch({
-    this.id,
-    this.name,
-    this.excerpt,
-    this.about,
-    this.timings_excerpt,
-    this.price,
-    this.phone,
-    this.mobile,
-    this.address,
-    this.latitude,
-    this.longitude,
-    this.createdAt,
-    this.updatedAt,
-    this.liked,
-    this.placeType,
-    this.fields,
-    this.facilities,
-    this.image,
-    this.province,
-    this.city,
-    this.region,
-    this.rate,
-    this.likes_count,
-  });
+    //   required this.id,
+    //   required this.name,
+    //   required this.excerpt,
+    //   required this.about,
+    //   required this.timings_excerpt,
+    //   required this.price,
+    //   required this.phone,
+    //   required this.mobile,
+    //   required this.address,
+    //   required this.latitude,
+    //   required this.longitude,
+    //   required this.createdAt,
+    //   required this.updatedAt,
+    //   required this.liked,
+    //   required this.placeType,
+    //   required this.fields,
+    //   required this.facilities,
+    //   required this.image,
+    //   required this.province,
+    //   required this.city,
+    //   required this.likes_count,
+    //   required this.region,
+    //   required this.rate,
+    // });
+    required this.id,
+    this.name = '',
+    this.excerpt = '',
+    this.about = '',
+    this.timings_excerpt = '',
+    this.price = 0,
+    this.phone = '',
+    this.mobile = '',
+    this.address = '',
+    this.latitude = 0.0,
+    this.longitude = 0.0,
+    this.createdAt = '',
+    this.updatedAt = '',
+    this.liked = true,
+    placeType,
+    this.fields = const [],
+    this.facilities = const [],
+    image,
+    province,
+    city,
+    region,
+    likes_count,
+    rate,
+  })  : this.placeType = PlaceType(),
+        this.image = ImageObj(),
+        this.province = Province(id: 1, name: ''),
+        this.city = City(),
+        this.region = Region(),
+        this.likes_count = 0,
+        this.rate = 0;
 
   factory PlaceInSearch.fromJson(Map<String, dynamic> parsedJson) {
     var facilitiesList = parsedJson['facilities'] as List;
-    List<Facility> facilityRaw = new List<Facility>();
+    List<Facility> facilityRaw = [];
     facilityRaw = facilitiesList.map((i) => Facility.fromJson(i)).toList();
 
     var fieldsList = parsedJson['fields'] as List;
-    List<Field> fieldRaw = new List<Field>();
+    List<Field> fieldRaw = [];
     fieldRaw = fieldsList.map((i) => Field.fromJson(i)).toList();
 
     return PlaceInSearch(
@@ -100,18 +130,19 @@ class PlaceInSearch with ChangeNotifier {
       image: parsedJson['image'] != null
           ? ImageObj.fromJson(parsedJson['image'])
           : ImageObj(
-          id: 0,
-          filename: '',
-          url: ImageUrl(
-            medium: 'assets/images/place_placeholder.jpeg',
-            large: 'assets/images/place_placeholder.jpeg',
-            thumb: 'assets/images/place_placeholder.jpeg',
-          )),
+              id: 0,
+              filename: '',
+              url: ImageUrl(
+                medium: 'assets/images/place_placeholder.jpeg',
+                large: 'assets/images/place_placeholder.jpeg',
+                thumb: 'assets/images/place_placeholder.jpeg',
+              ),
+              extension: ''),
       province: Province.fromJson(parsedJson['ostan']),
       city: City.fromJson(parsedJson['city']),
       region: parsedJson['region'] != null
           ? Region.fromJson(parsedJson['region'])
-          : Region(id: 0, name: ''),
+          : Region(id: 0, name: '', city_id: 0, no_users: 0),
       rate: parsedJson['rate'] != null
           ? double.parse(parsedJson['rate'].toString())
           : 0.0,
