@@ -10,13 +10,13 @@ class Notification with ChangeNotifier {
   final String updated_at;
 
   Notification(
-      {this.id,
-      this.complex_id,
-      this.title,
-      this.description,
-      this.type,
-      this.created_at,
-      this.updated_at});
+      {required this.id,
+      required this.complex_id,
+     required  this.title,
+     required  this.description,
+     required  this.type,
+     required  this.created_at,
+     required  this.updated_at});
 
   factory Notification.fromJson(Map<String, dynamic> parsedJson) {
     return Notification(

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart' as intl;
@@ -11,10 +10,10 @@ import '../models/searchDetails.dart';
 import '../provider/app_theme.dart';
 import '../provider/cities.dart';
 import '../provider/places.dart';
+import '../widget/dialogs/select_city_dialog.dart';
 import '../widget/en_to_ar_number_convertor.dart';
 import '../widget/filter_drawer.dart';
 import '../widget/main_drawer.dart';
-import '../widget/dialogs/select_city_dialog.dart';
 
 class SearchScreen extends StatefulWidget {
   static const routeName = '/searchScreen';
@@ -29,11 +28,11 @@ class _SearchScreenState extends State<SearchScreen>
   var _isLoading;
   int page = 1;
   List<String> filterList = [];
-  City selectedCity;
+  late City selectedCity;
 
-  SearchDetails searchDetails;
+  late SearchDetails searchDetails;
   final searchTextController = TextEditingController();
-  TabController _tabController;
+  late TabController _tabController;
 
   ScrollController _scrollController = new ScrollController();
 
@@ -68,26 +67,19 @@ class _SearchScreenState extends State<SearchScreen>
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      int tabIndex = ModalRoute.of(context).settings.arguments as int;
+      int tabIndex = ModalRoute.of(context)?.settings.arguments as int;
       _tabController.index = tabIndex;
       cleanFilter();
       setState(() {
         _isLoading = true;
       });
-      selectedCity = Provider
-          .of<Cities>(context, listen: false)
-          .selectedCity;
-      if(selectedCity==null) {
+      selectedCity = Provider.of<Cities>(context, listen: false).selectedCity;
+      if (selectedCity == null) {
         await Provider.of<Cities>(context, listen: false).getSelectedCity();
-
       }
-      selectedCity = Provider
-          .of<Cities>(context, listen: false)
-          .selectedCity;
+      selectedCity = Provider.of<Cities>(context, listen: false).selectedCity;
       print('selectedCity.id' + selectedCity.id.toString());
-      Provider
-          .of<Places>(context, listen: false)
-          .sCityId =
+      Provider.of<Places>(context, listen: false).sCityId =
           selectedCity.id.toString();
 
       Provider.of<Places>(context, listen: false).sPage = page;
@@ -515,11 +507,11 @@ class _SearchScreenState extends State<SearchScreen>
                                           fontFamily: 'Iransans',
                                           fontSize: textScaleFactor * 13.0,
                                         ),
-                                        onChanged: (String newValue) {
+                                        onChanged: (String? newValue) {
                                           setState(() {
-                                            sortValue = newValue;
+                                            sortValue = newValue!;
                                           });
-                                          setSort(newValue);
+                                          setSort(newValue!);
                                         },
                                         underline: Container(
                                           color: Colors.white,

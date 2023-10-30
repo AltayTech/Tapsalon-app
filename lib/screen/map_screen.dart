@@ -31,10 +31,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   var _isLoading;
   List<PlaceInSearch> loadedPlaces = [];
   List<PlaceInSearch> loadedPlacesToList = [];
-  SearchDetails searchDetails;
+  late SearchDetails searchDetails;
 
   Completer<GoogleMapController> _controller = Completer();
-  GoogleMapController myController;
+  late GoogleMapController myController;
   static const LatLng _center = const LatLng(38.074065, 46.312711);
 
   final Set<Marker> _markers = {};
@@ -43,24 +43,24 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   MapType _currentMapType = MapType.normal;
 
-  double speed;
+  late double speed;
 
-  AnimationController _animationController;
-  AnimationController _animationMapController;
-  Animation<Offset> _slideAnimation;
-  Animation<double> _opacityAnimation;
-  Animation<double> _scaleAnimation;
+  late AnimationController _animationController;
+  late AnimationController _animationMapController;
+  late Animation<Offset> _slideAnimation;
+  late Animation<double> _opacityAnimation;
+  late Animation<double> _scaleAnimation;
 
   BitmapDescriptor salonBitmapDescriptor = BitmapDescriptor.defaultMarker;
   BitmapDescriptor gymBitmapDescriptor = BitmapDescriptor.defaultMarker;
   BitmapDescriptor entBitmapDescriptor = BitmapDescriptor.defaultMarker;
 
-  City selectedCity;
+  late City selectedCity;
 
-  PlaceInSearch selectedPlace;
+  late PlaceInSearch selectedPlace;
 
-  Animation<double> _animation;
-  AnimationController _FBAnimationController;
+  late Animation<double> _animation;
+  late AnimationController _FBAnimationController;
 
   @override
   void didChangeDependencies() {
@@ -255,30 +255,30 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     _controller.complete(controller);
   }
 
-  Geolocator _geolocator;
-  Position _position;
+  late Geolocator _geolocator;
+  late Position _position;
 
   void checkPermission() {
-    _geolocator.checkGeolocationPermissionStatus().then((status) {
+    Geolocator.checkPermission().then((status) {
       print('status: $status');
     });
-    _geolocator
-        .checkGeolocationPermissionStatus(
-            locationPermission: GeolocationPermission.locationAlways)
-        .then((status) {
-      print('always status: $status');
-    });
-    _geolocator.checkGeolocationPermissionStatus(
-        locationPermission: GeolocationPermission.locationWhenInUse)
-      ..then((status) {
-        print('whenInUse status: $status');
-      });
+    // _geolocator
+    //     .checkGeolocationPermissionStatus(
+    //         locationPermission: GeolocationPermission.locationAlways)
+    //     .then((status) {
+    //   print('always status: $status');
+    // });
+    // _geolocator.checkGeolocationPermissionStatus(
+    //     locationPermission: GeolocationPermission.locationWhenInUse)
+    //   ..then((status) {
+    //     print('whenInUse status: $status');
+    //   });
   }
 
-  TabController _tabController;
-  BitmapDescriptor pinLocationIconSalon;
-  BitmapDescriptor pinLocationIconEnt;
-  BitmapDescriptor pinLocationIconGym;
+  late TabController _tabController;
+  late BitmapDescriptor pinLocationIconSalon;
+  late BitmapDescriptor pinLocationIconEnt;
+  late BitmapDescriptor pinLocationIconGym;
 
   void setCustomMapPin() async {
     print('setCustomMapPin');
@@ -351,12 +351,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       ),
     );
     _geolocator = Geolocator();
-    LocationOptions locationOptions =
-        LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 1);
+    LocationSettings locationSettings =
+        LocationSettings(accuracy: LocationAccuracy.high, distanceFilter: 1);
 
     checkPermission();
 
-    _geolocator.getPositionStream(locationOptions).listen((Position position) {
+    Geolocator.getPositionStream(locationSettings: locationSettings)
+        .listen((Position position) {
       _position = position;
     });
     setCustomMapPin();
@@ -391,13 +392,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             right: 0,
             child: Container(
               height:
-                  deviceHeight * 0.93 - Scaffold.of(context).appBarMaxHeight,
+                  deviceHeight * 0.93 - Scaffold.of(context).appBarMaxHeight!,
               width: deviceWidth,
               child: Column(
                 children: [
                   Expanded(
                     child: AnimatedContainer(
-                      duration: _animationMapController.duration,
+                      duration: _animationMapController.duration!,
                       curve: Curves.easeIn,
 //                      child: ScaleTransition(
 //                        alignment: Alignment.center,
@@ -429,7 +430,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   ),
                   _isInfoShow
                       ? AnimatedContainer(
-                          duration: _animationController.duration,
+                          duration: _animationController.duration!,
                           curve: Curves.easeIn,
                           child: FadeTransition(
                             opacity: _opacityAnimation,
@@ -527,6 +528,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
                   retrieveItems();
                 },
+                tooltip: '',
+                icon: Icons.abc,
               )),
           Positioned(
             top: 0,

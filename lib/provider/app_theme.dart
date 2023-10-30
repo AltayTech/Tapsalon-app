@@ -13,7 +13,7 @@ class AppTheme {
   static const Color maleColor = Color(0xff00A8CC);
   static const Color femaleColor = Color(0xffFFA41B);
   static const Color buttonColor = Color(0xff3F9B12);
-  static Color mainPageColor = Colors.red[700];
+  static  Color? mainPageColor = Colors.red[700];
 
   // dependent colors
   static const Color appBarColor = white;

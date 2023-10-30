@@ -56,6 +56,8 @@ class _SplashScreensState extends State<SplashScreens> {
       styleTextUnderTheLoader: TextStyle(),
       photoSize: 70.0,
       onClick: () => print("Flutter Egypt"),
+      loaderColor: Color(Colors.blue.blue),
+
     );
   }
 }

@@ -24,26 +24,27 @@ class PlaceFavorite with ChangeNotifier {
   final Region region;
   final double rate;
 
-  PlaceFavorite(
-      {this.id,
-      this.name,
-      this.excerpt,
-      this.about,
-      this.price,
-      this.mobile,
-      this.address,
-      this.createdAt,
-      this.updatedAt,
-      this.fields,
-      this.image,
-      this.province,
-      this.city,
-      this.region,
-      this.rate});
+  PlaceFavorite({
+    required this.id,
+    required this.name,
+    required this.excerpt,
+    required this.about,
+    required this.price,
+    required this.mobile,
+    required this.address,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.fields,
+    required this.image,
+    required this.province,
+    required this.city,
+    required this.region,
+    required this.rate,
+  });
 
   factory PlaceFavorite.fromJson(Map<String, dynamic> parsedJson) {
     var filedsList = parsedJson['fields'] as List;
-    List<Field> fieldRaw = new List<Field>();
+    List<Field> fieldRaw = [];
     fieldRaw = filedsList.map((i) => Field.fromJson(i)).toList();
 
     return PlaceFavorite(
@@ -68,7 +69,7 @@ class PlaceFavorite with ChangeNotifier {
                 medium: 'assets/images/place_placeholder.jpeg',
                 large: 'assets/images/place_placeholder.jpeg',
                 thumb: 'assets/images/place_placeholder.jpeg',
-              )),
+              ), extension: ''),
       province: Province.fromJson(parsedJson['ostan']),
       city: City.fromJson(parsedJson['city']),
       region: Region.fromJson(parsedJson['region']),

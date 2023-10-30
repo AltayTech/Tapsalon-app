@@ -10,11 +10,11 @@ class FieldSearch with ChangeNotifier {
 //  final Pivot pivot;
 
   FieldSearch({
-    this.id,
-    this.description,
-    this.name,
-    this.excerpt,
-    this.icon,
+    required this.id,
+    required this.description,
+    required this.name,
+    required this.excerpt,
+    required  this.icon,
 //    this.pivot,
   });
 

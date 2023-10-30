@@ -6,7 +6,15 @@ class Region with ChangeNotifier {
   final String name;
   final int no_users;
 
-  Region({this.id, this.city_id, this.name, this.no_users});
+  Region({
+    id,
+    city_id,
+    name,
+    no_users,
+  }):  this.id=0,
+        this.city_id=0,
+        this.name='',
+        this.no_users=0;
 
   factory Region.fromJson(Map<String, dynamic> parsedJson) {
     return Region(

@@ -10,7 +10,7 @@ import '../en_to_ar_number_convertor.dart';
 class MapInfoWindowItem extends StatefulWidget {
   final PlaceInSearch selectedPlace;
 
-  MapInfoWindowItem({this.selectedPlace});
+  MapInfoWindowItem({required this.selectedPlace});
 
   @override
   _MapInfoWindowItemState createState() => _MapInfoWindowItemState();

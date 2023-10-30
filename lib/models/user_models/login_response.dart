@@ -6,11 +6,12 @@ class LoginResponse with ChangeNotifier {
   final String access_token;
   final String refresh_token;
 
-  LoginResponse(
-      {this.token_type,
-      this.expires_in,
-      this.access_token,
-      this.refresh_token});
+  LoginResponse({
+    required this.token_type,
+    required this.expires_in,
+    required this.access_token,
+    required this.refresh_token,
+  });
 
   factory LoginResponse.fromJson(Map<String, dynamic> parsedJson) {
     return LoginResponse(

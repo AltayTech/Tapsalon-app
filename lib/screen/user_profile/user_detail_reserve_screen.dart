@@ -15,14 +15,14 @@ class UserDetailReserveScreen extends StatefulWidget {
 
   final User user;
 
-  UserDetailReserveScreen({this.user});
+  UserDetailReserveScreen({user}):this.user=User();
 
   @override
   _UserDetailReserveScreenState createState() => _UserDetailReserveScreenState();
 }
 
 class _UserDetailReserveScreenState extends State<UserDetailReserveScreen> {
-  User user;
+  late User user;
   var _isLoading = false;
   bool _isInit = true;
 

@@ -19,14 +19,14 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
   List<String> provinceValueList = [];
   var provinceValue;
   List<Province> provinceList = [];
-  int provinceId;
+  late int provinceId;
 
   var citiesValue;
   List<String> citiesValueList = [];
   List<City> citiesList = [];
-  int cityId;
+  late int cityId;
 
-  City selectedCity;
+  late City selectedCity;
 
   @override
   void didChangeDependencies() async {
@@ -139,7 +139,7 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:8.0,bottom: 12),
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 12),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
@@ -183,13 +183,11 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                                       ),
                                     ),
                                     value: provinceValue,
-
                                     icon: Padding(
-                                      padding: const EdgeInsets.only(bottom:6),
+                                      padding: const EdgeInsets.only(bottom: 6),
                                       child: Icon(
                                         Icons.arrow_drop_down,
                                         color: Colors.black,
-
                                       ),
                                     ),
                                     style: TextStyle(
@@ -202,26 +200,26 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                                         provinceValue = newValue;
                                         provinceId = provinceList[
                                                 provinceValueList
-                                                    .lastIndexOf(newValue)]
+                                                    .lastIndexOf(newValue!)]
                                             .id;
                                       });
                                       loadCities();
                                     },
                                     elevation: 0,
-                                    underline: Container(color: Colors.white,),
+                                    underline: Container(
+                                      color: Colors.white,
+                                    ),
                                     items: provinceValueList
                                         .map<DropdownMenuItem<String>>(
                                             (String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
-
                                         child: Container(
-                                          width: constraint.maxWidth*0.5,
+                                          width: constraint.maxWidth * 0.5,
                                           child: Text(
                                             value,
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
-
                                               color: Colors.black,
                                               fontFamily: 'Iransans',
                                               fontSize: textScaleFactor * 13.0,
@@ -266,7 +264,6 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                                       : Colors.grey.withOpacity(0.2)
                                   : Colors.white,
                               child: ListTile(
-
                                 title: Text(
                                   citiesList[i].name,
                                   style: TextStyle(
@@ -291,13 +288,13 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: InkWell(
-                          onTap: () {
+                          onTap: () async {
                             Provider.of<Cities>(context, listen: false)
                                 .setSelectedCity(selectedCity);
-                            return selectedCity == null
-                                ? null
-                                : Navigator.of(context).popAndPushNamed(
-                                    NavigationBottomScreen.routeName);
+
+                              await Navigator.of(context).popAndPushNamed(
+                                  NavigationBottomScreen.routeName);
+
                           },
                           child: Container(
                             height: constraint.maxHeight * 0.06,

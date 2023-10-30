@@ -8,11 +8,11 @@ class Field with ChangeNotifier {
   final String icon;
 
   Field({
-    this.id,
-    this.description,
-    this.name,
-    this.excerpt,
-    this.icon,
+    required  this.id,
+    required  this.description,
+    required  this.name,
+    required  this.excerpt,
+    required  this.icon,
   });
 
   factory Field.fromJson(Map<String, dynamic> parsedJson) {

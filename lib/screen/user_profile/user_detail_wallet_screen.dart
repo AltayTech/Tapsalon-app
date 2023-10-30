@@ -4,7 +4,7 @@ import '../../models/user_models/user.dart';
 class UserDetailWalletScreen extends StatefulWidget {
   final User user;
 
-  UserDetailWalletScreen({this.user});
+  UserDetailWalletScreen({required this.user});
 
   @override
   _UserDetailWalletScreenState createState() => _UserDetailWalletScreenState();
@@ -186,9 +186,9 @@ class _UserDetailWalletScreenState extends State<UserDetailWalletScreen> {
 
 class InfoItem extends StatelessWidget {
   const InfoItem({
-    Key key,
-    @required this.title,
-    @required this.text,
+    required Key key,
+    required this.title,
+    required this.text,
   }) : super(key: key);
 
   final String title;
@@ -218,11 +218,11 @@ class InfoItem extends StatelessWidget {
 
 class OrderItem extends StatelessWidget {
   const OrderItem({
-    Key key,
-    @required this.number,
-    @required this.date,
-    @required this.sellCase,
-    @required this.status,
+     required Key key,
+    required this.number,
+    required this.date,
+    required this.sellCase,
+    required this.status,
   }) : super(key: key);
 
   final String number;

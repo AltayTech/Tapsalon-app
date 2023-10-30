@@ -6,10 +6,12 @@ class Role with ChangeNotifier {
   final String name;
 
   Role({
-    this.id,
-    this.description,
-    this.name,
-  });
+     id,
+     description,
+     name,
+  }):     this.id=0,
+        this.description='',
+        this.name='';
 
   factory Role.fromJson(Map<String, dynamic> parsedJson) {
     return Role(

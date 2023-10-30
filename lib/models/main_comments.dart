@@ -16,22 +16,22 @@ class MainComments with ChangeNotifier {
   final int total;
 
   MainComments(
-      {this.current_page,
-      this.data,
-      this.first_page_url,
-      this.from,
-      this.last_page,
-      this.last_page_url,
-      this.next_page_url,
-      this.path,
-      this.per_page,
-      this.prev_page_url,
-      this.to,
-      this.total});
+      {required this.current_page,
+        required this.data,
+        required  this.first_page_url,
+        required  this.from,
+        required  this.last_page,
+        required  this.last_page_url,
+        required  this.next_page_url,
+        required  this.path,
+        required  this.per_page,
+        required  this.prev_page_url,
+        required  this.to,
+        required  this.total});
 
   factory MainComments.fromJson(Map<String, dynamic> parsedJson) {
     var dataList = parsedJson['data'] as List;
-    List<Comment> dataRaw = new List<Comment>();
+    List<Comment> dataRaw = [];
     dataRaw = dataList.map((i) => Comment.fromJson(i)).toList();
 
     return MainComments(
@@ -45,7 +45,7 @@ class MainComments with ChangeNotifier {
       per_page: parsedJson['per_page'],
       prev_page_url: parsedJson['prev_page_url'],
       to: parsedJson['to'],
-      total: parsedJson['total'],
+      total: parsedJson['total'], first_page_url: '',
     );
   }
 }

@@ -12,13 +12,13 @@ class Comment with ChangeNotifier {
   final UserInComment user;
 
   Comment(
-      {this.id,
-      this.place_id,
-      this.rate,
-      this.content,
-      this.createdAt,
-      this.updatedAt,
-      this.user});
+      {required this.id,
+      required this.place_id,
+      required this.rate,
+      required this.content,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.user});
 
   factory Comment.fromJson(Map<String, dynamic> parsedJson) {
     return Comment(
@@ -32,6 +32,19 @@ class Comment with ChangeNotifier {
             parsedJson['updated_at'] != null ? parsedJson['updated_at'] : '',
         user: parsedJson['user'] != null
             ? UserInComment.fromJson(parsedJson['user'])
-            : UserInComment(id: 0));
+            : UserInComment(
+                id: 0,
+                fname: '',
+                lname: '',
+                role_id: 0,
+                gender: 0,
+                phone: '',
+                mobile: '',
+                no_comments: 0,
+                no_likes: 0,
+                no_reserves: 0,
+                wallet: '',
+                created_at: '',
+                updated_at: ''));
   }
 }

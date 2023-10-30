@@ -21,7 +21,6 @@ class _ProfileViewState extends State<ProfileView>
     with SingleTickerProviderStateMixin {
   var _isLoading = false;
   bool _isInit = true;
-  TabController _tabController;
 
   Future<void> getUser() async {
     setState(() {

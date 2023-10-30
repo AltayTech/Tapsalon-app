@@ -14,11 +14,11 @@ class TimingTable extends StatefulWidget {
   final double initialHour;
 
   TimingTable({
-    this.timingList,
-    this.headerHeight,
-    this.rowHeight,
-    this.titleWidth,
-    this.timeStep,
+    required this.timingList,
+    required this.headerHeight,
+    required this.rowHeight,
+    required this.titleWidth,
+    required this.timeStep,
     this.initialHour = 0,
   });
 
@@ -41,7 +41,7 @@ class _TimingTableState extends State<TimingTable> {
     'پنج شنبه',
     'جمعه',
   ];
-  ScrollController _scrollController;
+  late ScrollController _scrollController;
 
   Future<void> initialTable() async {
     widgetList = widget.timingList

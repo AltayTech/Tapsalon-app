@@ -9,7 +9,7 @@ import '../provider/urls.dart';
 
 class Salons with ChangeNotifier {
   List<Timing> _itemTiming = [];
-  Place _itemPlace;
+  late Place _itemPlace;
 
   List<Timing> get itemTiming => _itemTiming;
 
@@ -22,7 +22,7 @@ class Salons with ChangeNotifier {
     print(url);
 
     try {
-      final response = await get(url);
+      final response = await get(Uri.parse(url));
 
       final extractedData = json.decode(response.body);
 
@@ -49,7 +49,7 @@ class Salons with ChangeNotifier {
 
     try {
       final response = await get(
-        url,
+        Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -59,7 +59,7 @@ class Salons with ChangeNotifier {
       var extractedData = json.decode(response.body) as List<dynamic>;
       print(extractedData);
 
-      List<Timing> timings = new List<Timing>();
+      List<Timing> timings = [];
       timings = extractedData.map((i) => Timing.fromJson(i)).toList();
 
       _itemTiming = timings;

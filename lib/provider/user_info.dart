@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tapsalon/models/city.dart';
+import 'package:tapsalon/models/province.dart';
+import 'package:tapsalon/models/role.dart';
 
 import '../models/main_notifications.dart';
 import '../models/notification.dart' as notification;
@@ -27,12 +30,21 @@ class UserInfo with ChangeNotifier {
 
   static User _user_zero = User(
     id: 1,
+    ostan: Province(id: 0, name: ''),
+    city: City(
+      id: 0,
+      provinceId: 0,
+      name: '',
+      latitude: 0.0,
+      longitude: 0.0,
+    ),
+    role: Role(id: 0, description: '', name: ''),
   );
 
   User _user = _user_zero;
 
   SearchDetails get notificationSearchDetails => _notificationSearchDetails;
-  String searchEndPoint;
+  late String searchEndPoint;
   SearchDetails _notificationSearchDetails = _searchDetails_zero;
 
   List<notification.Notification> _notificationItems = [];
@@ -49,10 +61,10 @@ class UserInfo with ChangeNotifier {
 
     final prefs = await SharedPreferences.getInstance();
 
-    _token = prefs.getString('token');
+    _token = prefs.getString('token')!;
 
     try {
-      final response = await post(url, headers: {
+      final response = await post(Uri.parse(url), headers: {
         'Authorization': 'Bearer $_token',
       });
 
@@ -70,17 +82,17 @@ class UserInfo with ChangeNotifier {
     }
   }
 
-  String _token;
+  late String _token;
 
-  String fname;
+  late String fname;
 
-  String lname;
-  String mobile;
-  String address;
+  late String lname;
+  late String mobile;
+  late String address;
 
   int gender = 1;
-  int ostanId;
-  int cityId;
+  int ostanId = 1;
+  int cityId = 1;
 
   void endBuilder() {
     searchEndPoint = '';
@@ -117,11 +129,11 @@ class UserInfo with ChangeNotifier {
 
     final prefs = await SharedPreferences.getInstance();
 
-    _token = prefs.getString('token');
+    _token = prefs.getString('token')!;
 
     try {
       final response = await put(
-        url,
+        Uri.parse(url),
         headers: {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
@@ -146,10 +158,10 @@ class UserInfo with ChangeNotifier {
 
     final prefs = await SharedPreferences.getInstance();
 
-    _token = prefs.getString('token');
+    _token = prefs.getString('token')!;
     if (_token != null) {
       try {
-        final response = await get(url, headers: {
+        final response = await get(Uri.parse(url), headers: {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json',
           'Accept': 'application/json',

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +9,6 @@ import '../../models/user_models/user.dart';
 import '../../provider/app_theme.dart';
 import '../../provider/cities.dart';
 import '../../provider/user_info.dart';
-import '../../screen/user_profile/profile_screen.dart';
 import '../../widget/main_drawer.dart';
 
 class UserDetailInfoEditScreen extends StatefulWidget {
@@ -32,7 +30,7 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
 
   GenderSelection _character = GenderSelection.male;
 
-  bool _isLoading;
+  late bool _isLoading;
 
   bool _isInit = true;
   var provinceValue;
@@ -46,11 +44,11 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
 
   List<City> citiesList = [];
 
-  int cityId;
+  late int cityId;
 
-  int provinceId;
+  late int provinceId;
 
-  User user;
+  late User user;
 
   @override
   void initState() {
@@ -220,10 +218,10 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                                           GenderSelection.male,
                                                       groupValue: _character,
                                                       onChanged:
-                                                          (GenderSelection
+                                                          (GenderSelection?
                                                               value) {
                                                         setState(() {
-                                                          _character = value;
+                                                          _character = value!;
                                                         });
                                                       },
                                                     ),
@@ -237,10 +235,10 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                                           .female,
                                                       groupValue: _character,
                                                       onChanged:
-                                                          (GenderSelection
+                                                          (GenderSelection?
                                                               value) {
                                                         setState(() {
-                                                          _character = value;
+                                                          _character = value!;
                                                         });
                                                       },
                                                     ),
@@ -309,7 +307,7 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                                       provinceId = provinceList[
                                                               provinceValueList
                                                                   .indexOf(
-                                                                      newValue)]
+                                                                      newValue!)]
                                                           .id;
                                                       retrieveCities(
                                                           provinceId);
@@ -401,14 +399,15 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                                                     fontSize:
                                                         textScaleFactor * 13.0,
                                                   ),
-                                                  onChanged: (String newValue) {
+                                                  onChanged:
+                                                      (String? newValue) {
                                                     setState(() {
                                                       citiesValue = newValue;
 
                                                       cityId = citiesList[
                                                               citiesValueList
                                                                   .indexOf(
-                                                                      newValue)]
+                                                                      newValue!)]
                                                           .id;
                                                     });
                                                   },
@@ -532,7 +531,8 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
                         Provider.of<UserInfo>(context, listen: false)
                             .sendCustomer()
                             .then((v) {
-                          Scaffold.of(context).showSnackBar(addToCartSnackBar);
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(addToCartSnackBar);
                           Navigator.of(context)
                               .popAndPushNamed(UserDetailInfoScreen.routeName);
                         });
@@ -556,10 +556,10 @@ class _UserDetailInfoEditScreenState extends State<UserDetailInfoEditScreen> {
 
 class InfoEditItem extends StatelessWidget {
   const InfoEditItem({
-    Key key,
-    @required this.title,
-    @required this.controller,
-    @required this.keybordType,
+    key,
+    required this.title,
+    required this.controller,
+    required this.keybordType,
   }) : super(key: key);
 
   final String title;
@@ -598,7 +598,7 @@ class InfoEditItem extends StatelessWidget {
                     keyboardType: keybordType,
                     onEditingComplete: () {},
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'لطفا مقداری را وارد نمایید';
                       }
                       return null;

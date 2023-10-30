@@ -3,13 +3,17 @@ import 'package:tapsalon/provider/app_theme.dart';
 
 class MainTopicItem extends StatelessWidget {
   const MainTopicItem({
-    Key key,
-    @required this.title,
-    @required this.number,
-    @required this.bgColor,
-    @required this.icon,
-    @required this.iconColor,
-  }) : super(key: key);
+    super.key,
+    title,
+    number,
+    bgColor,
+    icon,
+    iconColor,
+  })  : this.iconColor = Colors.white,
+        this.title = '',
+        this.number = 0,
+        this.bgColor = Colors.white,
+        this.icon = '';
 
   final int number;
   final String title;
@@ -34,7 +38,6 @@ class MainTopicItem extends StatelessWidget {
                 0,
               ),
             ),
-
           ],
           borderRadius: new BorderRadius.all(Radius.circular(25))),
       child: LayoutBuilder(
@@ -44,7 +47,6 @@ class MainTopicItem extends StatelessWidget {
               flex: 3,
               child: Align(
                 alignment: Alignment.bottomCenter,
-
                 child: SizedBox(
                   height: constraint.maxHeight * 0.45,
                   width: constraint.maxWidth * 0.45,
@@ -62,11 +64,8 @@ class MainTopicItem extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 child: FittedBox(
                   child: Padding(
-                    padding: const EdgeInsets.only(top:12.0),
-                    child: Text(
-                      title,
-                        style:AppTheme.textTheme.subtitle1
-
+                    padding: const EdgeInsets.only(top: 12.0),
+                    child: Text(title, style: AppTheme.textTheme.subtitle1
 
 //                      TextStyle(
 //                        color: AppTheme.black.withOpacity(0.7),
@@ -74,7 +73,7 @@ class MainTopicItem extends StatelessWidget {
 //                        fontWeight: FontWeight.w600,
 //                        fontSize: MediaQuery.of(context).textScaleFactor * 14.0,
 //                      ),
-                    ),
+                        ),
                   ),
                 ),
               ),

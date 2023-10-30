@@ -1,25 +1,29 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/user_models/login_body.dart';
 import '../models/user_models/login_response.dart';
 import '../provider/urls.dart';
 
 class Auth with ChangeNotifier {
-  String _token;
+  late String _token;
   String _credentialAccessToken = '';
-  bool _isLoggedIn;
+  late bool _isLoggedIn;
+
   bool get isAuth {
     getToken();
     return _token != null && _token != '';
   }
+
   set isLoggedIn(bool value) {
     _isLoggedIn = value;
   }
 
-  LoginBody loginBody;
+  late LoginBody loginBody;
 
   String get token => _token;
 
@@ -31,7 +35,7 @@ class Auth with ChangeNotifier {
     print(url);
 
     try {
-      final response = await http.post(url,
+      final response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
             'grant_type': 'client_credentials',
@@ -81,7 +85,7 @@ class Auth with ChangeNotifier {
       print(phoneNumber);
       print(verificationCode);
 
-      final response = await http.post(url,
+      final response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
             'grant_type': 'password',
@@ -144,7 +148,7 @@ class Auth with ChangeNotifier {
       print(_credentialAccessToken);
 
       final response = await http.post(
-        url,
+        Uri.parse(url),
         headers: {
           'Authorization': 'Bearer $_credentialAccessToken',
           'Accept': 'application/json'
@@ -160,7 +164,7 @@ class Auth with ChangeNotifier {
   Future<void> getToken() async {
     final prefs = await SharedPreferences.getInstance();
 
-    _token = prefs.getString('token');
+    _token = prefs.getString('token')!;
 
     notifyListeners();
   }

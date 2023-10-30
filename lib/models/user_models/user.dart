@@ -24,24 +24,29 @@ class User with ChangeNotifier {
   final Role role;
 
   User({
-    this.id,
-    this.fname,
-    this.lname,
-    this.address,
-    this.gender,
-    this.phone,
-    this.mobile,
-    this.no_comments,
-    this.no_likes,
-    this.no_reserves,
-    this.wallet,
-    this.email,
-    this.created_at,
-    this.updated_at,
-    this.ostan,
-    this.city,
-    this.role,
-  });
+    this.id=0,
+    this.fname='',
+    this.lname='',
+    this.address='',
+    this.gender=0,
+    this.phone='',
+    this.mobile='',
+    this.no_comments=0,
+    this.no_likes=0,
+    this.no_reserves=0,
+    this.wallet='',
+    this.email='',
+    this.created_at='',
+    this.updated_at='',
+     ostan,
+     city,
+     role,
+  }):
+        this.ostan=Province(id: 0, name: ''),
+        this.city=City(),
+        this.role=Role()
+
+  ;
 
   factory User.fromJson(Map<String, dynamic> parsedJson) {
     return User(

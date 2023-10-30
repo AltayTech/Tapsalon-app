@@ -8,8 +8,8 @@ class CustomDialogShowPicture extends StatelessWidget {
   final ImageObj image;
 
   CustomDialogShowPicture({
-    this.image,
-  });
+    image,
+  }):this.image=ImageObj();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class CustomDialogShowPicture extends StatelessWidget {
       child: Hero(
           tag: image.id,
           child: PhotoView(
-            imageProvider:image.url.large.startsWith('assets/images')? AssetImage(image.url.large):NetworkImage(image.url.large),
+            imageProvider:image.url.large.startsWith('assets/images')? AssetImage(image.url.large):NetworkImage(image.url.large) as ImageProvider,
             filterQuality: FilterQuality.high,
             enableRotation: false,
           )),

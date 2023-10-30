@@ -14,17 +14,17 @@ class SearchDetails with ChangeNotifier {
   final int total;
 
   SearchDetails(
-      {this.current_page,
-      this.first_page_url,
-      this.from,
-      this.last_page,
-      this.last_page_url,
-      this.next_page_url,
-      this.path,
-      this.per_page,
-      this.prev_page_url,
-      this.to,
-      this.total});
+      {this.current_page=1,
+      this.first_page_url='',
+      this.from=0,
+      this.last_page=0,
+      this.last_page_url='',
+      this.next_page_url='',
+      this.path='',
+      this.per_page=10,
+      this.prev_page_url='',
+      this.to=0,
+      this.total=0});
 
   factory SearchDetails.fromJson(Map<String, dynamic> parsedJson) {
     return SearchDetails(

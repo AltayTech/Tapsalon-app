@@ -43,58 +43,69 @@ class Place with ChangeNotifier {
   final int visitsNo;
   final double rate;
 
-  Place(
-      {this.id,
-      this.name,
-      this.excerpt,
-      this.about,
-      this.timings_excerpt,
-      this.price,
-      this.phone,
-      this.mobile,
-      this.address,
-      this.latitude,
-      this.longitude,
-      this.createdAt,
-      this.updatedAt,
-      this.liked,
-      this.complex,
-      this.placeType,
-      this.fields,
-      this.facilities,
-      this.image,
-      this.gallery,
-      this.timings,
-      this.province,
-      this.city,
-      this.region,
-//      this.user,
-      this.likes_count,
-      this.comments_count,
-      this.visitsNo,
-      this.rate});
+  Place({
+    required this.id,
+    this.name = '',
+    this.excerpt = '',
+    this.about = '',
+    this.timings_excerpt = '',
+    this.price = 0,
+    this.phone = '',
+    this.mobile = '',
+    this.address = '',
+    this.latitude = 0.0,
+    this.longitude = 0.0,
+    this.createdAt = '',
+    this.updatedAt = '',
+    this.liked = true,
+    complex,
+    placeType,
+    this.fields = const [],
+    this.facilities = const [],
+    image,
+    gallery,
+    timings,
+    province,
+    city,
+    region,
+    likes_count,
+    comments_count,
+    visitsNo,
+    rate,
+  })  : this.complex = ComplexInPlace(),
+        this.placeType = PlaceType(),
+        this.image = ImageObj(),
+        this.gallery = [],
+        this.timings = [],
+        this.province = Province(id: 1, name: ''),
+        this.city = City(),
+        this.region = Region(),
+        this.likes_count = 0,
+        this.comments_count = 0,
+        this.visitsNo = 0,
+        this.rate = 0;
 
   factory Place.fromJson(Map<String, dynamic> parsedJson) {
     List<ImageObj> galleryRaw = [];
 
     if (parsedJson['gallery'] != null) {
       var galleryList = parsedJson['gallery'] as List;
-      galleryRaw = new List<ImageObj>();
+      galleryRaw = [];
       galleryRaw = galleryList.map((i) => ImageObj.fromJson(i)).toList();
     }
 
     var facilitiesList = parsedJson['facilities'] as List;
-    List<Facility> faciltyRaw = new List<Facility>();
+    List<Facility> faciltyRaw = [];
     faciltyRaw = facilitiesList.map((i) => Facility.fromJson(i)).toList();
 
     var filedsList = parsedJson['fields'] as List;
-    List<Field> fieldRaw = new List<Field>();
+    List<Field> fieldRaw = [];
     fieldRaw = filedsList.map((i) => Field.fromJson(i)).toList();
 
     List<Timing> timingsRaw = [];
     if (parsedJson['timings'] != null) {
       var timingsList = parsedJson['timings'] as List;
-      timingsRaw = new List<Timing>();
+      timingsRaw = [];
       timingsRaw = timingsList.map((i) => Timing.fromJson(i)).toList();
     }
     return Place(
@@ -127,13 +138,14 @@ class Place with ChangeNotifier {
       image: parsedJson['image'] != null
           ? ImageObj.fromJson(parsedJson['image'])
           : ImageObj(
-          id: 0,
-          filename: '',
-          url: ImageUrl(
-            medium: 'assets/images/place_placeholder.jpeg',
-            large: 'assets/images/place_placeholder.jpeg',
-            thumb: 'assets/images/place_placeholder.jpeg',
-          )),
+              id: 0,
+              filename: '',
+              url: ImageUrl(
+                medium: 'assets/images/place_placeholder.jpeg',
+                large: 'assets/images/place_placeholder.jpeg',
+                thumb: 'assets/images/place_placeholder.jpeg',
+              ),
+              extension: ''),
       gallery: galleryRaw,
       timings: timingsRaw,
       province: Province.fromJson(parsedJson['ostan']),

@@ -12,15 +12,15 @@ class Timing with ChangeNotifier {
   final String updated_at;
 
   Timing(
-      {this.id,
-      this.place_id,
-      this.gender,
-      this.date_start,
-      this.date_end,
-      this.discount,
-      this.reservable,
-      this.created_at,
-      this.updated_at});
+      {required this.id,
+      this.place_id = 0,
+      this.gender = 'male',
+      this.date_start = '',
+      this.date_end = '',
+      this.discount = 0,
+      this.reservable = 0,
+      this.created_at = '',
+      this.updated_at = ''});
 
   factory Timing.fromJson(Map<String, dynamic> parsedJson) {
     return Timing(

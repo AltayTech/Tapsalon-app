@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 version: 4.0.13+21
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: '>=3.1.3 <4.0.0'
 module:
   androidX: true
 
@@ -12,31 +12,32 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^0.1.3
-  provider: ^4.1.3
-  #  http: ^0.12.1
-  shared_preferences: ^0.5.7+3
-  intl: ^0.16.1
-  google_maps_flutter: ^0.5.28+1
-  geolocator: ^5.3.2+2
+  cupertino_icons:
+  provider:
+  http:
+  shared_preferences:
+  intl:
+  google_maps_flutter:
+  geolocator:
   #  percent_indicator: ^2.1.5
-  smooth_star_rating: ^1.1.1
-  flutter_spinkit: ^4.1.2+1
-  flutter_widget_from_html_core: ^0.4.1
-  share: ^0.6.4+3
-  image_picker: ^0.6.7+2
-  url_launcher: ^5.4.11
+  smooth_star_rating_null_safety:
+  flutter_spinkit:
+  flutter_widget_from_html_core:
+  share:
+  image_picker:
+  url_launcher:
   #  flutter_calendar_carousel: ^1.4.12
-  shamsi_date: ^0.8.1
-  carousel_slider: ^2.1.0
+  shamsi_date:
+  carousel_slider:
   #  google_map_location_picker: ^3.3.2
   #  floating_action_bubble: ^1.1.1
-  photo_view: ^0.9.2
-  fluttertoast: ^6.0.1
-  google_fonts: ^1.1.0
+  photo_view:
+  fluttertoast:
+  google_fonts:
+  badges: ^3.1.2
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.7.5
+  flutter_launcher_icons:
 
   flutter_test:
     sdk: flutter

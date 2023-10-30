@@ -4,9 +4,9 @@ class RuleData {
   final String content;
 
   RuleData({
-    this.id,
-    this.title,
-    this.content,
+    required  this.id,
+    required   this.title,
+    required this.content,
   });
 
   factory RuleData.fromJson(Map<String, dynamic> parsedJson) {

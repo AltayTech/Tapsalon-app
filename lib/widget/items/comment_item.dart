@@ -11,7 +11,7 @@ import '../en_to_ar_number_convertor.dart';
 class CommentItem extends StatefulWidget {
   final Comment comment;
 
-  CommentItem({this.comment});
+  CommentItem({required this.comment});
 
   @override
   _CommentItemState createState() => _CommentItemState();
@@ -178,7 +178,7 @@ class _CommentItemState extends State<CommentItem> {
                                     ),
                                   );
                                   await reportComment();
-                                  Scaffold.of(context).showSnackBar(sendReportSnackBar);
+                                  ScaffoldMessenger.of(context).showSnackBar(sendReportSnackBar);
 
 
                                 },

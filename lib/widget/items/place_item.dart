@@ -12,7 +12,7 @@ import '../en_to_ar_number_convertor.dart';
 class PlaceItem extends StatelessWidget {
   final PlaceInSearch place;
 
-  PlaceItem({this.place});
+  PlaceItem({required this.place});
 
   @override
   Widget build(BuildContext context) {

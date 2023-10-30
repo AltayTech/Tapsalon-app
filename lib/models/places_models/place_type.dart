@@ -5,8 +5,8 @@ class PlaceType with ChangeNotifier {
   final String name;
 
   PlaceType({
-    this.id,
-    this.name,
+      this.id=1,
+     this.name='',
   });
 
   factory PlaceType.fromJson(Map<String, dynamic> parsedJson) {
