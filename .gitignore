@@ -29,6 +29,10 @@
 .pub/
 /build/
 
+
+# keys
+/keys.env
+
 # Android related
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
