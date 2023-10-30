@@ -3,14 +3,9 @@
 Sport place information and booking app
 
 # Description
+    This application design and develop for providing information about sport places 
+    such as gyms, pools and so on.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+![Free_iPhone_11_Pro_Mockup_3.jpg](..%2FPro_tapsalon%2FPublish%20file%2FFree_iPhone_11_Pro_Mockup_3.jpg)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
