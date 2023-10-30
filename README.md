@@ -7,5 +7,4 @@ Sport place information and booking app
     such as gyms, pools and so on.
 
 
-![Free_iPhone_11_Pro_Mockup_3.jpg](..%2FPro_tapsalon%2FPublish%20file%2FFree_iPhone_11_Pro_Mockup_3.jpg)
-
+![Free_iPhone_11_Pro_Mockup_1.jpg](screenshots%2FFree_iPhone_11_Pro_Mockup_1.jpg)
