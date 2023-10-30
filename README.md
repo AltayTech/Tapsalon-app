@@ -11,7 +11,7 @@ Sport place information and booking app
 
 
 # Screanshots
-<img src="screenshots%2Fdevice-2019-07-01-115650.png" style="width: 300px; height: 800px;">    <img src="screenshots%2Fdevice-2019-07-01-115953.jpg" style="width: 300px; height: 800px;">
+<img src="screenshots%2Fdevice-2019-07-01-115650.png" style="width: 300px;">    <img src="screenshots%2Fdevice-2019-07-01-115953.jpg" style="width: 300px; height: 800px;">
 
  <img src="screenshots%2Fdevice-2019-07-01-120055.jpg" style="width: 300px; height: 800px;">   <img src="screenshots%2Fdevice-2019-07-01-120356.jpg" style="width: 300px; height: 800px;">
 
