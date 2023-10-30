@@ -1,8 +1,8 @@
-# tapsalon
+# Tapsalon
 
-A new Flutter project.
+Sport place information and booking app
 
-## Getting Started
+# Description
 
 This project is a starting point for a Flutter application.
 
