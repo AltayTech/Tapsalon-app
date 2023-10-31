@@ -1,5 +1,5 @@
 class Urls {
-  static const rootUrl = 'http://rest.tapsalon.ir';
+  static const rootUrl = 'http://tapsalon.vercel.app/api';
   static const citiesEndPoint = '/api/cities';
   static const provincesEndPoint = '/api/ostans';
   static const placesEndPoint = '/api/places';

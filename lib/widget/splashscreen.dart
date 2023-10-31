@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
   final Color loaderColor;
   final Image image;
   final Text loadingText;
-  final ImageProvider imageBackground;
+  final String imageBackground;
   final Gradient gradientBackground;
 
   SplashScreen(
@@ -30,11 +30,10 @@ class SplashScreen extends StatefulWidget {
           fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
       required this.image,
       this.loadingText = const Text(""),
-      imageBackground,
+      this.imageBackground = '',
       gradientBackground})
       : this.gradientBackground = LinearGradient(
-            colors: [Colors.white, Colors.black12, Colors.white]),
-        this.imageBackground = Image.asset('').image;
+            colors: [Colors.white, Colors.black12, Colors.white]);
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -70,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
               decoration: new BoxDecoration(
                 image: new DecorationImage(
                   fit: BoxFit.cover,
-                  image: widget.imageBackground,
+                  image: AssetImage(widget.imageBackground),
                 ),
                 gradient: widget.gradientBackground,
                 color: widget.backgroundColor,

@@ -37,30 +37,6 @@ class PlaceInSearch with ChangeNotifier {
   final double rate;
 
   PlaceInSearch({
-    //   required this.id,
-    //   required this.name,
-    //   required this.excerpt,
-    //   required this.about,
-    //   required this.timings_excerpt,
-    //   required this.price,
-    //   required this.phone,
-    //   required this.mobile,
-    //   required this.address,
-    //   required this.latitude,
-    //   required this.longitude,
-    //   required this.createdAt,
-    //   required this.updatedAt,
-    //   required this.liked,
-    //   required this.placeType,
-    //   required this.fields,
-    //   required this.facilities,
-    //   required this.image,
-    //   required this.province,
-    //   required this.city,
-    //   required this.likes_count,
-    //   required this.region,
-    //   required this.rate,
-    // });
     required this.id,
     this.name = '',
     this.excerpt = '',
@@ -93,13 +69,18 @@ class PlaceInSearch with ChangeNotifier {
         this.rate = 0;
 
   factory PlaceInSearch.fromJson(Map<String, dynamic> parsedJson) {
-    var facilitiesList = parsedJson['facilities'] as List;
     List<Facility> facilityRaw = [];
-    facilityRaw = facilitiesList.map((i) => Facility.fromJson(i)).toList();
+    if (parsedJson['facilities'] != null) {
+      var facilitiesList = parsedJson['facilities'] as List;
+      facilityRaw = facilitiesList.map((i) => Facility.fromJson(i)).toList();
+    }
 
-    var fieldsList = parsedJson['fields'] as List;
     List<Field> fieldRaw = [];
-    fieldRaw = fieldsList.map((i) => Field.fromJson(i)).toList();
+
+    if (parsedJson['fields'] != null) {
+      var fieldsList = parsedJson['fields'] as List;
+      fieldRaw = fieldsList.map((i) => Field.fromJson(i)).toList();
+    }
 
     return PlaceInSearch(
       id: parsedJson['id'],
@@ -124,7 +105,9 @@ class PlaceInSearch with ChangeNotifier {
       updatedAt:
           parsedJson['updated_at'] != null ? parsedJson['updated_at'] : '',
       liked: parsedJson['liked'] != null ? parsedJson['liked'] : false,
-      placeType: PlaceType.fromJson(parsedJson['place_type']),
+      placeType: parsedJson['place_type'] != null
+          ? PlaceType.fromJson(parsedJson['place_type'])
+          : PlaceType(id: 1, name: ''),
       fields: fieldRaw,
       facilities: facilityRaw,
       image: parsedJson['image'] != null
@@ -138,8 +121,12 @@ class PlaceInSearch with ChangeNotifier {
                 thumb: 'assets/images/place_placeholder.jpeg',
               ),
               extension: ''),
-      province: Province.fromJson(parsedJson['ostan']),
-      city: City.fromJson(parsedJson['city']),
+      province: parsedJson['ostan'] != null
+          ? Province.fromJson(parsedJson['ostan'])
+          : Province(id: 1, name: ''),
+      city: parsedJson['city'] != null
+          ? City.fromJson(parsedJson['city'])
+          : City(id: 1, name: ''),
       region: parsedJson['region'] != null
           ? Region.fromJson(parsedJson['region'])
           : Region(id: 0, name: '', city_id: 0, no_users: 0),
