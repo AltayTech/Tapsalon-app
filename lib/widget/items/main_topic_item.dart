@@ -4,22 +4,18 @@ import 'package:tapsalon/provider/app_theme.dart';
 class MainTopicItem extends StatelessWidget {
   const MainTopicItem({
     super.key,
-    title,
-    number,
-    bgColor,
-    icon,
-    iconColor,
-  })  : this.iconColor = Colors.white,
-        this.title = '',
-        this.number = 0,
-        this.bgColor = Colors.white,
-        this.icon = '';
+    this.title = '',
+    this.number = 0,
+    this.bgColor = Colors.white,
+    required this.icon,
+    this.iconColor = Colors.white,
+  });
 
   final int number;
   final String title;
   final Color bgColor;
   final String icon;
-  final Color iconColor;
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +23,7 @@ class MainTopicItem extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.29,
       height: MediaQuery.of(context).size.width * 0.29,
       decoration: BoxDecoration(
-          color: bgColor,
+          // color: bgColor,
           boxShadow: [
             BoxShadow(
               color: AppTheme.grey.withOpacity(0.2),
@@ -50,8 +46,10 @@ class MainTopicItem extends StatelessWidget {
                 child: SizedBox(
                   height: constraint.maxHeight * 0.45,
                   width: constraint.maxWidth * 0.45,
-                  child: Image.asset(
-                    icon,
+                  child: Image(
+                    image: AssetImage(
+                      icon,
+                    ),
                     fit: BoxFit.contain,
                     color: iconColor,
                   ),

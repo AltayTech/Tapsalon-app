@@ -203,6 +203,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           iconColor: AppTheme.mainPageColor,
                         ),
                       ),
+                      // Image(
+                      //   image: AssetImage(
+                      //     'assets/images/main_page_salon_ic.png',
+                      //   ),
+                      //   fit: BoxFit.contain,
+                      //   color: Colors.amberAccent,
+                      // ),
                       InkWell(
                         onTap: () {
                           cleanFilters(context);
