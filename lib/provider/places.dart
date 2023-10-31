@@ -293,7 +293,7 @@ class Places with ChangeNotifier {
 
   Future<List<PlaceInSearch>> retrieveCityPlaces(
       int cityId, String orderby) async {
-    print('retrieveCityPlaces');
+    debugPrint('retrieveCityPlaces');
     String url = '';
     if (cityId == 0) {
       url = Urls.rootUrl + Urls.placesEndPoint;
@@ -305,21 +305,21 @@ class Places with ChangeNotifier {
     } else {
       url = Urls.rootUrl + Urls.placesEndPoint + '?city_id=$cityId';
     }
-    print(url);
+    debugPrint(url);
     List<PlaceInSearch> loadedPlaces = [];
 
     try {
       final response = await get(Uri.parse(url));
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body);
-        print(extractedData.toString());
+        debugPrint(extractedData.toString());
 
         MainPlaces mainPlaces = MainPlaces.fromJson(extractedData);
-        print(response.headers.toString());
+        debugPrint(response.headers.toString());
         loadedPlaces.clear();
         loadedPlaces = mainPlaces.data;
 
-        print(_placeSearchDetails.total.toString());
+        debugPrint(_placeSearchDetails.total.toString());
       } else {
         loadedPlaces = [];
       }
@@ -341,7 +341,7 @@ class Places with ChangeNotifier {
   }
 
   Future<void> retrieveRegions(int cityId) async {
-    print('retrieveRegions');
+    debugPrint('retrieveRegions');
 
     final url = Urls.rootUrl + '/api/cities/$cityId/regions';
     print(url);

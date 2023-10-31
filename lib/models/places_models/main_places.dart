@@ -31,10 +31,12 @@ class MainPlaces with ChangeNotifier {
   });
 
   factory MainPlaces.fromJson(Map<String, dynamic> parsedJson) {
-    var dataList = parsedJson['data'] as List;
     List<PlaceInSearch> dataRaw = [];
-    dataRaw = dataList.map((i) => PlaceInSearch.fromJson(i)).toList();
+    if (parsedJson['data'] != null) {
+      var dataList = parsedJson['data'] as List;
 
+      dataRaw = dataList.map((i) => PlaceInSearch.fromJson(i)).toList();
+    }
     return MainPlaces(
       current_page:
           parsedJson['current_page'] != null ? parsedJson['current_page'] : 0,

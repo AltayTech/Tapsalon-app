@@ -35,6 +35,7 @@ dependencies:
   fluttertoast:
   google_fonts:
   badges: ^3.1.2
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_launcher_icons:

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,7 +41,7 @@ class Auth with ChangeNotifier {
           body: json.encode({
             'grant_type': 'client_credentials',
             'client_id': '3',
-            'client_secret': 'm5CS8Z8yCgp2Bh3BhtmVgudCXyIGWsoUOQgSkwZU',
+            'client_secret': dotenv.env['client_secret'],
           }));
 
       final responseData = json.decode(response.body);
@@ -90,7 +91,7 @@ class Auth with ChangeNotifier {
           body: json.encode({
             'grant_type': 'password',
             'client_id': '2',
-            'client_secret': '48FqPC0smhMLEQ5lLi6E7thEudZxKXGjZu8hd2oG',
+            'client_secret': dotenv.env['client_secret2'],
             'username': phoneNumber,
             'password': verificationCode,
           }));
@@ -164,7 +165,7 @@ class Auth with ChangeNotifier {
   Future<void> getToken() async {
     final prefs = await SharedPreferences.getInstance();
 
-    _token = prefs.getString('token')!;
+    _token = prefs.getString('token')!=null ? prefs.getString('token')!:'';
 
     notifyListeners();
   }

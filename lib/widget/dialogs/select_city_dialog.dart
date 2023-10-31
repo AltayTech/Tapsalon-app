@@ -26,7 +26,7 @@ class _SelectCityDialogState extends State<SelectCityDialog> {
   List<City> citiesList = [];
   late int cityId;
 
-  late City selectedCity;
+   City selectedCity=City(id: 1,name: '');
 
   @override
   void didChangeDependencies() async {

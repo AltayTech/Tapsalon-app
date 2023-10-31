@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tapsalon/provider/app_theme.dart';
@@ -38,7 +37,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -75,9 +73,8 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             primaryColor: AppTheme.white,
             backgroundColor: AppTheme.bg,
-            textTheme:AppTheme.textTheme,
+            textTheme: AppTheme.textTheme,
           ),
-
           home: Directionality(
             child: SplashScreens(),
             textDirection: TextDirection.rtl, // setting rtl

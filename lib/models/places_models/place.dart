@@ -94,14 +94,17 @@ class Place with ChangeNotifier {
       galleryRaw = galleryList.map((i) => ImageObj.fromJson(i)).toList();
     }
 
-    var facilitiesList = parsedJson['facilities'] as List;
     List<Facility> faciltyRaw = [];
-    faciltyRaw = facilitiesList.map((i) => Facility.fromJson(i)).toList();
-
-    var filedsList = parsedJson['fields'] as List;
+    if (parsedJson['facilities'] != null) {
+      var facilitiesList = parsedJson['facilities'] as List;
+      faciltyRaw = facilitiesList.map((i) => Facility.fromJson(i)).toList();
+    }
     List<Field> fieldRaw = [];
-    fieldRaw = filedsList.map((i) => Field.fromJson(i)).toList();
 
+    if (parsedJson['fields'] != null) {
+      var filedsList = parsedJson['fields'] as List;
+      fieldRaw = filedsList.map((i) => Field.fromJson(i)).toList();
+    }
     List<Timing> timingsRaw = [];
     if (parsedJson['timings'] != null) {
       var timingsList = parsedJson['timings'] as List;
@@ -109,8 +112,8 @@ class Place with ChangeNotifier {
       timingsRaw = timingsList.map((i) => Timing.fromJson(i)).toList();
     }
     return Place(
-      id: parsedJson['id'],
-      name: parsedJson['name'],
+      id: parsedJson['id'] != null ? parsedJson['id'] : 1,
+      name: parsedJson['name'] != null ? parsedJson['name'] : '',
       excerpt: parsedJson['excerpt'] != null ? parsedJson['excerpt'] : '',
       about: parsedJson['about'] != null ? parsedJson['about'] : '',
       timings_excerpt: parsedJson['timings_excerpt'] != null
@@ -131,8 +134,12 @@ class Place with ChangeNotifier {
       updatedAt:
           parsedJson['updated_at'] != null ? parsedJson['updated_at'] : '',
       liked: parsedJson['liked'] != null ? parsedJson['liked'] : false,
-      complex: ComplexInPlace.fromJson(parsedJson['complex']),
-      placeType: PlaceType.fromJson(parsedJson['place_type']),
+      complex: parsedJson['complex'] != null
+          ? ComplexInPlace.fromJson(parsedJson['complex'])
+          : ComplexInPlace(),
+      placeType: parsedJson['place_type'] != null
+          ? PlaceType.fromJson(parsedJson['place_type'])
+          : PlaceType(),
       fields: fieldRaw,
       facilities: faciltyRaw,
       image: parsedJson['image'] != null
@@ -148,10 +155,15 @@ class Place with ChangeNotifier {
               extension: ''),
       gallery: galleryRaw,
       timings: timingsRaw,
-      province: Province.fromJson(parsedJson['ostan']),
-      city: City.fromJson(parsedJson['city']),
-      region: Region.fromJson(parsedJson['region']),
-//      user: UserInComplex.fromJson(parsedJson['user']),
+      province: parsedJson['ostan'] != null
+          ? Province.fromJson(parsedJson['ostan'])
+          : Province(id: 1,name: '',no_users: 0),
+      city: parsedJson['city'] != null
+          ? City.fromJson(parsedJson['city'])
+          : City(),
+      region: parsedJson['region'] != null
+          ? Region.fromJson(parsedJson['region'])
+          : Region(),
       likes_count: parsedJson['likes_count'] != null
           ? int.parse(parsedJson['likes_count'].toString())
           : 0,

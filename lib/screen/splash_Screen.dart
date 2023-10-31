@@ -49,6 +49,8 @@ class _SplashScreensState extends State<SplashScreens> {
         'assets/images/tapsalon_icon_200.png',
         fit: BoxFit.cover,
       ),
+
+
 //      gradientBackground: LinearGradient(
 //          begin: Alignment.topRight,
 //          end: Alignment.bottomLeft,

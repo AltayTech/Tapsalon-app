@@ -91,7 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
     double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    debugPrint('loadedPlace.toString()');
+    debugPrint(loadedPlace.toString());
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -203,6 +204,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           iconColor: AppTheme.mainPageColor,
                         ),
                       ),
+                      // Image(
+                      //   image: AssetImage(
+                      //     'assets/images/main_page_salon_ic.png',
+                      //   ),
+                      //   fit: BoxFit.contain,
+                      //   color: Colors.amberAccent,
+                      // ),
                       InkWell(
                         onTap: () {
                           cleanFilters(context);
