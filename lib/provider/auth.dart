@@ -165,7 +165,7 @@ class Auth with ChangeNotifier {
   Future<void> getToken() async {
     final prefs = await SharedPreferences.getInstance();
 
-    _token = prefs.getString('token')!;
+    _token = prefs.getString('token')!=null ? prefs.getString('token')!:'';
 
     notifyListeners();
   }
