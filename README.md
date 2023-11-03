@@ -31,22 +31,11 @@ on price, city, type of sport, rate of place and ... .
 This project requires Flutter SDK to be installed.
 
 - Clone the repository
-
----
-git clone https://github.com/AltayTech/SportPlace-app.git
---- 
-
+  `git clone https://github.com/AltayTech/SportPlace-app.git`
 - Install dependencies
-
----
-flutter pub get
----
-
+  `flutter pub get`
 - Run the app
-
----
-flutter run
----
+  `flutter run`
 
 # Techincal information
 
@@ -56,7 +45,7 @@ State management which is used in this app is provider.
 
 For location and map service we used google map api.
 
-#  
+#    
 
 
 
