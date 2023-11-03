@@ -42,15 +42,22 @@ This project requires Flutter SDK to be installed.
 
 ```flutter run```
 
-# Techincal information
+# Architecture
 
-This app developed in flutter framework and dart programming.
+- Flutter framework
+- Outh1 for authentication
+- REST API
+- Provider for state management
+- Custom widgets and Material Design
+- Google Map api for map and location services
 
-State management which is used in this app is provider.
+# Contributing
 
-For location and map service we used google map api.
+Pull requests are welcome. Please open an issue first to discuss changes.
 
-#      
+
+
+  
 
 
 
