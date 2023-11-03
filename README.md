@@ -4,10 +4,7 @@ Sport places information app
 
 # Description
 
-This application design and develop for providing information about sport places
-such as gyms, pools and so on.
-Also, you can search places based on distances, name and type. Also you can filter the result based
-on price, city, type of sport, rate of place and ... .
+This application provides information about sports facilities such as gyms, pools, and more. Users can search for places by distance, name, or type. They can also filter results by price, city, sport, rating, and other criteria.
 
 ![smartmockups1.jpg](screenshots%2Fsmartmockups1.jpg)
 
