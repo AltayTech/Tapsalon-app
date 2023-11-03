@@ -69,7 +69,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       _tabController.index = 0;
       cleanFilter();
       try {
-        selectedCity = Provider.of<Cities>(context, listen: false).selectedCity;
+        selectedCity = Provider
+            .of<Cities>(context, listen: false)
+            .selectedCity;
       } catch (error) {}
       _lastMapPosition = LatLng(selectedCity.latitude, selectedCity.longitude);
       retrieveItems();
@@ -83,15 +85,32 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       _isLoading = true;
     });
 
-    Provider.of<Places>(context, listen: false).searchKey = '';
-    Provider.of<Places>(context, listen: false).filterTitle.clear();
+    Provider
+        .of<Places>(context, listen: false)
+        .searchKey = '';
+    Provider
+        .of<Places>(context, listen: false)
+        .filterTitle
+        .clear();
 
-    Provider.of<Places>(context, listen: false).sFacility = '';
-    Provider.of<Places>(context, listen: false).sField = '';
-    Provider.of<Places>(context, listen: false).sRange = '';
-    Provider.of<Places>(context, listen: false).sPage = 1;
-    Provider.of<Places>(context, listen: false).sPerPage = 10;
-    Provider.of<Places>(context, listen: false).sRegion = '';
+    Provider
+        .of<Places>(context, listen: false)
+        .sFacility = '';
+    Provider
+        .of<Places>(context, listen: false)
+        .sField = '';
+    Provider
+        .of<Places>(context, listen: false)
+        .sRange = '';
+    Provider
+        .of<Places>(context, listen: false)
+        .sPage = 1;
+    Provider
+        .of<Places>(context, listen: false)
+        .sPerPage = 10;
+    Provider
+        .of<Places>(context, listen: false)
+        .sRegion = '';
     Provider.of<Places>(context, listen: false).searchBuilder();
 
     setState(() {
@@ -108,17 +127,23 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
     if (selectedCity.id == null) {
       await Provider.of<Cities>(context, listen: false).getSelectedCity();
-      selectedCity = Provider.of<Cities>(context, listen: false).selectedCity;
+      selectedCity = Provider
+          .of<Cities>(context, listen: false)
+          .selectedCity;
 
       cleanFilters(context);
-      Provider.of<Places>(context, listen: false).sCityId =
+      Provider
+          .of<Places>(context, listen: false)
+          .sCityId =
           selectedCity.id.toString();
 
       await searchItems();
     } else {
       cleanFilters(context);
 
-      Provider.of<Places>(context, listen: false).sCityId =
+      Provider
+          .of<Places>(context, listen: false)
+          .sCityId =
           selectedCity.id.toString();
       loadedPlacesToList.clear();
       await searchItems();
@@ -135,24 +160,45 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   }
 
   Future<void> cleanFilters(BuildContext context) async {
-    Provider.of<Places>(context, listen: false).searchKey = '';
-    Provider.of<Places>(context, listen: false).filterTitle.clear();
-    Provider.of<Places>(context, listen: false).sProvinceId = '';
-    Provider.of<Places>(context, listen: false).sType = '';
-    Provider.of<Places>(context, listen: false).sField = '';
-    Provider.of<Places>(context, listen: false).sFacility = '';
-    Provider.of<Places>(context, listen: false).sRange = '';
+    Provider
+        .of<Places>(context, listen: false)
+        .searchKey = '';
+    Provider
+        .of<Places>(context, listen: false)
+        .filterTitle
+        .clear();
+    Provider
+        .of<Places>(context, listen: false)
+        .sProvinceId = '';
+    Provider
+        .of<Places>(context, listen: false)
+        .sType = '';
+    Provider
+        .of<Places>(context, listen: false)
+        .sField = '';
+    Provider
+        .of<Places>(context, listen: false)
+        .sFacility = '';
+    Provider
+        .of<Places>(context, listen: false)
+        .sRange = '';
     Provider.of<Places>(context, listen: false).searchBuilder();
   }
 
   Future<void> searchItems() async {
-    Provider.of<Places>(context, listen: false).sPerPage = 1000;
+    Provider
+        .of<Places>(context, listen: false)
+        .sPerPage = 1000;
     Provider.of<Places>(context, listen: false).searchBuilder();
     await Provider.of<Places>(context, listen: false).searchItem();
     searchDetails =
-        Provider.of<Places>(context, listen: false).placeSearchDetails;
+        Provider
+            .of<Places>(context, listen: false)
+            .placeSearchDetails;
     loadedPlaces.clear();
-    loadedPlaces = Provider.of<Places>(context, listen: false).items;
+    loadedPlaces = Provider
+        .of<Places>(context, listen: false)
+        .items;
     loadedPlacesToList.addAll(loadedPlaces);
     _onAddMarker(loadedPlacesToList);
   }
@@ -352,7 +398,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     );
     _geolocator = Geolocator();
     LocationSettings locationSettings =
-        LocationSettings(accuracy: LocationAccuracy.high, distanceFilter: 1);
+    LocationSettings(accuracy: LocationAccuracy.high, distanceFilter: 1);
 
     checkPermission();
 
@@ -378,11 +424,19 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double deviceWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     var currencyFormat = intl.NumberFormat.decimalPattern();
 
-    var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    var textScaleFactor = MediaQuery
+        .of(context)
+        .textScaleFactor;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -392,7 +446,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             right: 0,
             child: Container(
               height:
-                  deviceHeight * 0.93 - Scaffold.of(context).appBarMaxHeight!,
+              deviceHeight * 0.93 - Scaffold
+                  .of(context)
+                  .appBarMaxHeight!,
               width: deviceWidth,
               child: Column(
                 children: [
@@ -430,20 +486,20 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   ),
                   _isInfoShow
                       ? AnimatedContainer(
-                          duration: _animationController.duration!,
-                          curve: Curves.easeIn,
-                          child: FadeTransition(
-                            opacity: _opacityAnimation,
-                            child: SlideTransition(
-                              position: _slideAnimation,
-                              child: Expanded(
-                                child: MapInfoWindowItem(
-                                  selectedPlace: selectedPlace,
-                                ),
-                              ),
-                            ),
+                    duration: _animationController.duration!,
+                    curve: Curves.easeIn,
+                    child: FadeTransition(
+                      opacity: _opacityAnimation,
+                      child: SlideTransition(
+                        position: _slideAnimation,
+                        child: Expanded(
+                          child: MapInfoWindowItem(
+                            selectedPlace: selectedPlace,
                           ),
-                        )
+                        ),
+                      ),
+                    ),
+                  )
                       : Container(),
                 ],
               ),
@@ -455,38 +511,39 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             width: deviceWidth * 0.2,
             height: deviceHeight * 0.05,
             child: Builder(
-              builder: (context) => InkWell(
-                onTap: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: AppTheme.white,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                            color: AppTheme.grey.withOpacity(0.5),
-                            blurRadius: 10,
-                            spreadRadius: 1)
-                      ]),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'فیلترها',
-                        style: TextStyle(
-                          fontFamily: 'Iransans',
-                          color: Colors.black,
-                          fontSize: textScaleFactor * 14.0,
+              builder: (context) =>
+                  InkWell(
+                    onTap: () {
+                      Scaffold.of(context).openEndDrawer();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                                color: AppTheme.grey.withOpacity(0.5),
+                                blurRadius: 10,
+                                spreadRadius: 1)
+                          ]),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'فیلترها',
+                            style: TextStyle(
+                              fontFamily: 'Iransans',
+                              color: Colors.black,
+                              fontSize: textScaleFactor * 14.0,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
             ),
           ),
           Positioned(
@@ -494,36 +551,56 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               left: 15,
               child: FancyFab(
                 onPressed0: () {
-                  Provider.of<Places>(context, listen: false).sPlaceType = '';
-                  Provider.of<Places>(context, listen: false).sPage = 1;
+                  Provider
+                      .of<Places>(context, listen: false)
+                      .sPlaceType = '';
+                  Provider
+                      .of<Places>(context, listen: false)
+                      .sPage = 1;
                   loadedPlacesToList.clear();
 
                   retrieveItems();
                 },
                 onPressed1: () {
-                  Provider.of<Places>(context, listen: false).sPlaceType = '1';
-                  Provider.of<Places>(context, listen: false).sPage = 1;
+                  Provider
+                      .of<Places>(context, listen: false)
+                      .sPlaceType = '1';
+                  Provider
+                      .of<Places>(context, listen: false)
+                      .sPage = 1;
                   loadedPlacesToList.clear();
 
                   retrieveItems();
                 },
                 onPressed2: () {
-                  Provider.of<Places>(context, listen: false).sPlaceType = '2';
-                  Provider.of<Places>(context, listen: false).sPage = 1;
+                  Provider
+                      .of<Places>(context, listen: false)
+                      .sPlaceType = '2';
+                  Provider
+                      .of<Places>(context, listen: false)
+                      .sPage = 1;
                   loadedPlacesToList.clear();
 
                   retrieveItems();
                 },
                 onPressed3: () {
-                  Provider.of<Places>(context, listen: false).sPlaceType = '3';
-                  Provider.of<Places>(context, listen: false).sPage = 1;
+                  Provider
+                      .of<Places>(context, listen: false)
+                      .sPlaceType = '3';
+                  Provider
+                      .of<Places>(context, listen: false)
+                      .sPage = 1;
                   loadedPlacesToList.clear();
 
                   retrieveItems();
                 },
                 onPressed4: () {
-                  Provider.of<Places>(context, listen: false).sPlaceType = '4';
-                  Provider.of<Places>(context, listen: false).sPage = 1;
+                  Provider
+                      .of<Places>(context, listen: false)
+                      .sPlaceType = '4';
+                  Provider
+                      .of<Places>(context, listen: false)
+                      .sPage = 1;
                   loadedPlacesToList.clear();
 
                   retrieveItems();
@@ -540,17 +617,17 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               alignment: Alignment.center,
               child: _isLoading
                   ? SpinKitFadingCircle(
-                      itemBuilder: (BuildContext context, int index) {
-                        return DecoratedBox(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: index.isEven
-                                ? AppTheme.spinerColor
-                                : AppTheme.spinerColor,
-                          ),
-                        );
-                      },
-                    )
+                itemBuilder: (BuildContext context, int index) {
+                  return DecoratedBox(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: index.isEven
+                          ? AppTheme.spinerColor
+                          : AppTheme.spinerColor,
+                    ),
+                  );
+                },
+              )
                   : Container(),
             ),
           ),
