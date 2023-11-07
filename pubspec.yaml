@@ -12,30 +12,29 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons:
-  provider:
-  http:
-  shared_preferences:
-  intl:
-  google_maps_flutter:
-  geolocator:
-  #  percent_indicator: ^2.1.5
-  smooth_star_rating_null_safety:
-  flutter_spinkit:
-  flutter_widget_from_html_core:
-  share:
-  image_picker:
-  url_launcher:
-  #  flutter_calendar_carousel: ^1.4.12
-  shamsi_date:
-  carousel_slider:
-  #  google_map_location_picker: ^3.3.2
-  #  floating_action_bubble: ^1.1.1
-  photo_view:
-  fluttertoast:
-  google_fonts:
+  cupertino_icons: ^1.0.6
+  provider: ^6.0.5
+  http: ^1.1.0
+  shared_preferences: ^2.2.2
+  intl: ^0.18.1
+  google_maps_flutter: ^2.5.0
+  geolocator: ^10.1.0
+  smooth_star_rating_null_safety: ^1.0.4+2
+  flutter_spinkit: ^5.2.0
+  flutter_widget_from_html_core: ^0.14.6
+#  share_plus: ^7.2.1
+  image_picker: ^1.0.4
+  url_launcher: ^6.2.1
+  shamsi_date: ^1.0.2
+  carousel_slider: ^4.2.1
+
+  photo_view: ^0.14.0
+  fluttertoast: ^8.2.2
+  google_fonts: ^6.1.0
   badges: ^3.1.2
   flutter_dotenv: ^5.1.0
+  firebase_core: ^2.21.0
+  firebase_auth: ^4.12.1
 
 dev_dependencies:
   flutter_launcher_icons:
@@ -52,21 +51,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/tapsalon_icon_200.png
-    - assets/images/login_bg.png
-    - assets/images/circle.gif
-    - assets/images/circle2.gif
-    - assets/images/instagram.png
-    - assets/images/telegram.png
-    - assets/images/login_header_pic.png
-    - assets/images/main_page_ent_ic.png
-    - assets/images/main_page_gym_ic.png
-    - assets/images/main_page_salon_ic.png
-    - assets/images/user_Icon.png
-    - assets/images/marker_ic_1_v1.png
-    - assets/images/marker_ic_2_v1.png
-    - assets/images/marker_ic_3_v1.png
-    - assets/images/place_placeholder.jpeg
+    - assets/images/
+
 
   fonts:
 

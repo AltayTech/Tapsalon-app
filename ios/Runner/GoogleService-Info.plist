@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyD4rR3OVFmhIGinld6iv5DIWCo-qLwOUG8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>524569387811</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>ir.altay.tapsalon</string>
+	<key>PROJECT_ID</key>
+	<string>tapsalon-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tapsalon-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:524569387811:ios:283da2fc83656ec7fb6296</string>
+</dict>
+</plist>
