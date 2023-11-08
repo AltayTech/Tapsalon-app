@@ -11,13 +11,13 @@ import '../models/user_models/login_response.dart';
 import '../provider/urls.dart';
 
 class Auth with ChangeNotifier {
-  late String _token;
+  String _token = '';
   String _credentialAccessToken = '';
   late bool _isLoggedIn;
 
   bool get isAuth {
     getToken();
-    return _token != null && _token != '';
+    return _token != '';
   }
 
   set isLoggedIn(bool value) {
@@ -165,7 +165,7 @@ class Auth with ChangeNotifier {
   Future<void> getToken() async {
     final prefs = await SharedPreferences.getInstance();
 
-    _token = prefs.getString('token')!=null ? prefs.getString('token')!:'';
+    _token = prefs.getString('token') != null ? prefs.getString('token')! : '';
 
     notifyListeners();
   }
