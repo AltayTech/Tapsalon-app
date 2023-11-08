@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
@@ -66,8 +65,12 @@ class PlaceItem extends StatelessWidget {
                     width: constraint.maxWidth,
                     height: constraint.maxHeight * 0.55,
                     child: FadeInImage(
-                      placeholder: AssetImage(defaultImage.url.medium),
-                      image: NetworkImage(place.image.url.medium.toString()),
+                      placeholder:
+                          AssetImage('assets/images/place_placeholder.jpeg'),
+                      image: place.image.url.medium == ''
+                          ? AssetImage('assets/images/place_placeholder.jpeg')
+                          : NetworkImage(place.image.url.medium.toString())
+                              as ImageProvider,
                       fit: BoxFit.cover,
                     ),
                   ),
