@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tapsalon/models/places_models/place_in_search.dart';
 import 'package:tapsalon/screen/place_detail/place_detail_screen.dart';
@@ -63,8 +62,11 @@ class MainPagePlaceItem extends StatelessWidget {
                             placeholder: AssetImage(
                                 'assets/images/place_placeholder.jpeg'),
                             alignment: Alignment.center,
-                            image: NetworkImage(
-                                loadedPlace.image.url.medium.toString()),
+                            image: loadedPlace.image.url.medium != ''
+                                ? NetworkImage(
+                                loadedPlace.image.url.medium.toString())
+                                : AssetImage(
+                                'assets/images/place_placeholder.jpeg') as ImageProvider,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -149,38 +151,44 @@ class MainPagePlaceItem extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              loadedPlace.rate != 0.0&&  loadedPlace.rate != 0?  Expanded(
-                                flex: 3,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.star,
-                                      color: AppTheme.iconColor,
-                                      size: 15,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 5, top: 5),
-                                      child: Text(
-                                        loadedPlace.rate != 0.0
-                                            ? EnArConvertor().replaceArNumber(
-                                                loadedPlace.rate.toString(),
-                                              )
-                                            : '--',
-                                        textAlign: TextAlign.left,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                          fontFamily: 'Iransans',
-                                          color: AppTheme.grey,
-                                          fontSize: textScaleFactor * 12.0,
-                                        ),
+                              loadedPlace.rate != 0.0 && loadedPlace.rate != 0
+                                  ? Expanded(
+                                      flex: 3,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.star,
+                                            color: AppTheme.iconColor,
+                                            size: 15,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 5, top: 5),
+                                            child: Text(
+                                              loadedPlace.rate != 0.0
+                                                  ? EnArConvertor()
+                                                      .replaceArNumber(
+                                                      loadedPlace.rate
+                                                          .toString(),
+                                                    )
+                                                  : '--',
+                                              textAlign: TextAlign.left,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontFamily: 'Iransans',
+                                                color: AppTheme.grey,
+                                                fontSize:
+                                                    textScaleFactor * 12.0,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ):Container(),
+                                    )
+                                  : Container(),
                             ],
                           ),
                         ),
