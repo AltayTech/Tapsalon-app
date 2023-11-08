@@ -211,12 +211,16 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen>
                                                   placeholder: AssetImage(
                                                       'assets/images/circle.gif'),
                                                   image: gallery.url.large
-                                                      .startsWith(
-                                                      'assets/images')
+                                                          .startsWith(
+                                                              'assets/images')
                                                       ? AssetImage(
-                                                      gallery.url.medium)
-                                                      : NetworkImage(
-                                                      gallery.url.medium) as ImageProvider,
+                                                          gallery.url.medium)
+                                                      : gallery.url.medium == ''
+                                                          ? AssetImage(
+                                                              'assets/images/place_placeholder.jpeg')
+                                                          : NetworkImage(gallery
+                                                                  .url.medium)
+                                                              as ImageProvider,
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
