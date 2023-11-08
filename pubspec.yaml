@@ -35,7 +35,9 @@ dependencies:
   flutter_dotenv: ^5.1.0
   firebase_core: ^2.21.0
   firebase_auth: ^4.12.1
-
+  dartz: ^0.10.1
+  data_connection_checker_tv: ^0.3.5-nullsafety
+  dio: ^5.3.3
 dev_dependencies:
   flutter_launcher_icons:
 
