@@ -29,7 +29,7 @@ This project requires Flutter SDK to be installed.
 
 - Clone the repository
 
-```git clone https://github.com/AltayTech/SportPlace-app.git```
+```git clone https://github.com/AltayTech/Tapsalon-app.git```
 
 - Install dependencies
 
